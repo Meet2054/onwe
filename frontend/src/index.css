@@ -1,68 +1,86 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Ensure no horizontal overflow */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+.full-width {
+    background-color:#eeeeee;
+  }
+  
+  /* Remove gutters between columns */
+  .no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  
+  .no-gutters > .col,
+  .no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+.image-logo{
+  width: 80%;
+  align-items: center;
+}
+.trending-p{
+  font-size: 16x;
+  margin-bottom: 5px;
+}
+.Myclubs{
+  width: auto;
+  height: 270px;
+  overflow: auto;
+  
 }
 
-a {
+.p-nav{
+  display: inline;
+}
+.middle-component{
+  background-color: white;
+  margin-top: 15px;
+    
+}
+.color-trending{
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  background: linear-gradient(90deg, #FF2E47 13.21%, #FFB800 86.94%, #FF2E47 139.1%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.border-gray{
+  border-color: #ACACAC;
+}
+.text-leftsection{
+  color: #000;
+  opacity: 0.5;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  line-height: normal;
 }
-a:hover {
-  color: #535bf2;
-}
+.heading-trending{
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color:#FF433D;
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a{
+  opacity: 0.5;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.2s;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+a:hover{
+  opacity: 1;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.active{
+  font-weight: bold;
+  color:#000;
+  opacity: 1;
 }

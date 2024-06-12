@@ -1,14 +1,10 @@
-import Leftcomponent from "@/components/left_component/LeftComponent";
-import Middle from "@/components/middle_component/Middle";
-import RightComponent from "@/components/right_component/RightComponent";
-import React from "react";
+import { AnimatedLinks } from "@/components/AnimatedLinks";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex">
-      <Leftcomponent />
-      <Middle children={children} />
-      <RightComponent />
+    <div className="w-[70%] bg-red-200">
+      <AnimatedLinks />
+      {children}
     </div>
   );
 };

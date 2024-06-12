@@ -15,7 +15,7 @@ const category = [
 
 export const AnimatedLinks = () => {
   return (
-    <div className="bg-neutral-50 px-1 py-2">
+    <div className="bg-[#f1f3f5] px-1 py-2">
       <div className="mx-auto max-w-7xl">
         <ClipPathLinks />
       </div>

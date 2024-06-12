@@ -3,14 +3,20 @@ import Posts from "@/components/post_component/Posts";
 import { useParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const { category }: { category: string } = useParams();
   // TODO - Add the logic to fetch the data for the category
   return (
-    <div>
-      <Posts category={category} />
+    <div className="flex flex-col space-y-10 justify-between h-full">
+      <div className="flex-1 p-5 space-y-5 overflow-auto scrollbar-hide">
+        <Posts />
+        <Posts />
+        <Posts />
+        <Posts />
+        <Posts />
+      </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

@@ -1,4 +1,3 @@
-// RootLayout.tsx
 "use client";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -17,10 +16,10 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex">
-          {showLayout && <SideBar />}
-          {children}
+      <body className={`${inter.className} h-screen overflow-hidden`}>
+        <div className="flex h-full">
+          <div className="">{showLayout && <SideBar />}</div>
+          <div className="flex-1 h-full overflow-y-auto">{children}</div>
         </div>
       </body>
     </html>

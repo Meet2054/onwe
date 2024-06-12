@@ -4,10 +4,12 @@ import { AnimatedLinks } from "../AnimatedLinks";
 
 const Middle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-[900px] border border-gray-200 rounded p-3 mt-7 ">
-      <MiddleNavbar />
+    <div className="mt-3">
       <AnimatedLinks />
-      {children}
+      {/* <MiddleNavbar />   */}
+      <div className="w-[900px] border h-full  border-gray-300 rounded p-3 mt-7">
+        {children}
+      </div>
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const AnimatedLinks = () => {
       <div className="mx-auto max-w-7xl">
         <ClipPathLinks />
       </div>
-    </div>  
+    </div>
   );
 };
 
@@ -119,7 +119,7 @@ const LinkBox = ({ Icon, href }: { Icon: string; href: string }) => {
       }}
       className={`relative grid h-10 w-full place-content-center ${
         pathname === href
-          ? "text-black text-xl  bg-gray-300 rounded-md"
+          ? "text-black text-xl  bg-gray-300 rounded-full"
           : "text-gray-400"
       }`}
       href={href}
@@ -131,7 +131,7 @@ const LinkBox = ({ Icon, href }: { Icon: string; href: string }) => {
         style={{
           clipPath: BOTTOM_RIGHT_CLIP,
         }}
-        className="absolute inset-0 grid place-content-center rounded-sm  bg-neutral-900  text-white"
+        className="absolute inset-0 grid place-content-center rounded-full  bg-neutral-900  text-white"
       >
         <span className="text-sm text-white">{Icon}</span>
       </div>

@@ -19,6 +19,7 @@ const MiddleNavbar = () => {
     <div className="flex justify-between">
       {category.map((item) => (
         <Link
+          key={item.name}
           href={item.href}
           className={`${
             pathname === item.href

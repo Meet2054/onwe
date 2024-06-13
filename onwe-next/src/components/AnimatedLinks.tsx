@@ -27,7 +27,7 @@ const ClipPathLinks = () => {
   return (
     <div className="flex justify-between">
       {category.map((item) => (
-        <LinkBox Icon={item.name} href={item.href} />
+        <LinkBox key={item.name} Icon={item.name} href={item.href} />
       ))}
     </div>
   );

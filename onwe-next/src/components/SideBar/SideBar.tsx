@@ -4,7 +4,7 @@ import { Home, Users, Compass, Search, Newspaper, Calendar, Bell, Plus, User, Se
 
 const SideBar = () => {
   return (
-    <div className="h-screen w-40  flex flex-col items-center p-4 justify-between bg-[#f1f3f5]">
+    <div className="h-screen w-[203px]  flex flex-col items-center p-4 justify-between bg-[#f1f3f5]">
       <div className="flex items-start justify-center">
         <Link href="/" className="text-gray-700 hover:text-gray-900">
           <h1 className="font-bold text-2xl">ONWE</h1>

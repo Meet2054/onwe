@@ -5,13 +5,13 @@ import ShareIcon from "./ShareIcon";
 
 const Posts = () => {
   return (
-    <div className="w-full bg-white h-auto md:h-[70%] rounded-xl shadow-md mt-5 p-5 md:p-10">
+    <div className="w-[826px] h-[538.512px]  bg-white rounded-xl shadow-md mt-5 p-5 md:p-10">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
         <div className="flex items-start md:items-center">
           <PostAvatar />
           <div className="px-3 flex flex-col gap-0">
             <span className="text-lg font-bold">Name</span>
-            <span className="text-sm relative bottom-1 text-gray-500">
+            <span className="text-sm relative bottom-1 text-[#5D5D5D]">
               #rituisboy
             </span>
           </div>
@@ -23,7 +23,7 @@ const Posts = () => {
         nulla dolores ipsam repudiandae iusto corporis dolore, quidem hic!
         Possimus facere illum sed vitae ad dolore accusantium harum velit.
       </div>
-      <div className="h-48 md:h-72 border border-gray-400 flex items-center justify-center">
+      <div className="w-[729.453px] h-[287.671px] border border-gray-400 flex items-center justify-center">
         media
       </div>
       <div className="p-1 flex justify-around md:justify-start space-x-5">

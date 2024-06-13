@@ -1,7 +1,7 @@
-import React from 'react';
-import SentMessage from './chat/SentMessage';
-import ReceivedMessage from './chat/ReceiveMessage';
-import InputMessage from './chat/InputMessage';
+import React from "react";
+import SentMessage from "./chat/SentMessage";
+import ReceivedMessage from "./chat/ReceiveMessage";
+import InputMessage from "./chat/InputMessage";
 
 const ClubChatAnnouncement: React.FC = () => {
   return (
@@ -16,24 +16,24 @@ const ClubChatAnnouncement: React.FC = () => {
           <button className="text-gray-500 text-lg p-2">Announcements</button>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 scrollbar-hide">
         <div className="flex flex-col space-y-4">
-          <ReceivedMessage message="ewm ew ewekewew e"  />
-          <SentMessage message="new messageejbkjbkjbk"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="onwe onwwe wkrnioawbfnioswnbfpin"  />
-          <ReceivedMessage message="ewm ew ewekewew e"  />
-          <SentMessage message="new messageejbkjbkjbk"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff"  />
-          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j"  />
-          <SentMessage message="onwe onwwe wkrnioawbfnioswnbfpin"  />
+          <ReceivedMessage message="ewm ew ewekewew e" />
+          <SentMessage message="new messageejbkjbkjbk" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="onwe onwwe wkrnioawbfnioswnbfpin" />
+          <ReceivedMessage message="ewm ew ewekewew e" />
+          <SentMessage message="new messageejbkjbkjbk" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="kjkjkjbmnewj, n.nlkd cwd wedwedewewedfweffff" />
+          <ReceivedMessage message="lke eje wm em,we ,wme ew ew,e j" />
+          <SentMessage message="onwe onwwe wkrnioawbfnioswnbfpin" />
         </div>
       </div>
       <InputMessage />

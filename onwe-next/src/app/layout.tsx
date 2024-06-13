@@ -15,7 +15,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const showLayout = pathname !== "/login-signup" && pathname !== "/";
 
   return (
-    <html lang="en">
+    <html lang="en" className="bg-[#f1f3f5]">
       <body className={`${inter.className} h-screen overflow-hidden`}>
         <div className="flex h-full">
           <div className="">{showLayout && <SideBar />}</div>

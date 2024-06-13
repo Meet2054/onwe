@@ -19,7 +19,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       <body className={`${inter.className} h-screen overflow-hidden`}>
         <div className="flex h-full">
           <div className="">{showLayout && <SideBar />}</div>
-          <div className="flex-1 h-full overflow-y-auto">{children}</div>
+          <div className="flex-1 h-full ml-[27px] overflow-y-auto">
+            {children}
+          </div>
         </div>
       </body>
     </html>

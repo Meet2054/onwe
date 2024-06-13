@@ -16,18 +16,18 @@ const MiddleNavbar = () => {
   ];
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-[655px] gap-x-2.5">
       {category.map((item) => (
         <Link
           key={item.name}
           href={item.href}
-          className={`${
+          className={`flex items-center justify-center border border-black rounded-full text-sm h-[34px] px-3 ${
             pathname === item.href
-              ? "text-black transition-all transition-colors  bg-slate-400 rounded-md"
+              ? "text-white transition-all bg-black transition-colors"
               : "text-gray-500"
           }`}
         >
-          {item.name}
+          <span className="flex whitespace-nowrap">{item.name}</span>
         </Link>
       ))}
     </div>

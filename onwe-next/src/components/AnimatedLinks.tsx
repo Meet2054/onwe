@@ -15,8 +15,8 @@ const category = [
 
 export const AnimatedLinks = () => {
   return (
-    <div className="bg-[#f1f3f5] px-1 py-2">
-      <div className="mx-auto max-w-7xl">
+    <div className="h-max overflow-hidden h-[100px] bg-inherit">
+      <div className="max-w-7xl w-[655px]">
         <ClipPathLinks />
       </div>
     </div>
@@ -117,9 +117,9 @@ const LinkBox = ({ Icon, href }: { Icon: string; href: string }) => {
       onMouseLeave={(e) => {
         handleMouseLeave(e);
       }}
-      className={`relative grid h-10 w-full place-content-center ${
+      className={`relative grid p-2 justify-center border border-black rounded-full items-center ${
         pathname === href
-          ? "text-black text-xl  bg-gray-300 rounded-full"
+          ? "text-white text-xl border border-black bg-black rounded-full"
           : "text-gray-400"
       }`}
       href={href}
@@ -131,7 +131,7 @@ const LinkBox = ({ Icon, href }: { Icon: string; href: string }) => {
         style={{
           clipPath: BOTTOM_RIGHT_CLIP,
         }}
-        className="absolute inset-0 grid place-content-center rounded-full  bg-neutral-900  text-white"
+        className="absolute inset-0 grid p-2  place-content-center rounded-full  bg-neutral-900  text-white"
       >
         <span className="text-sm text-white">{Icon}</span>
       </div>

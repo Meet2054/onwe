@@ -6,9 +6,10 @@ import { Search } from "lucide-react";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full h-screen overflow-hidden flex flex-col">
-      <div className="fixed top-0 w-full mt-[17px] bg-[#f1f3f5] px-5 py-2 z-10">
+      <div className="fixed top-0 w-full mt-[17px] bg-[#f1f3f5] px-5 py-2 z-10"> 
         <div className="flex">
-          <AnimatedLinks />
+          {/* <AnimatedLinks /> */}
+          <MiddleNavbar />
           <div className="flex justify-left items-center fixed right-20 w-[347px]  border border-black rounded-full">
             <div className="ml-2 bg-transparent">
               <Search size={20} />

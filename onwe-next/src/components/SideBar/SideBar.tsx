@@ -24,23 +24,23 @@ const SideBar = () => {
           <Compass size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Explore</h1>
         </Link>
-        <Link href="/notifications" className=" flex items-center text-black hover:text-gray-500 w-full">
+        <Link href="/search" className=" flex items-center text-black hover:text-gray-500 w-full">
           <Search size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Search</h1>
         </Link>
-        <Link href="/messages" className=" flex items-center text-black hover:text-gray-500 w-full">
+        <Link href="/magazines" className=" flex items-center text-black hover:text-gray-500 w-full">
           <Newspaper size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Magazines</h1>
         </Link>
-        <Link href="/saved" className=" flex items-center text-black hover:text-gray-500 w-full">
+        <Link href="/events" className=" flex items-center text-black hover:text-gray-500 w-full">
           <Calendar size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Event</h1>
         </Link>
-        <Link href="/saved" className=" flex items-center text-black hover:text-gray-500 w-full">
+        <Link href="/notifications" className=" flex items-center text-black hover:text-gray-500 w-full">
           <Bell size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Notifications</h1>
         </Link>
-        <Link href="/saved" className=" flex items-center text-black hover:text-gray-500 w-full">
+        <Link href="/create" className=" flex items-center text-black hover:text-gray-500 w-full">
           <Plus size={20} strokeWidth={1.4} />
           <h1 className="ml-2 text-sm">Create</h1>
         </Link>

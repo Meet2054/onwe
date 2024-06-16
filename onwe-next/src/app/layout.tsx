@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 import SideBar from "@/components/SideBar/SideBar";
+import { Provider } from 'react-redux';
+import store from '../lib/store'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +17,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const showLayout = pathname !== "/login-signup" && pathname !== "/";
 
   return (
+    <Provider store={store}>
     <html lang="en" className="bg-[#f1f3f5]">
       <body className={`${inter.className} h-screen overflow-hidden`}>
         <div className="flex h-full">
@@ -25,6 +28,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         </div>
       </body>
     </html>
+    </Provider>
   );
 };
 

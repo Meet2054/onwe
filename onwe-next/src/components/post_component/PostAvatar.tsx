@@ -3,7 +3,7 @@ import React from "react";
 
 const PostAvatar = () => {
   return (
-    <Avatar className="h-12 w-12">
+    <Avatar className="h-9 w-9">
       <AvatarImage src="https://github.com/shadcn.png" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>

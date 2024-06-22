@@ -7,7 +7,7 @@ const Page = () => {
   const { category }: { category: string } = useParams();
   // TODO - Add the logic to fetch the data for the category
   return (
-    <div className="h-full w-full flex flex-col items-center mb-4">
+    <div className="h-full w-full flex flex-col items-center  mb-4">
       <Posts />
       <Posts />
       <Posts />

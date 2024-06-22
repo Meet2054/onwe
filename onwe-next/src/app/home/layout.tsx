@@ -5,13 +5,11 @@ import { Search } from "lucide-react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col h-full w-full bg-white">
-      <div className="flex justify-center items-center top-0 p-3 bg-white z-10">
+    <div className="flex flex-col h-full w-full">
+      <div className="fixed top-0 w-full bg-white z-10">
         <MiddleNavbar />
       </div>
-      <div className="flex-1 overflow-y-auto  bg-base-color w-full scrollbar-hide">
-        {children}
-      </div>
+      <div className="flex-1 mt-16 overflow-y-auto bg-white">{children}</div>
     </div>
   );
 };

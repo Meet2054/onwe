@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const Posts = () => {
   return (
-    <div className="w-11/12  bg-white rounded-md mt-9 p-4 ">
+    <div className="w-11/12 border rounded-xl shadow-smrounded-md mt-9 p-4 ">
       <div className="flex items-center gap-3">
         <PostAvatar />
         <div>

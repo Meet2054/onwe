@@ -19,21 +19,23 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const showLayout =
     pathname !== "/sign-in" && pathname !== "/" && pathname !== "/sign-up";
 
-  return (
-    <ClerkProvider>
+    return (
+      <ClerkProvider>
       <Provider store={store}>
-        <html lang="en" className="bg-[#f1f3f5]">
-          <body className={`${inter.className} h-screen overflow-hidden`}>
-            <div className="flex h-full">
-              <div className="">{showLayout && <SideBar />}</div>
-              <div className="flex-1 h-full overflow-y-auto">{children}</div>
-            </div>
-          </body>
-        </html>
+      <html lang="en" className="bg-[#f1f3f5]">
+        <body className={`${inter.className} h-screen overflow-hidden`}>
+         <div className="flex h-full">
+           <div className="">{showLayout && <SideBar />}</div>
+           <div className="flex-1 h-full overflow-y-auto">
+             {children}
+           </div>
+         </div>
+        </body>
+      </html>
       </Provider>
-    </ClerkProvider>
-  );
-};
+      </ClerkProvider>
+    );
+  };
 
 export default RootLayout;
 

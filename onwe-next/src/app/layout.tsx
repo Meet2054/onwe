@@ -16,27 +16,36 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const showLayout = pathname !== "/sign-in" && pathname !== "/" && pathname!=="/sign-up";
+  const showLayout =
+    pathname !== "/sign-in" && pathname !== "/" && pathname !== "/sign-up";
 
   return (
     <ClerkProvider>
-    <Provider store={store}>
-      <html lang="en" className="bg-[#f1f3f5]">
-        <body className={`${inter.className} h-screen`}>
-          <div className="flex h-full">
-            <div className="bg-green-300 w-3/12">
-              {showLayout && <MinSideBar />}
+      <Provider store={store}>
+        <html lang="en" className="bg-[#f1f3f5]">
+          <body className={`${inter.className} h-screen overflow-hidden`}>
+            <div className="flex h-full">
+              {showLayout && (
+                <div className="w-3/12">
+                  <MinSideBar />
+                </div>
+              )}
+              <div
+                className={`h-full border border-black overflow-y-auto ${
+                  showLayout ? "w-7/12" : "w-full"
+                }`}
+              >
+                {children}
+              </div>
+              {showLayout && (
+                <div className="h-full w-5/12">
+                  <div className=""></div>
+                </div>
+              )}
             </div>
-            <div className="h-full w-7/12 border border-black overflow-y-auto">
-              {children}
-            </div>
-            <div className="h-full w-5/12">
-              <div className="bg-green-300"></div>
-            </div>
-          </div>
-        </body>
-      </html>
-    </Provider>
+          </body>
+        </html>
+      </Provider>
     </ClerkProvider>
   );
 };

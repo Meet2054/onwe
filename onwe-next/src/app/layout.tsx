@@ -6,6 +6,7 @@ import SideBar from "@/components/SideBar/SideBar";
 import { Provider } from "react-redux";
 import store from "../lib/store";
 import MinSideBar from "@/components/SideBar/MinSidebar";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +16,10 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const showLayout = pathname !== "/login-signup" && pathname !== "/";
+  const showLayout = pathname !== "/sign-in" && pathname !== "/" && pathname!=="/sign-up";
 
   return (
+    <ClerkProvider>
     <Provider store={store}>
       <html lang="en" className="bg-[#f1f3f5]">
         <body className={`${inter.className} h-screen`}>
@@ -35,6 +37,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         </body>
       </html>
     </Provider>
+    </ClerkProvider>
   );
 };
 

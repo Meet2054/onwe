@@ -16,16 +16,16 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const showLayout =
-    pathname !== "/sign-in" && pathname !== "/" && pathname !== "/sign-up";
-
+  const showSideBar = pathname.startsWith("/home");
+  const showMinSideBar = pathname !== "/" && pathname !== "/sign-up" && pathname !== "/sign-in" && !pathname.startsWith("/home");
     return (
       <ClerkProvider>
       <Provider store={store}>
       <html lang="en" className="bg-[#f1f3f5]">
         <body className={`${inter.className} h-screen overflow-hidden`}>
          <div className="flex h-full">
-           <div className="">{showLayout && <SideBar />}</div>
+         {showSideBar && <div className="w-3/12"><SideBar /></div>}
+         {showMinSideBar && <div className="w-1/6"><MinSideBar /></div>}
            <div className="flex-1 h-full overflow-y-auto">
              {children}
            </div>

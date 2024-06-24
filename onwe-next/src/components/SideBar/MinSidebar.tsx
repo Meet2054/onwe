@@ -26,12 +26,12 @@ const MinSideBar = () => {
     <TooltipProvider>
       <div className="w-full">
         <div
-          className="h-screen w-full flex flex-col items-center p-4 border bg-green-400"
-          style={{ backgroundColor: "#F1F3F5" }}
+          className="h-screen w-full flex flex-col items-center p-4 border bg-white"
+          
         >
           <div className="flex items-start justify-center">
             <Link href="/" className="text-gray-700 hover:text-gray-900">
-              <h1 className="font-bold text-2xl">O</h1>
+              <h1 className="font-bold text-2xl mr-3 mb-1">O</h1>
             </Link>
           </div>
           {/* <hr className="border-t border-black my-4 w-full" /> */}

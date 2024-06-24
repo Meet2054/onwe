@@ -3,8 +3,11 @@
 import {UserButton, useUser} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+// import { useDispatch, useSelector } from 'react-redux';
+// import { RootState, AppDispatch } from '@/lib/store'
 
 export default function Home() {
+  // const token = useSelector((state: RootState) => state.auth.token);
   const {isSignedIn, user, isLoaded} = useUser();
 
   return (
@@ -25,8 +28,10 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        ) : (
+        ) : (<>
           <UserButton afterSignOutUrl="/" />
+          {/* <h1 className="text-black">{token}</h1> */}
+          </>
         )}
       </div>
     </div>

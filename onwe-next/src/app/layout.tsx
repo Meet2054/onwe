@@ -34,7 +34,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 </div>
               )}
               {showMinSideBar && (
-                <div className="w-1/6">
+                <div className=" w-5/100">
                   <MinSideBar />
                 </div>
               )}

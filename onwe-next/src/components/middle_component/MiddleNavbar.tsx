@@ -7,7 +7,7 @@ const MiddleNavbar = () => {
   const pathname = usePathname();
 
   const category = [
-    { name: "Social", href: "/home/social" },
+    { name: "General", href: "/home/social" },
     { name: "Academia", href: "/home/academia" },
     { name: "Literature", href: "/home/literature" },
     { name: "Discussions", href: "/home/discussions" },
@@ -16,7 +16,7 @@ const MiddleNavbar = () => {
   ];
 
   return (
-    <div className=" flex justify-evenly p-4  w-max  bg-white  gap-x-2.5">
+    <div className=" flex justify-cetner px-7 py-4   w-full  bg-white  gap-x-2.5">
       {category.map((item) => (
         <Link
           key={item.name}
@@ -24,7 +24,7 @@ const MiddleNavbar = () => {
           className={`flex items-center  justify-center border border-[#F1F3F5] rounded-full h-[34px] px-3 ${
             pathname === item.href
               ? "text-white transition-all bg-black transition-colors"
-              : "text-gray-500"
+              : "text-gray-500"                    
           }`}
         >
           <span className="flex whitespace-nowrap text-xs">{item.name}</span>

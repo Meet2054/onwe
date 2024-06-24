@@ -1,7 +1,7 @@
 "use client";
-import { AnimatedLinks } from "@/components/AnimatedLinks";
+// import { AnimatedLinks } from "@/components/AnimatedLinks";
 import MiddleNavbar from "@/components/middle_component/MiddleNavbar";
-import { Search } from "lucide-react";
+
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="sticky">
           <MiddleNavbar />
         </div>
-        <div className="h-full w-full flex items-center justify-center">
+        <div className="w-full flex items-center justify-center">
           {children}
         </div>
       </div>

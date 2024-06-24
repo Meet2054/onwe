@@ -1,9 +1,8 @@
 import React from "react";
 import PostAvatar from "./PostAvatar";
-import { MessageSquare, ThumbsUp } from "lucide-react";
-import ShareIcon from "./ShareIcon";
 import LikeComment from "./LikeComment";
 import Image from "next/image";
+import PostImage from "./PostImage";
 
 const Posts = () => {
   return (
@@ -23,9 +22,8 @@ const Posts = () => {
             hic! Possimus facere illum sed vitae ad dolore accusantium harum
             velit.
           </div>
-          <div className="w-full relative h-80 flex items-center justify-center mt-4 overflow-hidden">
-            <Image src="/img.svg" layout="fill" objectFit="none" alt="Image" />
-          </div>
+          <PostImage className="w-full relative h-80 mt-4 overflow-hidden" />
+
           <div className="w-full">
             <LikeComment />
           </div>

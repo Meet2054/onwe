@@ -23,16 +23,10 @@ const Posts = () => {
             hic! Possimus facere illum sed vitae ad dolore accusantium harum
             velit.
           </div>
-          <div className="w-full relative  h-80  flex items-center justify-center  mt-4">
-            <Image
-              src="/img.svg"
-              layout="fill"
-              objectFit=""
-              className="rounded-md"
-              alt="Image"
-            />
+          <div className="w-full relative h-80 flex items-center justify-center mt-4 overflow-hidden">
+            <Image src="/img.svg" layout="fill" objectFit="none" alt="Image" />
           </div>
-          <div className="w-full ">
+          <div className="w-full">
             <LikeComment />
           </div>
         </div>

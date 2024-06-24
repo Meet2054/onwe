@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import React from "react";
 
-const PostAvatar = () => {
+const PostAvatar = ({ size = 9 }: { size?: number }) => {
   return (
-    <Avatar className="h-9 w-9">
+    <Avatar className={`flex w-${size} h-${size}`}>
       <AvatarImage src="https://github.com/shadcn.png" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>

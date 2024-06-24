@@ -1,0 +1,5 @@
+/* Add this to your global CSS file or module CSS file */
+.dialog-content .dialog-close {
+    display: none !important;
+  }
+  

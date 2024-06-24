@@ -16,7 +16,7 @@ const MiddleNavbar = () => {
   ];
 
   return (
-    <div className=" flex justify-between w-full bg-white  gap-x-2.5">
+    <div className=" flex justify-around p-4  w-full bg-white  gap-x-2.5">
       {category.map((item) => (
         <Link
           key={item.name}

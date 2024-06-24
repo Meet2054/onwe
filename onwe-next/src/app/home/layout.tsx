@@ -5,11 +5,16 @@ import { Search } from "lucide-react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col h-full w-full">
-      <div className="fixed top-0 w-full bg-white z-10">
-        <MiddleNavbar />
+    <div className="w-full flex">
+      <div className="w-[60%] h-full">
+        <div className="sticky">
+          <MiddleNavbar />
+        </div>
+        <div className="h-full w-full flex items-center justify-center">
+          {children}
+        </div>
       </div>
-      <div className="flex-1 mt-16 overflow-y-auto bg-white">{children}</div>
+      <div className="w-[40%]"></div>
     </div>
   );
 };

@@ -34,15 +34,15 @@ const MinSideBar = () => {
               <h1 className="font-bold text-2xl">O</h1>
             </Link>
           </div>
-          <hr className="border-t border-black my-4 w-full" />
-          <div className="flex flex-col items-start w-full mt-10 space-y-8">
+          {/* <hr className="border-t border-black my-4 w-full" /> */}
+          <div className="flex flex-col items-start w-full mt-8 space-y-8">
             <Link
               href="/home"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Home size={28} strokeWidth={1.4} />
+                  <Home size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black bg-white rounded-full "
@@ -61,7 +61,7 @@ const MinSideBar = () => {
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Users size={28} strokeWidth={1.4} />
+                  <Users size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black bg-white rounded-full"
@@ -74,13 +74,13 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            <Link
+            {/* <Link
               href="/explore"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Compass size={28} strokeWidth={1.4} />
+                  <Compass size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -92,14 +92,14 @@ const MinSideBar = () => {
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
-            </Link>
+            </Link> */}
             <Link
               href="/search"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Search size={28} strokeWidth={1.4} />
+                  <Search size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -118,7 +118,7 @@ const MinSideBar = () => {
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Newspaper size={28} strokeWidth={1.4} />
+                  <Newspaper size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -138,7 +138,7 @@ const MinSideBar = () => {
               {" "}
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Calendar size={28} strokeWidth={1.4} />
+                  <Calendar size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -157,7 +157,7 @@ const MinSideBar = () => {
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Bell size={28} strokeWidth={1.4} />
+                  <Bell size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -176,7 +176,7 @@ const MinSideBar = () => {
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Plus size={28} strokeWidth={1.4} />
+                  <Plus size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -197,7 +197,7 @@ const MinSideBar = () => {
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <User size={28} strokeWidth={1.4} />
+                  <User size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -210,14 +210,14 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            <Link
+            {/* <Link
               href="/settings"
               className="text-black hover:text-gray-900 flex items-center w-full"
             >
               {" "}
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Settings size={28} strokeWidth={1.4} />
+                  <Settings size={20} strokeWidth={1.4} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black rounded-full"
@@ -229,7 +229,7 @@ const MinSideBar = () => {
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

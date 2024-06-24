@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      width: {
+        '5/100': '5%',
+      },
       colors: {
         "base-color": "#ffffff",
         border: "hsl(var(--border))",

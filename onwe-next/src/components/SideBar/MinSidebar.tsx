@@ -25,10 +25,7 @@ const MinSideBar = () => {
   return (
     <TooltipProvider>
       <div className="w-full">
-        <div
-          className="h-screen w-full flex flex-col items-center p-4 border bg-white"
-          
-        >
+        <div className="h-screen w-full flex flex-col items-center p-4 border bg-white">
           <div className="flex items-start justify-center">
             <Link href="/" className="text-gray-700 hover:text-gray-900">
               <h1 className="font-bold text-2xl mr-3 mb-1">O</h1>
@@ -102,7 +99,7 @@ const MinSideBar = () => {
                   <Search size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white  rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -121,7 +118,7 @@ const MinSideBar = () => {
                   <Newspaper size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -141,7 +138,7 @@ const MinSideBar = () => {
                   <Calendar size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -160,7 +157,7 @@ const MinSideBar = () => {
                   <Bell size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -179,7 +176,7 @@ const MinSideBar = () => {
                   <Plus size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -200,7 +197,7 @@ const MinSideBar = () => {
                   <User size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black rounded-full"
+                  className="text-black fill-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"

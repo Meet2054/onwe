@@ -1,5 +1,6 @@
 // import ClubChatAnnouncement from "@/components/ClubChatAnnouncement";
 import ClubSideBar from "@/components/SideBar/ClubSideBar";
+import { Info } from "lucide-react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

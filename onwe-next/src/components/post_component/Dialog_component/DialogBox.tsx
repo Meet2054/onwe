@@ -1,11 +1,4 @@
-// MyComponent.jsx
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 import { Dialog, DialogContent, DialogTrigger } from "../../ui/dialog";
 
 import DiaglogComment from "./DiaglogComment";

@@ -1,21 +1,21 @@
-'use client';
-import React, { useState, ChangeEvent, DragEvent } from 'react';
-import axios from 'axios'
-import {Upload} from "lucide-react";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../../lib/store'
+"use client";
+import React, { useState, ChangeEvent, DragEvent } from "react";
+import axios from "axios";
+import { Upload } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../lib/store";
 
 const Page: React.FC = () => {
-  const [category, setCategory] = useState<string>('general');
-  const [description, setDescription] = useState<string>('');
-  const [tags, setTags] = useState<string>('');
+  const [category, setCategory] = useState<string>("general");
+  const [description, setDescription] = useState<string>("");
+  const [tags, setTags] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
   const token = useSelector((state: RootState) => state.auth.token);
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files);
-    setFiles(prevFiles => {
+    setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...droppedFiles].slice(0, 5);
       return newFiles;
     });
@@ -23,7 +23,7 @@ const Page: React.FC = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files ?? []);
-    setFiles(prevFiles => {
+    setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...selectedFiles].slice(0, 5);
       return newFiles;
     });
@@ -41,42 +41,38 @@ const Page: React.FC = () => {
     setTags(e.target.value);
   };
 
-
   const preventDefault = (e: DragEvent<HTMLDivElement>) => e.preventDefault();
 
   const handlePost = async () => {
     try {
       const formData = new FormData();
-      formData.append('category', category);
-      formData.append('description', description);
-      formData.append('tags', tags);
+      formData.append("category", category);
+      formData.append("description", description);
+      formData.append("tags", tags);
 
       for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
+        formData.append("files", files[i]);
       }
 
-      const response = await axios.post('onwe/api/post', formData, {
+      const response = await axios.post("onwe/api/post", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log('Post successful:', response.data);
-    
+      console.log("Post successful:", response.data);
     } catch (error) {
-      console.error('Error posting data:', error);
-   
+      console.error("Error posting data:", error);
     }
   };
 
-
   return (
     <>
-      <div className='flex justify-center items-center h-screen'>
-        <div className='flex w-65/100 h-2/3 mt-8'>
+      <div className="flex justify-center items-center h-screen">
+        <div className="flex w-65/100 h-2/3 mt-8">
           <div
-            className='border-dashed rounded-xl h-5/6 w-1/2 flex flex-col justify-center items-center shadow-md bg-gray-100'
+            className="border-dashed rounded-xl h-5/6 w-1/2 flex flex-col justify-center items-center shadow-md bg-gray-100"
             onDragOver={preventDefault}
             onDragEnter={preventDefault}
             onDragLeave={preventDefault}
@@ -88,11 +84,16 @@ const Page: React.FC = () => {
               multiple
               accept="image/*,video/*"
               onChange={handleChange}
-              className='hidden'
+              className="hidden"
             />
-            <label htmlFor="photoUpload" className='cursor-pointer flex flex-col items-center'>
-              <Upload size={40}/>
-              <p className="text-black mt-2">choose a file or drag and drop here.</p>
+            <label
+              htmlFor="photoUpload"
+              className="cursor-pointer flex flex-col items-center"
+            >
+              <Upload size={40} />
+              <p className="text-black mt-2">
+                choose a file or drag and drop here.
+              </p>
               <p className="text-gray-400">up to 5 images/videos.</p>
             </label>
             <div className="mt-4 text-center">
@@ -101,27 +102,44 @@ const Page: React.FC = () => {
                   <h4 className="text-gray-600 mb-2">Selected files:</h4>
                   <ul className="list-disc list-inside">
                     {files.map((file, index) => (
-                      <li key={index} className="text-gray-500">{file.name}</li>
+                      <li key={index} className="text-gray-500">
+                        {file.name}
+                      </li>
                     ))}
                   </ul>
                 </div>
               )}
             </div>
           </div>
-          <div className='ml-12 h-full w-96 flex flex-col'>
-            <form className='flex flex-col h-full justify-between'>
+          <div className="ml-12 h-full w-96 flex flex-col">
+            <form className="flex flex-col h-full justify-between">
               <div>
-                <label htmlFor="description" className='text-xs'>Description</label>
-                <textarea value={description}
-                  onChange={handleDescriptionChange} className='h-40 w-full rounded-xl border-2 border-gray-300 p-2' placeholder='Add description'></textarea>
+                <label htmlFor="description" className="text-xs">
+                  Description
+                </label>
+                <textarea
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  className="h-40 w-full rounded-xl border-2 border-gray-300 p-2"
+                  placeholder="Add description"
+                ></textarea>
               </div>
               <div>
-                <label htmlFor="tags" className='mt-8 text-xs'>Tags</label>
-                <input type="text" value={tags}
-                  onChange={handleTagsChange}  className='h-10 w-full rounded-xl border-2 border-gray-300 p-2 mt-2' placeholder='create or choose Hashtags' />
+                <label htmlFor="tags" className="mt-8 text-xs">
+                  Tags
+                </label>
+                <input
+                  type="text"
+                  value={tags}
+                  onChange={handleTagsChange}
+                  className="h-10 w-full rounded-xl border-2 border-gray-300 p-2 mt-2"
+                  placeholder="create or choose Hashtags"
+                />
               </div>
               <div>
-                <label htmlFor="category" className='mt-8 text-xs'>Category</label>
+                <label htmlFor="category" className="mt-8 text-xs">
+                  Category
+                </label>
                 <select
                   value={category}
                   onChange={handleCategoryChange}
@@ -135,8 +153,14 @@ const Page: React.FC = () => {
                   <option value="animals">Animals</option>
                 </select>
               </div>
-              <div className='flex justify-end'>
-                <button type="button" onClick={handlePost} className='mt-8 bg-blue-500 text-white px-6 py-2 rounded-lg'>Post</button>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handlePost}
+                  className="mt-8 bg-blue-500 text-white px-6 py-2 rounded-lg"
+                >
+                  Post
+                </button>
               </div>
             </form>
           </div>

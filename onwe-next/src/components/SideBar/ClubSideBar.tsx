@@ -3,7 +3,7 @@ import React from 'react';
 
 const ClubSideBar = () => {
   return (
-    <div className="h-screen w-44 bg-gray-100 p-4 justify-center">
+    <div className="h-screen w-full bg-gray-100 p-4 justify-center">
       <div>
         <h2 className="text-blue-500 font-bold mb-2">Trending</h2>
         <ul className="mb-4">

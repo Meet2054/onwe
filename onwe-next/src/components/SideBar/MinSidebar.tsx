@@ -99,7 +99,7 @@ const MinSideBar = () => {
                   <Search size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white  rounded-full"
+                  className="text-black bg-white  rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -118,7 +118,7 @@ const MinSideBar = () => {
                   <Newspaper size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white rounded-full"
+                  className="text-black bg-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -138,7 +138,7 @@ const MinSideBar = () => {
                   <Calendar size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white rounded-full"
+                  className="text-black bg-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -157,7 +157,7 @@ const MinSideBar = () => {
                   <Bell size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white rounded-full"
+                  className="text-black bg-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -176,7 +176,7 @@ const MinSideBar = () => {
                   <Plus size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white rounded-full"
+                  className="text-black bg-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"
@@ -197,7 +197,7 @@ const MinSideBar = () => {
                   <User size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
-                  className="text-black fill-white rounded-full"
+                  className="text-black bg-white rounded-full"
                   align="center"
                   sideOffset={7}
                   side="left"

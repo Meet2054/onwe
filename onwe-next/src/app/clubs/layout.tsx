@@ -5,7 +5,7 @@ import { Info } from "lucide-react";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-full w-full">
-      <div className="h-full w-1/4">
+      <div className="h-full w-1/4 overflow-y-auto">
         <ClubSideBar />
       </div>
       <div className="h-full w-3/4">{children}</div>

@@ -55,7 +55,8 @@ const Page: React.FC = () => {
             </button>
           </ul>
         </div>
-        <div className="p-4 mb-2 w-full relative">
+        <div className="p-4 mb-2 w-full relative overflow-y-auto h-screen" style={{ maxHeight: 'calc(100vh)' }}>
+          {/* Adjust maxHeight value as needed */}
           {events.map((event: Event) => (
             <EventCard key={event.id} {...event} />
           ))}

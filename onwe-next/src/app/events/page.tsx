@@ -27,26 +27,26 @@ const Page: React.FC = () => {
           <div className="flex space-x-6 ml-4">
             <button
               onClick={() => handleFilter("upcoming")}
-              className="border rounded-full text-sm p-1 active:bg-black"
+              className="border rounded-full text-sm p-2 px-3 active:bg-black"
             >
               Upcoming Events
             </button>
             <button
               onClick={() => handleFilter("past")}
-              className="border rounded-full text-sm p-1 active:bg-black"
+              className="border rounded-full text-sm p-2 px-3 active:bg-black"
             >
               Past Events
             </button>
             <button
               onClick={() => handleFilter("remainder")}
-              className="border rounded-full text-sm p-1 active:bg-black"
+              className="border rounded-full text-sm p-2 px-3 active:bg-black"
             >
               My Remainders
             </button>
 
             <button
               onClick={() => setListView(!listview)}
-              className="border rounded-full text-sm p-1 ml-20  active:bg-black"
+              className="border rounded-full text-sm p-2 px-3 ml-20  active:bg-black"
             >
               List View
             </button>
@@ -54,10 +54,10 @@ const Page: React.FC = () => {
         </div>
         <div className="p-4 w-full h-screen ml-12 ">
           <div className="p-4 mb-2 w-full relative overflow-y-auto h-full ">
-            {/* Adjust maxHeight value as needed */}
-            {events.map((event: Event) => (
-              <EventCard2 key={event.id} {...event} />
-            ))}
+          {/* Adjust maxHeight value as needed */}
+          {events.map((event: Event) => (
+            <EventCard2 key={event.id} {...event} />
+          ))}
             <div className="size-20"></div>
           </div>
         </div>

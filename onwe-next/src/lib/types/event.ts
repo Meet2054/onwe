@@ -3,7 +3,7 @@ export interface Event {
     id: number;
     title: string;
     description: string,
-    photos: string[];
+    photo: string;
     date: string;
     time: string;
     saved: boolean;

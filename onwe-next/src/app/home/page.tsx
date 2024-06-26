@@ -29,8 +29,6 @@ const Page = () => {
   ) : (
     <div className="w-96 p-4 break-all whitespace-pre-wrap">{token}</div>
   );
-
-  return;
 };
 
 export default Page;

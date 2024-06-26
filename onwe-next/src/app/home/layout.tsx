@@ -2,7 +2,6 @@
 // import { AnimatedLinks } from "@/components/AnimatedLinks";
 import MiddleNavbar from "@/components/middle_component/MiddleNavbar";
 
-
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full flex">

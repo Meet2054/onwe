@@ -20,7 +20,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex">
-      <div className="bg-white flex flex-col w-3/5 overflow-y-auto">
+      <div className="bg-white flex flex-col w-3/5">
         <div className="top-0 sticky bg-white z-50 p-4 w-full relative">
           <ul className="flex space-x-8">
             <button

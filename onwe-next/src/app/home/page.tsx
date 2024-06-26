@@ -1,12 +1,15 @@
 "use client";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import React, { useState, useEffect, Suspense } from "react";
 
 const Page = () => {
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
   const [showSkeleton, setShowSkeleton] = useState(true);
+
+  const { user } = useUser();
+  // console.log(user);
 
   useEffect(() => {
     // Set a delay of 5 seconds (5000 milliseconds)

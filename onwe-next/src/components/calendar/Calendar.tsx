@@ -4,17 +4,25 @@ import {
   format,
   getDay,
   startOfMonth,
-  parse,
   isSameMonth,
+  parseISO,
+  isSameDay,
+  parse,
 } from "date-fns";
+import { Event } from "@/lib/types/event";
 
 interface EventCalendarProps {
   month: string;
+  events: Event[];
 }
 
-const EventCalendar: FC<EventCalendarProps> = ({ month: current }) => {
+const EventCalendar: FC<EventCalendarProps> = ({ events, month: current }) => {
+  // console.log(events);
+
   const currentDate = new Date();
   const currentMonthDate = format(new Date(), "MMMM yyyy");
+
+  const currentMonthDate2 = parse(current, "MMMM yyyy", new Date());
 
   const lastDayOfMonth = parseInt(format(endOfMonth(currentMonthDate), "d"));
   const firstDay = getDay(startOfMonth(currentMonthDate));
@@ -31,7 +39,7 @@ const EventCalendar: FC<EventCalendarProps> = ({ month: current }) => {
   const currentDay = format(currentDate, "d");
 
   return (
-    <div className="container py-2  text-black">
+    <div className="container py-2 text-black">
       <div>
         <h2 className="text-start text-lg">{format(current, "MMMM")}</h2>
         <div className="flex items-center justify-center grid grid-cols-7 gap-1 mt-3">
@@ -50,8 +58,19 @@ const EventCalendar: FC<EventCalendarProps> = ({ month: current }) => {
             const [isOpen, setIsOpen] = useState<boolean>(false);
             const hoverClass =
               val.i !== ""
-                ? "hover:bg-black hover:text-white opacity-80 text-black text-sm font-medium"
+                ? "hover:bg-gray-200 opacity-80 text-black text-sm font-medium"
                 : "";
+
+            const date = new Date(
+              currentMonthDate2.getFullYear(),
+              currentMonthDate2.getMonth(),
+              Number(val.i)
+            );
+
+            const hasEvent = events.some((event) =>
+              isSameDay(parseISO(event.date), date)
+            );
+
             return (
               <div
                 className="flex justify-center"
@@ -66,12 +85,14 @@ const EventCalendar: FC<EventCalendarProps> = ({ month: current }) => {
                     opacity-80 text-black text-sm font-medium ${hoverClass}
                     ${
                       currentDay == val.i && isSameMonth(current, new Date())
-                        ? "bg-blue-800 text-yellow-400"
+                        ? "bg-black text-white"
                         : ""
-                    }
-                    ${isOpen ? "bg-black text-white" : ""}`}
+                    }`}
                 >
                   {val.i}
+                  {hasEvent && (
+                    <span className="size-1 bg-red-500 rounded-full" />
+                  )}
                 </span>
               </div>
             );

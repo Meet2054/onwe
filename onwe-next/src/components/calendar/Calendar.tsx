@@ -14,9 +14,14 @@ import { Event } from "@/lib/types/event";
 interface EventCalendarProps {
   month: string;
   events: Event[];
+  scrollToEvent: (eventId: number) => void;
 }
 
-const EventCalendar: FC<EventCalendarProps> = ({ events, month: current }) => {
+const EventCalendar: FC<EventCalendarProps> = ({
+  events,
+  month: current,
+  scrollToEvent,
+}) => {
   // console.log(events);
 
   const currentDate = new Date();
@@ -74,9 +79,18 @@ const EventCalendar: FC<EventCalendarProps> = ({ events, month: current }) => {
             return (
               <div
                 className="flex justify-center"
+                // onClick={() => {
+
+                //   if (!hoverClass) return;
+                //   setIsOpen(!isOpen);
+                // }}
                 onClick={() => {
-                  if (!hoverClass) return;
-                  setIsOpen(!isOpen);
+                  if (hasEvent) {
+                    const event = events.find((event) =>
+                      isSameDay(parseISO(event.date), date)
+                    );
+                    if (event) scrollToEvent(event.id);
+                  }
                 }}
                 key={index}
               >

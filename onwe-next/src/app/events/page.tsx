@@ -1,25 +1,44 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
 import { filterEvents } from "../../lib/features/events/eventsSlice";
 import EventCard from "@/components/events/EventCard";
 
 import { Event } from "../../lib/types/event";
-import EventCalendar from "@/components/calendar/Calendar";
+
 import RenderCalendar from "@/components/calendar/RenderCalendar";
 import EventCard2 from "@/components/events/EventCard2";
 
 const Page: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const events = useSelector((state: RootState) => state.events.events);
+  const [listview, setListView] = useState(false);
+
+  const eventRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const handleFilter = (filterType: string) => {
     dispatch(filterEvents({ filterType }));
   };
 
-  const [listview, setListView] = useState(false);
+  const scrollToEvent = (eventId: number) => {
+    const eventIndex = events.findIndex((event) => event.id === eventId);
+    const eventElement = eventRefs.current[eventIndex];
 
+    if (eventElement && containerRef.current) {
+      const topPos = eventElement.offsetTop - containerRef.current.offsetTop;
+
+      containerRef.current.scrollTo({
+        top: topPos,
+        behavior: "smooth",
+      });
+      eventElement.classList.add("border", "rounded-xl", "animate-pulse");
+      setTimeout(() => {
+        eventElement.classList.remove("border", "rounded-xl", "animate-pulse");
+      }, 1500);
+    }
+  };
   return (
     <div className="flex">
       <div className="bg-white flex flex-col w-3/5">
@@ -53,17 +72,24 @@ const Page: React.FC = () => {
           </div>
         </div>
         <div className="p-4 w-full h-screen ml-12 ">
-          <div className="p-4 mb-2 w-full relative overflow-y-auto h-full ">
-          {/* Adjust maxHeight value as needed */}
-          {events.map((event: Event) => (
-            <EventCard2 key={event.id} {...event} />
-          ))}
+          <div
+            ref={containerRef}
+            className="p-4 mb-2 w-full relative overflow-y-auto h-full"
+          >
+            {/* Adjust maxHeight value as needed */}
+            {events.map((event: Event, index) => (
+              <EventCard2
+                key={index}
+                {...event}
+                ref={(el) => (eventRefs.current[index] = el)}
+              />
+            ))}
             <div className="size-20"></div>
           </div>
         </div>
       </div>
       <div className="w-2/5">
-        <RenderCalendar />
+        <RenderCalendar scrollToEvent={scrollToEvent} />
       </div>
     </div>
   );

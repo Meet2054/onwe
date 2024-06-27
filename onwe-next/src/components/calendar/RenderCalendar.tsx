@@ -24,7 +24,12 @@ function RenderCalendar({
   return (
     <div className="px-10">
       {monthArray.map((month, index) => (
-        <EventCalendar events={events} key={index} month={month} />
+        <EventCalendar
+          events={events}
+          key={index}
+          month={month}
+          scrollToEvent={scrollToEvent!}
+        />
       ))}
     </div>
   );

@@ -36,7 +36,7 @@ const Signin = () => {
       if (result.status === "complete") {
         console.log(result);
         await setActive({session: result.createdSessionId});
-        getToken().then((token) => {
+        getToken({ template: "test" }).then((token) => {
           // console.log(token);
           dispatch(setToken(token!));
         });

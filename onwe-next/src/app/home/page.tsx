@@ -19,7 +19,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    getToken().then((token) => {
+    getToken({ template: "test" }).then((token) => {
       setToken(token!);
     });
   }, [getToken]);

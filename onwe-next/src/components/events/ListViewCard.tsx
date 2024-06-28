@@ -1,61 +1,46 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface EventCardProps {
   title: string;
+  subtitle: string;
   date: string;
   time: string;
   description: string;
-  photos: string[];
+  photo: string;
 }
+const formatDate = (dateStr: string) => {
+  const dateObj = new Date(dateStr);
+  const day = dateObj.getDate();
+  const month = dateObj.toLocaleString('default', { month: 'short' });
 
-const ListEventCard: React.FC<EventCardProps> = ({ title, date, time, description, photos }) => {
-  return (
-    <>
-    <div className='w-full h-20  border rounded-lg shadow-md p-4'>
+  // Pad day with leading zero if needed
+  const formattedDay = day < 10 ? `0${day}` : `${day}`;
 
-    </div>
-    </>
-  );
+  return { day: formattedDay, month };
 };
 
-export default ListEventCard;
 
+// eslint-disable-next-line react/display-name
+const ListViewCard = React.forwardRef<HTMLDivElement, EventCardProps>(
+  ({ title,subtitle, date, time, description, }, ref) => {
+    const { day, month } = formatDate(date);    return (
+      <div ref={ref} className="w-[43dvw] h-24 rounded-lg mb-3 flex">
+          <div className="w-20 h-full">
+            <button className="border ml-5 mt-1 p-1 px-1 bg-gray-200 rounded-xl"><h1 className="text-xl">{day}</h1><h1 className="text-sm">{month}</h1></button>
+          </div>
+          <div className="h-full grow flex justify-between border-b">
+              <div className="w-52 h-full flex flex-col">
+                    <h1 className="text-xl">{title}</h1>
+                    <h1 className="text-lg mt-3 text-gray-500">{subtitle}</h1>
+              </div>
+              <div className="w-20 h-full flex justify-center items-center">
+                  <button className="border text-sm bg-gray-200 rounded-full p-1">+remind</button>
+              </div>
+          </div>
+      </div>
+    );
+  }
+);
 
-// <div className="w-full h-96 border rounded-lg shadow-md p-4"> {/* Set fixed height here */}
-// <div className="flex justify-between items-center mb-2">
-//   <h2 className="text-xl font-bold">{title}</h2>
-//   <div className="flex space-x-2">
-//     <button className="px-3 py-1 border rounded-full text-gray-700">add remainder</button>
-//     <button className="px-2 py-1 border rounded-full text-gray-700">i</button>
-//   </div>
-// </div>
-// <div className="text-gray-600 mb-4">
-//   {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}, {time}
-// </div>
-// <div className="flex space-x-2 mb-4">
-// {photos.map((photo, index) => (
-// <div key={index} className="w-1/2 h-48 bg-gray-200 rounded-lg relative overflow-hidden">
-// <Image 
-// src={photo} 
-// alt={`Event ${index + 1}`} 
-// layout="fill" 
-// objectFit="cover" 
-// objectPosition="center center" 
-// className="rounded-lg"
-// />
-// </div>
-// ))}
-
-
-
-
-// </div>
-// <div className="text-gray-700 mb-4">
-//   {description}
-// </div>
-// <div className="flex justify-end">
-//   <button className="text-gray-700">save</button>
-// </div>
-// </div>
-
+export default ListViewCard;

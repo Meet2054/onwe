@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   endOfMonth,
   format,
@@ -10,7 +10,7 @@ import {
   parse,
 } from "date-fns";
 import { Event } from "@/lib/types/event";
-import { cn } from "@/lib/utils";
+
 interface EventCalendarProps {
   month: string;
   events: Event[];
@@ -22,15 +22,13 @@ const EventCalendar: FC<EventCalendarProps> = ({
   month: current,
   scrollToEvent,
 }) => {
-  // console.log(events);
-
   const currentDate = new Date();
   const currentMonthDate = format(new Date(), "MMMM yyyy");
 
   const currentMonthDate2 = parse(current, "MMMM yyyy", new Date());
 
-  const lastDayOfMonth = parseInt(format(endOfMonth(currentMonthDate), "d"));
-  const firstDay = getDay(startOfMonth(currentMonthDate));
+  const lastDayOfMonth = parseInt(format(endOfMonth(currentMonthDate2), "d"));
+  const firstDay = getDay(startOfMonth(currentMonthDate2));
 
   let monthArray: { i: number | string }[] = [];
 
@@ -46,7 +44,9 @@ const EventCalendar: FC<EventCalendarProps> = ({
   return (
     <div className="container py-2 text-black">
       <div>
-        <h2 className="text-start text-lg">{format(current, "MMMM")}</h2>
+        <h2 className="text-start text-lg">
+          {format(currentMonthDate2, "MMMM")}
+        </h2>
         <div className="flex items-center justify-center grid grid-cols-7 gap-1 mt-3">
           {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
             <div
@@ -60,13 +60,7 @@ const EventCalendar: FC<EventCalendarProps> = ({
         <div className="w-full border border-gray-400 mt-3 opacity-30"></div>
         <div className="grid grid-cols-7 gap-3 mt-1">
           {monthArray.map((val, index) => {
-            const [isOpen, setIsOpen] = useState<boolean>(false);
-
-            const hoverClass =
-              val.i !== ""
-                ? "hover:bg-gray-200 opacity-80 text-black text-sm font-medium"
-                : "";
-
+            const eventBgRef = useRef<HTMLDivElement>(null);
             const date = new Date(
               currentMonthDate2.getFullYear(),
               currentMonthDate2.getMonth(),
@@ -77,47 +71,64 @@ const EventCalendar: FC<EventCalendarProps> = ({
               isSameDay(parseISO(event.date), date)
             );
 
+            const event = events.find((event) =>
+              isSameDay(parseISO(event.date), date)
+            );
             let eventBackground = "";
-            if (hasEvent) {
-              const event = events.find((event) =>
-                isSameDay(parseISO(event.date), date)
-              );
-              if (event?.bg) {
-                eventBackground = `bg-[#${event.bg.toLowerCase()}]`;
-              }
+            if (hasEvent && event?.bg) {
+              eventBackground = `bg-[#${event.bg.toLowerCase()}]`;
             }
+
+            const isCurrentDay =
+              currentDay === val.i.toString() &&
+              isSameMonth(currentMonthDate2, currentDate);
+
+            const hoverClass =
+              val.i !== ""
+                ? "hover:bg-gray-200 opacity-80 text-black text-sm font-medium"
+                : "";
+
+            const eventStyle = `${isCurrentDay ? "bg-black text-white" : ""} ${
+              hasEvent && event?.bg ? `bg-[#${event.bg.toLowerCase()}]` : ""
+            }`;
+
+            useEffect(() => {
+              if (eventBgRef.current) {
+                eventBgRef.current.style.backgroundColor = `#${event?.bg}`;
+              }
+            });
+
             return (
               <div
                 className="flex justify-center"
-                // onClick={() => {
-
-                //   if (!hoverClass) return;
-                //   setIsOpen(!isOpen);
-                // }}
                 onClick={() => {
-                  if (hasEvent) {
-                    const event = events.find((event) =>
-                      isSameDay(parseISO(event.date), date)
-                    );
-                    if (event) scrollToEvent(event.id);
+                  if (hasEvent && event) {
+                    scrollToEvent(event.id);
                   }
                 }}
                 key={index}
               >
                 <span
-                  className={`flex flex-col justify-center items-center w-8 h-8 rounded-full
-                    opacity-80 text-black text-sm font-medium ${hoverClass}
-                    ${
-                      currentDay == val.i && isSameMonth(current, new Date())
-                        ? "bg-black text-white"
-                        : ""
-                    } ${eventBackground}`}
+                  className={`flex flex-col justify-center items-center w-8 h-8 rounded-full ${hoverClass} ${eventStyle}`}
                 >
-                  {val.i}
-                  {hasEvent && !eventBackground ? (
-                    <span className="size-1 bg-red-500 rounded-full" />
+                  {hasEvent ? (
+                    eventBackground ? (
+                      <span
+                        ref={eventBgRef}
+                        className={`size-7 flex justify-center items-center rounded-full`}
+                      >
+                        {val.i}
+                      </span>
+                    ) : (
+                      <span
+                        className={`flex flex-col justify-center items-center`}
+                      >
+                        {val.i}
+                        <span className="size-1 bg-red-600 flex rounded-full"></span>
+                      </span>
+                    )
                   ) : (
-                    <span className={eventBackground} />
+                    <span>{val.i}</span>
                   )}
                 </span>
               </div>

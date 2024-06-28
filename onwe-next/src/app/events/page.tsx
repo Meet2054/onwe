@@ -33,10 +33,22 @@ const Page: React.FC = () => {
         top: topPos,
         behavior: "smooth",
       });
-      eventElement.classList.add("border", "rounded-xl", "animate-pulse");
+      eventElement.classList.add(
+        "border",
+        "rounded-xl",
+        "scale-105",
+        "transition-all",
+        "duration-1000"
+      );
       setTimeout(() => {
-        eventElement.classList.remove("border", "rounded-xl", "animate-pulse");
-      }, 1500);
+        eventElement.classList.remove(
+          "border",
+          "rounded-xl",          
+          "scale-105",
+          "transition-all",
+          "duration-1000"
+        );
+      }, 1000);
     }
   };
   return (

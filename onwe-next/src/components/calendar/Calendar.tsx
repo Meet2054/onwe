@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   endOfMonth,
   format,
@@ -10,7 +10,7 @@ import {
   parse,
 } from "date-fns";
 import { Event } from "@/lib/types/event";
-
+import { cn } from "@/lib/utils";
 interface EventCalendarProps {
   month: string;
   events: Event[];
@@ -61,6 +61,7 @@ const EventCalendar: FC<EventCalendarProps> = ({
         <div className="grid grid-cols-7 gap-3 mt-1">
           {monthArray.map((val, index) => {
             const [isOpen, setIsOpen] = useState<boolean>(false);
+
             const hoverClass =
               val.i !== ""
                 ? "hover:bg-gray-200 opacity-80 text-black text-sm font-medium"
@@ -76,6 +77,15 @@ const EventCalendar: FC<EventCalendarProps> = ({
               isSameDay(parseISO(event.date), date)
             );
 
+            let eventBackground = "";
+            if (hasEvent) {
+              const event = events.find((event) =>
+                isSameDay(parseISO(event.date), date)
+              );
+              if (event?.bg) {
+                eventBackground = `bg-[#${event.bg.toLowerCase()}]`;
+              }
+            }
             return (
               <div
                 className="flex justify-center"
@@ -101,11 +111,13 @@ const EventCalendar: FC<EventCalendarProps> = ({
                       currentDay == val.i && isSameMonth(current, new Date())
                         ? "bg-black text-white"
                         : ""
-                    }`}
+                    } ${eventBackground}`}
                 >
                   {val.i}
-                  {hasEvent && (
+                  {hasEvent && !eventBackground ? (
                     <span className="size-1 bg-red-500 rounded-full" />
+                  ) : (
+                    <span className={eventBackground} />
                   )}
                 </span>
               </div>

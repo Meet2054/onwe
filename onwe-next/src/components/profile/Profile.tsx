@@ -4,10 +4,10 @@ import {
   Github,
   InstagramIcon,
   Linkedin,
-  LucidePencil,
   LucidePencilLine,
   Twitter,
 } from "lucide-react";
+import Link from "next/link";
 
 const Profile = () => {
   return (
@@ -24,8 +24,13 @@ const Profile = () => {
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
           following
         </div>
-        <div className="my-3 p-2 hover:scale-125 transition-all hover:border hover:rounded-full ease-in-out">
-          <LucidePencilLine size={16} />
+        <div className="my-3 p-2 group hover:border hover:rounded-full transition-all duration-100">
+          <Link href="/profile/edit">
+            <LucidePencilLine
+              size={16}
+              className="group-hover:scale-125 transition-all duration-100 ease-in-out"
+            />
+          </Link>
         </div>
       </div>
       <div>
@@ -35,21 +40,21 @@ const Profile = () => {
           iure, aliquid saepe eaque atque, veritatis incidunt tempora quod.
         </p>
       </div>
-      <div className="flex justify-center gap-8 space mt-4">
+      <div className="flex justify-around gap-8 space mt-4 w-full px-16">
         <Twitter
-          size={20}
+          size={24}
           className="hover:scale-125 transition-all ease-in-out duration-200"
         />
         <InstagramIcon
-          size={20}
+          size={24}
           className="hover:scale-125 transition-all ease-in-out duration-200"
         />
         <Linkedin
-          size={20}
+          size={24}
           className="hover:scale-125 transition-all ease-in-out duration-200"
         />
         <Github
-          size={20}
+          size={24}
           className="hover:scale-125 transition-all ease-in-out duration-200"
         />
       </div>

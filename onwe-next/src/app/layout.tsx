@@ -23,7 +23,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     pathname !== "/sign-in" &&
     !pathname.startsWith("/home");
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
       <Provider store={store}>
         <html lang="en" className="bg-white">
           <body className={`${inter.className} h-screen overflow-hidden`}>

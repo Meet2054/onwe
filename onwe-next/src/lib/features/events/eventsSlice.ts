@@ -10,6 +10,7 @@ export interface Event {
   saved: boolean;
   remainder: boolean;
   description: string;
+  bg?: string;
 }
 
 interface EventsState {
@@ -29,6 +30,7 @@ const initialState: EventsState = {
       remainder: false,
       description:
         "An annual conference focusing on technology advancements and innovations",
+      bg: "f13ef3",
     },
     {
       id: 2,

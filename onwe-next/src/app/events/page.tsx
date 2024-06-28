@@ -46,7 +46,7 @@ const Page: React.FC = () => {
       setTimeout(() => {
         eventElement.classList.remove(
           "border",
-          "rounded-xl",          
+          "rounded-xl",
           "scale-105",
           "transition-all",
           "duration-1000"
@@ -55,7 +55,7 @@ const Page: React.FC = () => {
     }
   };
 
-  const toggleListView = (currentView:string) => {
+  const toggleListView = (currentView: string) => {
     if (currentView === "comfort" && !listview) return;
     if (currentView === "list" && listview) return;
     setIsTransitioning(true);

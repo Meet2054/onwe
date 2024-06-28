@@ -4,6 +4,7 @@ import Image from "next/image";
 
 interface EventCard2Props {
   title: string;
+  subtitle:string
   date: string;
   time: string;
   description: string;
@@ -11,7 +12,7 @@ interface EventCard2Props {
 }
 
 const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
-  ({ title, date, time, description, photo }, ref) => {
+  ({ title,subtitle, date, time, description, photo }, ref) => {
     return (
       <div ref={ref} className="w-4/5 h-60 rounded-lg mb-3 flex">
         <div
@@ -24,12 +25,12 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
           }}
         />
         <div className="ml-3 grow">
-          <div className="Frame40580 flex-col justify-start items-start gap-7 inline-flex">
-            <div className="Frame40579 flex-col justify-start items-start gap-1 flex">
-              <div className="SummerNight text-black text-xl font-semibold capitalize">
+          <div className=" flex-col justify-start items-start gap-7 inline-flex">
+            <div className="flex-col justify-start items-start gap-1 flex">
+              <div className="text-black text-xl font-semibold capitalize">
                 {title}
               </div>
-              <div className="Jun242000 text-red-500 text-lg font-medium uppercase">
+              <div className=" text-red-500 text-lg font-medium uppercase">
                 {new Date(date)
                   .toLocaleDateString("en-US", {
                     month: "short",
@@ -40,15 +41,15 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
               </div>
             </div>
             <div className="w-72 h-16 opacity-90 text-black text-sm font-normal">
-              EDM party!
+              {subtitle}
               <br />
               {description}
             </div>
-            <div className="Frame40578 w-72 justify-between items-center inline-flex">
-              <div className="Frame40537 w-9 h-8 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
+            <div className=" w-72 justify-between items-center inline-flex">
+              <div className=" w-9 h-8 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
                 <button className="I text-black text-sm font-medium">i</button>
               </div>
-              <div className="Frame40575 h-8 justify-end items-center gap-2.5 flex">
+              <div className=" h-8 justify-end items-center gap-2.5 flex">
                 <div className="w-20 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
                   <button className="whitespace-nowrap text-black text-sm font-normal">
                     + remind

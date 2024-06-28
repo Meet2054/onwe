@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Event {
   id: number;
   title: string;
+  subtitle: string;
   photo: string;
   date: string;
   time: string;
@@ -21,7 +22,8 @@ const initialState: EventsState = {
   events: [
     {
       id: 1,
-      title: "Tech Conference 2024",
+      title: "Tech Conference",
+      subtitle:"GDSC Event",
       photo:
         "https://s3-alpha-sig.figma.com/img/4cd8/e220/ddd169e762b3b25fdc70c413d229c963?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CcQqHFF~fVJcDq92kyfTGkVXPN1gjBz6BZgVhT7C9Gy67jGKk1h4pfLyNUKd2TIaxnAN4nQbsLGGIlOv3eve4ryCkGkfwJ5Ao3Ef7pvOlucMO2~gS5FQmODLPtzbmkZOzahRqHBKXmX6tigZYWhtjvkhYBxihtNAnqbqPLKw8xfiRkXPVI2Ij10rKJ9MQKCMFDGmUeFe2w1jZaj-zKwVJmFP3NT0hC1SHM0ZFIUB3FFlKPfsvcz7FcZMuBHYxQY-k9yBh0Lg7w4w44fzeHhJbYb5LGIjMSznN4OvS2CbmPDq-a-K~eYpidRAOLYSpUFe8thwimfeGWNzanoG0fntcQ__",
       date: "2024-07-01",
@@ -35,6 +37,7 @@ const initialState: EventsState = {
     {
       id: 2,
       title: "Art Exhibition",
+      subtitle:"GDSC Event",
       photo:
         "https://s3-alpha-sig.figma.com/img/4cd8/e220/ddd169e762b3b25fdc70c413d229c963?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=CcQqHFF~fVJcDq92kyfTGkVXPN1gjBz6BZgVhT7C9Gy67jGKk1h4pfLyNUKd2TIaxnAN4nQbsLGGIlOv3eve4ryCkGkfwJ5Ao3Ef7pvOlucMO2~gS5FQmODLPtzbmkZOzahRqHBKXmX6tigZYWhtjvkhYBxihtNAnqbqPLKw8xfiRkXPVI2Ij10rKJ9MQKCMFDGmUeFe2w1jZaj-zKwVJmFP3NT0hC1SHM0ZFIUB3FFlKPfsvcz7FcZMuBHYxQY-k9yBh0Lg7w4w44fzeHhJbYb5LGIjMSznN4OvS2CbmPDq-a-K~eYpidRAOLYSpUFe8thwimfeGWNzanoG0fntcQ__",
       date: "2024-07-01",
@@ -47,6 +50,7 @@ const initialState: EventsState = {
     {
       id: 3,
       title: "Music Festival",
+      subtitle:"GDSC Event",
       photo: "https://i1.sndcdn.com/artworks-000521624880-pf34mu-t500x500.jpg",
       date: "2024-08-15",
       time: "06:00 PM",
@@ -58,6 +62,7 @@ const initialState: EventsState = {
     {
       id: 4,
       title: "Startup Pitch Day",
+      subtitle:"GDSC Event",
       photo: "https://i1.sndcdn.com/artworks-000521624880-pf34mu-t500x500.jpg",
       date: "2024-07-10",
       time: "10:00 AM",
@@ -69,6 +74,7 @@ const initialState: EventsState = {
     {
       id: 5,
       title: "Community Meetup",
+      subtitle:"GDSC Event",
       photo: "https://i1.sndcdn.com/artworks-000521624880-pf34mu-t500x500.jpg",
       date: "2024-09-18",
       time: "11:00 AM",

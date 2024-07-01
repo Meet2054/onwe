@@ -57,14 +57,14 @@ const SideBar = () => {
           </div>
         </Link> */}
         <Link
-          href="/search"
+          href="/explore"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/search") ? "bg-gray-300 rounded-full" : ""
           }`}
         >
           <div className="flex p-4">
-            <Search size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Search</h1>
+            <Compass size={20} strokeWidth={2} stroke="black" />
+            <h1 className="ml-2 text-sm ">Explore</h1>
           </div>
         </Link>
         <Link
@@ -89,7 +89,7 @@ const SideBar = () => {
             <h1 className="ml-2 text-sm ">Event</h1>
           </div>
         </Link>
-        <Link
+        {/* <Link
           href="/notifications"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/notifications") ? "bg-gray-300 rounded-full" : ""
@@ -99,7 +99,7 @@ const SideBar = () => {
             <Bell size={20} strokeWidth={2} stroke="black" />
             <h1 className="ml-2 text-sm ">Notifications</h1>
           </div>
-        </Link>
+        </Link> */}
         <Link
           href="/create"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
@@ -112,7 +112,7 @@ const SideBar = () => {
           </div>
         </Link>
       </div>
-      <div className="flex flex-col items-start w-4/6 mt-72">
+      <div className="flex flex-col items-start w-4/6 mt-60">
         <Link
           href="/profile"
           className={`text-black hover:text-gray-900  ml-10 flex items-center w-52 ${

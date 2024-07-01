@@ -8,9 +8,12 @@ const PostAvatar = ({
 }: {
   size?: number;
   className?: string;
-  imageUrl?: string;
+  imageUrl?: string | null | File;
 }) => {
-  const url = imageUrl || "https://github.com/shadcn.png";
+  let url = "https://github.com/shadcn.png";
+  if (imageUrl instanceof File) {
+    url = URL.createObjectURL(imageUrl);
+  }
   return (
     <Avatar
       className={className}

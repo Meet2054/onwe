@@ -36,18 +36,22 @@ const SingleComment = ({
         </div>
         <div>
           <span>3h ago</span>
-          <Button onClick={handleReplyClick}>reply</Button>
+          <Button variant="ghost" onClick={handleReplyClick}>
+            reply
+          </Button>
           {replyOpen && (
             <div className="flex">
-              <Input
+              <input
                 ref={inputRef}
                 onChange={(e) => setReply(e.target.value)}
                 value={reply}
                 pattern="reply"
-                className="rounded-full ring-0 border-gray-300 text-black "
+                className="bg-white border-b outline-none "
               />
 
-              <Button className="border rounded-full hover:">send</Button>
+              <Button className=" px-3 py-0" variant="ghost">
+                send
+              </Button>
             </div>
           )}
         </div>

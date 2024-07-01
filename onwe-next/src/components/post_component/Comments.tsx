@@ -1,6 +1,5 @@
 import React from "react";
 import PostAvatar from "./PostAvatar";
-import { Button } from "../ui/button";
 
 const Comments = ({ comment }: { comment: string }) => {
   return (
@@ -9,7 +8,7 @@ const Comments = ({ comment }: { comment: string }) => {
       <div>
         <span className="font-bold">username</span> <span>{comment}</span>
         <div>
-          <span>3h ago</span> <Button variant="destructive">reply</Button>
+          <span>3h ago</span> <div>reply</div>
         </div>
       </div>
     </div>

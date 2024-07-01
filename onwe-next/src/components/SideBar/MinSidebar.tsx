@@ -24,7 +24,7 @@ import { TooltipArrow } from "@radix-ui/react-tooltip";
 const MinSideBar = () => {
   return (
     <TooltipProvider>
-      <div className="w-full">
+      <div className="w-full animate-slide-in">
         <div className="h-screen w-full flex flex-col items-center p-4 border bg-white">
           <div className="flex items-start justify-center">
             <Link href="/" className="text-gray-700 hover:text-gray-900">

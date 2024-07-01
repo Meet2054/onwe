@@ -12,8 +12,19 @@ import Link from "next/link";
 const Profile = () => {
   return (
     <div className="w-[77%] h-[calc(100dvh-4rem)] mt-16 mx-auto p-4 flex flex-col items-center">
-      <div className="flex justify-center items-center">
-        <PostAvatar size={32} />
+      <div className="flex justify-center items-center relative">
+        <PostAvatar size={40} className="ring-8 ring-slate-300" />
+        <div
+          className="my-3 p-2 group border rounded-full 
+        absolute -bottom-6  right-0  transition-all duration-100"
+        >
+          <Link href="/profile/edit">
+            <LucidePencilLine
+              size={16}
+              className="group-hover:scale-125 transition-all duration-100 ease-in-out"
+            />
+          </Link>
+        </div>
       </div>
       <div className="text-2xl font-bold text-center mt-8">Rituraj Thakur</div>
       <div className="text-green-500 text-center">@rituisboy</div>
@@ -23,14 +34,6 @@ const Profile = () => {
         </div>
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
           following
-        </div>
-        <div className="my-3 p-2 group hover:border hover:rounded-full transition-all duration-100">
-          <Link href="/profile/edit">
-            <LucidePencilLine
-              size={16}
-              className="group-hover:scale-125 transition-all duration-100 ease-in-out"
-            />
-          </Link>
         </div>
       </div>
       <div>

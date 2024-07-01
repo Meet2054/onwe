@@ -21,15 +21,19 @@ const CommentInput = () => {
       }}
     >
       <div className="flex justify-center border border-black rounded-full">
-        <Input
-          className=" w-10/12 rounded-full border-none"
+        <input
+          className=" w-10/12 px-2  rounded-full focus-visible:outline-none border-0 focus-visible:ring-0"
           placeholder="comment ...."
           value={comment}
           onChange={(e) => {
             setComment(e.target.value);
           }}
         />
-        <Button onClick={handleClick}>
+        <Button
+          variant="ghost"
+          className="hover:rounded-full hover:text-black p-2 "
+          onClick={handleClick}
+        >
           <ArrowUp strokeWidth={1} />
         </Button>
       </div>

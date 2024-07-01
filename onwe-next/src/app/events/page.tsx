@@ -41,7 +41,9 @@ const Page: React.FC = () => {
         "rounded-xl",
         "scale-105",
         "transition-all",
-        "duration-1000"
+        "ease-in-out",
+        "duration-1000",
+        "border-rose-300"
       );
       setTimeout(() => {
         eventElement.classList.remove(
@@ -49,6 +51,7 @@ const Page: React.FC = () => {
           "rounded-xl",
           "scale-105",
           "transition-all",
+          "ease-in-out",
           "duration-1000"
         );
       }, 1000);

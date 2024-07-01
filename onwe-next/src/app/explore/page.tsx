@@ -1,11 +1,13 @@
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
-    <div>
-      <h1>Explore</h1>
+    <div className='flex flex-col'>
+      <div>
+        
+      </div>
     </div>
   )
 }
 
-export default page
+export default Page

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +14,7 @@ const EditRightForm = () => {
             type="text"
             id="firstName"
             placeholder="first name"
-            className="border-opacity-20 rounded-md"
+            className="border-opacity-60 rounded-md"
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -22,7 +23,7 @@ const EditRightForm = () => {
             type="text"
             id="surName"
             placeholder="surname"
-            className="border-opacity-20 rounded-md"
+            className="border-opacity-60 rounded-md"
           />
         </div>
       </div>
@@ -32,7 +33,7 @@ const EditRightForm = () => {
           type="text"
           id="username"
           placeholder="username"
-          className="border-opacity-20 rounded-md"
+          className="border-opacity-60 rounded-md"
         />
       </div>
       <div className="grid items-center gap-1.5">
@@ -49,8 +50,13 @@ const EditRightForm = () => {
           type="text"
           id="links"
           placeholder="add links"
-          className="border-opacity-20 rounded-md"
+          className="border-opacity-60 rounded-md"
         />
+        <div className="flex grow">
+          <Button className="hover:text-sky-300" variant="ghost">
+            + Add link
+          </Button>
+        </div>
       </div>
     </div>
   );

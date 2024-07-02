@@ -2,8 +2,8 @@
 const nextConfig = {
   images: {
     domains: ["s3-alpha-sig.figma.com", "i1.sndcdn.com"],
-    transpilePackages: ["lucide-react"],
   },
+  transpilePackages: ["lucide-react"],
 };
 
 export default nextConfig;

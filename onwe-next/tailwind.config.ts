@@ -78,11 +78,26 @@ const config = {
           from: { transform: "translateX(-100%)" },
           to: { transform: "translateX(0)" },
         },
+        "slide-out": {
+          from: { transform: "translateX(10rem)" },
+          to: { transform: "translateX(0)" },
+        },
+        "slide-up": {
+          from: { transform: "translateY(50%)" },
+          to: { transform: "translateY(0)" },
+        },
+        "slide-in-from-right": {
+          from: { transform: "translateX(20%)" },
+          to: { transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "slide-in": "slide-in 0.2s ease-out",
+        "slide-in": "slide-in 0.3s ease-out",
+        "slide-out": "slide-out 0.3s ease-out",
+        "slide-up": "slide-up 0.3s ease-out",
+        "slide-in-from-right": "slide-in-from-right 0.2s ease-in-out",
       },
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],

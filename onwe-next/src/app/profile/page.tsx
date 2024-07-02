@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="h-[100vh] w-full flex">
+    <div className="h-[100vh] w-full flex animate-slide-up fade-in-5">
       <div className="w-[45%]  flex justify-center items-start">
         <Profile />
       </div>

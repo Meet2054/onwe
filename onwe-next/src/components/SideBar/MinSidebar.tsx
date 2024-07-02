@@ -66,7 +66,7 @@ const MinSideBar = () => {
                   sideOffset={7}
                   side="left"
                 >
-                  <p>Users</p>
+                  <p>Clubs</p>
                   <TooltipArrow fill="white" />
                 </TooltipContent>
               </Tooltip>
@@ -91,12 +91,12 @@ const MinSideBar = () => {
               </Tooltip>
             </Link> */}
             <Link
-              href="/search"
+              href="/explore"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Search size={20} strokeWidth={2} />
+                  <Compass size={20} strokeWidth={2} />
                 </TooltipTrigger>
                 <TooltipContent
                   className="text-black bg-white  rounded-full"
@@ -104,7 +104,7 @@ const MinSideBar = () => {
                   sideOffset={7}
                   side="left"
                 >
-                  <p>Search</p>
+                  <p>Explore</p>
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
@@ -148,7 +148,7 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            <Link
+            {/* <Link
               href="/notifications"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -166,7 +166,7 @@ const MinSideBar = () => {
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
-            </Link>
+            </Link> */}
             <Link
               href="/create"
               className="flex items-center text-black hover:text-gray-500 w-full"

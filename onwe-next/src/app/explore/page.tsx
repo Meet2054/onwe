@@ -1,11 +1,14 @@
-import React from 'react'
+import TopClubs from '@/components/explore/TopClubs';
+import TopPosts from '@/components/explore/TopPosts';
+import React from 'react';
 
-const page = () => {
+const Page = () => {
   return (
-    <div>
-      <h1>Explore</h1>
+    <div className='flex flex-col h-screen overflow-y-auto p-4'>
+          <TopClubs/>
+          <TopPosts/>
     </div>
-  )
+  );
 }
 
-export default page
+export default Page;

@@ -44,67 +44,8 @@ const ClubSideBar = () => {
             name: "Trekking",
             image: "https://via.placeholder.com/40",
           },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
+          { id: "5", name: "Events", image: "https://via.placeholder.com/40" }
+         
         ];
         setParticipatedClubs(sampleClubs);
       } catch (error) {

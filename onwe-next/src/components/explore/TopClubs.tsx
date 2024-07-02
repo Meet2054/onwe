@@ -23,7 +23,7 @@ const TopClubs: React.FC = () => {
     return (
         <div className='w-full h-[25vh] p-4'>
             <div className='px-5'>
-            <div className='flex gap-4 '>
+            <div className='flex gap-4'>
                 {topClubs.map((club, index) => (
                     <Club key={index} club={club} />
                 ))}

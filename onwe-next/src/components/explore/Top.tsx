@@ -15,7 +15,7 @@ const Top = () => {
 
   return (
     <div className="w-full justify-center items-center">
-      <div className="w-[90%] h-[90%]  ml-10 space-y-4 border-b-2">
+      <div className="w-[90%] h-[90%]  ml-10 space-y-4">
         <h1 className="text-xl mt-6">Search</h1>
         <div
           onClick={toggleSearch}

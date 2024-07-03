@@ -11,6 +11,7 @@ import RenderCalendar from "@/components/calendar/RenderCalendar";
 import EventCard2 from "@/components/events/EventCard2";
 import ListViewCard from "@/components/events/ListViewCard";
 import { ViewSelect } from "@/components/events/ViewSelect";
+import ActiveComponent from "@/components/events/ActiveComponent";
 
 const Page: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -18,6 +19,7 @@ const Page: React.FC = () => {
   const [listview, setListView] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const eventRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,6 +68,14 @@ const Page: React.FC = () => {
       setListView(!listview);
       setIsTransitioning(false);
     }, 500);
+  };
+
+  const handleEventClick = (event: Event) =>{
+    console.log("Event clicked:", event);
+    setCurrentEvent(event);
+  }
+  const handleCloseActiveComponent = () => {
+    setCurrentEvent(null);
   };
 
   return (
@@ -118,12 +128,14 @@ const Page: React.FC = () => {
                     key={index}
                     {...event}
                     ref={(el) => (eventRefs.current[index] = el)}
+                    onClick={() => handleEventClick(event)}
                   />
                 ) : (
                   <EventCard2
                     key={index}
                     {...event}
                     ref={(el) => (eventRefs.current[index] = el)}
+                    onClick={() => handleEventClick(event)}
                   />
                 )
               )}
@@ -135,6 +147,12 @@ const Page: React.FC = () => {
       <div className="w-2/5">
         <RenderCalendar scrollToEvent={scrollToEvent} />
       </div>
+      {currentEvent && (
+        <ActiveComponent
+          currentEvent={currentEvent}
+          onClose={handleCloseActiveComponent}
+        />
+      )}
     </div>
   );
 };

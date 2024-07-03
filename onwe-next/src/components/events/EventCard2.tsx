@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 
+
 interface EventCard2Props {
   title: string;
   subtitle:string
@@ -9,12 +10,13 @@ interface EventCard2Props {
   time: string;
   description: string;
   photo: string;
+  onClick: () => void
 }
 
 const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
-  ({ title,subtitle, date, time, description, photo }, ref) => {
+  ({ title,subtitle, date, time, description, photo, onClick  }, ref) => {
     return (
-      <div ref={ref} className="w-4/5 h-60 rounded-lg mb-3 flex">
+      <div ref={ref} onClick={onClick} className="w-4/5 h-60 rounded-lg mb-3 flex">
         <div
           className="border w-2/5 rounded-xl"
           style={{

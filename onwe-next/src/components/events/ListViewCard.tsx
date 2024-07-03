@@ -8,6 +8,7 @@ interface EventCardProps {
   time: string;
   description: string;
   photo: string;
+  onClick: () => void
 }
 const formatDate = (dateStr: string) => {
   const dateObj = new Date(dateStr);
@@ -22,10 +23,10 @@ const formatDate = (dateStr: string) => {
 
 // eslint-disable-next-line react/display-name
 const ListViewCard = React.forwardRef<HTMLDivElement, EventCardProps>(
-  ({ title, subtitle, date, time, description }, ref) => {
+  ({ title, subtitle, date, time, description, onClick }, ref) => {
     const { day, month } = formatDate(date);
     return (
-      <div ref={ref} className="w-[43dvw] h-24 rounded-lg mb-3 flex">
+      <div ref={ref} onClick={onClick}  className="w-[43dvw] h-24 rounded-lg mb-3 flex">
         <div className="w-20 h-full">
           <button className="border ml-5 mt-1 p-1 px-1 bg-gray-200 rounded-xl">
             <h1 className="text-xl">{day}</h1>

@@ -75,6 +75,13 @@ const SigninForm: React.FC<SignInFormProps> = ({ signInWithEmail, clerkError }) 
             Don&apos;t have an account? Sign up
           </span>
          </Link>
+         <Link href={"/forgot-password"}>
+         <span
+            className="block text-center text-red-500 cursor-pointer"
+          >
+            Forgot Password?
+          </span>
+         </Link>
         </form>
       </div>
     </div>

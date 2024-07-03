@@ -11,7 +11,7 @@ const EditLeftFrom = () => {
     setImageUrl(e.target.files[0]);
   };
   return (
-    <div className="h-[100dvh]">
+    <div className="h-full">
       <div className="flex gap-2 h-10 mb-10">
         <Button className="border h-10 w-1/2 bg-black text-white rounded-full hover:ring-2 border hover:bg-black">
           Profile

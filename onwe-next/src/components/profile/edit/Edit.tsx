@@ -4,8 +4,8 @@ import EditForm from "./EditForm";
 
 const Edit = () => {
   return (
-    <div className="w-[78%]">
-      <div className="w-full">
+    <div className="w-full flex justify-center items-center  sm:w-[78%] h-full">
+      <div className="w-full h-full">
         <EditForm />
       </div>
     </div>

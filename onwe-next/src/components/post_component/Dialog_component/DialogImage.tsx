@@ -1,10 +1,22 @@
 import Image from "next/image";
-import React from "react";
+import React, { FC } from "react";
 
 import img from "@/../public/img.svg";
 
-const DialogImage = () => {
-  return <Image src={img} layout="fill" alt="image" />;
+interface DialogImageProps {
+  imageUrl?: string;
+}
+
+const DialogImage: FC<DialogImageProps> = ({ imageUrl }) => {
+  return (
+    <Image
+      src={imageUrl || img}
+      layout="fill"
+      alt="image"
+      objectFit="contain"
+      className="rounded-[1.5rem]"
+    />
+  );
 };
 
 export default DialogImage;

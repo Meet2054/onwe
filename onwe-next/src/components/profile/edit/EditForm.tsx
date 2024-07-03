@@ -4,7 +4,7 @@ import EditRightForm from "./EditRightForm";
 
 const EditForm = () => {
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-col sm:flex-row justify-between">
       <div className="w-[41%]">
         <EditLeftFrom />
       </div>

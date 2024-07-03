@@ -4,7 +4,7 @@ import React from "react";
 const EditTopBar = () => {
   return (
     <div className="w-full h-10 flex justify-between">
-      <div className="flex gap-2 w-[20%] h-10">
+      {/* <div className="flex gap-2 w-[20%] h-10">
         <Button className="border h-10 w-1/2 bg-black text-white rounded-full hover:ring-2 border hover:bg-black">
           Profile
         </Button>
@@ -14,7 +14,7 @@ const EditTopBar = () => {
         >
           Account
         </Button>
-      </div>
+      </div> */}
       <div className="w-[20%] h-10 flex gap-3">
         <Button
           variant="ghost"

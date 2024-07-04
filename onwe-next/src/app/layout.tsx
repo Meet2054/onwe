@@ -19,6 +19,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const showSideBar = pathname.startsWith("/home");
   const showMinSideBar =
     pathname !== "/" &&
+    pathname !== "/forgot-password" &&
     pathname !== "/sign-up" &&
     pathname !== "/sign-in" &&
     !pathname.startsWith("/home");

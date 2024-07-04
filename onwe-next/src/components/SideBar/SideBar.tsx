@@ -30,7 +30,7 @@ const SideBar = () => {
       <div className="flex flex-col items-start w-4/6 mt-6 justify-center ">
         <Link
           href="/home"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
+          className={`flex items-center text-black hover:text-gray-500 w-44 ml-10 ${
             isActive("/home") ? "bg-gray-300 rounded-full" : ""
           }`}
         >

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Upload } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
+import { useUser } from "@clerk/nextjs";
 
 const Page: React.FC = () => {
   const [category, setCategory] = useState<string>("general");
@@ -11,10 +12,15 @@ const Page: React.FC = () => {
   const [tags, setTags] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
   const token = useSelector((state: RootState) => state.auth.token);
+  const { user } = useUser();
+  const userId = "sundaram08";
+  console.log(userId);
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files);
+    const droppedFiles = Array.from(e.dataTransfer.files).filter(file =>
+      file.type.startsWith("image/") || file.type.startsWith("video/")
+    );
     setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...droppedFiles].slice(0, 5);
       return newFiles;
@@ -22,7 +28,9 @@ const Page: React.FC = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(e.target.files ?? []);
+    const selectedFiles = Array.from(e.target.files ?? []).filter(file =>
+      file.type.startsWith("image/") || file.type.startsWith("video/")
+    );
     setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...selectedFiles].slice(0, 5);
       return newFiles;
@@ -49,22 +57,31 @@ const Page: React.FC = () => {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("tags", tags);
+      formData.append("userId", userId);
 
       for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
+        formData.append("media", files[i]);
       }
 
-      const response = await axios.post("onwe/api/post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        "https://57d4-117-198-141-197.ngrok-free.app/posts",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log("Post successful:", response.data);
     } catch (error) {
       console.error("Error posting data:", error);
     }
+  };
+
+  const handleRemove = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   return (
@@ -91,9 +108,7 @@ const Page: React.FC = () => {
               className="cursor-pointer flex flex-col items-center"
             >
               <Upload size={40} />
-              <p className="text-black mt-2">
-                choose a file or drag and drop here.
-              </p>
+              <p className="text-black mt-2">choose a file or drag and drop here.</p>
               <p className="text-gray-400">up to 5 images/videos.</p>
             </label>
             <div className="mt-4 text-center">
@@ -101,11 +116,26 @@ const Page: React.FC = () => {
                 <div className="text-left">
                   <h4 className="text-gray-600 mb-2">Selected files:</h4>
                   <ul className="list-disc list-inside">
-                    {files.map((file, index) => (
-                      <li key={index} className="text-gray-500">
-                        {file.name}
-                      </li>
-                    ))}
+                    {files.map((file, index) => {
+                      const fileUrl = URL.createObjectURL(file);
+                      return (
+                        <li key={index} className="text-gray-500 flex items-center">
+                          {file.type.startsWith("image/") ? (
+                            <img src={fileUrl} alt={file.name} className="w-16 h-16 object-cover mr-2" />
+                          ) : (
+                            <video src={fileUrl} className="w-16 h-16 object-cover mr-2" controls />
+                          )}
+                          <span>{file.name}</span>
+                          <button
+                            type="button"
+                            className="ml-2 text-red-500"
+                            onClick={() => handleRemove(index)}
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}

@@ -9,13 +9,25 @@ interface DialogImageProps {
 
 const DialogImage: FC<DialogImageProps> = ({ imageUrl }) => {
   return (
-    <Image
-      src={imageUrl || img}
-      layout="fill"
-      alt="image"
-      objectFit="contain"
-      className="rounded-[1.5rem]"
-    />
+    <div className="relative w-full h-full">
+      <div className="absolute inset-0 bg-cover bg-center filter blur-3xl z-0">
+        <Image
+          src={imageUrl || img}
+          layout="fill"
+          alt="image"
+          objectFit="cover"
+        />
+      </div>
+      <div className="relative z-10 flex items-center justify-center w-full h-full">
+        <Image
+          src={imageUrl || img}
+          layout="fill"
+          alt="image"
+          objectFit="contain"
+          className="rounded-3xl"
+        />
+      </div>
+    </div>
   );
 };
 

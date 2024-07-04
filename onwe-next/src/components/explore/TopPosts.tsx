@@ -67,7 +67,7 @@ const TopPosts: React.FC = () => {
   ];
 
   return (
-    <div className="w-full p-4 border-t-2 h-full">
+    <div className="w-full p-4 border-t-2 h-full]">
       <div className="px-5 h-full">
         <div className="gap-4 grid grid-cols-4 h-full">
           {topPosts.map((post, index) => (

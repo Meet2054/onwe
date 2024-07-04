@@ -4,7 +4,7 @@ import Top from "@/components/explore/Top";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full flex flex-col h-full">
+    <div className="w-full h-[16dvh] flex flex-col h-full">
       <div className="sticky top-0">
         <Top />
       </div>

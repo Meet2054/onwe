@@ -1,6 +1,6 @@
 // app/page.tsx
 "use client";
-import {UserButton, useUser} from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 // import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,7 @@ import Link from "next/link";
 
 export default function Home() {
   // const token = useSelector((state: RootState) => state.auth.token);
-  const {isSignedIn, user, isLoaded} = useUser();
-
+  const { isSignedIn, user, isLoaded } = useUser();
   return (
     <div className="text-center flex flex-col gap-4 content-center h-screen items-center">
       <h1 className="text-2xl mt-4">Hello!</h1>
@@ -28,9 +27,10 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        ) : (<>
-          <UserButton afterSignOutUrl="/" />
-          {/* <h1 className="text-black">{token}</h1> */}
+        ) : (
+          <>
+            <UserButton afterSignOutUrl="/" />
+            {/* <h1 className="text-black">{token}</h1> */}
           </>
         )}
       </div>

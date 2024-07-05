@@ -33,30 +33,38 @@ const Page: React.FC = () => {
 
     if (eventElement && containerRef.current) {
       const topPos = eventElement.offsetTop - containerRef.current.offsetTop;
-
       containerRef.current.scrollTo({
         top: topPos,
         behavior: "smooth",
       });
+
       eventElement.classList.add(
         "border",
         "rounded-xl",
         "scale-105",
         "transition-all",
         "ease-in-out",
-        "duration-1000",
-        "border-rose-300"
+        "duration-500"
       );
+
+      setTimeout(() => {
+        // eventElement.classList.add(
+        //   "transition-all",
+        //   "ease-in-out",
+        //   "duration-500"
+        // );
+        eventElement.classList.remove("scale-105", "border-rose-300");
+      }, 500);
+
       setTimeout(() => {
         eventElement.classList.remove(
           "border",
           "rounded-xl",
-          "scale-105",
           "transition-all",
           "ease-in-out",
           "duration-1000"
         );
-      }, 1000);
+      }, 1500);
     }
   };
 
@@ -70,10 +78,10 @@ const Page: React.FC = () => {
     }, 500);
   };
 
-  const handleEventClick = (event: Event) =>{
+  const handleEventClick = (event: Event) => {
     console.log("Event clicked:", event);
     setCurrentEvent(event);
-  }
+  };
   const handleCloseActiveComponent = () => {
     setCurrentEvent(null);
   };

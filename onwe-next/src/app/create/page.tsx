@@ -4,7 +4,7 @@ import axios from "axios";
 import { Upload } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 
 const Page: React.FC = () => {
   const [category, setCategory] = useState<string>("general");
@@ -13,13 +13,13 @@ const Page: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const token = useSelector((state: RootState) => state.auth.token);
   const { user } = useUser();
+  const { getToken } = useAuth();
   const userId = "sundaram08";
-  console.log(userId);
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(file =>
-      file.type.startsWith("image/") || file.type.startsWith("video/")
+    const droppedFiles = Array.from(e.dataTransfer.files).filter(
+      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
     );
     setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...droppedFiles].slice(0, 5);
@@ -28,8 +28,8 @@ const Page: React.FC = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(e.target.files ?? []).filter(file =>
-      file.type.startsWith("image/") || file.type.startsWith("video/")
+    const selectedFiles = Array.from(e.target.files ?? []).filter(
+      (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
     );
     setFiles((prevFiles) => {
       const newFiles = [...prevFiles, ...selectedFiles].slice(0, 5);
@@ -64,12 +64,12 @@ const Page: React.FC = () => {
       }
 
       const response = await axios.post(
-        "https://57d4-117-198-141-197.ngrok-free.app/posts",
+        "https://d43c-117-198-141-197.ngrok-free.app/api/posts",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${await getToken()}`,
           },
         }
       );
@@ -108,7 +108,9 @@ const Page: React.FC = () => {
               className="cursor-pointer flex flex-col items-center"
             >
               <Upload size={40} />
-              <p className="text-black mt-2">choose a file or drag and drop here.</p>
+              <p className="text-black mt-2">
+                choose a file or drag and drop here.
+              </p>
               <p className="text-gray-400">up to 5 images/videos.</p>
             </label>
             <div className="mt-4 text-center">
@@ -119,11 +121,22 @@ const Page: React.FC = () => {
                     {files.map((file, index) => {
                       const fileUrl = URL.createObjectURL(file);
                       return (
-                        <li key={index} className="text-gray-500 flex items-center">
+                        <li
+                          key={index}
+                          className="text-gray-500 flex items-center"
+                        >
                           {file.type.startsWith("image/") ? (
-                            <img src={fileUrl} alt={file.name} className="w-16 h-16 object-cover mr-2" />
+                            <img
+                              src={fileUrl}
+                              alt={file.name}
+                              className="w-16 h-16 object-cover mr-2"
+                            />
                           ) : (
-                            <video src={fileUrl} className="w-16 h-16 object-cover mr-2" controls />
+                            <video
+                              src={fileUrl}
+                              className="w-16 h-16 object-cover mr-2"
+                              controls
+                            />
                           )}
                           <span>{file.name}</span>
                           <button

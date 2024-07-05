@@ -9,18 +9,22 @@
 // export default nextConfig;
 // next.config.js
 /** @type {import('next').NextConfig} */
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 const nextConfig = {
   images: {
-    domains: ["s3-alpha-sig.figma.com", "i1.sndcdn.com","encrypted-tbn0.gstatic.com"],
+    domains: [
+      "s3-alpha-sig.figma.com",
+      "i1.sndcdn.com",
+      "encrypted-tbn0.gstatic.com",
+    ],
   },
   transpilePackages: ["lucide-react"],
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'https://57d4-117-198-141-197.ngrok-free.app', // Replace with your external API
+        source: "/api/:path*",
+        destination: "https://d43c-117-198-141-197.ngrok-free.app/", // Replace with your external API
       },
     ];
   },

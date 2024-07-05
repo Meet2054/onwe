@@ -53,7 +53,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
         style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
-        className="flex max-w-none max-h-none bg-white  border-none sm:rounded-3xl p-1"
+        className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
         <div className="flex relative items-center w-full justify-center ">
           <DialogImage imageUrl={imageUrl} />

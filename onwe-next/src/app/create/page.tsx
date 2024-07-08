@@ -64,7 +64,7 @@ const Page: React.FC = () => {
       }
 
       const response = await axios.post(
-        "https://d43c-117-198-141-197.ngrok-free.app/api/posts",
+        "https://eb64-117-198-141-197.ngrok-free.app/posts",
         formData,
         {
           headers: {

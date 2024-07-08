@@ -5,12 +5,7 @@ import Image from "next/image";
 import PostImage from "./PostImage";
 
 const Posts = ({ res }) => {
-  // useEffect(() => {
-  //   if (res) {
-  //     console.log(res.media);
-  //   }
-  // });
-  console.log(res);
+ 
 
   return (
     <div className="w-11/12 border rounded-xl shadow-smrounded-md mt-9 p-4 ">

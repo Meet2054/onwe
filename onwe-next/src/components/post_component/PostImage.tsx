@@ -48,7 +48,12 @@ const PostImage = ({
 
           return (
             <CarouselItem key={index} className={className}>
-              <Image src={blobUrl} layout="fill" objectFit="none" alt="Image" />
+              <Image
+                src={blobUrl}
+                layout="fill"
+                objectFit="contain"
+                alt="Image"
+              />
             </CarouselItem>
           );
         })}

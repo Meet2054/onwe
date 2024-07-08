@@ -21,7 +21,7 @@ const Page = () => {
 
         // console.log("Fetched Token:", fetchedToken);
         axios
-          .get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, {
+          .get(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
             headers: {
               Authorization: `Bearer ${fetchedToken}`,
               "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const Page = () => {
             },
           })
           .then((data) => {
-            // console.log(data.data);
+            console.log(data.data);
 
             setResponseData(data.data);
           });

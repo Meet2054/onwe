@@ -85,9 +85,6 @@ const Page: React.FC = () => {
   );
   const { getToken } = useAuth();
 
-  // Ensure the component runs on the client side
-  // const { useClient } = useClient();
-
   useEffect(() => {
     // Fetch magazines from API when the component mounts
     const fetchMagazines = async () => {

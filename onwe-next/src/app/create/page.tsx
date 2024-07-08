@@ -16,6 +16,9 @@ const Page: React.FC = () => {
   const { getToken } = useAuth();
   const userId = "sundaram08";
 
+  console.log(token);
+  
+
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files).filter(
@@ -57,7 +60,6 @@ const Page: React.FC = () => {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("tags", tags);
-      formData.append("userId", userId);
 
       for (let i = 0; i < files.length; i++) {
         formData.append("media", files[i]);

@@ -3,8 +3,8 @@ export interface Event {
     id: number;
     title: string;
     description: string,
-    photo: string;
-    date: string;
+    media: string[];
+    dateOfEvent: string;
     time: string;
     saved: boolean;
     remainder: boolean;

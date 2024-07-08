@@ -6,26 +6,27 @@ import Image from "next/image";
 interface EventCard2Props {
   title: string;
   subtitle:string
-  date: string;
+  dateOfEvent: string;
   time: string;
   description: string;
-  photo: string;
+  media: string[];
   onClick: () => void
 }
 
 const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
-  ({ title,subtitle, date, time, description, photo, onClick  }, ref) => {
+  ({ title,subtitle, dateOfEvent, time, description, media, onClick  }, ref) => {
     return (
       <div ref={ref} onClick={onClick} className="w-4/5 h-60 rounded-lg mb-3 flex">
         <div
-          className="border w-2/5 rounded-xl"
-          style={{
-            backgroundImage: `url(${photo})`,
-            backgroundSize: "100% 100%",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+  className="border w-2/5 rounded-xl"
+  style={{
+    backgroundImage: `url(data:image/png;base64,${media[0]})`,
+    backgroundSize: "100% 100%",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  }}
+/>
+
         <div className="ml-3 grow">
           <div className=" flex-col justify-start items-start gap-7 inline-flex">
             <div className="flex-col justify-start items-start gap-1 flex">
@@ -33,7 +34,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
                 {title}
               </div>
               <div className=" text-red-500 text-lg font-medium uppercase">
-                {new Date(date)
+                {new Date(dateOfEvent)
                   .toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",

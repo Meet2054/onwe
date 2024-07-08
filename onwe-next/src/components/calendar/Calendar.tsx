@@ -68,11 +68,11 @@ const EventCalendar: FC<EventCalendarProps> = ({
             );
 
             const hasEvent = events.some((event) =>
-              isSameDay(parseISO(event.date), date)
+              isSameDay(parseISO(event.dateOfEvent), date)
             );
 
             const event = events.find((event) =>
-              isSameDay(parseISO(event.date), date)
+              isSameDay(parseISO(event.dateOfEvent), date)
             );
             let eventBackground = "";
             if (hasEvent && event?.bg) {
@@ -92,11 +92,11 @@ const EventCalendar: FC<EventCalendarProps> = ({
               hasEvent && event?.bg ? `bg-[#${event.bg.toLowerCase()}]` : ""
             }`;
 
-            useEffect(() => {
-              if (eventBgRef.current) {
-                eventBgRef.current.style.backgroundColor = `#${event?.bg}`;
-              }
-            });
+            // useEffect(() => {
+            //   if (eventBgRef.current) {
+            //     eventBgRef.current.style.backgroundColor = `#${event?.bg}`;
+            //   }
+            // });
 
             return (
               <div

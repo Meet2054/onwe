@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
 import { filterEvents } from "../../lib/features/events/eventsSlice";
 import EventCard from "@/components/events/EventCard";
+import axios from "axios";
 
 import { Event } from "../../lib/types/event";
 
@@ -11,17 +12,40 @@ import RenderCalendar from "@/components/calendar/RenderCalendar";
 import EventCard2 from "@/components/events/EventCard2";
 import ListViewCard from "@/components/events/ListViewCard";
 import { ViewSelect } from "@/components/events/ViewSelect";
+import { useAuth, useUser } from "@clerk/nextjs";
 import ActiveComponent from "@/components/events/ActiveComponent";
 
 const Page: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const events = useSelector((state: RootState) => state.events.events);
+  // const events = useSelector((state: RootState) => state.events.events);
+  const [events, setEvents] = useState<Event[]>([]);
   const [listview, setListView] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
   const eventRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { getToken } = useAuth();
+  
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("https://eb64-117-198-141-197.ngrok-free.app/events", {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "ngrok-skip-browser-warning": "69420"
+          },
+        });
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [getToken]);
+
 
   const handleFilter = (filterType: string) => {
     dispatch(filterEvents({ filterType }));
@@ -130,7 +154,7 @@ const Page: React.FC = () => {
                 isTransitioning ? "opacity-0" : "opacity-100"
               }`}
             >
-              {events.map((event: Event, index) =>
+              {events?.map((event: Event, index) =>
                 listview ? (
                   <ListViewCard
                     key={index}

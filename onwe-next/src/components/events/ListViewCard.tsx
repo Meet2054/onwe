@@ -4,7 +4,7 @@ import Image from "next/image";
 interface EventCardProps {
   title: string;
   subtitle: string;
-  date: string;
+  dateOfEvent: string;
   time: string;
   description: string;
   photo: string;
@@ -23,8 +23,8 @@ const formatDate = (dateStr: string) => {
 
 // eslint-disable-next-line react/display-name
 const ListViewCard = React.forwardRef<HTMLDivElement, EventCardProps>(
-  ({ title, subtitle, date, time, description, onClick }, ref) => {
-    const { day, month } = formatDate(date);
+  ({ title, subtitle, dateOfEvent, time, description, onClick }, ref) => {
+    const { day, month } = formatDate(dateOfEvent);
     return (
       <div ref={ref} onClick={onClick}  className="w-[43dvw] h-24 rounded-lg mb-3 flex">
         <div className="w-20 h-full">

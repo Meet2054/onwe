@@ -16,6 +16,9 @@ const Page: React.FC = () => {
   const { getToken } = useAuth();
   const userId = "sundaram08";
 
+  console.log(token);
+  
+
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files).filter(
@@ -57,14 +60,13 @@ const Page: React.FC = () => {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("tags", tags);
-      formData.append("userId", userId);
 
       for (let i = 0; i < files.length; i++) {
         formData.append("media", files[i]);
       }
 
       const response = await axios.post(
-        "https://d43c-117-198-141-197.ngrok-free.app/api/posts",
+        "https://8dcc-117-198-141-197.ngrok-free.app/api/posts",
         formData,
         {
           headers: {

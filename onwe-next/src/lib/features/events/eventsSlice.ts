@@ -52,7 +52,7 @@ const initialState: EventsState = {
       title: "Music Festival",
       subtitle:"GDSC Event",
       photo: "https://i1.sndcdn.com/artworks-000521624880-pf34mu-t500x500.jpg",
-      date: "2024-08-15",
+      date: "2024-08-18",
       time: "06:00 PM",
       saved: false,
       remainder: false,

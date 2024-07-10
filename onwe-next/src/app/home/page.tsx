@@ -43,15 +43,15 @@ const Page = () => {
     fetchTokenAndData();
   }, [getToken]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSkeleton(false);
-    }, 1000); // Adjust the duration as needed
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowSkeleton(false);
+  //   }, 1000); // Adjust the duration as needed
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  return showSkeleton ? (
+  return responseData ? (
     <PostsSkeleton />
   ) : error ? (
     <div className="flex justify-center items-center h-screen w-screen">
@@ -68,13 +68,6 @@ const Page = () => {
             return <Posts key={index} res={res} />;
           })}
 
-        {/* <Posts />
-        <Posts />
-        <Posts />
-        <Posts />
-        <Posts />
-        <Posts />
-        <Posts /> */}
         <div className="mt-20"></div>
       </div>
     </div>

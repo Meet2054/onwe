@@ -24,7 +24,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://eb64-117-198-141-197.ngrok-free.app", // Replace with your external API
+        destination: "https://notable-redbird-tender.ngrok-free.app", // Replace with your external API
       },
     ];
   },

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "./Post"; // Assuming Club component is in the same directory
 import DialogBox from "../post_component/Dialog_component/DialogBox";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
 
+interface Post{
+  id: string,
+  media: string[],
+}
 const TopPosts: React.FC = () => {
   const topPosts = [
     {
@@ -65,13 +71,32 @@ const TopPosts: React.FC = () => {
         "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
     },
   ];
+  const [posts,setPosts] = useState<Post[]>()
+  const {getToken} = useAuth()
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("https://notable-redbird-tender.ngrok-free.app/topposts", {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "ngrok-skip-browser-warning": "69420"
+          },
+        });
+        setPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, [getToken]);
   return (
     <div className="w-full p-4 border-t-2 h-full]">
       <div className="px-5 h-full">
         <div className="gap-4 grid grid-cols-4 h-full">
-          {topPosts.map((post, index) => (
-            <DialogBox key={index} imageUrl={post.coverImage} />
+          {posts?.map((post) => (
+            <DialogBox key={post.id} imageUrl={post.media[0]} />
             // <Post key={index} post={post} />
           ))}
         </div>

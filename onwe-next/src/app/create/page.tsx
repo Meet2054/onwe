@@ -1,23 +1,25 @@
 "use client";
 import React, { useState, ChangeEvent, DragEvent } from "react";
 import axios from "axios";
-import { Upload } from "lucide-react";
+import { CircleMinus, CircleX, LoaderCircle, LoaderIcon, Upload, XCircle } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
 import { useAuth, useUser } from "@clerk/nextjs";
+import { cn } from "@/lib/utils";
 
 const Page: React.FC = () => {
   const [category, setCategory] = useState<string>("general");
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const token = useSelector((state: RootState) => state.auth.token);
   const { user } = useUser();
   const { getToken } = useAuth();
   const userId = "sundaram08";
 
   console.log(token);
-  
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -55,6 +57,7 @@ const Page: React.FC = () => {
   const preventDefault = (e: DragEvent<HTMLDivElement>) => e.preventDefault();
 
   const handlePost = async () => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("category", category);
@@ -66,7 +69,7 @@ const Page: React.FC = () => {
       }
 
       const response = await axios.post(
-        "https://eb64-117-198-141-197.ngrok-free.app/posts",
+        "https://notable-redbird-tender.ngrok-free.app/posts",
         formData,
         {
           headers: {
@@ -77,14 +80,30 @@ const Page: React.FC = () => {
       );
 
       console.log("Post successful:", response.data);
+
+      // Clear form fields
+      setCategory("general");
+      setDescription("");
+      setTags("");
+      setFiles([]);
+      setSuccessMessage("Post successful!");
+
+      // Hide success message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
       console.error("Error posting data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRemove = (index: number) => {
+    console.log(files);
+    
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
+
+  const isPostDisabled = files.length === 0 && description.trim() === "";
 
   return (
     <>
@@ -111,43 +130,42 @@ const Page: React.FC = () => {
             >
               <Upload size={40} />
               <p className="text-black mt-2">
-                choose a file or drag and drop here.
+                Choose a file or drag and drop here.
               </p>
-              <p className="text-gray-400">up to 5 images/videos.</p>
+              <p className="text-gray-400">Up to 5 images/videos.</p>
             </label>
             <div className="mt-4 text-center">
               {files.length > 0 && (
                 <div className="text-left">
                   <h4 className="text-gray-600 mb-2">Selected files:</h4>
-                  <ul className="list-disc list-inside">
+                  <ul className=" list-inside grid grid-cols-3">
                     {files.map((file, index) => {
                       const fileUrl = URL.createObjectURL(file);
                       return (
                         <li
-                          key={index}
-                          className="text-gray-500 flex items-center"
+                        key={index}
+                        className="relative w-24 h-24 m-2"
+                      >
+                        {file.type.startsWith("image/") ? (
+                          <img
+                            src={fileUrl}
+                            alt={file.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <video
+                            src={fileUrl}
+                            className="w-full h-full object-cover"
+                            controls
+                          />
+                        )}
+                        <button
+                          type="button"
+                          className="absolute top-0 right-0  text-red-600 rounded-full p-1"
+                          onClick={() => handleRemove(index)}
                         >
-                          {file.type.startsWith("image/") ? (
-                            <img
-                              src={fileUrl}
-                              alt={file.name}
-                              className="w-16 h-16 object-cover mr-2"
-                            />
-                          ) : (
-                            <video
-                              src={fileUrl}
-                              className="w-16 h-16 object-cover mr-2"
-                              controls
-                            />
-                          )}
-                          <span>{file.name}</span>
-                          <button
-                            type="button"
-                            className="ml-2 text-red-500"
-                            onClick={() => handleRemove(index)}
-                          >
-                            Remove
-                          </button>
+                          <CircleX className="w-5 h-5" />
+                        </button>
                         </li>
                       );
                     })}
@@ -178,7 +196,7 @@ const Page: React.FC = () => {
                   value={tags}
                   onChange={handleTagsChange}
                   className="h-10 w-full rounded-xl border-2 border-gray-300 p-2 mt-2"
-                  placeholder="create or choose Hashtags"
+                  placeholder="Create or choose hashtags"
                 />
               </div>
               <div>
@@ -202,15 +220,34 @@ const Page: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePost}
-                  className="mt-8 bg-blue-500 text-white px-6 py-2 rounded-lg"
+                  className={cn(
+                    "mt-8 bg-blue-500 text-white px-6 py-2 rounded-lg flex justify-center items-center",
+                    {
+                      "opacity-50":loading || isPostDisabled
+                    }
+                  )}
+                  disabled={loading || isPostDisabled}
                 >
-                  Post
+                  {loading ? (
+                    // <svg
+                    //   className="animate-spin h-5 w-5 mr-3 border-2 border-white border-t-transparent rounded-full"
+                    //   viewBox="0 0 24 24"
+                    // ></svg>
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    <>Post</>
+                  )}
                 </button>
               </div>
             </form>
           </div>
         </div>
       </div>
+      {successMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
+          {successMessage}
+        </div>
+      )}
     </>
   );
 };

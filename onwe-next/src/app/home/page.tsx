@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/nextjs";
-import Posts from "@/components/post_component/Posts";
+import Posts, { PostsProps } from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 
 const Page = () => {
@@ -11,15 +11,15 @@ const Page = () => {
   const [showSkeleton, setShowSkeleton] = useState(true);
   const { user } = useUser();
   const [error, setError] = useState(null);
-  const [responseData, setResponseData] = useState([]);
+  const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
 
   useEffect(() => {
     const fetchTokenAndData = async () => {
       try {
         const fetchedToken = await getToken({ template: "test" });
+
         setToken(fetchedToken!);
 
-        // console.log("Fetched Token:", fetchedToken);
         axios
           .get(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
             headers: {
@@ -43,15 +43,7 @@ const Page = () => {
     fetchTokenAndData();
   }, [getToken]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSkeleton(false);
-  //   }, 1000); // Adjust the duration as needed
-
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  return responseData ? (
+  return !responseData ? (
     <PostsSkeleton />
   ) : error ? (
     <div className="flex justify-center items-center h-screen w-screen">
@@ -64,8 +56,8 @@ const Page = () => {
       <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
         {responseData &&
           responseData.length > 0 &&
-          responseData.map((res, index) => {
-            return <Posts key={index} res={res} />;
+          responseData.map((post, index) => {
+            return <Posts key={index} post={post} />;
           })}
 
         <div className="mt-20"></div>

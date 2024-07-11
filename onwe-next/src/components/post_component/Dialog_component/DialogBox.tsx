@@ -11,6 +11,15 @@ import DiaglogComment from "./DiaglogComment";
 
 import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 interface DialogBoxProps {
   imageUrl?: string;
@@ -19,6 +28,11 @@ interface DialogBoxProps {
 const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
+  const post = useSelector((state: RootState) => state.post);
+
+  useEffect(() => {
+    console.log(post);
+  }, [post]);
 
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
@@ -56,7 +70,16 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
         className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
         <div className="flex relative items-center w-full justify-center ">
-          <DialogImage imageUrl={imageUrl} />
+          <Carousel className="w-full h-full">
+            <CarouselContent className="w-full h-full bg-red-300 ">
+              <CarouselItem className="w-[100%] h-[100%]">
+                <DialogImage imageUrl={imageUrl} />
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselNext />
+            <CarouselPrevious />
+          </Carousel>
+          {/* <DialogImage imageUrl={imageUrl} /> */}
         </div>
         <div className="p-3 rounded-3xl">
           <DiaglogComment />

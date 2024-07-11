@@ -8,9 +8,11 @@ interface DialogImageProps {
 }
 
 const DialogImage: FC<DialogImageProps> = ({ imageUrl }) => {
+  const base64Prefix = 'data:image/png;base64,';
+
   return (
     <Image
-      src={imageUrl || img}
+    src={`${base64Prefix}${imageUrl}`}
       layout="fill"
       alt="image"
       objectFit="contain"

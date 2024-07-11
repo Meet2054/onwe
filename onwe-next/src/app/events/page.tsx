@@ -31,7 +31,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("https://eb64-117-198-141-197.ngrok-free.app/events", {
+        const response = await axios.get("https://notable-redbird-tender.ngrok-free.app/events", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
             "ngrok-skip-browser-warning": "69420"

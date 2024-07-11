@@ -48,13 +48,14 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
     "Quam temporibus",
     "dina sahoo sa ojom lihj",
   ];
+  const base64Prefix = 'data:image/png;base64,';
 
   return (
     <Dialog>
       {imageUrl ? (
         <DialogTrigger className="relative h-44 w-full">
           <Image
-            src={imageUrl}
+            src={`${base64Prefix}${imageUrl}`}
             alt="image"
             layout="fill"
             objectFit="cover"

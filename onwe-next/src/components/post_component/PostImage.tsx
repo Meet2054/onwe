@@ -58,8 +58,12 @@ const PostImage = ({
           );
         })}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      {images?.length! > 1 && (
+        <>
+          <CarouselPrevious />
+          <CarouselNext />
+        </>
+      )}
     </Carousel>
     // </div>
   );

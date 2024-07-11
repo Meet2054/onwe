@@ -3,8 +3,7 @@ import React from "react";
 import PostAvatar from "./PostAvatar";
 import LikeComment from "./LikeComment";
 import PostImage from "./PostImage";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
+import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 
 export interface PostsProps {
@@ -21,7 +20,7 @@ export interface PostsProps {
 }
 
 interface PostsComponentProps {
-  post?: PostsProps;
+  post: PostsProps;
 }
 
 const Posts: React.FC<PostsComponentProps> = ({ post }) => {
@@ -47,17 +46,14 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       </div>
       <div className="flex flex-col justify-center  items-center">
         <div className="w-10/12 ">
-          <div className="mt-4">
-            {post?.description ||
-              "lorem fsdklfsdjmkdlmkds nfdsklfdsk ldsfjdslknfdskl fdsflkmdlk"}
-          </div>
+          <div className="mt-4">{post?.description || ""}</div>
           <PostImage
             images={post?.media}
             className="w-full relative h-80 mt-4 overflow-hidden"
           />
 
           <div className="w-full">
-            <LikeComment likes={post?.likes!} liked={post?.liked}/>
+            <LikeComment post={post} />
           </div>
         </div>
       </div>

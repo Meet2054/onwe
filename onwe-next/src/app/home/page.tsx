@@ -8,8 +8,6 @@ import PostsSkeleton from "@/components/post_component/PostSkeleton";
 const Page = () => {
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
-  const [showSkeleton, setShowSkeleton] = useState(true);
-  const { user } = useUser();
   const [error, setError] = useState(null);
   const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
 
@@ -30,7 +28,7 @@ const Page = () => {
             },
           })
           .then((data) => {
-            console.log(data.data);
+            // console.log(data.data);
 
             setResponseData(data.data);
           });

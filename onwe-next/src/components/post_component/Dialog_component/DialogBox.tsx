@@ -70,7 +70,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
         className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
         <div className="flex relative items-center w-full justify-center ">
-          <Carousel className="w-full h-full">
+          {/* <Carousel className="w-full h-full">
             <CarouselContent className="w-full h-full bg-red-300 ">
               <CarouselItem className="w-[100%] h-[100%]">
                 <DialogImage imageUrl={imageUrl} />
@@ -78,8 +78,8 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
             </CarouselContent>
             <CarouselNext />
             <CarouselPrevious />
-          </Carousel>
-          {/* <DialogImage imageUrl={imageUrl} /> */}
+          </Carousel> */}
+          <DialogImage imageUrl={imageUrl} />
         </div>
         <div className="p-3 rounded-3xl">
           <DiaglogComment />

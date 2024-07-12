@@ -29,6 +29,7 @@ const SideBar = () => {
       {/* <hr className="border-t border-black my-4 w-full" /> */}
       <div className="flex flex-col items-start w-4/6 mt-6 justify-center ">
         <Link
+        prefetch={true}
           href="/home"
           className={`flex items-center text-black hover:text-gray-500 w-44 ml-10 ${
             isActive("/home") ? "bg-gray-300 rounded-full" : ""
@@ -79,6 +80,7 @@ const SideBar = () => {
           </div>
         </Link>
         <Link
+        prefetch={true}
           href="/events"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/events") ? "bg-gray-300 rounded-full" : ""

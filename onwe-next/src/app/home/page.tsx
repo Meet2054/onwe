@@ -4,12 +4,15 @@ import axios from "axios";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Posts, { PostsProps } from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
+import { useDispatch } from "react-redux";
+import { setPost } from "@/lib/features/posts/postSlice";
 
 const Page = () => {
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
   const [error, setError] = useState(null);
   const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchTokenAndData = async () => {
@@ -29,6 +32,8 @@ const Page = () => {
           })
           .then((data) => {
             // console.log(data.data);
+            dispatch(setPost(data.data[0]));
+            console.log(data.data);
 
             setResponseData(data.data);
           });

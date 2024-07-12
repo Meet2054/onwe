@@ -10,9 +10,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
   const { getToken } = useAuth();
 
   const handleLike = async () => {
-    console.log(post);
-
-    const response = await axios.patch(
+    await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/posts/like`,
       { postId: post.id },
       {
@@ -24,7 +22,6 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         },
       }
     );
-    console.log(response);
   };
 
   return (

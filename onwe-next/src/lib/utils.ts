@@ -1,6 +1,44 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { useAuth } from "@clerk/nextjs";
+
+import axios from "axios";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
+
+export const getData = async (url: string, body: {}) => {
+  // const { getToken } = useAuth();
+  const res = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    body,
+    {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        "ngrok-skip-browser-warning": "69420",
+      },
+    }
+  );
+  return res.data;
+};
+
+// const res = await axios.post(
+//   `${process.env.NEXT_PUBLIC_API_URL}/comments`,
+// {
+//   postId: data.postId,
+//   userId: data.userId,
+//   content: reply,
+//   parentId: data.id,
+// },
+//   {
+//     headers: {
+//       Authorization: `Bearer ${await getToken()}`,
+//       "Content-Type": "application/json",
+//       Accept: "*/*",
+//       "ngrok-skip-browser-warning": "69420",
+//     },
+//   }
+// );

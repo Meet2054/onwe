@@ -1,24 +1,56 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Comment } from "./Dialog_component/DiaglogComment";
+
+import { useAuth } from "@clerk/nextjs";
+import { getData } from "@/lib/utils";
 
 const SingleComment = ({
+  data,
   username,
   comment,
 }: {
+  data: Comment;
   username: string;
   comment: string;
 }) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const [reply, setReply] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const { getToken } = useAuth();
 
   const handleReplyClick = () => {
     setReplyOpen(!replyOpen);
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!reply) return;
+    try {
+      const response = await getData("/comments", {
+        postId: data.postId,
+        userId: data.userId,
+        content: reply,
+        parentId: data.id,
+      });
+      console.log(response);
+
+      setReply("");
+      // console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showReply = () => {
+    console.log(data);
+  };
+
   useEffect(() => {
+    console.log("data", data);
+
     if (replyOpen && inputRef.current) {
       inputRef.current.focus();
     }
@@ -39,21 +71,25 @@ const SingleComment = ({
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
-          {replyOpen && (
-            <div className="flex">
-              <input
-                ref={inputRef}
-                onChange={(e) => setReply(e.target.value)}
-                value={reply}
-                pattern="reply"
-                className="bg-white border-b outline-none "
-              />
+          <Button onClick={showReply} variant="link">
+            show reply
+          </Button>
+          <form onSubmit={handleSubmit}>
+            {replyOpen && (
+              <div className="flex">
+                <input
+                  ref={inputRef}
+                  onChange={(e) => setReply(e.target.value)}
+                  value={reply}
+                  className="bg-white border-b outline-none "
+                />
 
-              <Button className=" px-3 py-0" variant="ghost">
-                send
-              </Button>
-            </div>
-          )}
+                <Button type="submit" className=" px-3 py-0" variant="ghost">
+                  send
+                </Button>
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </div>

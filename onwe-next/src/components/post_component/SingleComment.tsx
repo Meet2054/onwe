@@ -1,9 +1,8 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
 import { Comment } from "./Dialog_component/DiaglogComment";
-
+import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
 
@@ -29,14 +28,23 @@ const SingleComment = ({
     e.preventDefault();
     if (!reply) return;
     try {
-      const response = await getData("/comments", {
-        postId: data.postId,
-        userId: data.userId,
-        content: reply,
-        parentId: data.id,
-      });
-      console.log(response);
-
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/comments`,
+        {
+          postId: data.postId,
+          userId: data.userId,
+          content: reply,
+          parentId: data.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
       setReply("");
       // console.log(res);
     } catch (error) {
@@ -44,8 +52,18 @@ const SingleComment = ({
     }
   };
 
-  const showReply = () => {
+  const showReply = async () => {
     console.log(data);
+    const token = await getToken();
+    const response = await getData(
+      "/subcomment",
+      {
+        postId: data.postId,
+        parentId: data.parentId,
+      },
+      token!
+    );
+    console.log(response);
   };
 
   useEffect(() => {
@@ -81,10 +99,10 @@ const SingleComment = ({
                   ref={inputRef}
                   onChange={(e) => setReply(e.target.value)}
                   value={reply}
-                  className="bg-white border-b outline-none "
+                  className="bg-white border-b outline-none"
                 />
 
-                <Button type="submit" className=" px-3 py-0" variant="ghost">
+                <Button type="submit" className="px-3 py-0" variant="ghost">
                   send
                 </Button>
               </div>

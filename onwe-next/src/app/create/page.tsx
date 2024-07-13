@@ -69,7 +69,7 @@ const Page: React.FC = () => {
       }
 
       const response = await axios.post(
-        "https://notable-redbird-tender.ngrok-free.app/posts",
+        `${process.env.NEXT_PUBLIC_API_URL}/posts`,
         formData,
         {
           headers: {

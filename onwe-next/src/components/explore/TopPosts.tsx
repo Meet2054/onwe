@@ -77,7 +77,7 @@ const TopPosts: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("https://notable-redbird-tender.ngrok-free.app/top-posts", {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/top-posts`, {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
             "ngrok-skip-browser-warning": "69420"

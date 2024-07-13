@@ -36,7 +36,7 @@ const TopClubs: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_API_URL}/topclubs`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/topclubs`, {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
             "ngrok-skip-browser-warning": "69420"

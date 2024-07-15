@@ -18,6 +18,7 @@ const SingleComment = ({
   const [replyOpen, setReplyOpen] = useState(false);
   const [reply, setReply] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [replies, setReplies] = useState<Comment[]>([]);
   const { getToken } = useAuth();
 
   const handleReplyClick = () => {
@@ -56,18 +57,19 @@ const SingleComment = ({
     console.log(data);
     const token = await getToken();
     const response = await getData(
-      "/subcomment",
+      "/subcomments",
       {
         postId: data.postId,
-        parentId: data.parentId,
+        parentId: data.id,
       },
       token!
     );
     console.log(response);
+    setReplies(response);
   };
 
   useEffect(() => {
-    console.log("data", data);
+    // console.log("data", data);
 
     if (replyOpen && inputRef.current) {
       inputRef.current.focus();
@@ -92,6 +94,15 @@ const SingleComment = ({
           <Button onClick={showReply} variant="link">
             show reply
           </Button>
+          {replies &&
+            replies.map((reply) => (
+              <SingleComment
+                key={reply.id}
+                comment={reply.content}
+                username={reply.user.username}
+                data={reply}
+              />
+            ))}
           <form onSubmit={handleSubmit}>
             {replyOpen && (
               <div className="flex">

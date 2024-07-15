@@ -34,7 +34,7 @@ const Page = () => {
           .then((data) => {
             // console.log(data.data);
             dispatch(setPost(data.data[0]));
-            console.log(data.data);
+            // console.log(data.data);
 
             setResponseData(data.data);
           });

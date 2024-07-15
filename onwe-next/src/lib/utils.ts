@@ -22,21 +22,3 @@ export const getData = async (url: string, body: {}, token: string) => {
 
   return res.data;
 };
-
-// const res = await axios.post(
-//   `${process.env.NEXT_PUBLIC_API_URL}/comments`,
-// {
-//   postId: data.postId,
-//   userId: data.userId,
-//   content: reply,
-//   parentId: data.id,
-// },
-//   {
-//     headers: {
-//       Authorization: `Bearer ${await getToken()}`,
-//       "Content-Type": "application/json",
-//       Accept: "*/*",
-//       "ngrok-skip-browser-warning": "69420",
-//     },
-//   }
-// );

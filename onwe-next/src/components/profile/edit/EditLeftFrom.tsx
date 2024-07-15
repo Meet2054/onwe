@@ -1,14 +1,46 @@
 "use client";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import { getData } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
+import React, { ChangeEvent, useState } from "react";
 
 const EditLeftFrom = () => {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState<File | string>("");
+  const { getToken } = useAuth();
 
-  const handleFileChange = (e) => {
-    setImageUrl(e.target.files[0]);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const token = await getToken();
+    if (e.target.files && e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append("media", e.target.files[0]);
+      console.log("media", e.target.files[0]);
+
+      console.log("formdata", formData.get("media"));
+
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+
+      // const response = await getData(
+      //   "/user",
+      //   formData,
+      //   token as string,
+      //   "POST"
+      // );
+      console.log(res.data);
+
+      setImageUrl(e.target.files[0]);
+    }
   };
   return (
     <div className="h-full">

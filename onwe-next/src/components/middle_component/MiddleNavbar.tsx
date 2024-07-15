@@ -7,7 +7,7 @@ const MiddleNavbar = () => {
   const pathname = usePathname();
 
   const category = [
-    { name: "General", href: "/home/social" },
+    { name: "General", href: "/home/general" },
     { name: "Academia", href: "/home/academia" },
     { name: "Literature", href: "/home/literature" },
     { name: "Discussions", href: "/home/discussions" },

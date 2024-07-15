@@ -1,14 +1,20 @@
 // app/page.tsx
 "use client";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 // import { useDispatch, useSelector } from 'react-redux';
 // import { RootState, AppDispatch } from '@/lib/store'
 
 export default function Home() {
   // const token = useSelector((state: RootState) => state.auth.token);
   const { isSignedIn, user, isLoaded } = useUser();
+  const router = useRouter();
+
+  if (isSignedIn) {
+    router.push('/home');
+  }
   return (
     <div className="text-center flex flex-col gap-4 content-center h-screen items-center">
       <h1 className="text-2xl mt-4">Hello!</h1>

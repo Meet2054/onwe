@@ -24,7 +24,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://m1zqn71googq.share.zrok.io", // Replace with your external API
+        destination: "https://joint-desired-gorilla.ngrok-free.app/", // Replace with your external API
       },
     ];
   },

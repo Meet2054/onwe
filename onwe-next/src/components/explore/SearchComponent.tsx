@@ -5,13 +5,16 @@ import { CircleX } from 'lucide-react';
 import ProfileCard from '@/components/explore/ProfileCard'; // Ensure this is the correct path
 import ClubCard from '@/components/clubs/ClubCard'; // Ensure this is the correct path
 import debounce from 'lodash.debounce';
+import axios from 'axios';
+import { useAuth } from '@clerk/nextjs';
 
 const SearchComponent = () => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Profiles');
+  const [activeTab, setActiveTab] = useState('users');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const {getToken} = useAuth()
 
   const handleClose = () => {
     dispatch(setSearch(false));
@@ -24,9 +27,19 @@ const SearchComponent = () => {
   const fetchData = async (query: string, tab: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://xyz.com/search/${tab}/${query}`);
-      const data = await response.json();
-      setResults(data);
+      // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/${tab}/${query}`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/${tab}/${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      setResults(response.data);
+      console.log(response);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -35,12 +48,14 @@ const SearchComponent = () => {
   };
 
   const debouncedFetchData = useCallback(debounce((query: string, tab: string) => {
+    setLoading(true)
     fetchData(query, tab);
-  }, 300), []);
+  }, 500), []);
 
   useEffect(() => {
     if (searchText.trim() !== '') {
       debouncedFetchData(searchText, activeTab);
+      setLoading(false)
     } else {
       setResults([]);
     }
@@ -66,14 +81,14 @@ const SearchComponent = () => {
       </div>
       <div className="flex border-b border-gray-200">
         <div
-          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'Profiles' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
-          onClick={() => handleTabClick('Profiles')}
+          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'users' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
+          onClick={() => handleTabClick('users')}
         >
           <h1 className="font-medium">Profiles</h1>
         </div>
         <div
-          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'Club' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
-          onClick={() => handleTabClick('Club')}
+          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'clubs' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
+          onClick={() => handleTabClick('clubs')}
         >
           <h1 className="font-medium">Club</h1>
         </div>
@@ -83,7 +98,7 @@ const SearchComponent = () => {
           <div className="text-center text-gray-500">Loading...</div>
         ) : (
           results.map((item: any) => (
-            activeTab === 'Profiles' ? (
+            activeTab === 'users' ? (
               <ProfileCard key={item.id} profile={item} />
             ) : (
               <ClubCard key={item.id} club={item} />

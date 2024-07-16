@@ -5,19 +5,7 @@ import LikeComment from "./LikeComment";
 import PostImage from "./PostImage";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
-
-export interface PostsProps {
-  id: number;
-  title: string;
-  description: string;
-  userid: string;
-  username: string | null;
-  likes: number;
-  tags: string;
-  media: string[];
-  category: string;
-  liked: boolean;
-}
+import { PostsProps } from "@/types/type";
 
 interface PostsComponentProps {
   post: PostsProps;
@@ -38,7 +26,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       className="w-11/12 border rounded-xl shadow-smrounded-md mt-9 p-4 "
     >
       <div className="flex items-center gap-3">
-        <PostAvatar />
+        <PostAvatar imageUrl={post.avatar} />
         <div>
           <span className="font-bold">{post?.username || "rituisboy"}</span>
           <span className="block text-sm text-gray-500">2 hours ago</span>

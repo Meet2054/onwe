@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
@@ -18,7 +18,7 @@ const MagazineComponent: React.FC<{
   magazines: Magazine[];
   onSelect: (magazine: Magazine) => void;
 }> = ({ magazines, onSelect }) => {
-  const base64Prefix = 'data:image/png;base64,';
+  const base64Prefix = "data:image/png;base64,";
 
   return (
     <div className="p-1 bg-gray-100">
@@ -54,8 +54,8 @@ const MagazineComponent: React.FC<{
 const MagazineDetailsComponent: React.FC<{ magazine: Magazine }> = ({
   magazine,
 }) => {
-  const base64Prefix = 'data:image/png;base64,';
-  console.log("hi")
+  const base64Prefix = "data:image/png;base64,";
+  console.log("hi");
   return (
     <div className="w-screen h-screen p-4 flex flex-col">
       <h1 className="text-4xl font-bold text-gray-600">WHATS AROUND?</h1>
@@ -90,8 +90,8 @@ const Page: React.FC = () => {
     const fetchMagazines = async () => {
       try {
         const token = await getToken();
-        console.log(token)
-        console.log("a")
+        console.log(token);
+        console.log("a");
         const response = await axios.get(
           "https://eb64-117-198-141-197.ngrok-free.app/magazines",
           {
@@ -102,7 +102,7 @@ const Page: React.FC = () => {
           }
         );
         setMagazines(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching magazines:", error);
       }
@@ -114,12 +114,12 @@ const Page: React.FC = () => {
   const handleSelectMagazine = (magazine: Magazine) => {
     setSelectedMagazine(magazine);
   };
-  
+
   return (
     <div className="flex h-screen">
       <div className="w-1/4 bg-gray-100 overflow-y-auto border border-r-2 flex flex-col items-center">
         <h1 className="mt-4 w-1/2 border rounded-xl border-gray-400 flex justify-center items-center hover:bg-slate-400">
-          Previous 
+          Previous
         </h1>
         <MagazineComponent
           magazines={magazines}

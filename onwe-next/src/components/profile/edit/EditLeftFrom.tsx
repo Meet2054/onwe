@@ -1,7 +1,7 @@
 "use client";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
-import { getData } from "@/lib/utils";
+
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import React, { ChangeEvent, useState } from "react";
@@ -16,9 +16,6 @@ const EditLeftFrom = () => {
     if (e.target.files && e.target.files.length > 0) {
       const formData = new FormData();
       formData.append("media", e.target.files[0]);
-      console.log("media", e.target.files[0]);
-
-      console.log("formdata", formData.get("media"));
 
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,

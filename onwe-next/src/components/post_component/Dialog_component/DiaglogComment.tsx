@@ -9,22 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
-
-interface User {
-  username: string;
-  avatar: string | null;
-}
-
-export interface Comment {
-  content: string;
-  createdAt: string; // You can change this to Date if you will be converting it
-  id: number;
-  parentId: number | null;
-  postId: number;
-  updatedAt: string; // You can change this to Date if you will be converting it
-  user: User;
-  userId: string;
-}
+import { Comment } from "@/types/type";
 
 const DiaglogComment = () => {
   const { post } = useSelector((state: RootState) => state.post);
@@ -52,7 +37,6 @@ const DiaglogComment = () => {
 
   useEffect(() => {
     getComments();
-    console.log(comments);
   }, [post]);
 
   return (

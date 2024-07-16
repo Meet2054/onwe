@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import PostAvatar from "../post_component/PostAvatar";
 import {
   Github,
@@ -9,11 +10,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const Profile = () => {
+const Profile = ({ userInfo }) => {
   return (
     <div className="w-[77%] h-[calc(100dvh-4rem)] mt-16 mx-auto p-4 flex flex-col items-center">
       <div className="flex justify-center items-center relative">
-        <PostAvatar size={40} className="ring-8 ring-slate-300" />
+        <PostAvatar
+          size={40}
+          className="ring-8 ring-slate-300"
+          imageUrl={userInfo?.user?.avatar}
+        />
         <div
           className="my-3 p-2 group border rounded-full 
         absolute -bottom-6  right-0  transition-all duration-100"
@@ -26,7 +31,9 @@ const Profile = () => {
           </Link>
         </div>
       </div>
-      <div className="text-2xl font-bold text-center mt-8">Rituraj Thakur</div>
+      <div className="text-2xl font-bold text-center mt-8">
+        {userInfo?.user?.username}
+      </div>
       <div className="text-green-500 text-center">@rituisboy</div>
       <div className="flex gap-x-4">
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">

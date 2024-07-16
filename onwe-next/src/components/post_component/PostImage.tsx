@@ -7,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { base64Prefix } from "@/lib/utils";
 
 const PostImage = ({
   className = "",
@@ -49,7 +50,7 @@ const PostImage = ({
           return (
             <CarouselItem key={index} className={className}>
               <Image
-                src={blobUrl}
+                src={`${base64Prefix}${image}`}
                 layout="fill"
                 objectFit="contain"
                 alt="Image"

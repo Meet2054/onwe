@@ -10,14 +10,14 @@ export function cn(...inputs: ClassValue[]) {
 //   const res = await axios.post(
 //     `${process.env.NEXT_PUBLIC_API_URL}${url}`,
 //     body,
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "application/json",
-    //     Accept: "*/*",
-    //     "ngrok-skip-browser-warning": "69420",
-    //   },
-    // }
+// {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//     "Content-Type": "application/json",
+//     Accept: "*/*",
+//     "ngrok-skip-browser-warning": "69420",
+//   },
+// }
 //   );
 
 //   return res.data;
@@ -47,3 +47,5 @@ export const getData = async (
     console.log(error);
   }
 };
+
+export const base64Prefix = "data:image/png;base64,";

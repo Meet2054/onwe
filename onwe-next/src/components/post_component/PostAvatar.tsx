@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { base64Prefix } from "@/lib/utils";
 import React from "react";
 
 const PostAvatar = ({
@@ -10,7 +11,8 @@ const PostAvatar = ({
   className?: string;
   imageUrl?: string | null | File;
 }) => {
-  let url = "https://github.com/shadcn.png";
+  let url = imageUrl;
+
   if (imageUrl instanceof File) {
     url = URL.createObjectURL(imageUrl);
   }
@@ -19,7 +21,7 @@ const PostAvatar = ({
       className={className}
       style={{ width: `${size * 4}px`, height: `${size * 4}px` }}
     >
-      <AvatarImage src={url} />
+      <AvatarImage src={`${base64Prefix}${url}`} />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   );

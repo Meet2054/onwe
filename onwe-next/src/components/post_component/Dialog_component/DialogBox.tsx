@@ -54,7 +54,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
         // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
         className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
-        <div className="flex relative items-center w-full min-h-[70dvh] justify-center ">
+        <div className="flex relative items-center w-full min-h-[69dvh] justify-center ">
           <DialogImage imageUrl={post.media[0]} />
         </div>
         <div className="p-3 rounded-3xl  overflow-y-auto">

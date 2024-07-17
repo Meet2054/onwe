@@ -59,7 +59,6 @@ const Page: React.FC = () => {
       <div className="w-1/4 bg-gray-100 overflow-y-auto border border-r-2 flex flex-col items-center">
         <h1 className="mt-4 w-1/2 border rounded-xl border-gray-400 flex justify-center items-center hover:bg-slate-400">
           Previous
-          Previous
         </h1>
         <MagazinesComponent
           magazines={magazines}

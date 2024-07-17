@@ -1,6 +1,9 @@
 export interface User {
   username: string;
   avatar: string | null;
+  bio?: string;
+  email?: string;
+  fullname?: string;
 }
 export interface Comment {
   content: string;

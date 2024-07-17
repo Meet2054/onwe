@@ -1,18 +1,26 @@
 "use client";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
+import { RootState } from "@/lib/store";
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const EditLeftFrom = () => {
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState<File | string>("");
   const { getToken } = useAuth();
+  const { user } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      setImageUrl(user?.user.avatar!);
+    }
+  }, [user]);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const token = await getToken();
     if (e.target.files && e.target.files.length > 0) {
       const formData = new FormData();
       formData.append("media", e.target.files[0]);
@@ -27,13 +35,6 @@ const EditLeftFrom = () => {
           },
         }
       );
-
-      // const response = await getData(
-      //   "/user",
-      //   formData,
-      //   token as string,
-      //   "POST"
-      // );
       console.log(res.data);
 
       setImageUrl(e.target.files[0]);

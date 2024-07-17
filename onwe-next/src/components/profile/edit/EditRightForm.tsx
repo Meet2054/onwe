@@ -3,12 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
+import { RootState } from "@/lib/store";
+import { UserProfile } from "@/types/type";
+import { useAuth } from "@clerk/nextjs";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { z } from "zod";
 
 // interface EditFormProps {
-//   firstName: string;
+//   fullName: string;
 //   surName: string;
 //   username: string;
 //   bio: string;
@@ -16,8 +21,7 @@ import { z } from "zod";
 // }
 
 const EditFormSchema = z.object({
-  firstName: z.string(),
-  surName: z.string(),
+  fullName: z.string(),
   username: z.string(),
   bio: z.string(),
   links: z.string(),
@@ -26,18 +30,41 @@ const EditFormSchema = z.object({
 type EditFormProps = z.infer<typeof EditFormSchema>;
 
 const EditRightForm = () => {
+  const { getToken } = useAuth();
+  const { user } = useSelector((state: RootState) => state.user);
+  const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<EditFormProps>();
 
-  const onSubmit: SubmitHandler<EditFormProps> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
+    console.log(data);
+    // const res = await axios.patch(
+    //   `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+    //   data,
+    //   {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       Authorization: `Bearer ${await getToken()}`,
+    //     },
+    //   }
+    // );
+  };
 
   const addNewLink = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
   };
+
+  useEffect(() => {
+    if (user) {
+      setUserInfo(user);
+    }
+  }, [user]);
+
   return (
     <div className="h-screen">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,21 +88,21 @@ const EditRightForm = () => {
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-2 gap-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="firstName">First name</Label>
+              <Label htmlFor="fullName">First name</Label>
               <Input
-                {...register("firstName", {
+                {...register("fullName", {
                   required: "please enter first name",
                 })}
                 type="text"
-                id="firstName"
+                id="fullName"
                 placeholder="first name"
                 className="border-opacity-60 rounded-md"
               />
-              {errors.firstName && (
-                <span className="text-red-400">{errors.firstName.message}</span>
+              {errors.fullName && (
+                <span className="text-red-400">{errors.fullName.message}</span>
               )}
             </div>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+            {/* <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="surName">Surname</Label>
               <Input
                 {...register("surName")}
@@ -84,7 +111,7 @@ const EditRightForm = () => {
                 placeholder="surname"
                 className="border-opacity-60 rounded-md"
               />
-            </div>
+            </div> */}
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="username">username</Label>

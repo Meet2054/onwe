@@ -1,13 +1,16 @@
 "use client";
 import Profile from "@/components/profile/Profile";
 import ProfilePost from "@/components/profile/ProfilePost";
+import { setUser } from "@/lib/features/user/userSlice";
 import { UserProfile } from "@/types/type";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const Page = () => {
   const [userInfo, setUserInfo] = useState<UserProfile>();
+  const dispatch = useDispatch();
   const { getToken } = useAuth();
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +28,7 @@ const Page = () => {
         }
       );
       console.log(data);
+      dispatch(setUser(data));
 
       setUserInfo(data);
     };
@@ -40,7 +44,7 @@ const Page = () => {
         <Profile userInfo={userInfo} />
       </div>
       <div className="w-[55%] flex justify-center items-center">
-        <ProfilePost posts={userInfo?.posts} />
+        <ProfilePost posts={userInfo?.posts!} />
       </div>
     </div>
   );

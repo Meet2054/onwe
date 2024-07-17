@@ -1,10 +1,12 @@
+import { PostsProps } from "@/types/type";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { ThumbsUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { PostsProps } from "./Posts";
 
 const LikeButton = ({ post }: { post: PostsProps }) => {
+  console.log(post);
+
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes);
   const { getToken } = useAuth();

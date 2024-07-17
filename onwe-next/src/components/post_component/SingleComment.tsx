@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
-import { Comment } from "./Dialog_component/DiaglogComment";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
+import { Comment } from "@/types/type";
 
 const SingleComment = ({
   data,

@@ -23,9 +23,9 @@ const ForgotPasswordPage: NextPage = () => {
 
   // If the user is already signed in,
   // redirect them to the home page
-  if (isSignedIn) {
-    router.push('/home');
-  }
+  // if (isSignedIn) {
+  //   router.push('/home');
+  // }
 
   // Send the password reset code to the user's email
   const create = async (e: React.FormEvent, email: string) => {

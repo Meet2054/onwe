@@ -12,9 +12,9 @@ export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   const router = useRouter();
 
-  if (isSignedIn) {
-    router.push('/home');
-  }
+  // if (isSignedIn) {
+  //   router.push('/home');
+  // }
   return (
     <div className="text-center flex flex-col gap-4 content-center h-screen items-center">
       <h1 className="text-2xl mt-4">Hello!</h1>

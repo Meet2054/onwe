@@ -24,7 +24,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://joint-desired-gorilla.ngrok-free.app/", // Replace with your external API
+        destination: "https://salmon-issue-indoor-karaoke.trycloudflare.com/", // Replace with your external API
       },
     ];
   },

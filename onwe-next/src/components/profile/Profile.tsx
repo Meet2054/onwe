@@ -9,8 +9,9 @@ import {
   Twitter,
 } from "lucide-react";
 import Link from "next/link";
+import { UserProfile } from "@/types/type";
 
-const Profile = ({ userInfo }) => {
+const Profile = ({ userInfo }: { userInfo: UserProfile }) => {
   return (
     <div className="w-[77%] h-[calc(100dvh-4rem)] mt-16 mx-auto p-4 flex flex-col items-center">
       <div className="flex justify-center items-center relative">
@@ -32,9 +33,11 @@ const Profile = ({ userInfo }) => {
         </div>
       </div>
       <div className="text-2xl font-bold text-center mt-8">
-        {userInfo?.user?.username}
+        {userInfo?.user?.fullname}
       </div>
-      <div className="text-green-500 text-center">@rituisboy</div>
+      <div className="text-green-500 text-center">
+        @{userInfo?.user?.username}
+      </div>
       <div className="flex gap-x-4">
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
           follower

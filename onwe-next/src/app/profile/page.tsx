@@ -27,23 +27,22 @@ const Page = () => {
           },
         }
       );
-      console.log(data);
       dispatch(setUser(data));
 
       setUserInfo(data);
     };
     fetchData();
 
-    return () => {
-      axios.CancelToken.source().cancel("Component unmounted");
-    };
+    // return () => {
+    //   axios.CancelToken.source().cancel("Component unmounted");
+    // };
   }, []);
   return (
     <div className="h-[100vh] w-full flex animate-slide-up fade-in-5">
       <div className="w-[45%]  flex justify-center items-start">
-        <Profile userInfo={userInfo} />
+        <Profile userInfo={userInfo!} />
       </div>
-      <div className="w-[55%] flex justify-center items-center">
+      <div className="w-[55%] border p-2 overflow-y-auto">
         <ProfilePost posts={userInfo?.posts!} />
       </div>
     </div>

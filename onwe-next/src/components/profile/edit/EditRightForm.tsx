@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { z } from "zod";
 
 // interface EditFormProps {
-//   fullName: string;
+//   fullname: string;
 //   surName: string;
 //   username: string;
 //   bio: string;
@@ -21,7 +21,7 @@ import { z } from "zod";
 // }
 
 const EditFormSchema = z.object({
-  fullName: z.string(),
+  fullname: z.string(),
   username: z.string(),
   bio: z.string(),
   links: z.string(),
@@ -51,7 +51,7 @@ const EditRightForm = () => {
         data,
         {
           headers: {
-            "Content-Type": "Application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${await getToken()}`,
           },
         }
@@ -95,18 +95,18 @@ const EditRightForm = () => {
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-2 gap-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="fullName">First name</Label>
+              <Label htmlFor="fullname">First name</Label>
               <Input
-                {...register("fullName", {
+                {...register("fullname", {
                   required: "please enter first name",
                 })}
                 type="text"
-                id="fullName"
+                id="fullname"
                 placeholder="full name"
                 className="border-opacity-60 rounded-md"
               />
-              {errors.fullName && (
-                <span className="text-red-400">{errors.fullName.message}</span>
+              {errors.fullname && (
+                <span className="text-red-400">{errors.fullname.message}</span>
               )}
             </div>
             {/* <div className="grid w-full max-w-sm items-center gap-1.5">

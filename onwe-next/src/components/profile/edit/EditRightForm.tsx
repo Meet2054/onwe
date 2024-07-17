@@ -44,6 +44,8 @@ const EditRightForm = () => {
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     console.log(data);
     try {
+      console.log("starting axios");
+
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
         data,

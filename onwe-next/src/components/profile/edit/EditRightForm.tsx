@@ -43,16 +43,21 @@ const EditRightForm = () => {
 
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     console.log(data);
-    // const res = await axios.patch(
-    //   `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
-    //   data,
-    //   {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       Authorization: `Bearer ${await getToken()}`,
-    //     },
-    //   }
-    // );
+    try {
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+        data,
+        {
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addNewLink = (e: React.MouseEvent<HTMLFormElement>) => {
@@ -95,7 +100,7 @@ const EditRightForm = () => {
                 })}
                 type="text"
                 id="fullName"
-                placeholder="first name"
+                placeholder="full name"
                 className="border-opacity-60 rounded-md"
               />
               {errors.fullName && (

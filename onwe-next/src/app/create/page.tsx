@@ -209,11 +209,11 @@ const Page: React.FC = () => {
                   className=" bg-gray-200 block w-full px-4 py-2 border-2 rounded-xl border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mt-2"
                 >
                   <option value="general">General</option>
-                  <option value="nature">Nature</option>
-                  <option value="technology">Technology</option>
-                  <option value="people">People</option>
-                  <option value="architecture">Architecture</option>
-                  <option value="animals">Animals</option>
+                  <option value="nature">Academia</option>
+                  <option value="technology">Literature</option>
+                  <option value="people">Discussions</option>
+                  <option value="architecture">Sports</option>
+                  <option value="animals">Arts&Fashion</option>
                 </select>
               </div>
               <div className="flex justify-end">

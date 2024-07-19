@@ -2,6 +2,8 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
+
 import ClubCard from "../clubs/ClubCard";
 
 interface Club {
@@ -11,72 +13,39 @@ interface Club {
 }
 
 const ClubSideBar = () => {
-  const [participatedClubs, setParticipatedClubs] = useState<Club[]>([]);
+  const [myClubs, setMyClubs] = useState<Club[]>([]);
+  const { getToken } = useAuth();
+
   useEffect(() => {
-    const fetchParticipatedClubs = async () => {
+    // Fetch magazines from API when the component mounts
+    const fetchMyClubs = async () => {
       try {
-        // Sample clubs data
-        const sampleClubs: Club[] = [
-          { id: "1", name: "Coding", image: "https://via.placeholder.com/40" },
+        const token = await getToken();
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/myclubs`,
           {
-            id: "2",
-            name: "Photography",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "3",
-            name: "Competitions",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" },
-          {
-            id: "6",
-            name: "Painting",
-            image: "https://via.placeholder.com/40",
-          },
-          {
-            id: "4",
-            name: "Trekking",
-            image: "https://via.placeholder.com/40",
-          },
-          { id: "5", name: "Events", image: "https://via.placeholder.com/40" }
-         
-        ];
-        setParticipatedClubs(sampleClubs);
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setMyClubs(response.data);
       } catch (error) {
-        console.error("Error fetching participated clubs:", error);
+        console.error("Error fetching magazines:", error);
       }
     };
 
-    fetchParticipatedClubs();
-  }, []);
-
-  // const userId = "tobetakenfromredux"
-
-  // useEffect(() => {
-  //   const fetchParticipatedClubs = async () => {
-  //     try {
-  //       const response = await axios.get('/api/getParticipatedClubs', { params: { userId } });
-  //       setParticipatedClubs(response.data.clubs);
-  //     } catch (error) {
-  //       console.error('Error fetching participated clubs:', error);
-  //     }
-  //   };
-
-  //   fetchParticipatedClubs();
-  // }, [userId]);
+    fetchMyClubs();
+  }, [getToken]); // Make sure to include getToken in the dependency array
+  
   return (
     <div className="h-screen w-full flex flex-col">
       <div className="flex border h-[7vh] ">
         <h1 className="text-2xl font-bold mt-6 ml-8">CLUBS</h1>
       </div>
-      <div className="flex flex-col border-r overflow-y-auto">
-        {participatedClubs.map((club) => (
+      <div className="flex flex-col border-r overflow-y-auto space-y-2">
+        {myClubs.map((club) => (
           <ClubCard key={club.id} club={club} />
         ))}
       </div>

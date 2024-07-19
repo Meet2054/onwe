@@ -101,7 +101,7 @@ const dispatch = useDispatch()
   return (
     <div className="w-full p-4 border-t-2 h-full]">
       <div className="px-5 h-full">
-        <div className="gap-4 grid grid-cols-4 h-full">
+        <div className="gap-1 grid grid-cols-4 h-full">
           {posts?.map((post) => (
             <div 
             onClick={()=>handleClick(post)}

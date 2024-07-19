@@ -29,7 +29,9 @@ const Signup: React.FC<SignupProps> = ({ switchToLogin }) => {
           <div className="flex justify-center mb-4">
             <Image src={logo} alt="Logo" width={150} height={150} />
           </div>
-          <span className="block text-center text-2xl font-semibold">Welcome onboard!</span>
+          <span className="block text-center text-2xl font-semibold">
+            Welcome onboard!
+          </span>
           <div className="space-y-4">
             <input
               type="email"
@@ -84,7 +86,7 @@ const Signup: React.FC<SignupProps> = ({ switchToLogin }) => {
           </button>
           <span
             onClick={switchToLogin}
-            className="block text-center text-red-500 cursor-pointer"
+            className="block text-center text-blue-500 cursor-pointer"
           >
             I have an account
           </span>

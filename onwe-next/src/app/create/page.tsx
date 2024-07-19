@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, ChangeEvent, DragEvent } from "react";
 import axios from "axios";
-import { CircleMinus, CircleX, LoaderCircle, LoaderIcon, Upload, XCircle } from "lucide-react";
+import {
+  CircleMinus,
+  CircleX,
+  LoaderCircle,
+  LoaderIcon,
+  Upload,
+  XCircle,
+} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../lib/store";
 import { useAuth, useUser } from "@clerk/nextjs";
@@ -99,7 +106,7 @@ const Page: React.FC = () => {
 
   const handleRemove = (index: number) => {
     console.log(files);
-    
+
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
@@ -110,7 +117,7 @@ const Page: React.FC = () => {
       <div className="flex justify-center items-center h-screen">
         <div className="flex w-65/100 h-2/3 mt-8">
           <div
-            className="border-dashed rounded-xl h-5/6 w-1/2 flex flex-col justify-center items-center shadow-md bg-gray-100"
+            className="border-dashed ml-[-20px] lg:ml-0 rounded-xl mt-2 lg:mt-0 p-3 h-40 lg:h-5/6 lg:w-1/2 flex flex-col justify-center items-center shadow-md bg-gray-100"
             onDragOver={preventDefault}
             onDragEnter={preventDefault}
             onDragLeave={preventDefault}
@@ -122,17 +129,17 @@ const Page: React.FC = () => {
               multiple
               accept="image/*,video/*"
               onChange={handleChange}
-              className="hidden"
+              className="hidden "
             />
             <label
               htmlFor="photoUpload"
               className="cursor-pointer flex flex-col items-center"
             >
               <Upload size={40} />
-              <p className="text-black mt-2">
+              <p className="text-black h-full lg:mt-2 text-sm  ">
                 Choose a file or drag and drop here.
               </p>
-              <p className="text-gray-400">Up to 5 images/videos.</p>
+              <p className="text-gray-400 text-sm">Up to 5 images/videos.</p>
             </label>
             <div className="mt-4 text-center">
               {files.length > 0 && (
@@ -142,30 +149,27 @@ const Page: React.FC = () => {
                     {files.map((file, index) => {
                       const fileUrl = URL.createObjectURL(file);
                       return (
-                        <li
-                        key={index}
-                        className="relative w-24 h-24 m-2"
-                      >
-                        {file.type.startsWith("image/") ? (
-                          <img
-                            src={fileUrl}
-                            alt={file.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <video
-                            src={fileUrl}
-                            className="w-full h-full object-cover"
-                            controls
-                          />
-                        )}
-                        <button
-                          type="button"
-                          className="absolute top-0 right-0  text-red-600 rounded-full p-1"
-                          onClick={() => handleRemove(index)}
-                        >
-                          <CircleX className="w-5 h-5" />
-                        </button>
+                        <li key={index} className="relative w-24 h-24 m-2">
+                          {file.type.startsWith("image/") ? (
+                            <img
+                              src={fileUrl}
+                              alt={file.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <video
+                              src={fileUrl}
+                              className="w-full h-full object-cover"
+                              controls
+                            />
+                          )}
+                          <button
+                            type="button"
+                            className="absolute top-0 right-0  text-red-600 rounded-full p-1"
+                            onClick={() => handleRemove(index)}
+                          >
+                            <CircleX className="w-5 h-5" />
+                          </button>
                         </li>
                       );
                     })}
@@ -174,20 +178,20 @@ const Page: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="ml-12 h-full w-96 flex flex-col">
+          <div className="ml-8 lg:ml-12 h-full w-96 flex flex-col">
             <form className="flex flex-col h-full justify-between">
-              <div>
+              <div className="flex flex-col gap-2">
                 <label htmlFor="description" className="text-xs">
                   Description
                 </label>
                 <textarea
                   value={description}
                   onChange={handleDescriptionChange}
-                  className="h-40 w-full rounded-xl border-2 border-gray-300 p-2"
+                  className="lg:h-40 h-32  w-32 lg:w-full rounded-xl border-2 border-gray-300 p-2 text-sm lg:text-md"
                   placeholder="Add description"
                 ></textarea>
               </div>
-              <div>
+              <div className="flex flex-col">
                 <label htmlFor="tags" className="mt-8 text-xs">
                   Tags
                 </label>
@@ -195,7 +199,7 @@ const Page: React.FC = () => {
                   type="text"
                   value={tags}
                   onChange={handleTagsChange}
-                  className="h-10 w-full rounded-xl border-2 border-gray-300 p-2 mt-2"
+                  className="h-10 w-32 lg:h-10 lg:w-full rounded-xl border-2 border-gray-300 p-2 mt-2 text-[12.7px] lg:text-md"
                   placeholder="Create or choose hashtags"
                 />
               </div>
@@ -206,7 +210,7 @@ const Page: React.FC = () => {
                 <select
                   value={category}
                   onChange={handleCategoryChange}
-                  className=" bg-gray-200 block w-full px-4 py-2 border-2 rounded-xl border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mt-2"
+                  className=" bg-gray-200 block text-sm lg:text-md h-10 lg:h-12 w-full px-4 py-2 border-2 rounded-xl border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mt-2"
                 >
                   <option value="general">General</option>
                   <option value="nature">Academia</option>
@@ -223,7 +227,7 @@ const Page: React.FC = () => {
                   className={cn(
                     "mt-8 bg-blue-500 text-white px-6 py-2 rounded-lg flex justify-center items-center",
                     {
-                      "opacity-50":loading || isPostDisabled
+                      "opacity-50": loading || isPostDisabled,
                     }
                   )}
                   disabled={loading || isPostDisabled}

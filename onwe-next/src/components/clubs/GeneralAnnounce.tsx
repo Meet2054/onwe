@@ -25,8 +25,8 @@ const GeneralAnnounce = () => {
             General
           </div>
           <div
-            className={`px-6 py-1 rounded-full flex items-center cursor-pointer ${tab === "announcements" ? "bg-black text-white" : "bg-white text-black border"}`}
-            onClick={() => handleTabClick("announcements")}
+            className={`px-6 py-1 rounded-full flex items-center cursor-pointer ${tab === "announcement" ? "bg-black text-white" : "bg-white text-black border"}`}
+            onClick={() => handleTabClick("announcement")}
           >
             Announcements
           </div>

@@ -8,7 +8,20 @@ import { RootState } from "@/lib/store";
 import Join from "@/components/clubs/Join";
 import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
+import { PostsProps } from "@/types/type";
 
+// interface clubPost{
+//   id: number;
+//   title: string;
+//   description: string;
+//   avatar: string;
+//   username: string;
+//   likes: number;
+//   tags: string;
+//   media: string[];
+//   category: string;
+//   liked: boolean;
+// }
 
 
 const Page = () => {
@@ -17,23 +30,27 @@ const Page = () => {
   const tab = useSelector((state: RootState) => state.tab.tab);
   const { getToken } = useAuth();
   
-  const [data, setData] = useState<any>(null);
+  const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
+  const [admin,setAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/${club}/${tab}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/${tab}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "69420",
           },
         });
-        setData(response.data);
+        setClubPosts(response.data.posts);
+        console.log(clubposts);
+        setAdmin(response.data.isAdmin);
         setError(null);
         setStatus(response.status);
+        console.log(response.status);
       } catch (err: any) {
         if (err.response) {
           setError(err.response.data.message);
@@ -42,35 +59,35 @@ const Page = () => {
           setError("An unexpected error occurred");
           setStatus(null);
         }
-        setData(null);
+        setClubPosts([]);
       }
     };
 
     fetchData();
-  }, [club, tab, getToken]);
+  }, [club,tab,getToken]);
 
   if (status === 404) {
-    return <div className="error">Club does not exist</div>;
+    return <div className="text-black flex justify-center items-center h-screen">Club does not exist</div>;
   }
 
   if (status === 403) {
-    return <Join />;
+    return <Join clubName={club}/>;
   }
 
   if (error) {
     return <div className="error">{error}</div>;
   }
 
-  if (!data) {
+  if (!clubposts) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="content">
     {tab === "general" ? (
-      <General posts={data.posts} club={club} />
+      <General posts={clubposts} club={club} />
     ) : (
-      <Announcement posts={data.posts} club={club} />
+      <Announcement posts={clubposts} club={club} isAdmin={admin} />
     )}
   </div>
   );

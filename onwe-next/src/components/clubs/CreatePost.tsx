@@ -5,8 +5,14 @@ import { CircleX, LoaderCircle, Upload } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 
-const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [category, setCategory] = useState<string>("general");
+interface CreatePostProps {
+  onClose: () => void;
+  category: string;
+  clubName: string;
+}
+// const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const CreatePost: React.FC<CreatePostProps> = ({onClose,category,clubName})=> {
+  // const [category, setCategory] = useState<string>("general");
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
@@ -35,9 +41,9 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     });
   };
 
-  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-  };
+  // const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  //   setCategory(e.target.value);
+  // };
 
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
@@ -56,13 +62,16 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("tags", tags);
+      formData.append("clubname",clubName)
+      // console.log(formData);
+      
 
       for (let i = 0; i < files.length; i++) {
         formData.append("media", files[i]);
       }
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts`,
+        `${process.env.NEXT_PUBLIC_API_URL}/clubs/posts`,
         formData,
         {
           headers: {
@@ -73,9 +82,11 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       );
 
       console.log("Post successful:", response.data);
+      console.log(response.data);
+      
 
       // Clear form fields
-      setCategory("general");
+      // setCategory("general");
       setDescription("");
       setTags("");
       setFiles([]);
@@ -115,7 +126,7 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             className="w-full p-2 border border-gray-300 rounded mb-4"
             placeholder="Tags"
           />
-          <select
+          {/* <select
             value={category}
             onChange={handleCategoryChange}
             className="w-full p-2 border border-gray-300 rounded mb-4"
@@ -126,7 +137,7 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <option value="people">Discussions</option>
             <option value="architecture">Sports</option>
             <option value="animals">Arts & Fashion</option>
-          </select>
+          </select> */}
           <div
             className="border-dashed rounded-xl h-24 flex flex-col justify-center items-center shadow-md bg-gray-100 mb-4"
             onDragOver={preventDefault}
@@ -148,7 +159,7 @@ const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             >
               <Upload size={20} />
               <p className="text-black mt-2 text-sm">Choose a file or drag and drop here.</p>
-              <p className="text-gray-400 text-xs">Up to 5 images/videos.</p>
+              {/* <p className="text-gray-400 text-xs">Up to 5 images/videos.</p> */}
             </label>
             <div className="mt-4 text-center">
               {files.length > 0 && (

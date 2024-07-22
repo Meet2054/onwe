@@ -17,6 +17,8 @@ const DiaglogComment = () => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   const getComments = async () => {
+    console.log(post);
+
     try {
       const comment = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}/comments`,
@@ -29,6 +31,7 @@ const DiaglogComment = () => {
           },
         }
       );
+
       setComments(comment.data);
     } catch (error) {
       console.log(error);

@@ -1,43 +1,33 @@
 import { PostsProps } from "@/types/type";
-import React from "react";
+import React, { useEffect } from "react";
+import DialogBox from "../post_component/Dialog_component/DialogBox";
+import { useDispatch } from "react-redux";
+import { setPost } from "@/lib/features/posts/postSlice";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
-  return (
-    <div className="border bg-neutral-500 flex grid grid-cols-3 border gap-1 mt-10 h-max">
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]   bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
-      <div className="max-w-[250px] max-h-[250px]  min-w-[250px] min-h-[250px]  bg-red-400 rounded-xl  ">
-        d
-      </div>
+  const dispatch = useDispatch();
+  const handleClick = (post: PostsProps) => {
+    dispatch(setPost(post));
+  };
 
-      {/* {posts && posts.map((post) => <Posts key={post.id} post={post} />)} */}
+  return (
+    <div className=" flex grid grid-cols-3 border gap-1 mt-10 h-max">
+      {posts &&
+        posts.map((post) => (
+          <div
+            onClick={() => handleClick(post)}
+            key={post.id}
+            className="relative  rounded-xl"
+          >
+            <DialogBox
+              imageUrl={post.media[0]}
+              description={post.description}
+            />
+          </div>
+        ))}
     </div>
   );
 };
 
 export default ProfilePost;
+// max-w-[200px] max-h-[200px]  min-w-[200px] min-h-[200px]

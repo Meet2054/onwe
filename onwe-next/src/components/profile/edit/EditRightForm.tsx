@@ -39,7 +39,12 @@ const EditRightForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<EditFormProps>();
+  } = useForm<EditFormProps>({
+    defaultValues: {
+      fullname: user?.user.fullname,
+      bio: user?.user.bio,
+    },
+  });
 
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     console.log(data);
@@ -68,6 +73,8 @@ const EditRightForm = () => {
 
   useEffect(() => {
     if (user) {
+      console.log(user);
+
       setUserInfo(user);
     }
   }, [user]);
@@ -95,7 +102,7 @@ const EditRightForm = () => {
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-2 gap-2">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="fullname">First name</Label>
+              <Label htmlFor="fullname">Full Name</Label>
               <Input
                 {...register("fullname", {
                   required: "please enter first name",
@@ -120,7 +127,7 @@ const EditRightForm = () => {
               />
             </div> */}
           </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
+          {/* <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="username">username</Label>
             <Input
               {...register("username")}
@@ -129,7 +136,7 @@ const EditRightForm = () => {
               placeholder="username"
               className="border-opacity-60 rounded-md"
             />
-          </div>
+          </div> */}
           <div className="grid items-center gap-1.5">
             <Label htmlFor="bio">Bio</Label>
             <Textarea

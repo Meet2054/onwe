@@ -46,12 +46,6 @@ const EditLeftFrom = () => {
         <Button className="border h-10 w-1/2 bg-black text-white rounded-full hover:ring-2 border hover:bg-black">
           Profile
         </Button>
-        <Button
-          variant="ghost"
-          className="border h-10 w-1/2 text-black rounded-full"
-        >
-          Account
-        </Button>
       </div>
       <div className="text-3xl font-bold">Edit Profile</div>
       <div className="text-base">

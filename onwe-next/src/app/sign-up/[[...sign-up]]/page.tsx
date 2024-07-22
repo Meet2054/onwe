@@ -41,7 +41,10 @@ const Signup = () => {
       setVerifying(true);
     } catch (err: any) {
       console.error("Sign up error:", err);
-      setClerkError(err.errors[0]?.message || "An unexpected error occurred. Please try again.");
+      setClerkError(
+        err.errors[0]?.message ||
+          "An unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -56,7 +59,9 @@ const Signup = () => {
 
       if (completeSignUp.status !== "complete") {
         console.log(JSON.stringify(completeSignUp, null, 2));
-        setClerkError("Verification not complete. Please check the code and try again.");
+        setClerkError(
+          "Verification not complete. Please check the code and try again."
+        );
         return;
       }
 
@@ -69,7 +74,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-screen bg-gray-100">
+    <div className="container relative flex items-center justify-center h-screen bg-gray-100">
       <Image
         src={back}
         alt="Background"
@@ -79,16 +84,22 @@ const Signup = () => {
       />
       <div className="relative z-10 p-6 bg-white bg-opacity-50 rounded-2xl shadow-lg w-full max-w-md">
         <form
-          onSubmit={!verifying ? (e) => {
-            e.preventDefault();
-            signUpWithEmail({ emailAddress: email, password, username });
-          } : handleVerify}
-          className="space-y-6"
+          onSubmit={
+            !verifying
+              ? (e) => {
+                  e.preventDefault();
+                  signUpWithEmail({ emailAddress: email, password, username });
+                }
+              : handleVerify
+          }
+          className="space-y-4 lg:space-y-6"
         >
-          <div className="flex justify-center mb-4">
-            <Image src={logo} alt="Logo" width={150} height={150} />
+          <div className="flex justify-center lg:mb-4 ">
+            <Image src={logo} alt="Logo" className="lg:w-[150px] w-[110px]" />
           </div>
-          <span className="block text-center text-2xl font-semibold">Welcome onboard!</span>
+          <span className="block text-center lg:text-2xl font-semibold md:text-sm ">
+            Welcome onboard!
+          </span>
           {!verifying ? (
             <>
               <div className="space-y-4">
@@ -97,7 +108,7 @@ const Signup = () => {
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
                   required
                 />
                 <input
@@ -105,7 +116,7 @@ const Signup = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
                   required
                 />
               </div>
@@ -116,14 +127,16 @@ const Signup = () => {
                   placeholder="Create Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
                   required
                 />
               </div>
               <div className="border-b-2 my-4"></div>
               <div
-                className="cursor-pointer text-center py-2 border rounded-xl bg-white"
-                onClick={() => signUpWithEmail({ emailAddress: email, password, username })}
+                className="cursor-pointer text-center md:py-2 border rounded-xl bg-white text-sm lg:text-md py-1 w-full lg:w-full "
+                onClick={() =>
+                  signUpWithEmail({ emailAddress: email, password, username })
+                }
               >
                 Get Code
               </div>
@@ -143,7 +156,12 @@ const Signup = () => {
                 className="w-full flex items-center justify-center px-4 py-2 bg-black text-white border rounded-xl"
               >
                 <span>Next</span>
-                <Image src={rightArrow} alt="Right Arrow" width={20} height={20} />
+                <Image
+                  src={rightArrow}
+                  alt="Right Arrow"
+                  width={20}
+                  height={20}
+                />
               </button>
             </>
           )}
@@ -152,7 +170,7 @@ const Signup = () => {
           )}
           <span
             onClick={() => router.push("/sign-in")}
-            className="block text-center text-red-500 cursor-pointer"
+            className="block text-center text-red-500 cursor-pointer lg:text-md text-sm"
           >
             I have an account
           </span>

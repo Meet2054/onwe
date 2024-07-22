@@ -16,10 +16,12 @@ interface SignInFormProps {
   switchToSignup: () => void;
 }
 
-
-const SigninForm: React.FC<SignInFormProps> = ({ signInWithEmail, clerkError }) => {
+const SigninForm: React.FC<SignInFormProps> = ({
+  signInWithEmail,
+  clerkError,
+}) => {
   return (
-    <div className="relative flex items-center justify-center h-screen bg-gray-100">
+    <div className="container relative flex items-center justify-center h-screen bg-gray-100">
       <Image
         src={back}
         alt="Background"
@@ -39,22 +41,24 @@ const SigninForm: React.FC<SignInFormProps> = ({ signInWithEmail, clerkError }) 
             const password = target.password.value;
             signInWithEmail({ emailAddress: email, password: password });
           }}
-          className="space-y-6"
+          className=" space-y-4 lg:space-y-6"
         >
           <div className="flex justify-center mb-2">
-            <Image src={logo} alt="Logo" width={150} height={150} />
+            <Image src={logo} alt="Logo" className="lg:w-[150px] w-[110px]" />
           </div>
-          <span className="block text-center text-2xl font-semibold">Welcome onboard!</span>
+          <span className="block text-center lg:text-2xl font-semibold md:text-sm">
+            Welcome onboard!
+          </span>
           <input
             name="email"
-            className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
             placeholder="username or email"
             type="email"
             required
           />
           <input
             name="password"
-            className="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
             placeholder="password"
             type="password"
             required
@@ -63,25 +67,21 @@ const SigninForm: React.FC<SignInFormProps> = ({ signInWithEmail, clerkError }) 
             <div className="text-red-500 text-center">{clerkError}</div>
           )}
           <button
-            className="w-full flex items-center justify-center px-4 py-2 bg-black text-white border rounded-xl"
+            className="w-full flex items-center justify-center px-4 py-1 lg:py-2 bg-black text-white border rounded-xl text-sm lg:text-[15px]"
             type="submit"
           >
             Sign in
           </button>
-         <Link href={"/sign-up"}>
-         <span
-            className="block text-center text-red-500 cursor-pointer"
-          >
-            Don&apos;t have an account? Sign up
-          </span>
-         </Link>
-         <Link href={"/forgot-password"}>
-         <span
-            className="block text-center text-red-500 cursor-pointer"
-          >
-            Forgot Password?
-          </span>
-         </Link>
+          <Link href={"/sign-up"}>
+            <span className="block text-center text-red-500 cursor-pointer text-sm lg:text-[15px] pt-2">
+              Don&apos;t have an account? Sign up
+            </span>
+          </Link>
+          <Link href={"/forgot-password"}>
+            <span className="block text-center text-red-500 cursor-pointer text-sm lg:text-[15px] lg:pt-2">
+              Forgot Password?
+            </span>
+          </Link>
         </form>
       </div>
     </div>

@@ -1,17 +1,16 @@
 // pages/forgot-password.tsx
 "use client";
-import React, { useState } from 'react';
-import { useAuth, useSignIn } from '@clerk/nextjs';
-import type { NextPage } from 'next';
-import { useRouter } from 'next/navigation';
-import ForgotPasswordForm from '@/components/forgot-password/ForgotPasswordForm';
-import Image from 'next/image';
+import React, { useState } from "react";
+import { useAuth, useSignIn } from "@clerk/nextjs";
+import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import ForgotPasswordForm from "@/components/forgot-password/ForgotPasswordForm";
+import Image from "next/image";
 import back from "@/app/../../public/images/back.png";
-
 
 const ForgotPasswordPage: NextPage = () => {
   const [successfulCreation, setSuccessfulCreation] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const router = useRouter();
   const { isSignedIn } = useAuth();
@@ -32,52 +31,52 @@ const ForgotPasswordPage: NextPage = () => {
     e.preventDefault();
     await signIn
       ?.create({
-        strategy: 'reset_password_email_code',
+        strategy: "reset_password_email_code",
         identifier: email,
       })
-      .then(_ => {
+      .then((_) => {
         setSuccessfulCreation(true);
-        setError('');
+        setError("");
       })
-      .catch(err => {
-        console.error('error', err.errors[0].longMessage);
+      .catch((err) => {
+        console.error("error", err.errors[0].longMessage);
         setError(err.errors[0].longMessage);
       });
   };
 
-  // Reset the user's password. 
-  // Upon successful reset, the user will be 
+  // Reset the user's password.
+  // Upon successful reset, the user will be
   // signed in and redirected to the home page
   const reset = async (e: React.FormEvent, code: string, password: string) => {
     e.preventDefault();
     await signIn
       ?.attemptFirstFactor({
-        strategy: 'reset_password_email_code',
+        strategy: "reset_password_email_code",
         code,
         password,
       })
-      .then(result => {
+      .then((result) => {
         // Check if 2FA is required
-        if (result.status !== 'complete') {
-          setError('something went wrong');
-        } else if (result.status === 'complete') {
-          // Set the active session to 
+        if (result.status !== "complete") {
+          setError("something went wrong");
+        } else if (result.status === "complete") {
+          // Set the active session to
           // the newly created session (user is now signed in)
           setActive({ session: result.createdSessionId });
-          setError('');
-          router.push('/home');
+          setError("");
+          router.push("/home");
         } else {
           console.log(result);
         }
       })
-      .catch(err => {
-        console.error('error', err.errors[0].longMessage)
+      .catch((err) => {
+        console.error("error", err.errors[0].longMessage);
         setError(err.errors[0].longMessage);
       });
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center bg-gray-100">
+    <div className="container min-h-screen relative flex items-center justify-center bg-gray-100">
       <Image
         src={back}
         alt="Background"
@@ -145,8 +144,8 @@ export default ForgotPasswordPage;
 //       });
 //   }
 
-//   // Reset the user's password. 
-//   // Upon successful reset, the user will be 
+//   // Reset the user's password.
+//   // Upon successful reset, the user will be
 //   // signed in and redirected to the home page
 //   async function reset(e: React.FormEvent) {
 //     e.preventDefault();
@@ -161,7 +160,7 @@ export default ForgotPasswordPage;
 //         if (result.status !== 'complete') {
 //           setError('something went wrong');
 //         } else if (result.status === 'complete') {
-//           // Set the active session to 
+//           // Set the active session to
 //           // the newly created session (user is now signed in)
 //           setActive({ session: result.createdSessionId });
 //           setError('');

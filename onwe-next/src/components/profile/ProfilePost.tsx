@@ -3,12 +3,15 @@ import React, { useEffect } from "react";
 import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
+import { Skeleton } from "../ui/skeleton";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const dispatch = useDispatch();
   const handleClick = (post: PostsProps) => {
     dispatch(setPost(post));
   };
+
+  if (!posts) return <ProfilePostSkeleton />;
 
   return (
     <div className=" flex grid grid-cols-3 border gap-1 mt-10 h-max">
@@ -31,4 +34,20 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
 };
 
 export default ProfilePost;
-// max-w-[200px] max-h-[200px]  min-w-[200px] min-h-[200px]
+
+const ProfilePostSkeleton = () => {
+  return (
+    <div className=" flex grid grid-cols-3 border gap-1 h-[95dvh]">
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+      <Skeleton className="h-52 w-full animate-pulse" />
+    </div>
+  );
+};

@@ -26,7 +26,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "69420",
@@ -69,17 +69,19 @@ const Page = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div className="content">
-    {tab === "general" ? (
-      <General club={club} />
-      // <General posts={clubposts} club={club} />
-    ) : (
-      <Announcement club={club} />
-      // <Announcement posts={clubposts} club={club} isAdmin={admin} />
-    )}
-  </div>
-  );
+  else{
+    return (
+      <div className="content">
+      {tab === "general" ? (
+        <General club={club} />
+        // <General posts={clubposts} club={club} />
+      ) : (
+        <Announcement club={club} />
+        // <Announcement posts={clubposts} club={club} isAdmin={admin} />
+      )}
+    </div>
+    );
+  }
 };
 
 export default Page;

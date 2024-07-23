@@ -1,14 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
-import { auth } from "@clerk/nextjs/server";
-import { getGlobalToken } from "@/lib/utils";
 
 const Page = () => {
   const { getToken } = useAuth();
@@ -36,9 +34,9 @@ const Page = () => {
             },
           })
           .then((data) => {
-            // console.log(data.data);
+            console.log(data.data);
+
             dispatch(setPost(data.data[0]));
-            // console.log(data.data);
 
             setResponseData(data.data);
           });

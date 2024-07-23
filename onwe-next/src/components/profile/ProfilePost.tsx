@@ -22,6 +22,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
             <DialogBox
               imageUrl={post.media[0]}
               description={post.description}
+              post={post}
             />
           </div>
         ))}

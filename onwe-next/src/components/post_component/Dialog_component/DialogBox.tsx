@@ -12,18 +12,19 @@ import DiaglogComment from "./DiaglogComment";
 import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
-
 interface DialogBoxProps {
   imageUrl?: string;
   description?: string;
+  post: any;
 }
 
-const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl, description }) => {
+const DialogBox: React.FC<DialogBoxProps> = ({
+  imageUrl,
+  description,
+  post,
+}) => {
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
-  const { post } = useSelector((state: RootState) => state.post);
 
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
@@ -68,7 +69,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl, description }) => {
         className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
         <div className="flex relative items-center w-full min-h-[69dvh] justify-center ">
-          <DialogImage imageUrl={post.media[0]} />
+          <DialogImage imageUrl={post?.media[0]} />
         </div>
         <div className="p-3 rounded-3xl  overflow-y-auto">
           <DiaglogComment />

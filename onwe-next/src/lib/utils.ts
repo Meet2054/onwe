@@ -26,7 +26,6 @@ export function cn(...inputs: ClassValue[]) {
 export const getData = async (
   url: string,
   body: {},
-  token: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "POST"
 ) => {
   try {
@@ -35,7 +34,7 @@ export const getData = async (
       url: `${process.env.NEXT_PUBLIC_API_URL}${url}`,
       data: method !== "GET" ? body : undefined, // GET requests should not have a body
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${await getGlobalToken()}`,
         "Content-Type": "application/json",
         Accept: "*/*",
         "ngrok-skip-browser-warning": "69420",
@@ -53,4 +52,3 @@ export const base64Prefix = "data:image/png;base64,";
 export const getGlobalToken = async () => {
   return await window.Clerk.session.getToken({ template: "test" });
 };
- 

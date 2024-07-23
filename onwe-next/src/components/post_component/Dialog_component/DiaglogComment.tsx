@@ -17,7 +17,7 @@ const DiaglogComment = () => {
   const [comments, setComments] = useState<Comment[]>([]);
 
   const getComments = async () => {
-    console.log(post);
+    // console.log(post);
 
     try {
       const comment = await axios.get(

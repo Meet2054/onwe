@@ -13,11 +13,8 @@ interface PostsComponentProps {
 
 const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   const dispatch = useDispatch();
-  // const search = useSelector((state: RootState) => state.post);
-
   const handleClick = () => {
     dispatch(setPost(post!));
-    // console.log(post);
   };
 
   return (

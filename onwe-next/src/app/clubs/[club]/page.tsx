@@ -10,19 +10,6 @@ import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
 
-// interface clubPost{
-//   id: number;
-//   title: string;
-//   description: string;
-//   avatar: string;
-//   username: string;
-//   likes: number;
-//   tags: string;
-//   media: string[];
-//   category: string;
-//   liked: boolean;
-// }
-
 
 const Page = () => {
   const params = useParams();
@@ -30,7 +17,7 @@ const Page = () => {
   const tab = useSelector((state: RootState) => state.tab.tab);
   const { getToken } = useAuth();
   
-  const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
+  // const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
   const [admin,setAdmin] = useState<boolean>(false);
@@ -39,14 +26,14 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/${tab}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "69420",
           },
         });
-        setClubPosts(response.data.posts);
-        console.log(clubposts);
+        // setClubPosts(response.data.posts);
+        // console.log(clubposts);
         setAdmin(response.data.isAdmin);
         setError(null);
         setStatus(response.status);
@@ -59,7 +46,7 @@ const Page = () => {
           setError("An unexpected error occurred");
           setStatus(null);
         }
-        setClubPosts([]);
+        // setClubPosts([]);
       }
     };
 
@@ -78,16 +65,18 @@ const Page = () => {
     return <div className="error">{error}</div>;
   }
 
-  if (!clubposts) {
+  if (!status) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="content">
     {tab === "general" ? (
-      <General posts={clubposts} club={club} />
+      <General club={club} />
+      // <General posts={clubposts} club={club} />
     ) : (
-      <Announcement posts={clubposts} club={club} isAdmin={admin} />
+      <Announcement club={club} />
+      // <Announcement posts={clubposts} club={club} isAdmin={admin} />
     )}
   </div>
   );

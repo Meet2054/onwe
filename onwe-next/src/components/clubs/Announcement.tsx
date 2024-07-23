@@ -7,10 +7,12 @@ import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 
-const Announcement = ({ posts, club }: { posts: PostsProps[], club: string, isAdmin: boolean }) => {
+// const Announcement = ({ posts, club }: { posts: PostsProps[], club: string, isAdmin: boolean }) => {
+  const Announcement = ({ club }: { club: string}) => {
   const { getToken } = useAuth();
   const [createActive, setCreateActive] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
+  const [posts,setPosts] = useState<PostsProps[]>([]);
 
   // useEffect(() => {
   //   const fetchPermission = async () => {
@@ -30,6 +32,27 @@ const Announcement = ({ posts, club }: { posts: PostsProps[], club: string, isAd
 
   //   fetchPermission();
   // }, [club, getToken]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/announcement`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        });
+        setPosts(response.data.posts);
+        setisAdmin(response.data.isAdmin)
+      } catch (err: any) {
+        console.log(err);
+        setPosts([]);
+      }
+    };
+
+    fetchData();
+  }, [club,getToken]);
 
   const dispatch = useDispatch()
   const handleClick = (post:PostsProps)=>{

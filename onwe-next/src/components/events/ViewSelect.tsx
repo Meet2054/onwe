@@ -12,7 +12,7 @@ export function ViewSelect({
 
   return (
     <Tabs defaultValue="comfort" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 h-full">
         <TabsTrigger
           className={cn("text-center py-2", {
             // "bg-black text-white": value === "list",

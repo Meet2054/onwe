@@ -2,38 +2,44 @@
 import React from "react";
 import Image from "next/image";
 
-
 interface EventCard2Props {
   title: string;
-  subtitle:string
+  subtitle: string;
   dateOfEvent: string;
   time: string;
   description: string;
   media: string[];
-  onClick: () => void
+  onClick: () => void;
 }
 
 const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
-  ({ title,subtitle, dateOfEvent, time, description, media, onClick  }, ref) => {
+  (
+    { title, subtitle, dateOfEvent, time, description, media, onClick },
+    ref
+  ) => {
     return (
-      <div ref={ref} onClick={onClick} className="w-4/5 h-60 rounded-lg mb-3 flex">
+      <div
+        ref={ref}
+        onClick={onClick}
+        className="w-4/5 h-[180px] rounded-lg mb-3 flex"
+      >
         <div
-  className="border w-2/5 rounded-xl"
-  style={{
-    backgroundImage: `url(data:image/png;base64,${media[0]})`,
-    backgroundSize: "100% 100%",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  }}
-/>
+          className="border w-[190px] rounded-xl"
+          style={{
+            backgroundImage: `url(data:image/png;base64,${media[0]})`,
+            backgroundSize: "100% 100%",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
 
         <div className="ml-3 grow">
-          <div className=" flex-col justify-start items-start gap-7 inline-flex">
-            <div className="flex-col justify-start items-start gap-1 flex">
-              <div className="text-black text-xl font-semibold capitalize">
+          <div className=" flex-col justify-start items-start gap-4 inline-flex">
+            <div className="flex-col justify-start items-start gap-0 flex">
+              <div className="text-black text-lg font-bold capitalize">
                 {title}
               </div>
-              <div className=" text-red-500 text-lg font-medium uppercase">
+              <div className=" text-red-500 text-[14px] font-semibold uppercase ">
                 {new Date(dateOfEvent)
                   .toLocaleDateString("en-US", {
                     month: "short",
@@ -43,7 +49,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
                 , {time}
               </div>
             </div>
-            <div className="w-72 h-16 opacity-90 text-black text-sm font-normal">
+            <div className="w-72 h-16 text-black text-sm font-normal">
               {subtitle}
               <br />
               {description}
@@ -52,7 +58,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
               <div className=" w-9 h-8 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
                 <button className="I text-black text-sm font-medium">i</button>
               </div>
-              <div className=" h-8 justify-end items-center gap-2.5 flex">
+              <div className="h-8 justify-end items-center gap-2.5 flex">
                 <div className="w-20 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
                   <button className="whitespace-nowrap text-black text-sm font-normal">
                     + remind

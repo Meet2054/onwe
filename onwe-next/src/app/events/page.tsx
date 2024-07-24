@@ -26,7 +26,6 @@
 //   const eventRefs = useRef<(HTMLDivElement | null)[]>([]);
 //   const containerRef = useRef<HTMLDivElement | null>(null);
 //   const { getToken } = useAuth();
-  
 
 //   useEffect(() => {
 //     const fetchEvents = async () => {
@@ -45,7 +44,6 @@
 
 //     fetchEvents();
 //   }, [getToken]);
-
 
 //   const handleFilter = (filterType: string) => {
 //     dispatch(filterEvents({ filterType }));
@@ -235,7 +233,7 @@ const Page: React.FC = () => {
   // Use SWR to fetch events
   const { data: events, error } = useSWR(
     token ? `${process.env.NEXT_PUBLIC_API_URL}/events` : null,
-    url => fetcher(url, token!)
+    (url) => fetcher(url, token!)
   );
 
   // // Use SWR to manage scroll position
@@ -288,7 +286,6 @@ const Page: React.FC = () => {
       </div>
     );
   }
-
 
   const scrollToEvent = (eventId: number) => {
     const eventIndex = events.findIndex((event: Event) => event.id === eventId);
@@ -345,14 +342,14 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="bg-white flex flex-col w-3/5">
-        <div className="py-4 top-0 sticky bg-white px-8 ml-12">
+    <div className="flex bg-[#F1F1F1] overflow-y-hidden">
+      <div className="flex flex-col w-3/5 h-[97vh] bg-white rounded-xl m-2">
+        <div className="py-4 top-0 sticky bg-white px-8 ml-12 rounded-xl">
           <div className="flex space-x-6 ml-4">
             <ViewSelect onClick={toggleListView} />
           </div>
         </div>
-        <div className="p-4 w-full h-screen ml-12">
+        <div className="p-4 w-full h-screen ml-12 ">
           <div
             ref={containerRef}
             className="p-8 mb-2 w-full relative overflow-y-auto h-full"
@@ -384,7 +381,8 @@ const Page: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-2/5">
+      <div className="flex flex-col w-2/5 h-[97vh] m-2 ml-0 bg-white rounded-xl">
+        <div className="text-center pt-2 font-semibold">Calender</div>
         <RenderCalendar scrollToEvent={scrollToEvent} />
       </div>
       {currentEvent && (

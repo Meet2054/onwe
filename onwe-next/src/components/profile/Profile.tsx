@@ -47,11 +47,7 @@ const Profile = ({ userInfo }: { userInfo: UserProfile }) => {
         </div>
       </div>
       <div>
-        <p className="whitespace-pre-wrap break-words">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur,
-          quia aliquid optio in totam a. Ea omnis accusamus sed quae cumque
-          iure, aliquid saepe eaque atque, veritatis incidunt tempora quod.
-        </p>
+        <p className="whitespace-pre-wrap break-words">{userInfo?.user?.bio}</p>
       </div>
       <div className="flex justify-around gap-8 space mt-4 w-full px-16">
         <Twitter

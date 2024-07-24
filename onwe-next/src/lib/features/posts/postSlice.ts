@@ -1,4 +1,4 @@
-import { PostsProps } from "@/components/post_component/Posts";
+import { PostsProps } from "@/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PostState {

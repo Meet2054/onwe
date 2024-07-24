@@ -1,18 +1,27 @@
-import { PostsProps } from "@/types/type";
+"use client";
+import { setPost } from "@/lib/features/posts/postSlice";
+import { RootState } from "@/lib/store";
+import { getData } from "@/lib/utils";
+
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import { ThumbsUp } from "lucide-react";
+import { Heart, ThumbsUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const LikeButton = ({ post }: { post: PostsProps }) => {
-  console.log(post);
-
+const LikeButton = () => {
+  const post = useSelector((state: RootState) => state.post.post);
   const [isClicked, setIsClicked] = useState(post?.liked || false);
-  const [likeCount, setLikeCount] = useState(post?.likes);
+  const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const { getToken } = useAuth();
+  const dispatch = useDispatch();
 
   const handleLike = async () => {
-    await axios.patch(
+    // console.log(post);
+    // const res = await getData(`/posts/${post.id}`, {}, "GET");
+    // console.log(res);
+
+    const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/posts/like`,
       { postId: post.id },
       {
@@ -24,7 +33,25 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         },
       }
     );
+
+    const newPost = {
+      ...post,
+      likes: isClicked ? post.likes - 1 : post.likes + 1,
+      liked: !isClicked,
+    };
+    dispatch(setPost(newPost));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getData(`/posts/${post.id}`, {}, "GET");
+      const data = res[0];
+      dispatch(setPost(data));
+      setIsClicked(data?.liked);
+      setLikeCount(data?.likes);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="flex justify-center items-center gap-2">
@@ -39,11 +66,11 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
             handleLike();
           }}
         >
-          <ThumbsUp
+          <Heart
             strokeWidth={1.4}
             stroke="black"
             fillOpacity={0.5}
-            fill={isClicked ? "blue" : "white"}
+            fill={isClicked ? "red" : "white"}
             className={`w-6 h-5 relative flex-col justify-start items-start  inline-flex`}
           />
         </div>

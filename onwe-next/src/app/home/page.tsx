@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
@@ -19,7 +19,7 @@ const Page = () => {
     const fetchTokenAndData = async () => {
       try {
         const fetchedToken = await getToken({ template: "test" });
-        // console.log(fetchedToken);
+        console.log(fetchedToken);
 
         setToken(fetchedToken!);
 
@@ -33,9 +33,9 @@ const Page = () => {
             },
           })
           .then((data) => {
-            // console.log(data.data);
+            console.log(data.data);
+
             dispatch(setPost(data.data[0]));
-            // console.log(data.data);
 
             setResponseData(data.data);
           });

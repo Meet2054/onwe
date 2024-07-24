@@ -37,7 +37,7 @@ const Signin = () => {
         console.log(result);
         await setActive({session: result.createdSessionId});
         getToken({ template: "test" }).then((token) => {
-          // console.log(token);
+          console.log(token);
           dispatch(setToken(token!));
         });
         router.push("/home");

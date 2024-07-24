@@ -12,17 +12,19 @@ import DiaglogComment from "./DiaglogComment";
 import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
-
 interface DialogBoxProps {
   imageUrl?: string;
+  description?: string;
+  post: any;
 }
 
-const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
+const DialogBox: React.FC<DialogBoxProps> = ({
+  imageUrl,
+  description,
+  post,
+}) => {
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
-  const { post } = useSelector((state: RootState) => state.post);
 
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
@@ -37,7 +39,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
   return (
     <Dialog>
       {imageUrl ? (
-        <DialogTrigger className="relative h-44 w-full">
+        <DialogTrigger className="relative h-52 w-full">
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"
@@ -47,7 +49,19 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
           />
         </DialogTrigger>
       ) : (
-        <DialogTrigger>comment</DialogTrigger>
+        <DialogTrigger
+          className={`${
+            description
+              ? "bg-[#b5e2fa] flex h-52 justify-center items-center rounded-3xl  w-full"
+              : ""
+          }`}
+        >
+          {description ? (
+            <div className="text-xl">{description}</div>
+          ) : (
+            "comment"
+          )}
+        </DialogTrigger>
       )}
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
@@ -55,7 +69,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({ imageUrl }) => {
         className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
       >
         <div className="flex relative items-center w-full min-h-[69dvh] justify-center ">
-          <DialogImage imageUrl={post.media[0]} />
+          <DialogImage imageUrl={post?.media[0]} />
         </div>
         <div className="p-3 rounded-3xl  overflow-y-auto">
           <DiaglogComment />

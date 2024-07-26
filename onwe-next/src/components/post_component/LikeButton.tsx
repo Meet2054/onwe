@@ -14,6 +14,7 @@ const LikeButton = () => {
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const { getToken } = useAuth();
+  const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
 
   const handleLike = async () => {
@@ -34,12 +35,12 @@ const LikeButton = () => {
       }
     );
 
-    const newPost = {
-      ...post,
-      likes: isClicked ? post.likes - 1 : post.likes + 1,
-      liked: !isClicked,
-    };
-    dispatch(setPost(newPost));
+    // const newPost = {
+    //   ...post,
+    //   likes: isClicked ? post.likes - 1 : post.likes + 1,
+    //   liked: !isClicked,
+    // };
+    // dispatch(setPost(newPost));
   };
 
   useEffect(() => {

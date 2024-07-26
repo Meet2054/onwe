@@ -6,7 +6,8 @@ import exploreReducer from "./features/explore/exploreSlice";
 import postReducer from "./features/posts/postSlice";
 import magazineReducer from "./features/magazines/magazineSlice";
 import userReducer from "./features/user/userSlice";
-import tabReducer from "./features/clubs/tabSlice"
+import tabReducer from "./features/clubs/tabSlice";
+import timelineReducer from "./features/timeline/postSlice";
 const store = configureStore({
   reducer: {
     events: eventsReducer,
@@ -15,7 +16,8 @@ const store = configureStore({
     post: postReducer,
     magazine: magazineReducer,
     user: userReducer,
-    tab: tabReducer
+    tab: tabReducer,
+    timeline: timelineReducer,
   },
 });
 

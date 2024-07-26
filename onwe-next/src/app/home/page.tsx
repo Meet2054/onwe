@@ -4,15 +4,18 @@ import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
+import { setTimeline } from "@/lib/features/timeline/postSlice";
+import { RootState } from "@/lib/store";
 
 const Page = () => {
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
   const [error, setError] = useState<any>(null);
   const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
+  const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const Page = () => {
             },
           })
           .then((data) => {
-            console.log(data.data);
+            dispatch(setTimeline(data.data));
 
             dispatch(setPost(data.data[0]));
 
@@ -48,6 +51,11 @@ const Page = () => {
 
     fetchTokenAndData();
   }, [getToken]);
+
+  useEffect(() => {
+    setResponseData(timeline);
+  }, [timeline]);
+
   if (!responseData && !error) {
     return <PostsSkeleton />;
   }

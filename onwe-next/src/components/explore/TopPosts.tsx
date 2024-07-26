@@ -6,9 +6,9 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 
-interface Post{
-  id: string,
-  media: string[],
+interface Post {
+  id: string;
+  media: string[];
 }
 const TopPosts: React.FC = () => {
   // const topPosts = [
@@ -73,23 +73,26 @@ const TopPosts: React.FC = () => {
   //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
   //   },
   // ];
-const dispatch = useDispatch()
-  const [posts,setPosts] = useState<Post[]>()
-  const {getToken} = useAuth()
+  const dispatch = useDispatch();
+  const [posts, setPosts] = useState<Post[]>();
+  const { getToken } = useAuth();
 
-  const handleClick = (post:any)=>{
-    dispatch(setPost(post))
-  }
+  const handleClick = (post: any) => {
+    dispatch(setPost(post));
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/top-posts`, {
-          headers: {
-            Authorization: `Bearer ${await getToken()}`,
-            "ngrok-skip-browser-warning": "69420"
-          },
-        });
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/top-posts`,
+          {
+            headers: {
+              Authorization: `Bearer ${await getToken()}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
         setPosts(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -99,14 +102,12 @@ const dispatch = useDispatch()
     fetchEvents();
   }, [getToken]);
   return (
-    <div className="w-full p-4 border-t-2 h-full]">
+    <div className="w-full p-4  h-full]">
       <div className="px-5 h-full">
         <div className="gap-1 grid grid-cols-4 h-full">
           {posts?.map((post) => (
-            <div 
-            onClick={()=>handleClick(post)}
-            key={post.id}>
-            <DialogBox imageUrl={post.media[0]}/>
+            <div onClick={() => handleClick(post)} key={post.id}>
+              <DialogBox className={""} imageUrl={post.media[0]} post={post} />
             </div>
             // <Post key={inex} post={post} />
           ))}

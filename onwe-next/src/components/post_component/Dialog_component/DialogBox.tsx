@@ -11,17 +11,20 @@ import DiaglogComment from "./DiaglogComment";
 
 import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface DialogBoxProps {
   imageUrl?: string;
   description?: string;
   post: any;
+  className?: string;
 }
 
 const DialogBox: React.FC<DialogBoxProps> = ({
   imageUrl,
   description,
   post,
+  className,
 }) => {
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
@@ -39,13 +42,14 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   return (
     <Dialog>
       {imageUrl ? (
-        <DialogTrigger className="relative h-52 w-full">
+        <DialogTrigger className={cn("relative h-52 w-full", className)}>
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"
             layout="fill"
             objectFit="cover"
             onLoad={handleImageLoad}
+            className="rounded-lg"
           />
         </DialogTrigger>
       ) : (

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Club from "./Club"; // Assuming Club component is in the same directory
 import { useAuth } from "@clerk/nextjs";
-interface Club{
-  id: string,
-  name: string,
-  slogan: string,
-  coverImage: string,
+interface Club {
+  id: string;
+  name: string;
+  slogan: string;
+  coverImage: string;
 }
 import axios from "axios";
 
@@ -30,18 +30,21 @@ const TopClubs: React.FC = () => {
   //     slogan: "Innovate the future",
   //   },
   // ];
-  const [clubs,setClubs] = useState<Club[]>()
-  const {getToken} = useAuth()
+  const [clubs, setClubs] = useState<Club[]>();
+  const { getToken } = useAuth();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/topclubs`, {
-          headers: {
-            Authorization: `Bearer ${await getToken()}`,
-            "ngrok-skip-browser-warning": "69420"
-          },
-        });
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/topclubs`,
+          {
+            headers: {
+              Authorization: `Bearer ${await getToken()}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
         setClubs(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -51,12 +54,10 @@ const TopClubs: React.FC = () => {
     fetchEvents();
   }, [getToken]);
 
-
-
   return (
     <div className="w-full p-4 h-full">
       <div className="px-5 h-full">
-        <div className="flex gap-4 overflow-hidden h-full">
+        <div className="flex gap-4 overflow-hidden h-full border-t-2 pt-6">
           {clubs?.map((club, index) => (
             <Club key={index} club={club} />
           ))}

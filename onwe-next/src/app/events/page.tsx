@@ -382,7 +382,7 @@ const Page: React.FC = () => {
         </div>
       </div>
       <div className="flex flex-col w-2/5 h-[97vh] m-2 ml-0 bg-white rounded-xl">
-        <div className="text-center pt-2 font-semibold">Calender</div>
+        <div className="text-center pt-2 font-semibold">Calendar</div>
         <RenderCalendar scrollToEvent={scrollToEvent} />
       </div>
       {currentEvent && (

@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSearch } from '@/lib/features/explore/exploreSlice';
-import { CircleX } from 'lucide-react';
-import ProfileCard from '@/components/explore/ProfileCard'; // Ensure this is the correct path
-import ClubCard from '@/components/clubs/ClubCard'; // Ensure this is the correct path
-import debounce from 'lodash.debounce';
-import axios from 'axios';
-import { useAuth } from '@clerk/nextjs';
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { setSearch } from "@/lib/features/explore/exploreSlice";
+import { CircleX } from "lucide-react";
+import ProfileCard from "@/components/explore/ProfileCard"; // Ensure this is the correct path
+import ClubCard from "@/components/clubs/ClubCard"; // Ensure this is the correct path
+import debounce from "lodash.debounce";
+import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
 
 const SearchComponent = () => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('users');
+  const [activeTab, setActiveTab] = useState("users");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const {getToken} = useAuth()
+  const [searchText, setSearchText] = useState("");
+  const { getToken } = useAuth();
 
   const handleClose = () => {
     dispatch(setSearch(false));
@@ -39,23 +39,25 @@ const SearchComponent = () => {
       );
       setResults(response.data);
       console.log(response);
-      
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const debouncedFetchData = useCallback(debounce((query: string, tab: string) => {
-    setLoading(true)
-    fetchData(query, tab);
-  }, 500), []);
+  const debouncedFetchData = useCallback(
+    debounce((query: string, tab: string) => {
+      setLoading(true);
+      fetchData(query, tab);
+    }, 500),
+    []
+  );
 
   useEffect(() => {
-    if (searchText.trim() !== '') {
+    if (searchText.trim() !== "") {
       debouncedFetchData(searchText, activeTab);
-      setLoading(false)
+      setLoading(false);
     } else {
       setResults([]);
     }
@@ -75,20 +77,31 @@ const SearchComponent = () => {
           onChange={handleInputChange}
           className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
-        <div onClick={handleClose} className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition duration-200">
+        <div
+          onClick={handleClose}
+          className="ml-2 cursor-pointer text-gray-500 hover:text-gray-700 transition duration-200"
+        >
           <CircleX size={24} />
         </div>
       </div>
       <div className="flex border-b border-gray-200">
         <div
-          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'users' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
-          onClick={() => handleTabClick('users')}
+          className={`w-1/2 text-center p-2 cursor-pointer ${
+            activeTab === "users"
+              ? "bg-gray-800 text-white rounded-t-lg"
+              : "bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg"
+          }`}
+          onClick={() => handleTabClick("users")}
         >
           <h1 className="font-medium">Profiles</h1>
         </div>
         <div
-          className={`w-1/2 text-center p-2 cursor-pointer ${activeTab === 'clubs' ? 'bg-gray-800 text-white rounded-t-lg' : 'bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg'}`}
-          onClick={() => handleTabClick('clubs')}
+          className={`w-1/2 text-center p-2 cursor-pointer ${
+            activeTab === "clubs"
+              ? "bg-gray-800 text-white rounded-t-lg"
+              : "bg-white text-gray-800 hover:bg-gray-100 transition duration-200 rounded-t-lg"
+          }`}
+          onClick={() => handleTabClick("clubs")}
         >
           <h1 className="font-medium">Club</h1>
         </div>
@@ -97,17 +110,17 @@ const SearchComponent = () => {
         {loading ? (
           <div className="text-center text-gray-500">Loading...</div>
         ) : (
-          results.map((item: any) => (
-            activeTab === 'users' ? (
+          results.map((item: any) =>
+            activeTab === "users" ? (
               <ProfileCard key={item.id} profile={item} />
             ) : (
               <ClubCard key={item.id} club={item} />
             )
-          ))
+          )
         )}
       </div>
     </div>
   );
-}
+};
 
 export default SearchComponent;

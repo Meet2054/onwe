@@ -44,16 +44,19 @@ import axios from "axios";
 
     fetchPosts();
   }, [club,getToken]);
+  
 
   return (
-    <div className="relative flex gap-5 flex-col">
+    <div className="flex gap-20 flex-col bg-[#F1F3F5] h-full">
       {posts.map((post) => (
         <div 
         onClick={()=>handleClick(post)}
-        key={post.id} className="relative size-96 rounded-full">
-          {/* <h2>{post.id}</h2> */}
-          <DialogBox imageUrl={post.media[0]}/>
-          {/* <p>{post.content}</p> */}
+        key={post.id} className="grow max-w-96 max-h-72 bg-white rounded-xl">
+          <h1 className="font-semibold m-2 text-base">{post.username}</h1>
+          <div className="m-2 border rounded-xl">
+          <DialogBox imageUrl={post.media[0]} post={post}/>
+          </div>
+          <p className="m-2 font-medium text-base">{post.description}</p>
         </div>
       ))}
       <button

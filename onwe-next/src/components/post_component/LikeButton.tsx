@@ -35,6 +35,12 @@ const LikeButton = () => {
       }
     );
 
+    let newTimeline = timeline?.map((pst) => {
+      if(pst.id==post.id){
+        
+      }
+    });
+
     // const newPost = {
     //   ...post,
     //   likes: isClicked ? post.likes - 1 : post.likes + 1,
@@ -47,7 +53,7 @@ const LikeButton = () => {
     const fetchData = async () => {
       const res = await getData(`/posts/${post.id}`, {}, "GET");
       const data = res[0];
-      dispatch(setPost(data));
+      // dispatch(setPost(data));
       setIsClicked(data?.liked);
       setLikeCount(data?.likes);
     };

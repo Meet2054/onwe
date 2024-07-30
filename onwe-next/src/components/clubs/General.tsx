@@ -52,12 +52,12 @@ const General = ({ club }: { club: string }) => {
   }, [club, getToken]);
 
   return (
-    <div className="flex gap-20 flex-col bg-[#F1F3F5] grow">
+    <div className="flex gap-20 flex-col bg-[#F1F3F5] grow pt-24 pl-10 pr-10 pb-20">
       <div className=" flex flex-col gap-3">
         {posts.map((post) => {
-          let cnm = ""
-          if(post.username === session?.user.username){
-            cnm = "flex-row-reverse"
+          let cnm = "";
+          if (post.username === session?.user.username) {
+            cnm = "flex-row-reverse";
           }
 
           return (
@@ -84,7 +84,7 @@ const General = ({ club }: { club: string }) => {
         })}
       </div>
       <button
-        className="fixed bottom-4 right-4 bg-gray-500 text-white px-4 py-2 rounded-xl"
+        className="fixed bottom-4 right-14 bg-black font px-4 py-3 rounded-xl text-white font-semibold shadow-lg"
         onClick={handleCreateClick}
       >
         + New Post

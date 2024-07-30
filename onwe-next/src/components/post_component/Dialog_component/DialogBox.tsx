@@ -42,14 +42,14 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   return (
     <Dialog>
       {imageUrl ? (
-        <DialogTrigger className={cn("relative h-52 w-full", className)}>
+        <DialogTrigger className={cn("relative h-60 w-full", className)}>
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"
             layout="fill"
             objectFit="cover"
             onLoad={handleImageLoad}
-            className="rounded-lg"
+            className="rounded-lg "
           />
         </DialogTrigger>
       ) : (

@@ -38,13 +38,13 @@ const ClubSideBar = () => {
 
     fetchMyClubs();
   }, [getToken]); // Make sure to include getToken in the dependency array
-  
+
   return (
-    <div className="h-screen w-full flex flex-col">
-      <div className="flex border h-[7vh] ">
-        <h1 className="text-2xl font-bold mt-6 ml-8">CLUBS</h1>
+    <div className="h-screen w-full flex flex-col border">
+      <div className="flex items-center border-b h-[8vh] ">
+        <h1 className="text-2xl font-bold pl-8">CLUBS</h1>
       </div>
-      <div className="flex flex-col border-r overflow-y-auto space-y-2">
+      <div className="flex flex-col overflow-y-auto space-y-2 mt-4">
         {myClubs.map((club) => (
           <ClubCard key={club.id} club={club} />
         ))}

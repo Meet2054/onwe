@@ -71,7 +71,7 @@ const Page = () => {
 
   else{
     return (
-      <div className="content">
+      <div className="content h-full">
       {tab === "general" ? (
         <General club={club} />
         // <General posts={clubposts} club={club} />

@@ -4,7 +4,7 @@ import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <GeneralAnnounce/>
+      <GeneralAnnounce />
       <div className="h-screen">{children}</div>
     </>
   );

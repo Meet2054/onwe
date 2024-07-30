@@ -29,7 +29,7 @@ const SearchComponent = () => {
     try {
       // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/${tab}/${query}`);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/${tab}/${query}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`,
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,

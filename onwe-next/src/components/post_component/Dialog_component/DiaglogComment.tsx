@@ -45,7 +45,7 @@ const DiaglogComment = () => {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div className="">
-        <PostAuthor />
+        <PostAuthor post={post} />
         <div className="border border-gray-200" />
       </div>
       <div className="w-full h-[70%] overflow-y-auto  space-y-4 scrollbar-hide p-4">
@@ -56,12 +56,13 @@ const DiaglogComment = () => {
               data={comment}
               username={comment.user?.username}
               comment={comment.content}
+              avatar={comment.user.avatar!}
             />
           ))}
       </div>
       <div className="flex flex-col space-y-2">
         <div className="flex justify-between items-center">
-          <LikeButton post={post} />
+          <LikeButton />
           <span>{comments.length} comments</span>
           <CopyButton />
         </div>

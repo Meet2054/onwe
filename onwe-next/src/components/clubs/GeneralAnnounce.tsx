@@ -15,7 +15,7 @@ const GeneralAnnounce = () => {
 
   return (
     <div className="ml-[53px] right-0 left-1/4 fixed z-10">
-      <div className="w-full h-[8vh] items-center  border bg-white flex justify-between py-5">
+      <div className="w-full h-[8.05vh] items-center  border bg-white flex justify-between py-5">
         <div className="pl-10 font-bold text-lg">Events</div>
         <div className="flex gap-x-2">
           <div

@@ -10,9 +10,12 @@ interface CreatePostProps {
   category: string;
   clubName: string;
 }
-// const CreatePost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const CreatePost: React.FC<CreatePostProps> = ({onClose,category,clubName})=> {
-  // const [category, setCategory] = useState<string>("general");
+
+const CreatePost: React.FC<CreatePostProps> = ({
+  onClose,
+  category,
+  clubName,
+}) => {
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<string>("");
   const [files, setFiles] = useState<File[]>([]);
@@ -41,10 +44,6 @@ interface CreatePostProps {
     });
   };
 
-  // const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   setCategory(e.target.value);
-  // };
-
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
@@ -62,9 +61,7 @@ interface CreatePostProps {
       formData.append("category", category);
       formData.append("description", description);
       formData.append("tags", tags);
-      formData.append("clubname",clubName)
-      // console.log(formData);
-      
+      formData.append("clubname", clubName);
 
       for (let i = 0; i < files.length; i++) {
         formData.append("media", files[i]);
@@ -82,17 +79,12 @@ interface CreatePostProps {
       );
 
       console.log("Post successful:", response.data);
-      console.log(response.data);
-      
 
-      // Clear form fields
-      // setCategory("general");
       setDescription("");
       setTags("");
       setFiles([]);
       setSuccessMessage("Post successful!");
 
-      // Hide success message after 3 seconds
       setTimeout(() => setSuccessMessage(""), 3000);
       onClose();
     } catch (error) {
@@ -126,18 +118,6 @@ interface CreatePostProps {
             className="w-full p-2 border border-gray-300 rounded mb-4"
             placeholder="Tags"
           />
-          {/* <select
-            value={category}
-            onChange={handleCategoryChange}
-            className="w-full p-2 border border-gray-300 rounded mb-4"
-          >
-            <option value="general">General</option>
-            <option value="nature">Academia</option>
-            <option value="technology">Literature</option>
-            <option value="people">Discussions</option>
-            <option value="architecture">Sports</option>
-            <option value="animals">Arts & Fashion</option>
-          </select> */}
           <div
             className="border-dashed rounded-xl h-24 flex flex-col justify-center items-center shadow-md bg-gray-100 mb-4"
             onDragOver={preventDefault}
@@ -145,34 +125,34 @@ interface CreatePostProps {
             onDragLeave={preventDefault}
             onDrop={handleDrop}
           >
-            <input
-              type="file"
-              id="photoUpload"
-              multiple
-              accept="image/*,video/*"
-              onChange={handleChange}
-              className="hidden"
-            />
-            <label
-              htmlFor="photoUpload"
-              className="cursor-pointer flex flex-col items-center"
-            >
-              <Upload size={20} />
-              <p className="text-black mt-2 text-sm">Choose a file or drag and drop here.</p>
-              {/* <p className="text-gray-400 text-xs">Up to 5 images/videos.</p> */}
-            </label>
-            <div className="mt-4 text-center">
-              {files.length > 0 && (
+            {files.length === 0 ? (
+              <>
+                <input
+                  type="file"
+                  id="photoUpload"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="photoUpload"
+                  className="cursor-pointer flex flex-col items-center"
+                >
+                  <Upload size={20} />
+                  <p className="text-black mt-2 text-sm">
+                    Choose a file or drag and drop here.
+                  </p>
+                </label>
+              </>
+            ) : (
+              <div className="mt-2 pb-2 text-center">
                 <div className="text-left">
-                  <h4 className="text-gray-600 mb-2">Selected files:</h4>
                   <ul className="list-inside grid grid-cols-3">
                     {files.map((file, index) => {
                       const fileUrl = URL.createObjectURL(file);
                       return (
-                        <li
-                          key={index}
-                          className="relative w-16 h-16 m-2"
-                        >
+                        <li key={index} className="relative w-16 h-16 m-2">
                           {file.type.startsWith("image/") ? (
                             <img
                               src={fileUrl}
@@ -198,8 +178,8 @@ interface CreatePostProps {
                     })}
                   </ul>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="flex justify-end">
             <button
@@ -212,19 +192,12 @@ interface CreatePostProps {
             <button
               type="button"
               onClick={handlePost}
-              className={cn(
-                "bg-blue-500 text-white px-4 py-2 rounded",
-                {
-                  "opacity-50": loading || isPostDisabled,
-                }
-              )}
+              className={cn("bg-blue-500 text-white px-4 py-2 rounded", {
+                "opacity-50": loading || isPostDisabled,
+              })}
               disabled={loading || isPostDisabled}
             >
-              {loading ? (
-                <LoaderCircle className="animate-spin" />
-              ) : (
-                <>Post</>
-              )}
+              {loading ? <LoaderCircle className="animate-spin" /> : <>Post</>}
             </button>
           </div>
         </div>

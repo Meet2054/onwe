@@ -66,15 +66,15 @@ const General = ({ club }: { club: string }) => {
                 <div
                   onClick={() => handleClick(post)}
                   key={post.id}
-                  className="grow max-w-96 max-h-72 bg-white rounded-xl"
+                  className="grow max-w-96 max-h-full bg-white rounded-xl"
                 >
                   <h1 className="font-semibold m-2 text-base">
                     {post.username}
                   </h1>
-                  <div className="m-2 border rounded-xl">
+                  <div className="m-2 rounded-xl">
                     <DialogBox imageUrl={post.media[0]} post={post} />
                   </div>
-                  <p className="m-2 font-medium text-base">
+                  <p className="m-2 mt-[-10px] font-medium text-base">
                     {post.description}
                   </p>
                 </div>

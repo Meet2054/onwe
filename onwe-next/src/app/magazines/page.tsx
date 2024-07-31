@@ -1,6 +1,7 @@
 // pages/index.tsx
 "use client";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import MagazinesComponent from "@/components/magazines/MagazinesComponent";
@@ -17,6 +18,17 @@ type Magazine = {
   media: string[]; // Assuming media is an array of strings
 };
 
+// Fetcher function that includes token in headers
+const fetcher = async (url: string, token: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  });
+  return response.data;
+};
+
 const Page: React.FC = () => {
   const [magazines, setMagazines] = useState<Magazine[]>([]);
   const [selectedMagazine, setSelectedMagazine] = useState<Magazine | null>(
@@ -24,29 +36,48 @@ const Page: React.FC = () => {
   );
   const { getToken } = useAuth();
   const dispatch = useDispatch();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch magazines from API when the component mounts
-    const fetchMagazines = async () => {
-      try {
-        const token = await getToken();
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/magazines`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        setMagazines(response.data);
-      } catch (error) {
-        console.error("Error fetching magazines:", error);
-      }
+    const fetchToken = async () => {
+      const fetchedToken = await getToken({ template: "test" });
+      setToken(fetchedToken);
     };
+    fetchToken();
+  }, [getToken]);
 
-    fetchMagazines();
-  }, [getToken]); // Make sure to include getToken in the dependency array
+  const { data, error } = useSWR(
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/magazines` : null,
+    (url) => fetcher(url, token!)
+  );
+
+  useEffect(() => {
+    if (data) {
+      setMagazines(data);
+    }
+  }, [data]);
+  // useEffect(() => {
+  //   // Fetch magazines from API when the component mounts
+  //   const fetchMagazines = async () => {
+  //     try {
+  //       const token = await getToken();
+  //       const response = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/magazines`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             "ngrok-skip-browser-warning": "69420",
+  //           },
+  //         }
+  //       );
+  //       setMagazines(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching magazines:", error);
+  //     }
+  //   };
+
+  //   fetchMagazines();
+  // }, [getToken]); // Make sure to include getToken in the dependency array
 
   const handleSelectMagazine = (magazine: Magazine) => {
     setSelectedMagazine(magazine);

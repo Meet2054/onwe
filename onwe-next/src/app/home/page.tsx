@@ -22,7 +22,7 @@ const Page = () => {
     const fetchTokenAndData = async () => {
       try {
         const fetchedToken = await getToken({ template: "test" });
-        // console.log(fetchedToken);
+        console.log(fetchedToken);
 
         setToken(fetchedToken!);
 

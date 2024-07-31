@@ -1,22 +1,35 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import LikeComment from "./LikeComment";
 import PostImage from "./PostImage";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
+import {
+  formatDistanceToNow,
+  parseISO,
+  formatDistanceToNowStrict,
+} from "date-fns";
 
 interface PostsComponentProps {
   post: PostsProps;
 }
 
 const Posts: React.FC<PostsComponentProps> = ({ post }) => {
+  const [timeAgo, setTimeAgo] = useState("");
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(setPost(post!));
   };
-
+  useEffect(() => {
+    const time = post.createdAt;
+    if (time) {
+      const date = new Date(parseISO(time));
+      const timeago = formatDistanceToNowStrict(date, { addSuffix: true });
+      setTimeAgo(timeago);
+    }
+  }, []);
   return (
     <div
       onClick={handleClick}
@@ -26,7 +39,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
         <PostAvatar imageUrl={post.avatar} />
         <div>
           <span className="font-bold">{post?.username || "rituisboy"}</span>
-          <span className="block text-sm text-gray-500">2 hours ago</span>
+          <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
       <div className="flex flex-col justify-center  items-center">

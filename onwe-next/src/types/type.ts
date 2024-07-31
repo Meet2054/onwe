@@ -28,6 +28,7 @@ export interface PostsProps {
   category: string;
   liked: boolean;
   avatar?: string;
+  createdAt: string;
 }
 
 export interface UserProfile {

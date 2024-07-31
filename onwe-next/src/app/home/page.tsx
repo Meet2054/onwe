@@ -9,6 +9,8 @@ import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
 import { setTimeline } from "@/lib/features/timeline/postSlice";
 import { RootState } from "@/lib/store";
+import useSWR from "swr";
+import { getData } from "@/lib/utils";
 
 const Page = () => {
   const { getToken } = useAuth();
@@ -17,41 +19,50 @@ const Page = () => {
   const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
   const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
+  const { data: swrData, isLoading } = useSWR("/posts", (url) => getData(url));
 
   useEffect(() => {
-    const fetchTokenAndData = async () => {
-      try {
-        const fetchedToken = await getToken({ template: "test" });
-        console.log(fetchedToken);
+    setResponseData(swrData);
 
-        setToken(fetchedToken!);
+    dispatch(setTimeline(swrData));
+    dispatch(setPost(swrData));
+  }, [swrData]);
 
-        axios
-          .get(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
-            headers: {
-              Authorization: `Bearer ${fetchedToken}`,
-              "Content-Type": "application/json",
-              Accept: "*/*",
-              "ngrok-skip-browser-warning": "69420",
-            },
-          })
-          .then((data) => {
-            console.log(data.data);
-            dispatch(setTimeline(data.data));
+  // useEffect(() => {
+  //   const fetchTokenAndData = async () => {
+  //     try {
+  //       const fetchedToken = await getToken({ template: "test" });
+  // console.log(fetchedToken);
 
-            dispatch(setPost(data.data[0]));
+  //       setToken(fetchedToken!);
 
-            setResponseData(data.data);
-          });
-      } catch (error) {
-        // throw new Error(error?.message);
-        console.error("Error fetching data:", error);
-        setError(error);
-      }
-    };
+  //       axios
+  //         .get(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
+  //           headers: {
+  //             Authorization: `Bearer ${fetchedToken}`,
+  //             "Content-Type": "application/json",
+  //             Accept: "*/*",
+  //             "ngrok-skip-browser-warning": "69420",
+  //           },
+  //         })
+  //         .then((data) => {
+  // console.log(data.data);
 
-    fetchTokenAndData();
-  }, [getToken]);
+  //           dispatch(setTimeline(data.data));
+
+  //           dispatch(setPost(data.data[0]));
+
+  //           setResponseData(data.data);
+  //         });
+  //     } catch (error) {
+  // throw new Error(error?.message);
+  //       console.error("Error fetching data:", error);
+  //       setError(error);
+  //     }
+  //   };
+
+  //   fetchTokenAndData();
+  // }, [getToken]);
 
   useEffect(() => {
     setResponseData(timeline);

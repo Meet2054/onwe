@@ -53,7 +53,7 @@ const Page = ({ params }: PageProps) => {
         <div className="w-[45%]  flex justify-center items-start">
           <Profile userInfo={userInfo!} />
         </div>
-        <div className="w-[55%] border p-2 overflow-y-auto">
+        <div className="w-[55%] p-2 overflow-y-auto">
           <ProfilePost posts={userInfo?.posts!} />
         </div>
       </div>

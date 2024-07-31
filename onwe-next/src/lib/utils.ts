@@ -28,7 +28,6 @@ export const getData = async (
   body: any = {},
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET"
 ) => {
-  
   try {
     const res = await axios({
       method: method,
@@ -41,11 +40,9 @@ export const getData = async (
         "ngrok-skip-browser-warning": "69420",
       },
     });
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const base64Prefix = "data:image/png;base64,";

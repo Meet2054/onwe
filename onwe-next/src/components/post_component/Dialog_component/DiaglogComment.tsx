@@ -62,7 +62,7 @@ const DiaglogComment = () => {
       </div>
       <div className="flex flex-col space-y-2">
         <div className="flex justify-between items-center">
-          <LikeButton />
+          <LikeButton post={post} />
           <span>{comments.length} comments</span>
           <CopyButton />
         </div>

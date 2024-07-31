@@ -2,6 +2,7 @@
 import { setPost } from "@/lib/features/posts/postSlice";
 import { RootState } from "@/lib/store";
 import { getData } from "@/lib/utils";
+import { PostsProps } from "@/types/type";
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
@@ -9,11 +10,12 @@ import { Heart, ThumbsUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const LikeButton = () => {
-  const post = useSelector((state: RootState) => state.post.post);
+const LikeButton = ({ post }: { post: PostsProps }) => {
+  // const post = useSelector((state: RootState) => state.post.post);
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const { getToken } = useAuth();
+
   const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
 
@@ -35,11 +37,10 @@ const LikeButton = () => {
       }
     );
 
-    let newTimeline = timeline?.map((pst) => {
-      if(pst.id==post.id){
-        
-      }
-    });
+    // let newTimeline = timeline?.map((pst) => {
+    //   if (pst.id == post.id) {
+    //   }
+    // });
 
     // const newPost = {
     //   ...post,
@@ -51,7 +52,19 @@ const LikeButton = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getData(`/posts/${post.id}`, {}, "GET");
+      // const res = await getData(`/posts/${post.id}`);
+      const { data: res } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+
       const data = res[0];
       // dispatch(setPost(data));
       setIsClicked(data?.liked);

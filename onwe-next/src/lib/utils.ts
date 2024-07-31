@@ -25,9 +25,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getData = async (
   url: string,
-  body: {},
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "POST"
+  body: any = {},
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET"
 ) => {
+  
   try {
     const res = await axios({
       method: method,
@@ -40,7 +41,7 @@ export const getData = async (
         "ngrok-skip-browser-warning": "69420",
       },
     });
-
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);

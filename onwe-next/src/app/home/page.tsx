@@ -36,6 +36,7 @@ const Page = () => {
             },
           })
           .then((data) => {
+            console.log(data.data);
             dispatch(setTimeline(data.data));
 
             dispatch(setPost(data.data[0]));

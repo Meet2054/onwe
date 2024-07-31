@@ -5,7 +5,7 @@ import Image from 'next/image';
 interface Profile {
     id: string;
     username: string;
-    image: string
+    avatar: string
 }
 
 interface ProfileCardProps {
@@ -15,7 +15,7 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
   const base64Prefix = "data:image/png;base64,";
   console.log(profile.username);
-  const imageSrc = `data:image/png;base64,${profile.image}`;
+  const imageSrc = `data:image/png;base64,${profile.avatar}`;
 
   return (
     <div className="flex items-center mt-2 ml-6 p-2">

@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/nextjs";
-import Posts, { PostsProps } from "@/components/post_component/Posts";
+import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
+import { PostsProps } from "@/types/type";
 
 const Page = ({ params }) => {
   const { getToken } = useAuth();

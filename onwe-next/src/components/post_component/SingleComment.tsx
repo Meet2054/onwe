@@ -10,10 +10,12 @@ const SingleComment = ({
   data,
   username,
   comment,
+  avatar,
 }: {
   data: Comment;
   username: string;
   comment: string;
+  avatar: string;
 }) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const [reply, setReply] = useState("");
@@ -56,14 +58,10 @@ const SingleComment = ({
   const showReply = async () => {
     console.log(data);
     const token = await getToken();
-    const response = await getData(
-      "/subcomments",
-      {
-        postId: data.postId,
-        parentId: data.id,
-      },
-      token!
-    );
+    const response = await getData("/subcomments", {
+      postId: data.postId,
+      parentId: data.id,
+    });
     console.log(response);
     setReplies(response);
   };
@@ -79,7 +77,7 @@ const SingleComment = ({
   return (
     <div className="flex gap-1">
       <div>
-        <PostAvatar size={7} />
+        <PostAvatar size={7} imageUrl={avatar} />
       </div>
       <div>
         <div className="">

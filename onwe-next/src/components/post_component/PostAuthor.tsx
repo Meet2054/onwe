@@ -1,17 +1,19 @@
 import React from "react";
 import PostAvatar from "./PostAvatar";
+import { PostsProps } from "@/types/type";
+import Link from "next/link";
 
-const PostAuthor = () => {
+const PostAuthor = ({ post }: { post: PostsProps }) => {
   return (
     <div className="flex gap-1">
       <div>
-        <PostAvatar size={7} />
+        <PostAvatar size={7} imageUrl={post.avatar} />
       </div>
       <div>
-        <span className="p-2 font-semibold">rituisboy</span>
-        <span>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat
-        </span>
+        <Link href={`/profile/${post.username}`} className="p-2 font-semibold">
+          {post.username}
+        </Link>
+        <span>{post.description}</span>
       </div>
     </div>
   );

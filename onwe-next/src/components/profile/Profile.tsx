@@ -11,7 +11,13 @@ import {
 import Link from "next/link";
 import { UserProfile } from "@/types/type";
 
-const Profile = ({ userInfo }: { userInfo: UserProfile }) => {
+const Profile = ({
+  userInfo,
+  showEdit = true,
+}: {
+  userInfo: UserProfile;
+  showEdit?: boolean;
+}) => {
   return (
     <div className="w-[77%] h-[calc(100dvh-4rem)] mt-16 mx-auto p-4 flex flex-col items-center">
       <div className="flex justify-center items-center relative">
@@ -20,17 +26,19 @@ const Profile = ({ userInfo }: { userInfo: UserProfile }) => {
           className="ring-8 ring-slate-300"
           imageUrl={userInfo?.user?.avatar}
         />
-        <div
-          className="my-3 p-2 group border rounded-full 
+        {showEdit && (
+          <div
+            className="my-3 p-2 group border rounded-full 
         absolute -bottom-6  right-0  transition-all duration-100"
-        >
-          <Link href="/profile/edit">
-            <LucidePencilLine
-              size={16}
-              className="group-hover:scale-125 transition-all duration-100 ease-in-out"
-            />
-          </Link>
-        </div>
+          >
+            <Link href="/profile/edit">
+              <LucidePencilLine
+                size={16}
+                className="group-hover:scale-125 transition-all duration-100 ease-in-out"
+              />
+            </Link>
+          </div>
+        )}
       </div>
       <div className="text-2xl font-bold text-center mt-8">
         {userInfo?.user?.fullname}

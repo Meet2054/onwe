@@ -25,9 +25,9 @@ const Page = ({ params }: PageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
-      console.log("starting request");
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/info`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,7 +37,6 @@ const Page = ({ params }: PageProps) => {
           },
         }
       );
-      console.log(data);
       dispatch(setUser(data));
 
       setUserInfo(data);
@@ -49,12 +48,14 @@ const Page = ({ params }: PageProps) => {
     // };
   }, []);
   return (
-    <div className="h-[100vh] w-full flex animate-slide-up fade-in-5">
-      <div className="w-[45%]  flex justify-center items-start">
-        <Profile userInfo={userInfo!} showEdit={false} />
-      </div>
-      <div className="w-[55%] border p-2 overflow-y-auto">
-        <ProfilePost posts={userInfo?.posts!} />
+    <div className="h-[100vh] w-full flex items-center  bg-[#F1F1F1]  overflow-y-hidden">
+      <div className="w-full h-[96vh] flex animate-slide-up fade-in-5 rounded-xl bg-white mr-4">
+        <div className="w-[45%]  flex justify-center items-start">
+          <Profile userInfo={userInfo!} />
+        </div>
+        <div className="w-[55%] border p-2 overflow-y-auto">
+          <ProfilePost posts={userInfo?.posts!} />
+        </div>
       </div>
     </div>
   );

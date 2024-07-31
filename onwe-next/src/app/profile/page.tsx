@@ -43,7 +43,7 @@ const Page = () => {
         <div className="w-[45%] h-full flex justify-center items-start ">
           <Profile userInfo={userInfo!} />
         </div>
-        <div className="w-[55%] p-2 bg-white rounded-lg">
+        <div className="w-[55%] p-2 bg-white rounded-lg overflow-y-auto">
           <ProfilePost posts={userInfo?.posts!} />
         </div>
       </div>

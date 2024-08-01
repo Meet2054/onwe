@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
 import { parseISO, formatDistanceToNowStrict } from "date-fns";
+import Link from "next/link";
 
 interface PostsComponentProps {
   post: PostsProps;
@@ -34,7 +35,12 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post.avatar} />
         <div>
-          <span className="font-bold">{post?.username || "rituisboy"}</span>
+          <Link
+            href={`/profile/${post.username}`}
+            className="font-bold hover:underline"
+          >
+            {post?.username || "rituisboy"}
+          </Link>
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>

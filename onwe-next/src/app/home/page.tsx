@@ -30,10 +30,7 @@ const Page = () => {
     error,
     isValidating,
     isLoading,
-  } = useSWR<PostsProps[]>("/posts", fetcher, {
-    // revalidateOnFocus: false,
-    // revalidateIfStale: false,
-  });
+  } = useSWR<PostsProps[]>("/posts", fetcher);
 
   useEffect(() => {
     if (posts) {

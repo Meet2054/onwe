@@ -27,13 +27,18 @@ const MinSideBar = () => {
       <div className="w-full animate-slide-out">
         <div className="h-screen w-full flex flex-col items-center p-4 border bg-white">
           <div className="flex items-start justify-center">
-            <Link href="/" className="text-gray-700 hover:text-gray-900">
+            <Link
+              scroll={false}
+              href="/"
+              className="text-gray-700 hover:text-gray-900"
+            >
               <h1 className="font-bold text-2xl mr-3 mb-1">O</h1>
             </Link>
           </div>
           {/* <hr className="border-t border-black my-4 w-full" /> */}
           <div className="flex flex-col items-start w-full mt-8 space-y-8">
             <Link
+              scroll={false}
               href="/home"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -53,6 +58,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             <Link
+              scroll={false}
               href="/clubs"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -72,7 +78,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             {/* <Link
-              href="/explore"
+              scroll={false} href="/explore"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
@@ -91,6 +97,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link> */}
             <Link
+              scroll={false}
               href="/explore"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -110,6 +117,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             <Link
+              scroll={false}
               href="/magazines"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -129,6 +137,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             <Link
+              scroll={false}
               href="/events"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -149,7 +158,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             {/* <Link
-              href="/notifications"
+              scroll={false} href="/notifications"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
               <Tooltip delayDuration={0}>
@@ -168,6 +177,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link> */}
             <Link
+              scroll={false}
               href="/create"
               className="flex items-center text-black hover:text-gray-500 w-full"
             >
@@ -189,6 +199,7 @@ const MinSideBar = () => {
           </div>
           <div className="flex flex-col items-start w-full mt-auto">
             <Link
+              scroll={false}
               href="/profile"
               className="text-black hover:text-gray-900 mb-2 flex items-center w-full"
             >
@@ -208,7 +219,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
             {/* <Link
-              href="/settings"
+              scroll={false} href="/settings"
               className="text-black hover:text-gray-900 flex items-center w-full"
             >
               {" "}

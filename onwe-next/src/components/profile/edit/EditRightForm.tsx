@@ -10,6 +10,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
 import { z } from "zod";
 
 // interface EditFormProps {
@@ -33,6 +34,7 @@ const EditRightForm = () => {
   const { getToken } = useAuth();
   const { user } = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const {
     register,
@@ -47,10 +49,8 @@ const EditRightForm = () => {
   });
 
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
-    console.log(data);
+    setIsSaving(true);
     try {
-      console.log("starting axios");
-
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
         data,
@@ -61,10 +61,11 @@ const EditRightForm = () => {
           },
         }
       );
-      console.log(res);
+      toast.success("saved successfully");
     } catch (error) {
       console.log(error);
     }
+    setIsSaving(false);
   };
 
   const addNewLink = (e: React.MouseEvent<HTMLFormElement>) => {
@@ -90,6 +91,7 @@ const EditRightForm = () => {
             Discard changes
           </Button>
           <Button
+            disabled={isSaving}
             type="submit"
             variant="ghost"
             className="border h-10 text-black bg-blue-500

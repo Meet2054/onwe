@@ -22,6 +22,7 @@ const EditLeftFrom = () => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      setImageUrl(e.target.files[0]);
       const formData = new FormData();
       formData.append("media", e.target.files[0]);
 
@@ -35,9 +36,8 @@ const EditLeftFrom = () => {
           },
         }
       );
-      console.log(res.data);
-
-      setImageUrl(e.target.files[0]);
+      console.log();
+      setImageUrl(res.data.avatar);
     }
   };
   return (

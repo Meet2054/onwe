@@ -22,14 +22,19 @@ const SideBar = () => {
   return (
     <div className="h-screen flex flex-col items-center p-4 bg-white animate-slide-in">
       <div className="flex items-start justify-center border">
-        <Link href="/" className="text-gray-700 hover:text-gray-900">
+        <Link
+          scroll={false}
+          href="/"
+          className="text-gray-700 hover:text-gray-900"
+        >
           <h1 className="font-bold text-2xl">ONWE</h1>
         </Link>
       </div>
       {/* <hr className="border-t border-black my-4 w-full" /> */}
       <div className="flex flex-col items-start w-4/6 mt-6 justify-center ">
         <Link
-        prefetch={true}
+          prefetch={true}
+          scroll={false}
           href="/home"
           className={`flex items-center text-black hover:text-gray-500 w-44 ml-10 ${
             isActive("/home") ? "bg-gray-300 rounded-full" : ""
@@ -41,6 +46,7 @@ const SideBar = () => {
           </div>
         </Link>
         <Link
+          scroll={false}
           href="/clubs"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/clubs") ? "bg-gray-300 rounded-full" : ""
@@ -51,13 +57,14 @@ const SideBar = () => {
             <h1 className="ml-2 text-sm ">Clubs</h1>
           </div>
         </Link>
-        {/* <Link href="/explore" className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${isActive("/explore") ? 'bg-gray-300 rounded-full' : ''}`}>
+        {/* <Link scroll={false} href="/explore" className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${isActive("/explore") ? 'bg-gray-300 rounded-full' : ''}`}>
           <div className='flex p-4'>
             <Compass size={20} strokeWidth={1.4} stroke='black' />
             <h1 className="ml-2 text-sm">Explore</h1>
           </div>
         </Link> */}
         <Link
+          scroll={false}
           href="/explore"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/search") ? "bg-gray-300 rounded-full" : ""
@@ -69,6 +76,7 @@ const SideBar = () => {
           </div>
         </Link>
         <Link
+          scroll={false}
           href="/magazines"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/magazines") ? "bg-gray-300 rounded-full" : ""
@@ -80,7 +88,8 @@ const SideBar = () => {
           </div>
         </Link>
         <Link
-        prefetch={true}
+          prefetch={true}
+          scroll={false}
           href="/events"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/events") ? "bg-gray-300 rounded-full" : ""
@@ -92,7 +101,7 @@ const SideBar = () => {
           </div>
         </Link>
         {/* <Link
-          href="/notifications"
+          scroll={false} href="/notifications"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/notifications") ? "bg-gray-300 rounded-full" : ""
           }`}
@@ -103,6 +112,7 @@ const SideBar = () => {
           </div>
         </Link> */}
         <Link
+          scroll={false}
           href="/create"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
             isActive("/create") ? "bg-gray-300 rounded-full" : ""
@@ -116,6 +126,7 @@ const SideBar = () => {
       </div>
       <div className="flex flex-col items-start w-4/6 mt-60">
         <Link
+          scroll={false}
           href="/profile"
           className={`text-black hover:text-gray-900  ml-10 flex items-center w-52 ${
             isActive("/profile") ? "bg-gray-300 rounded-full" : ""

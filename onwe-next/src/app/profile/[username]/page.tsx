@@ -25,9 +25,8 @@ const Page = ({ params }: PageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/info`,
-        {},
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

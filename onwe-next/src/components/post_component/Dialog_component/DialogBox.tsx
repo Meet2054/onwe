@@ -49,7 +49,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
             layout="fill"
             objectFit="cover"
             onLoad={handleImageLoad}
-            className="rounded-lg "
+            className="rounded-lg object-scale-down"
           />
         </DialogTrigger>
       ) : (
@@ -70,14 +70,20 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
         // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
-        className="flex max-w-[70dvw] max-h-[70dvh] bg-white  border-none sm:rounded-3xl p-1"
+        className="flex min-w-[70vw] h-[80vh]   border-none sm:rounded-3xl  bg-transparent p-0"
       >
-        <div className="flex relative items-center w-full min-h-[69dvh] justify-center ">
+        <div className="flex w-[70%] h-full justify-center items-end p-0  relative bg-transparent">
           <DialogImage imageUrl={post?.media[0]} />
         </div>
-        <div className="p-3 rounded-3xl  overflow-y-auto">
+        <div className="p-3 flex-grow rounded-e-3xl w-[30rem]  overflow-y-auto bg-white">
           <DiaglogComment />
         </div>
+        {/* <div className="flex relative items-center w-full min-h-[69dvh] justify-center  ">
+          <DialogImage imageUrl={post?.media[0]} />
+        </div>
+        <div className="p-3 rounded-3xl w-[30rem]   overflow-y-auto bg-white">
+          <DiaglogComment />
+        </div> */}
       </DialogContent>
     </Dialog>
   );

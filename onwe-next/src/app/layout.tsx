@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import store from "../lib/store";
 import MinSideBar from "@/components/SideBar/MinSidebar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 </div>
               )}
               <div className="flex-1 h-full overflow-y-auto">{children}</div>
+              <Toaster className="bg-white" />
             </div>
           </body>
         </html>

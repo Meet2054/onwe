@@ -12,7 +12,7 @@ const MiddleNavbar = () => {
     { name: "Literature", href: "/home/literature" },
     { name: "Discussions", href: "/home/discussions" },
     { name: "Sports", href: "/home/sports" },
-    { name: "Art & Fashion", href: "/home/artfashion" },
+    { name: "Art & Fashion", href: "/home/arts_fashion" },
   ];
 
   return (
@@ -24,7 +24,7 @@ const MiddleNavbar = () => {
           className={`flex items-center  justify-center border border-[#F1F3F5] rounded-full h-[34px] px-3 ${
             pathname === item.href
               ? "text-white transition-all bg-black transition-colors"
-              : "text-gray-500"                    
+              : "text-gray-500"
           }`}
         >
           <span className="flex whitespace-nowrap text-xs">{item.name}</span>

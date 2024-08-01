@@ -26,8 +26,6 @@ const Page: React.FC = () => {
   const { getToken } = useAuth();
   const userId = "sundaram08";
 
-  console.log(token);
-
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFiles = Array.from(e.dataTransfer.files).filter(
@@ -213,11 +211,11 @@ const Page: React.FC = () => {
                   className=" bg-gray-200 block text-sm lg:text-md h-10 lg:h-12 w-full px-4 py-2 border-2 rounded-xl border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mt-2"
                 >
                   <option value="general">General</option>
-                  <option value="nature">Academia</option>
-                  <option value="technology">Literature</option>
-                  <option value="people">Discussions</option>
-                  <option value="architecture">Sports</option>
-                  <option value="animals">Arts&Fashion</option>
+                  <option value="academia">Academia</option>
+                  <option value="literature">Literature</option>
+                  <option value="discussions">Discussions</option>
+                  <option value="sports">Sports</option>
+                  <option value="arts_fashion">Arts&Fashion</option>
                 </select>
               </div>
               <div className="flex justify-end">

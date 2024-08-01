@@ -6,11 +6,7 @@ import PostImage from "./PostImage";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
-import {
-  formatDistanceToNow,
-  parseISO,
-  formatDistanceToNowStrict,
-} from "date-fns";
+import { parseISO, formatDistanceToNowStrict } from "date-fns";
 
 interface PostsComponentProps {
   post: PostsProps;

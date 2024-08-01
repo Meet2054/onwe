@@ -5,13 +5,27 @@ import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
+import useSWR from "swr";
 
 interface Post {
   id: string;
   media: string[];
 }
+
+
+const fetcher = async (url: string, token: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  });
+  return response.data;
+};
+
+
 const TopPosts: React.FC = () => {
-  // const topPosts = [
+  
   //   {
   //     coverImage:
   //       "https://s3-alpha-sig.figma.com/img/5d69/a9f9/3952b88d5fd84f90a556f47763842415?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=abdt0iQ1BwrJO~29HFysbTIKIxnN2QbX6-4cYTsH2X24R~AioTTO~JN4ncH2ctSUwyOXjiXvftampp~6XZQ4xEGxCf5I2-uKMIGyNposihDY8twKaj9rBUY-9GNYgsVAYxIQFNewqnNqvlS6jlkNQzenF0WXZ0rXLS657xtQUWB0iICTbLM1lIbTPKNM6g70lYow0FVaGrSQfMZEMR28QuU858VdqQVoq-L8zEOj0CpBYEsY5LZl4OpEJKxjjwDjd0qdFfvYghNZYfQvl3dPx3narMoV1dJTNyanc-dZ~OV4MjFSVSGN-Zt5rk4RE5fdBzpEwlizBiJqpF-ibeNoxg__",
@@ -75,32 +89,49 @@ const TopPosts: React.FC = () => {
   // ];
   const dispatch = useDispatch();
   const [posts, setPosts] = useState<Post[]>();
+  const [token, setToken] = useState<string | null>(null);
   const { getToken } = useAuth();
 
   const handleClick = (post: any) => {
     dispatch(setPost(post));
   };
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/top-posts`,
-          {
-            headers: {
-              Authorization: `Bearer ${await getToken()}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        setPosts(response.data);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/top-posts`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${await getToken()}`,
+  //             "ngrok-skip-browser-warning": "69420",
+  //           },
+  //         }
+  //       );
+  //       setPosts(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching events:", error);
+  //     }
+  //   };
 
-    fetchEvents();
+  //   fetchEvents();
+  // }, [getToken]);
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getToken({ template: "test" });
+      setToken(fetchedToken);
+    };
+    fetchToken();
   }, [getToken]);
+  const { data, error } = useSWR(
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/top-posts` : null,
+    (url) => fetcher(url, token!)
+  );
+  useEffect(() => {
+    if (data) {
+      setPosts(data);
+    }
+  }, [data]);
   return (
     <div className="w-full p-4  h-full]">
       <div className="px-5 h-full ">

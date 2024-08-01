@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Club from "./Club"; // Assuming Club component is in the same directory
 import { useAuth } from "@clerk/nextjs";
-interface Club {
+import useSWR from "swr";
+export interface TopClubProp {
   id: string;
   name: string;
   slogan: string;
@@ -9,8 +10,18 @@ interface Club {
 }
 import axios from "axios";
 
+const fetcher = async (url: string, token: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  });
+  return response.data;
+};
+
 const TopClubs: React.FC = () => {
-  // const topClubs = [
+ 
   //   {
   //     coverImage:
   //       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxJUGTMD96Sm5qSH5lVySE52Fn-Q7rZ5Uh7w&s",
@@ -30,29 +41,46 @@ const TopClubs: React.FC = () => {
   //     slogan: "Innovate the future",
   //   },
   // ];
-  const [clubs, setClubs] = useState<Club[]>();
+  const [clubs, setClubs] = useState<TopClubProp[]>();
   const { getToken } = useAuth();
+  const [token, setToken] = useState<string | null>(null);
 
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/topclubs`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${await getToken()}`,
+  //             "ngrok-skip-browser-warning": "69420",
+  //           },
+  //         }
+  //       );
+  //       setClubs(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching events:", error);
+  //     }
+  //   };
+
+  //   fetchEvents();
+  // }, [getToken]);
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/topclubs`,
-          {
-            headers: {
-              Authorization: `Bearer ${await getToken()}`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        setClubs(response.data);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
+    const fetchToken = async () => {
+      const fetchedToken = await getToken({ template: "test" });
+      setToken(fetchedToken);
     };
-
-    fetchEvents();
+    fetchToken();
   }, [getToken]);
+  const { data, error } = useSWR(
+    token ? `${process.env.NEXT_PUBLIC_API_URL}/topclubs` : null,
+    (url) => fetcher(url, token!)
+  );
+  useEffect(() => {
+    if (data) {
+      setClubs(data);
+    }
+  }, [data]);
 
   return (
     <div className="w-full p-4 h-full">

@@ -1,17 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import { ClubCardProps } from "@/types/type";
 
-interface Club {
-  id: string;
-  clubName: string;
-  coverImage: string;
+interface props {
+  club: ClubCardProps;
 }
 
-interface ClubCardProps {
-  club: Club;
-}
 
-const ClubCard: React.FC<ClubCardProps> = ({ club }) => {
+
+const ClubCard: React.FC<props> = ({ club }) => {
   // const base64Prefix = "data:image/png;base64,";
   const imageSrc = `data:image/png;base64,${club.coverImage}`;
 

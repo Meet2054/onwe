@@ -37,3 +37,9 @@ export interface UserProfile {
   followersCount: number;
   followingCount: number;
 }
+
+export interface ClubCardProps{
+  id: string;
+  clubName: string;
+  coverImage: string;
+} 

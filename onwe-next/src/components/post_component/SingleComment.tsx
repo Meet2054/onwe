@@ -5,27 +5,28 @@ import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
 import { Comment } from "@/types/type";
+import { formatDistanceToNowStrict, parseISO } from "date-fns";
 
-const SingleComment = ({
-  data,
-  username,
-  comment,
-  avatar,
-}: {
-  data: Comment;
-  username: string;
-  comment: string;
-  avatar: string;
-}) => {
+const SingleComment = ({ data }: { data: Comment }) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const [reply, setReply] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [replies, setReplies] = useState<Comment[]>([]);
+  const [timeAgo, setTimeAgo] = useState("");
   const { getToken } = useAuth();
 
   const handleReplyClick = () => {
     setReplyOpen(!replyOpen);
   };
+
+  useEffect(() => {
+    const time = data.createdAt;
+    if (time) {
+      const date = new Date(parseISO(time));
+      const timeago = formatDistanceToNowStrict(date, { addSuffix: true });
+      setTimeAgo(timeago);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,15 +78,15 @@ const SingleComment = ({
   return (
     <div className="flex gap-1">
       <div>
-        <PostAvatar size={7} imageUrl={avatar} />
+        <PostAvatar size={7} imageUrl={data.user.avatar} />
       </div>
       <div>
         <div className="">
-          <span className="p-2 font-semibold">{username}</span>
-          <span>{comment}</span>
+          <span className="p-2 font-semibold">{data.user.username}</span>
+          <span>{data.content}</span>
         </div>
         <div>
-          <span>3h ago</span>
+          <span>{timeAgo}</span>
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
@@ -94,12 +95,7 @@ const SingleComment = ({
           </Button>
           {replies &&
             replies.map((reply) => (
-              <SingleComment
-                key={reply.id}
-                comment={reply.content}
-                username={reply.user.username}
-                data={reply}
-              />
+              <SingleComment key={reply.id} data={reply} />
             ))}
           <form onSubmit={handleSubmit}>
             {replyOpen && (

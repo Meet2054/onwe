@@ -21,7 +21,11 @@ const Page = () => {
     try {
       const token = await getToken({ template: "test" });
       if (!token) throw new Error("No token found");
-      return getData(url, { headers: { Authorization: `Bearer ${token}` } }, "GET");
+      return getData(
+        url,
+        { headers: { Authorization: `Bearer ${token}` } },
+        "GET"
+      );
     } catch (err) {
       throw err;
     }
@@ -32,12 +36,10 @@ const Page = () => {
     return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
   };
 
-  const {
-    data,
-    error,
-    setSize,
-    isValidating,
-  } = useSWRInfinite<PostsProps[]>(getKey, fetcher);
+  const { data, error, setSize, isValidating } = useSWRInfinite<PostsProps[]>(
+    getKey,
+    fetcher
+  );
 
   const posts = data ? ([] as PostsProps[]).concat(...data) : [];
 
@@ -82,7 +84,11 @@ const Page = () => {
       <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
         {posts.map((post, index) => {
           if (index === posts.length - 4) {
-            return <div ref={lastElementRef} key={post.id || index}><Posts post={post} /></div>;
+            return (
+              <div ref={lastElementRef} key={post.id || index}>
+                <Posts post={post} />
+              </div>
+            );
           }
           return <Posts key={post.id || index} post={post} />;
         })}

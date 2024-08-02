@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 export interface TopClubProp {
   id: string;
-  name: string;
+  clubName: string;
   slogan: string;
   coverImage: string;
 }

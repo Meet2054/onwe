@@ -12,18 +12,18 @@ const Club: React.FC<ClubProps> = ({ club }) => {
   return (
     <Link
       className="relative w-full h-44 rounded-lg overflow-hidden"
-      href={`/clubs/${club.name}`}
+      href={`/clubs/${club.clubName}`}
     >
       <Image
         src={`${base64Prefix}${club.coverImage}`}
-        alt={club.name}
+        alt={club.clubName}
         layout="fill"
         objectFit="cover"
         className="absolute inset-0 w-full h-full"
       />
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end items-center text-white pb-5">
         <p className="text-lg font-light">{club.slogan}</p>
-        <h2 className="text-2xl font-bold mt-2">{club.name}</h2>
+        <h2 className="text-2xl font-bold mt-2">{club.clubName}</h2>
       </div>
     </Link>
   );

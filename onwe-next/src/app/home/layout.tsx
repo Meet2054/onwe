@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
-      <div className="w-[40%]"></div>
+      <div className="w-[40%] hidden md:block"></div>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const SideBar = () => {
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <div className="h-screen flex flex-col items-center p-4 bg-white animate-slide-in">
+    <div className="h-screen md:flex flex-col items-center p-4 bg-white animate-slide-in hidden">
       <div className="flex items-start justify-center border">
         <Link
           scroll={false}

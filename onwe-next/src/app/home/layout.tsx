@@ -5,7 +5,7 @@ import MiddleNavbar from "@/components/middle_component/MiddleNavbar";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full flex">
-      <div className="w-[60%] h-full">
+      <div className="lg:w-[60%] h-full overflow-x-hidden">
         <div className="sticky">
           <MiddleNavbar />
         </div>
@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
-      <div className="w-[40%] hidden md:block"></div>
+      <div className="lg:w-[40%] hidden lg:block bg-red-400"></div>
     </div>
   );
 };

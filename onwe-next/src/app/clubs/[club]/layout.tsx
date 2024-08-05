@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <GeneralAnnounce />
-      <div className="h-screen">{children}</div>
+      <div className="h-screen grow">{children}</div>
     </>
   );
 };

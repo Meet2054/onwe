@@ -16,7 +16,7 @@ const MiddleNavbar = () => {
   ];
 
   return (
-    <div className=" flex justify-cetner px-7 py-4   w-full  bg-white  gap-x-2.5">
+    <div className="md:flex justify-cetner px-7 py-4 w-full  bg-white  gap-x-2.5 grid grid-cols-3 gap-y-3">
       {category.map((item) => (
         <Link
           key={item.name}

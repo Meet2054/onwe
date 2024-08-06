@@ -59,10 +59,14 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const showReply = async () => {
     console.log(data);
     const token = await getToken();
-    const response = await getData("/subcomments", {
-      postId: data.postId,
-      parentId: data.id,
-    });
+    const response = await getData(
+      "/subcomments",
+      {
+        postId: data.postId,
+        parentId: data.id,
+      },
+      "POST"
+    );
     console.log(response);
     setReplies(response);
   };

@@ -25,7 +25,7 @@ const RenderLinks = ({ link }: { link: string }) => {
       </Link>
     );
   }
-  if (newLink.includes("newLinkedin")) {
+  if (newLink.includes("linkedin")) {
     return (
       <Link href={newLink} rel="noopener noreferrer" target="_blank">
         <Linkedin

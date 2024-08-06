@@ -1,15 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import PostAvatar from "../post_component/PostAvatar";
-import {
-  Github,
-  InstagramIcon,
-  Linkedin,
-  LucidePencilLine,
-  Twitter,
-} from "lucide-react";
+
 import Link from "next/link";
 import { UserProfile } from "@/types/type";
+import RenderLinks from "./RenderLinks";
+import { LucidePencilLine } from "lucide-react";
 
 const Profile = ({
   userInfo,
@@ -58,22 +54,9 @@ const Profile = ({
         <p className="whitespace-pre-wrap break-words">{userInfo?.user?.bio}</p>
       </div>
       <div className="flex justify-around gap-8 space mt-4 w-full px-16">
-        <Twitter
-          size={24}
-          className="hover:scale-125 transition-all ease-in-out duration-200"
-        />
-        <InstagramIcon
-          size={24}
-          className="hover:scale-125 transition-all ease-in-out duration-200"
-        />
-        <Linkedin
-          size={24}
-          className="hover:scale-125 transition-all ease-in-out duration-200"
-        />
-        <Github
-          size={24}
-          className="hover:scale-125 transition-all ease-in-out duration-200"
-        />
+        {userInfo?.user?.links.map((link, index) => (
+          <RenderLinks key={index}  link={link} />
+        ))}
       </div>
     </div>
   );

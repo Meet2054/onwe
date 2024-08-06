@@ -7,6 +7,7 @@ import { RootState } from "@/lib/store";
 import { UserProfile } from "@/types/type";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -35,7 +36,8 @@ const EditRightForm = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-
+  const [linksArr, setLinksArr] = useState<string[] | []>([]);
+  const [linkInput, setLinkInput] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -50,10 +52,12 @@ const EditRightForm = () => {
 
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     setIsSaving(true);
+    const newData = { ...data, links: linksArr };
+
     try {
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
-        data,
+        newData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -68,13 +72,16 @@ const EditRightForm = () => {
     setIsSaving(false);
   };
 
-  const addNewLink = (e: React.MouseEvent<HTMLFormElement>) => {
+  const addNewLink = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setLinksArr((prev) => [...prev, linkInput]);
+    setLinkInput("");
   };
 
   useEffect(() => {
     if (user) {
-      console.log(user);
+      // console.log(user);
+      setLinksArr(user.user.links);
 
       setUserInfo(user);
     }
@@ -95,8 +102,8 @@ const EditRightForm = () => {
             type="submit"
             variant="ghost"
             className="border h-10 text-black bg-blue-500
-        transition-all ease-in-out
-        text-white hover:ring-2 rounded-full"
+                       transition-all ease-in-out
+                     text-white hover:ring-2 rounded-full"
           >
             Save
           </Button>
@@ -106,9 +113,7 @@ const EditRightForm = () => {
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="fullname">Full Name</Label>
               <Input
-                {...register("fullname", {
-                  required: "please enter first name",
-                })}
+                {...register("fullname")}
                 type="text"
                 id="fullname"
                 placeholder="full name"
@@ -150,13 +155,19 @@ const EditRightForm = () => {
           </div>
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="links">links</Label>
-            <Input
-              {...register("links")}
-              type="text"
-              id="links"
-              placeholder="add links"
-              className="border-opacity-60 rounded-md"
-            />
+            <div className="flex gap-1">
+              <div className=" flex justify-center items-center text-muted-foreground">
+                https://
+              </div>
+              <Input
+                value={linkInput}
+                onChange={(e) => setLinkInput(e.target.value)}
+                type="text"
+                id="links"
+                placeholder="add links"
+                className="border-opacity-60 "
+              />
+            </div>
             <div className="flex grow">
               <Button
                 onClick={addNewLink}
@@ -165,6 +176,27 @@ const EditRightForm = () => {
               >
                 + Add link
               </Button>
+            </div>
+            <div className="flex flex-col gap-3">
+              {linksArr &&
+                linksArr.map((link, index) => (
+                  <div
+                    className="h-10 border flex items-center p-4 rounded-md hover:bg-slate-100 hover:border-black justify-between"
+                    key={index}
+                  >
+                    <span>{link}</span>
+                    <div
+                      onClick={() =>
+                        setLinksArr((prev) =>
+                          prev.filter((_, i) => i !== index)
+                        )
+                      }
+                      className="opacity-40 hover:opacity-100"
+                    >
+                      <Trash2 strokeWidth={1} stroke="red" />
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

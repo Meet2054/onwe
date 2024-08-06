@@ -5,6 +5,7 @@ import { RootState } from "@/lib/store";
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -44,7 +45,9 @@ const EditLeftFrom = () => {
     <div className="h-full">
       <div className="flex gap-2 h-10 mb-10">
         <Button className="border h-10 w-1/2 bg-black text-white rounded-full hover:ring-2 border hover:bg-black">
-          Profile
+          <Link className="h-full w-full" href="/profile">
+            Profile
+          </Link>
         </Button>
       </div>
       <div className="text-3xl font-bold">Edit Profile</div>

@@ -4,6 +4,7 @@ export interface User {
   bio?: string;
   email?: string;
   fullname?: string;
+  links: string[];
 }
 export interface Comment {
   content: string;
@@ -38,8 +39,8 @@ export interface UserProfile {
   followingCount: number;
 }
 
-export interface ClubCardProps{
+export interface ClubCardProps {
   id: string;
   clubName: string;
   coverImage: string;
-} 
+}

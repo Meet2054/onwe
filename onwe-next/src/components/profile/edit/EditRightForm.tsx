@@ -74,6 +74,7 @@ const EditRightForm = () => {
 
   const addNewLink = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (linkInput === "") return;
     setLinksArr((prev) => [...prev, linkInput]);
     setLinkInput("");
   };

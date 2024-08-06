@@ -9,7 +9,7 @@ import axios from "axios";
 import { useSession } from "@clerk/clerk-react";
 
 // const General = ({ posts, club }: { posts: PostsProps[], club: string }) => {
-const General = ({ club }: { club: string }) => {
+const  General = ({ club }: { club: string }) => {
   const [createActive, setCreateActive] = useState(false);
   const [posts, setPosts] = useState<PostsProps[]>([]);
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const General = ({ club }: { club: string }) => {
   }, [club, getToken]);
 
   return (
-    <div className="flex gap-20 flex-col bg-[#F1F3F5] grow pt-24 pl-10 pr-10 pb-20">
+    <div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-20">
       <div className=" flex flex-col gap-3">
         {posts.map((post) => {
           let cnm = "";
@@ -66,7 +66,7 @@ const General = ({ club }: { club: string }) => {
                 <div
                   onClick={() => handleClick(post)}
                   key={post.id}
-                  className="grow max-w-96 max-h-full bg-white rounded-xl"
+                  className="grow max-w-72 sm:max-w-96 max-h-full bg-white rounded-xl"
                 >
                   <h1 className="font-semibold m-2 text-base">
                     {post.username}
@@ -84,7 +84,7 @@ const General = ({ club }: { club: string }) => {
         })}
       </div>
       <button
-        className="fixed bottom-4 right-14 bg-black font px-4 py-3 rounded-xl text-white font-semibold shadow-lg"
+        className="fixed sm:bottom-4 bottom-16 sm:right-14 right-10 bg-black font px-4 py-3 rounded-xl text-white font-semibold shadow-lg"
         onClick={handleCreateClick}
       >
         + New Post
@@ -101,23 +101,3 @@ const General = ({ club }: { club: string }) => {
 };
 
 export default General;
-
-{
-  /* <div className="bg-red-100 flex flex-col">
-    
-<div className="w-full flex flex-row-reverse">
-  <div className="size-56 bg-gray-300">
-  {posts.map((post) => (
-<div 
-onClick={()=>handleClick(post)}
-key={post.id} className="grow max-w-96 max-h-72 bg-white rounded-xl" >
-  <h1 className="font-semibold m-2 text-base">{post.username}</h1>
-  <div className="m-2 border rounded-xl">
-  <DialogBox imageUrl={post.media[0]} post={post}/>
-  </div>
-  <p className="m-2 font-medium text-base">{post.description}</p>
-</div>
-))}
-  </div>
-</div> */
-}

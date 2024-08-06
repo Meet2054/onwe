@@ -24,18 +24,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-full w-full relative">
+    <div className="flex h-full w-full relative ">
       <div
-        className={`h-full w-3/4 sm:w-1/4 overflow-y-auto bg-red-300 fixed transition-transform duration-300 ${
+        className={`h-full w-3/4 sm:w-1/4 overflow-y-auto bg-white fixed transition-transform duration-300 z-20 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0`}
       >
         <ClubSideBar closeSidebar={() => setSidebarOpen(false)} />
       </div>
-      <div className="h-full w-full sm:w-3/4 sm:ml-[25%] bg-gray-600">
-        <div className="sm:hidden">
+      <div className="h-full w-full sm:w-3/4 sm:ml-[25%] ">
+        <div className="sm:hidden fixed bg-white h-[7.9vh] py-1 w-20 z-50">
           <button
-            className="absolute top-4 left-4 z-50 p-2 bg-gray-700 text-white rounded-full"
+            className="absolute top-2 left-4 z-50 p-2 bg-gray-700 text-white rounded-full"
             onClick={() => setSidebarOpen(!isSidebarOpen)}
           >
             <Menu />

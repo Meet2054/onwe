@@ -48,7 +48,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 </div>
               )}
               {showBottomNavBar && (
-                <div className="w-full flex items-center justify-between px-3 sm:hidden fixed bottom-0 z-10">
+                <div className="w-full flex items-center justify-between sm:hidden fixed bottom-0 z-10">
                   <BottomNavBar/>
                 </div>
               )}

@@ -9,12 +9,12 @@ import SearchComponent from "@/components/explore/SearchComponent";
 const Page = () => {
   const search = useSelector((state: RootState) => state.explore.search);
   return (
-    <div className={`flex flex-col h-[84dvh] overflow-y-auto p-4`}>
+    <div className={`flex flex-col h-[84dvh] overflow-y-auto sm:p-4`}>
       <TopClubs />
       <TopPosts />
 
       {search && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex sm:items-center justify-center">
           <SearchComponent />
         </div>
       )}

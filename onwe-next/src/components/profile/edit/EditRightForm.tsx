@@ -89,42 +89,50 @@ const EditRightForm = () => {
   }, [user]);
 
   return (
-    <div className="h-screen">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="h-10 flex gap-3 justify-end mb-10">
-          <Button
-            variant="ghost"
-            className="border h-10  text-black rounded-full px-3"
-          >
-            Discard changes
-          </Button>
-          <Button
-            disabled={isSaving}
-            type="submit"
-            variant="ghost"
-            className="border h-10 text-black bg-blue-500
+    <div className="h-screen mb-20 mt-5 ">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col-reverse w-full "
+      >
+        <div className="mt-4 mr-1">
+          <div className="h-10 flex gap-3 justify-end mb-10 ">
+            <Button
+              variant="ghost"
+              className="border h-10  text-black rounded-full px-3"
+            >
+              Discard changes
+            </Button>
+            <Button
+              disabled={isSaving}
+              type="submit"
+              variant="ghost"
+              className="border h-10 text-black bg-blue-500
                        transition-all ease-in-out
                      text-white hover:ring-2 rounded-full"
-          >
-            Save
-          </Button>
+            >
+              Save
+            </Button>
+          </div>
         </div>
-        <div className="flex flex-col gap-6">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="fullname">Full Name</Label>
-              <Input
-                {...register("fullname")}
-                type="text"
-                id="fullname"
-                placeholder="full name"
-                className="border-opacity-60 rounded-md"
-              />
-              {errors.fullname && (
-                <span className="text-red-400">{errors.fullname.message}</span>
-              )}
-            </div>
-            {/* <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div>
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1  sm:grid-cols-2  gap-2">
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="fullname">Full Name</Label>
+                <Input
+                  {...register("fullname")}
+                  type="text"
+                  id="fullname"
+                  placeholder="full name"
+                  className="border-opacity-60 rounded-md"
+                />
+                {errors.fullname && (
+                  <span className="text-red-400">
+                    {errors.fullname.message}
+                  </span>
+                )}
+              </div>
+              {/* <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="surName">Surname</Label>
               <Input
                 {...register("surName")}
@@ -134,8 +142,8 @@ const EditRightForm = () => {
                 className="border-opacity-60 rounded-md"
               />
             </div> */}
-          </div>
-          {/* <div className="grid w-full max-w-sm items-center gap-1.5">
+            </div>
+            {/* <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="username">username</Label>
             <Input
               {...register("username")}
@@ -145,59 +153,60 @@ const EditRightForm = () => {
               className="border-opacity-60 rounded-md"
             />
           </div> */}
-          <div className="grid items-center gap-1.5">
-            <Label htmlFor="bio">Bio</Label>
-            <Textarea
-              {...register("bio")}
-              id="bio"
-              className="resize-none w-full"
-              placeholder="Tell use about yourself"
-            />
-          </div>
-          <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="links">links</Label>
-            <div className="flex gap-1">
-              <div className=" flex justify-center items-center text-muted-foreground">
-                https://
-              </div>
-              <Input
-                value={linkInput}
-                onChange={(e) => setLinkInput(e.target.value)}
-                type="text"
-                id="links"
-                placeholder="add links"
-                className="border-opacity-60 "
+            <div className="grid items-center gap-1.5">
+              <Label htmlFor="bio">Bio</Label>
+              <Textarea
+                {...register("bio")}
+                id="bio"
+                className="resize-none w-full"
+                placeholder="Tell use about yourself"
               />
             </div>
-            <div className="flex grow">
-              <Button
-                onClick={addNewLink}
-                className="hover:text-sky-300"
-                variant="ghost"
-              >
-                + Add link
-              </Button>
-            </div>
-            <div className="flex flex-col gap-3">
-              {linksArr &&
-                linksArr.map((link, index) => (
-                  <div
-                    className="h-10 border flex items-center p-4 rounded-md hover:bg-slate-100 hover:border-black justify-between"
-                    key={index}
-                  >
-                    <span>{link}</span>
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="links">links</Label>
+              <div className="flex gap-1">
+                <div className=" flex justify-center items-center text-muted-foreground">
+                  https://
+                </div>
+                <Input
+                  value={linkInput}
+                  onChange={(e) => setLinkInput(e.target.value)}
+                  type="text"
+                  id="links"
+                  placeholder="add links"
+                  className="border-opacity-60 "
+                />
+              </div>
+              <div className="flex grow">
+                <Button
+                  onClick={addNewLink}
+                  className="hover:text-sky-300"
+                  variant="ghost"
+                >
+                  + Add link
+                </Button>
+              </div>
+              <div className="flex flex-col gap-3">
+                {linksArr &&
+                  linksArr.map((link, index) => (
                     <div
-                      onClick={() =>
-                        setLinksArr((prev) =>
-                          prev.filter((_, i) => i !== index)
-                        )
-                      }
-                      className="opacity-40 hover:opacity-100"
+                      className="h-10 border flex items-center p-4 rounded-md hover:bg-slate-100 hover:border-black justify-between"
+                      key={index}
                     >
-                      <Trash2 strokeWidth={1} stroke="red" />
+                      <span>{link}</span>
+                      <div
+                        onClick={() =>
+                          setLinksArr((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          )
+                        }
+                        className="opacity-40 hover:opacity-100"
+                      >
+                        <Trash2 strokeWidth={1} stroke="red" />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
         </div>

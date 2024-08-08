@@ -48,7 +48,8 @@ const Page = () => {
           <ProfilePost posts={userInfo?.posts!} />
         </div>
       </div>
-      <div className="sm:hidden w-full h-full overflow-y-auto">
+      {/* smaller screen */}
+      <div className="sm:hidden w-full h-full overflow-y-auto bg-white">
         <div className="w-full h-[96vh] flex flex-col animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
           <div className="w-[45%] h-max flex justify-center items-start mt-4">
             <Profile userInfo={userInfo!} />

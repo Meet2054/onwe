@@ -42,7 +42,7 @@ const EditLeftFrom = () => {
     }
   };
   return (
-    <div className="h-full">
+    <div className="h-full ">
       <div className="flex gap-2 h-10 mb-10">
         <Button className="border h-10 w-1/2 bg-black text-white rounded-full hover:ring-2 border hover:bg-black">
           <Link className="h-full w-full" href="/profile">

@@ -16,7 +16,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const newPosts = posts.filter((post) => post.media.length > 0);
 
   return (
-    <div className=" flex grid grid-cols-3 border gap-1 mt-10 h-max">
+    <div className=" flex grid grid-cols-3  gap-1 mt-10 h-max">
       {newPosts &&
         newPosts.map((post) => (
           <div

@@ -25,7 +25,7 @@ const MinSideBar = () => {
   return (
     <TooltipProvider>
       <div className="w-full animate-slide-out">
-        <div className="h-screen w-full flex flex-col items-center p-4 border bg-white">
+        <div className="h-screen w-full flex flex-col items-center p-1 md:p-3 border bg-white">
           <div className="flex items-start justify-center">
             <Link
               scroll={false}
@@ -157,25 +157,6 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            {/* <Link
-              scroll={false} href="/notifications"
-              className="flex items-center text-black hover:text-gray-500 w-full"
-            >
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <Bell size={20} strokeWidth={2} />
-                </TooltipTrigger>
-                <TooltipContent
-                  className="text-black bg-white rounded-full"
-                  align="center"
-                  sideOffset={7}
-                  side="left"
-                >
-                  <p>Notifications</p>
-                  <TooltipArrow className="fill-white" />
-                </TooltipContent>
-              </Tooltip>
-            </Link> */}
             <Link
               scroll={false}
               href="/create"
@@ -218,26 +199,6 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            {/* <Link
-              scroll={false} href="/settings"
-              className="text-black hover:text-gray-900 flex items-center w-full"
-            >
-              {" "}
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <Settings size={20} strokeWidth={1.4} />
-                </TooltipTrigger>
-                <TooltipContent
-                  className="text-black rounded-full"
-                  align="center"
-                  sideOffset={7}
-                  side="left"
-                >
-                  <p>Settings</p>
-                  <TooltipArrow className="fill-white" />
-                </TooltipContent>
-              </Tooltip>
-            </Link> */}
           </div>
         </div>
       </div>

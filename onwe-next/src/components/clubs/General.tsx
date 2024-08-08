@@ -66,7 +66,7 @@ const  General = ({ club }: { club: string }) => {
                 <div
                   onClick={() => handleClick(post)}
                   key={post.id}
-                  className="grow max-w-72 sm:max-w-96 max-h-full bg-white rounded-xl"
+                  className="grow max-w-60 sm:max-w-96 max-h-full bg-white rounded-xl"
                 >
                   <h1 className="font-semibold m-2 text-base">
                     {post.username}

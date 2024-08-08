@@ -84,8 +84,8 @@ const TopClubs: React.FC = () => {
 
   return (
     <div className="w-full p-4 h-full">
-      <div className="px-5 h-full">
-        <div className="flex gap-4 overflow-hidden h-full border-t-2 pt-6">
+      <div className="sm:px-5 h-full">
+        <div className="flex gap-1 sm:gap-4 overflow-hidden h-full border-t-2 pt-6">
           {clubs?.map((club, index) => (
             <Club key={index} club={club} />
           ))}

@@ -47,7 +47,7 @@ function RenderCalendar({
   }, [getToken]);
 
   return (
-    <div className="px-10">
+    <div className="lg:px-10 flex flex-col gap-20 mt-3">
       {monthArray.map((month, index) => (
         <EventCalendar
           events={events}

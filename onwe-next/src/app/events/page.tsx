@@ -236,41 +236,6 @@ const Page: React.FC = () => {
     (url) => fetcher(url, token!)
   );
 
-  // // Use SWR to manage scroll position
-  // const { data: scrollPosition, mutate: setScrollPosition } = useSWR(
-  //   "scrollPosition",
-  //   {
-  //     fallbackData: 0,
-  //     revalidateOnFocus: false,
-  //     revalidateOnReconnect: false,
-  //   }
-  // );
-
-  // // Save scroll position before unmount
-  // useEffect(() => {
-  //   const saveScrollPosition = () => {
-  //     if (containerRef.current) {
-  //       setScrollPosition(containerRef.current.scrollTop);
-  //     }
-  //   };
-
-  //   window.addEventListener("beforeunload", saveScrollPosition);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", saveScrollPosition);
-  //     saveScrollPosition();
-  //   };
-  // }, [setScrollPosition]);
-
-  // // Restore scroll position on mount
-  // useEffect(() => {
-  //   if (containerRef.current && scrollPosition !== null) {
-  //     containerRef.current.scrollTo({
-  //       top: scrollPosition,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // }, [scrollPosition]);
-
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -343,19 +308,19 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex bg-[#F1F1F1] overflow-y-hidden">
-      <div className="flex flex-col w-3/5 h-[97vh] bg-white rounded-xl m-2">
-        <div className="py-4 top-0 sticky bg-white px-8 ml-12 rounded-xl">
-          <div className="flex space-x-6 ml-4">
+      <div className="flex flex-col w-screen md:w-3/5 h-[97vh] bg-white rounded-xl m-2">
+        <div className="md:py-4 top-0 sticky bg-white md:px-8 md:ml-12 rounded-xl">
+          <div className="flex space-x-6 ml-2 md:ml-4">
             <ViewSelect onClick={toggleListView} />
           </div>
         </div>
-        <div className="p-4 w-full h-screen ml-12 ">
+        <div className="md:p-4 w-full h-screen md:ml-12 ">
           <div
             ref={containerRef}
-            className="p-8 mb-2 w-full relative overflow-y-auto h-full"
+            className="md:p-8 mb-2 w-full relative overflow-y-auto h-full"
           >
             <div
-              className={`transition-opacity duration-500 ${
+              className={`transition-opacity duration-500  bg-white ${
                 isTransitioning ? "opacity-0" : "opacity-100"
               }`}
             >
@@ -381,7 +346,7 @@ const Page: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-2/5 h-[97vh] m-2 ml-0 bg-white rounded-xl">
+      <div className="md:flex flex-col w-2/5 h-[97vh] m-2 ml-0 bg-white rounded-xl hidden">
         <div className="text-center pt-2 font-semibold">Calendar</div>
         <RenderCalendar scrollToEvent={scrollToEvent} />
       </div>

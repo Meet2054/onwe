@@ -56,7 +56,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
             </div>
             <div className=" w-72 justify-between items-center inline-flex">
               <div className=" w-9 h-8 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">
-                <button className="I text-black text-sm font-medium">i</button>
+                <button className="text-black text-sm font-medium">i</button>
               </div>
               <div className="h-8 justify-end items-center gap-2.5 flex">
                 <div className="w-20 px-3 py-2 rounded-2xl border border-black/opacity-20 justify-center items-center gap-2.5 flex">

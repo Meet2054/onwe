@@ -12,11 +12,12 @@ import DiaglogComment from "./DiaglogComment";
 import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { PostsProps } from "@/types/type";
 
 interface DialogBoxProps {
   imageUrl?: string;
   description?: string;
-  post: any;
+  post: PostsProps;
   className?: string;
 }
 
@@ -29,6 +30,10 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
 
+  useEffect(() => {
+    console.log(post);
+  }, [post]);
+
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
@@ -39,7 +44,6 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 
   const base64Prefix = "data:image/png;base64,";
 
-  
   return (
     <Dialog>
       {imageUrl ? (
@@ -71,12 +75,18 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
         // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
-        className="flex  h-[80vh] w-[70vw] sm:min-w-[70vw] flex-col sm:flex-row justify-center items-center  border-none sm:rounded-3xl  bg-transparent sm:p-0"
+        className={`flex  h-[80vh] min-w-[30rem]   flex-col sm:flex-row justify-center items-center  
+                   border-none sm:rounded-3xl  bg-transparent sm:p-0 ${
+                     post.media.length > 0 ? "sm:min-w-[70vw]" : ""
+                   }`}
       >
-        <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0  relative bg-transparent ">
-          <DialogImage imageUrl={post?.media[0]} />
-        </div>
-        <div className="p-3 flex-grow rounded-3xl sm:w-[30rem] w-[95vw] h-full  overflow-y-auto bg-white">
+        {post.media.length > 0 && (
+          <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent">
+            <DialogImage imageUrl={post?.media[0]} />
+          </div>
+        )}
+
+        <div className="p-3  rounded-3xl sm:w-[30rem]  h-full  overflow-y-auto bg-white">
           <DiaglogComment />
         </div>
       </DialogContent>

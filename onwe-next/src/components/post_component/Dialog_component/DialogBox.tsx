@@ -39,6 +39,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 
   const base64Prefix = "data:image/png;base64,";
 
+  
   return (
     <Dialog>
       {imageUrl ? (
@@ -70,20 +71,14 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
         // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
-        className="flex min-w-[70vw] h-[80vh]   border-none sm:rounded-3xl  bg-transparent p-0"
+        className="flex  h-[80vh] w-[70vw] sm:min-w-[70vw] flex-col sm:flex-row justify-center items-center  border-none sm:rounded-3xl  bg-transparent sm:p-0"
       >
-        <div className="flex w-[70%] h-full justify-center items-end p-0  relative bg-transparent">
+        <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0  relative bg-transparent ">
           <DialogImage imageUrl={post?.media[0]} />
         </div>
-        <div className="p-3 flex-grow rounded-e-3xl w-[30rem]  overflow-y-auto bg-white">
+        <div className="p-3 flex-grow rounded-3xl sm:w-[30rem] w-[95vw] h-full  overflow-y-auto bg-white">
           <DiaglogComment />
         </div>
-        {/* <div className="flex relative items-center w-full min-h-[69dvh] justify-center  ">
-          <DialogImage imageUrl={post?.media[0]} />
-        </div>
-        <div className="p-3 rounded-3xl w-[30rem]   overflow-y-auto bg-white">
-          <DiaglogComment />
-        </div> */}
       </DialogContent>
     </Dialog>
   );

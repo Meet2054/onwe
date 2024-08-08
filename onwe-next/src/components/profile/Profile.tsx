@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PostAvatar from "../post_component/PostAvatar";
 
 import Link from "next/link";
@@ -15,7 +15,7 @@ const Profile = ({
   showEdit?: boolean;
 }) => {
   return (
-    <div className="w-[77%] h-[calc(100dvh-4rem)] mt-16 mx-auto p-4 flex flex-col items-center">
+    <div className="w-[77%] items-center  mx-auto p-4 flex flex-col">
       <div className="flex justify-center items-center relative">
         <PostAvatar
           size={40}
@@ -36,7 +36,7 @@ const Profile = ({
           </div>
         )}
       </div>
-      <div className="text-2xl font-bold text-center mt-8">
+      <div className="text-2xl font-bold text-center mt-8 whitespace-pre">
         {userInfo?.user?.fullname}
       </div>
       <div className="text-green-500 text-center">
@@ -44,18 +44,18 @@ const Profile = ({
       </div>
       <div className="flex gap-x-4">
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
-          follower
+          Follower
         </div>
         <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
-          following
+          Following
         </div>
       </div>
-      <div>
+      <div className="text-center w-52">
         <p className="whitespace-pre-wrap break-words">{userInfo?.user?.bio}</p>
       </div>
-      <div className="flex justify-around gap-8 space mt-4 w-full px-16">
+      <div className="flex justify-center gap-8 space mt-4 w-full ">
         {userInfo?.user?.links.map((link, index) => (
-          <RenderLinks key={index}  link={link} />
+          <RenderLinks key={index} link={link} />
         ))}
       </div>
     </div>

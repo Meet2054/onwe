@@ -11,12 +11,14 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
     dispatch(setPost(post));
   };
 
+  const newPosts = posts.filter((post) => post.media.length > 0);
+
   if (!posts) return <ProfilePostSkeleton />;
 
   return (
     <div className=" flex grid grid-cols-3 border gap-1 mt-10 h-max">
-      {posts &&
-        posts.map((post) => (
+      {newPosts &&
+        newPosts.map((post) => (
           <div
             onClick={() => handleClick(post)}
             key={post.id}

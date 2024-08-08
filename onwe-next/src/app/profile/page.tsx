@@ -37,10 +37,47 @@ const Page = () => {
     //   axios.CancelToken.source().cancel("Component unmounted");
     // };
   }, []);
+
   return (
-    <div className="h-[100vh] w-full flex items-center  bg-[#F1F1F1]  overflow-y-hidden">
-      <div className="w-full h-[96vh] flex animate-slide-up fade-in-5 rounded-xl bg-white mr-4">
-        <div className="w-[45%] h-full flex justify-center items-start ">
+    <div className="h-[100vh] w-full sm:flex items-center sm:p-0 overflow-y-auto bg-[#F1F1F1]">
+      <div className="hidden sm:flex w-full h-[96vh] flex-col sm:flex-row animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
+        <div className="w-[45%] h-max flex justify-center items-start mt-4">
+          <Profile userInfo={userInfo!} />
+        </div>
+        <div className="w-full sm:w-[55%] p-2 bg-white rounded-lg h-full sm:overflow-y-auto">
+          <ProfilePost posts={userInfo?.posts!} />
+        </div>
+      </div>
+      <div className="sm:hidden w-full h-full overflow-y-auto">
+        <div className="w-full h-[96vh] flex flex-col animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
+          <div className="w-[45%] h-max flex justify-center items-start mt-4">
+            <Profile userInfo={userInfo!} />
+          </div>
+          <div className="w-full p-2 bg-white rounded-lg h-full">
+            <ProfilePost posts={userInfo?.posts!} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="h-[100vh] w-full   sm:flex  items-center sm:p-0  overflow-y-auto  bg-[#F1F1F1]  ">
+      <div className="w-full h-[96vh]  flex flex-col sm:flex-row  animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
+        <div className="w-[45%] h-max flex justify-center items-start  mt-4 ">
+          <Profile userInfo={userInfo!} />
+        </div>
+        <div className="w-full sm:w-[55%] p-2 bg-white rounded-lg h-full sm:overflow-y-auto">
+          <ProfilePost posts={userInfo?.posts!} />
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="h-[100vh] w-full flex items-center overflow-y-auto  bg-[#F1F1F1] ">
+      <div className="w-full h-[96vh]  flex  animate-slide-up fade-in-5 rounded-xl bg-red-500 mr-4">
+        <div className="w-[45%] flex justify-center items-start ">
           <Profile userInfo={userInfo!} />
         </div>
         <div className="w-[55%] p-2 bg-white rounded-lg overflow-y-auto">

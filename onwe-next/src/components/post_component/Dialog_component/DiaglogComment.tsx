@@ -51,13 +51,7 @@ const DiaglogComment = () => {
       <div className="w-full h-[70%] overflow-y-auto  space-y-4 scrollbar-hide p-4">
         {comments &&
           comments.map((comment, index) => (
-            <SingleComment
-              key={index}
-              data={comment}
-              username={comment.user?.username}
-              comment={comment.content}
-              avatar={comment.user.avatar!}
-            />
+            <SingleComment key={index} data={comment} />
           ))}
       </div>
       <div className="flex flex-col space-y-2">

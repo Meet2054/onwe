@@ -10,8 +10,9 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const handleClick = (post: PostsProps) => {
     dispatch(setPost(post));
   };
-
-  const newPosts = posts.filter((post) => post.media.length > 0);
+  if (posts) {
+    const newPosts = posts.filter((post) => post.media.length > 0);
+  }
 
   if (!posts) return <ProfilePostSkeleton />;
 

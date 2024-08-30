@@ -7,7 +7,7 @@ import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { setTimeline } from "@/lib/features/timeline/postSlice";
-import useSWR from "swr";
+
 import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
@@ -40,6 +40,8 @@ const Page = () => {
     getKey,
     fetcher
   );
+
+  if (data) console.log(data);
 
   const posts = data ? ([] as PostsProps[]).concat(...data) : [];
 
@@ -82,16 +84,17 @@ const Page = () => {
   return (
     <div className="flex overflow-auto h-screen w-screen">
       <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
-        {posts.map((post, index) => {
-          if (index === posts.length - 4) {
-            return (
-              <div ref={lastElementRef} key={post.id || index}>
-                <Posts post={post} />
-              </div>
-            );
-          }
-          return <Posts key={post.id || index} post={post} />;
-        })}
+        {posts.length > 0 &&
+          posts.map((post, index) => {
+            if (index === posts.length - 4) {
+              return (
+                <div ref={lastElementRef} key={post.id || index}>
+                  <Posts post={post} />
+                </div>
+              );
+            }
+            return <Posts key={post?.id || index} post={post} />;
+          })}
         {isValidating && <PostsSkeleton />}
         <div className="mt-20" />
       </div>

@@ -27,16 +27,17 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       setTimeAgo(timeago);
     }
   }, []);
+  
   return (
     <div
       onClick={handleClick}
       className="w-11/12 border rounded-xl shadow-smrounded-md mt-9 p-4 "
     >
       <div className="flex items-center gap-3">
-        <PostAvatar imageUrl={post.avatar} />
+        <PostAvatar imageUrl={post?.avatar} />
         <div>
           <Link
-            href={`/profile/${post.username}`}
+            href={`/profile/${post?.username}`}
             className="font-bold hover:underline"
           >
             {post?.username || "rituisboy"}

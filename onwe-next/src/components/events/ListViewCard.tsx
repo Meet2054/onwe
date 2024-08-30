@@ -29,20 +29,20 @@ const ListViewCard = React.forwardRef<HTMLDivElement, EventCardProps>(
       <div
         ref={ref}
         onClick={onClick}
-        className="w-[43dvw] h-16 rounded-lg mb-3 flex"
+        className="sm:w-[43dvw] h-16 rounded-lg mb-3 flex sm:gap-0 gap-3"
       >
-        <div className="w-20 h-full">
+        <div className="sm:w-20 w-max  h-full">
           <button className="border ml-2 mt-1 p-1 px-2.5 bg-gray-200 rounded-xl ">
             <h1 className="text-lg font-extrabold">{day}</h1>
             <h1 className="text-[10px] font-semibold mt-[-4px]">{month}</h1>
           </button>
         </div>
         <div className="h-full grow flex justify-between border-b-2">
-          <div className="w-52 h-full flex flex-col">
+          <div className="sm:w-52 h-full flex flex-col">
             <h1 className="text-lg font-medium">{title}</h1>
             <h1 className="text-sm mt-1 text-gray-500">{subtitle}</h1>
           </div>
-          <div className="w-20 h-full flex justify-center items-center">
+          <div className="sm:w-20 h-full flex justify-center items-center">
             <button className="border text-[12px] bg-gray-200 rounded-full p-1 pl-2 pr-2">
               +remind
             </button>

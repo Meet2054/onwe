@@ -310,7 +310,7 @@ const Page: React.FC = () => {
     <div className="flex bg-[#F1F1F1] overflow-y-hidden">
       <div className="flex flex-col w-screen md:w-3/5 h-[97vh] bg-white rounded-xl m-2">
         <div className="md:py-4 top-0 sticky bg-white md:px-8 md:ml-12 rounded-xl">
-          <div className="flex space-x-6 ml-2 md:ml-4">
+          <div className="flex space-x-6 ml-2 mr-2 md:ml-4">
             <ViewSelect onClick={toggleListView} />
           </div>
         </div>
@@ -359,5 +359,7 @@ const Page: React.FC = () => {
     </div>
   );
 };
+
+// className="flex bg-[#F1F1F1] overflow-y-hidden"
 
 export default Page;

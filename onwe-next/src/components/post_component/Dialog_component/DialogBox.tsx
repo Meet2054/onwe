@@ -77,10 +77,10 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
         className={`flex  h-[80vh] min-w-[30rem]   flex-col sm:flex-row justify-center items-center  
                    border-none sm:rounded-3xl  bg-transparent sm:p-0 ${
-                     post.media.length > 0 ? "sm:min-w-[70vw]" : ""
+                     post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
                    }`}
       >
-        {post.media.length > 0 && (
+        {post?.media?.length > 0 && (
           <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent">
             <DialogImage imageUrl={post?.media[0]} />
           </div>

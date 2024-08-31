@@ -41,7 +41,7 @@ const Page = () => {
     fetcher
   );
 
-  if (data) console.log(data);
+  // if (data) console.log(data);
 
   const posts = data ? ([] as PostsProps[]).concat(...data) : [];
 
@@ -81,10 +81,16 @@ const Page = () => {
     );
   }
 
+  if (posts.length == 0) {
+    return <h1>not working</h1>;
+  }
+  console.log(posts);
+
   return (
     <div className="flex overflow-auto h-screen w-screen">
       <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
-        {posts.length > 0 &&
+        {posts &&
+          posts.length > 0 &&
           posts.map((post, index) => {
             if (index === posts.length - 4) {
               return (

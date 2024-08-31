@@ -25,7 +25,7 @@ const MinSideBar = () => {
   return (
     <TooltipProvider>
       <div className="w-full animate-slide-out">
-        <div className="h-screen w-full flex flex-col items-center p-1 md:p-3 border bg-white">
+        <div className="h-screen w-full flex flex-col items-center p-1 md:p-3 border bg-[#F1F1F1]">
           <div className="flex items-start justify-center">
             <Link
               scroll={false}
@@ -36,7 +36,7 @@ const MinSideBar = () => {
             </Link>
           </div>
           {/* <hr className="border-t border-black my-4 w-full" /> */}
-          <div className="flex flex-col items-start w-full mt-8 space-y-8">
+          <div className="flex flex-col items-start pl-3 w-full mt-8 space-y-8">
             <Link
               scroll={false}
               href="/home"

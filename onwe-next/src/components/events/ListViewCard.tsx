@@ -29,7 +29,7 @@ const ListViewCard = React.forwardRef<HTMLDivElement, EventCardProps>(
       <div
         ref={ref}
         onClick={onClick}
-        className="sm:w-[43dvw] h-16 rounded-lg mb-3 flex sm:gap-0 gap-3"
+        className="sm:w-full w-[96vw] h-18 rounded-lg mb-3 flex sm:gap-0 gap-3 p-1 bg-white"
       >
         <div className="sm:w-20 w-max  h-full">
           <button className="border ml-2 mt-1 p-1 px-2.5 bg-gray-200 rounded-xl ">

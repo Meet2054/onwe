@@ -307,20 +307,20 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-[#F1F1F1] overflow-y-hidden">
-      <div className="flex flex-col w-screen md:w-3/5 h-[97vh] bg-white rounded-xl m-2">
+    <div className="flex bg-[#F1F1F1] sm:overflow-y-hidden">
+      <div className="flex flex-col w-[96vw] sm:w-full md:w-3/5 h-[97vh] bg-white z-10 rounded-xl m-2">
         <div className="md:py-4 top-0 sticky bg-white md:px-8 md:ml-12 rounded-xl">
           <div className="flex space-x-6 ml-2 mr-2 md:ml-4">
             <ViewSelect onClick={toggleListView} />
           </div>
         </div>
-        <div className="md:p-4 w-full h-screen md:ml-12 ">
+        <div className="md:p-4 w-[96vw] sm:w-full h-[86vh] bg-white pt-6 md:ml-0 ">
           <div
             ref={containerRef}
             className="md:p-8 mb-2 w-full relative overflow-y-auto h-full"
           >
             <div
-              className={`transition-opacity duration-500  bg-white ${
+              className={`transition-opacity duration-500${
                 isTransitioning ? "opacity-0" : "opacity-100"
               }`}
             >

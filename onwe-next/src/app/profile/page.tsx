@@ -49,7 +49,7 @@ const Page = () => {
         </div>
       </div>
       {/* smaller screen */}
-      <div className="sm:hidden w-full h-full overflow-y-auto bg-white">
+      <div className="sm:hidden w-full h-full flex pl-4 pt-4 items-center content-center overflow-y-auto bg-white mb-14 pb-6">
         <div className="w-full h-[96vh] flex flex-col animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
           <div className="w-[45%] h-max flex justify-center items-start mt-4">
             <Profile userInfo={userInfo!} />

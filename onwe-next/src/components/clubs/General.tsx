@@ -49,7 +49,7 @@ const  General = ({ club }: { club: string }) => {
     };
 
     fetchPosts();
-  }, [club, getToken]);
+  }, [club, getToken,createActive]);
 
   return (
     <div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-20">

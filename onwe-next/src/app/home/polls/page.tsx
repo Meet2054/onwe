@@ -1,87 +1,61 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
-import Posts from "@/components/post_component/Posts";
-import PostsSkeleton from "@/components/post_component/PostSkeleton";
-import { useDispatch } from "react-redux";
-import { setPost } from "@/lib/features/posts/postSlice";
-import { PostsProps } from "@/types/type";
 
-interface paramsProps {
-  params: {
-    category: string;
-  };
-}
+import PostAvatar from "@/components/post_component/PostAvatar";
+import { Button } from "@/components/ui/button";
+import RenderPoll from "./RenderPoll";
 
-const Page: React.FC<paramsProps> = ({ params }) => {
-  const { getToken } = useAuth();
-  const [token, setToken] = useState("");
-  const [error, setError] = useState<any>(null);
-  const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
-  const dispatch = useDispatch();
+const tempData = [
+  {
+    id: 1,
+    title: "option 1",
+    username:"rituisby",
+    avatar:"image",
+    options: [
+      { title: "option 1", votes: 10 },
+      { title: "option 2", votes: 20 },
+    ],
+  },
+  {
+    id: 2,
+    title: "option 2",
+    options: [
+      { title: "option 1", votes: 0 },
+      { title: "option 2", votes: 0 },
+    ],
+  },
+  {
+    id: 3,
+    title: "option 3",
+    options: [
+      { title: "option 1", votes: 0 },
+      { title: "option 2", votes: 0 },
+    ],
+  },
+  {
+    id: 4,
+    title: "option 4",
+    options: [
+      { title: "option 1", votes: 0 },
+      { title: "option 2", votes: 0 },
+    ],
+  },
+];
 
-  useEffect(() => {
-    const fetchTokenAndData = async () => {
-      try {
-        const fetchedToken = await getToken({ template: "test" });
-        // console.log(fetchedToken);
-
-        setToken(fetchedToken!);
-
-        axios
-          .get(
-            `${process.env.NEXT_PUBLIC_API_URL}/posts/category/${params.category}`,
-            {
-              headers: {
-                Authorization: `Bearer ${fetchedToken}`,
-                "Content-Type": "application/json",
-                Accept: "*/*",
-                "ngrok-skip-browser-warning": "69420",
-              },
-            }
-          )
-          .then((data) => {
-            console.log(data.data);
-            dispatch(setPost(data.data[0]));
-            // console.log(data.data);
-
-            setResponseData(data.data);
-          });
-      } catch (error) {
-        // throw new Error(error?.message);
-        console.error("Error fetching data:", error);
-        setError(error);
-      }
-    };
-
-    fetchTokenAndData();
-  }, [getToken]);
-  if (!responseData && !error) {
-    return <PostsSkeleton />;
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <div className="text-red-500">
-          <p>Error fetching data: {error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
+const Page = () => {
   return (
     <div className="flex overflow-auto h-screen w-screen">
-      <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
-        {responseData && responseData.length > 0 ? (
-          responseData.map((post, index) => <Posts key={index} post={post} />)
-        ) : (
-          <div className="h-full w-full text-xl  justify-center items-center flex text-gray-500">
-            No post in this category
-          </div>
-        )}
-        <div className="mt-20"></div>
+      <div className="h-full w-full flex flex-col  overflow-y-auto scrollbar-hide">
+        <div className="flex items-center gap-3">
+          <PostAvatar />
+          <span>rituisboy</span>
+        </div>
+        {tempData.map((poll, index) => (
+          <RenderPoll key={poll.id} poll={poll} />
+        ))}
+        {tempData.map((poll, index) => (
+          <RenderPoll key={poll.id} poll={poll} />
+        ))}
+        <div className="mt-20" />
       </div>
     </div>
   );

@@ -81,11 +81,6 @@ const Page = () => {
     );
   }
 
-  if (posts.length == 0) {
-    return <h1>not working</h1>;
-  }
-  console.log(posts);
-
   return (
     <div className="flex overflow-auto h-screen w-screen">
       <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">

@@ -50,7 +50,7 @@ const Page = ({ params }: PageProps) => {
     <div className="h-[100vh] w-full flex items-center  bg-[#F1F1F1]  overflow-y-hidden">
       <div className="w-full h-[96vh] flex animate-slide-up fade-in-5 rounded-xl bg-white mr-4">
         <div className="w-[45%]  flex justify-center items-start">
-          <Profile userInfo={userInfo!} />
+          <Profile userInfo={userInfo!} showEdit={false} />
         </div>
         <div className="w-[55%] p-2 overflow-y-auto">
           <ProfilePost posts={userInfo?.posts!} />

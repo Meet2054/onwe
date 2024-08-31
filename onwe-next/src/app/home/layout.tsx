@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
-      <div className="lg:w-[40%] hidden lg:block bg-red-400"></div>
+      <div className="lg:w-[40%] hidden lg:block bg-white"></div>
     </div>
   );
 };

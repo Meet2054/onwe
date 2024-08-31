@@ -1,6 +1,13 @@
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import home from "./sideBarImages/home.png";
+import clubs from "./sideBarImages/clubs.png";
+import explore from "./sideBarImages/Explore.png";
+import magazines from "./sideBarImages/Magazine.png";
+import events from "./sideBarImages/Events.png";
+import create from "./sideBarImages/Search1.png";
+import Image from "next/image";
 import {
   Home,
   Users,
@@ -20,41 +27,32 @@ const SideBar = () => {
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <div className="h-screen md:flex flex-col items-center p-4 bg-white animate-slide-in hidden">
-      <div className="flex items-start justify-center border">
+    <div className="h-screen md:flex flex-col items-start pl-32 justify-between p-4 bg-white animate-slide-in hidden">
+      <div className="flex items-start">
         <Link
           scroll={false}
           href="/"
           className="text-gray-700 hover:text-gray-900"
         >
-          <h1 className="font-bold text-2xl">ONWE</h1>
+          <h1 className="font-bold text-3xl  ">ONWE</h1>
         </Link>
       </div>
       {/* <hr className="border-t border-black my-4 w-full" /> */}
-      <div className="flex flex-col items-start w-4/6 mt-6 justify-center ">
-        <Link
-          prefetch={true}
-          scroll={false}
-          href="/home"
-          className={`flex items-center text-black hover:text-gray-500 w-44 ml-10 ${
-            isActive("/home") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Home size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Home</h1>
+      <div className="flex flex-col items-centre w-4/6 justify-center gap-1 ">
+        <Link prefetch={true} scroll={false} href="/home">
+          <div className="flex p-1 items-center">
+            <div className="bg-black rounded-3xl p-2">
+              <Image src={home} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg ">Home</h1>
           </div>
         </Link>
-        <Link
-          scroll={false}
-          href="/clubs"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/clubs") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Users strokeWidth={2} size={20} stroke="black" />
-            <h1 className="ml-2 text-sm ">Clubs</h1>
+        <Link scroll={false} href="/clubs">
+          <div className="flex p-1 items-center">
+            <div className="bg-[#F1F1F1] p-2 rounded-3xl">
+              <Image src={clubs} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg">Clubs</h1>
           </div>
         </Link>
         {/* <Link scroll={false} href="/explore" className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${isActive("/explore") ? 'bg-gray-300 rounded-full' : ''}`}>
@@ -63,41 +61,28 @@ const SideBar = () => {
             <h1 className="ml-2 text-sm">Explore</h1>
           </div>
         </Link> */}
-        <Link
-          scroll={false}
-          href="/explore"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/search") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Compass size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Explore</h1>
+        <Link scroll={false} href="/explore">
+          <div className="flex p-1 items-center">
+            <div className="bg-[#F1F1F1] p-2 rounded-3xl">
+              <Image src={explore} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg ">Explore</h1>
           </div>
         </Link>
-        <Link
-          scroll={false}
-          href="/magazines"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/magazines") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Newspaper size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Magazines</h1>
+        <Link scroll={false} href="/magazines">
+          <div className="flex p-1 items-center">
+            <div className="bg-[#F1F1F1] p-2 rounded-3xl">
+              <Image src={magazines} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg ">Magazines</h1>
           </div>
         </Link>
-        <Link
-          prefetch={true}
-          scroll={false}
-          href="/events"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/events") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Calendar size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Event</h1>
+        <Link prefetch={true} scroll={false} href="/events">
+          <div className="flex p-1 items-center">
+            <div className="bg-[#F1F1F1] p-2 rounded-3xl">
+              <Image src={events} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg ">Event</h1>
           </div>
         </Link>
         {/* <Link
@@ -111,27 +96,17 @@ const SideBar = () => {
             <h1 className="ml-2 text-sm ">Notifications</h1>
           </div>
         </Link> */}
-        <Link
-          scroll={false}
-          href="/create"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/create") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Plus size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Create</h1>
+        <Link scroll={false} href="/create">
+          <div className="flex p-1 items-center">
+            <div className="bg-[#F1F1F1] p-2 rounded-3xl">
+              <Image src={create} alt="" width={30} height={30} />
+            </div>
+            <h1 className="ml-2 text-lg ">Create</h1>
           </div>
         </Link>
       </div>
-      <div className="flex flex-col items-start w-4/6 mt-60">
-        <Link
-          scroll={false}
-          href="/profile"
-          className={`text-black hover:text-gray-900  ml-10 flex items-center w-52 ${
-            isActive("/profile") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
+      <div className="flex flex-col items-start w-4/6">
+        <Link scroll={false} href="/profile">
           <div className="flex p-4">
             <User strokeWidth={2} size={20} stroke="black" />
             <h1 className="ml-2 text-sm ">Profile</h1>

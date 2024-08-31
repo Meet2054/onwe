@@ -13,6 +13,7 @@ const MiddleNavbar = () => {
     { name: "Discussions", href: "/home/discussions" },
     { name: "Sports", href: "/home/sports" },
     { name: "Art & Fashion", href: "/home/arts_fashion" },
+    { name: "Polls", href: "/home/polls" },
   ];
 
   return (

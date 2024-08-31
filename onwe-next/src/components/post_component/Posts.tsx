@@ -20,14 +20,14 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
     dispatch(setPost(post!));
   };
   useEffect(() => {
-    const time = post.createdAt;
+    const time = post?.createdAt;
     if (time) {
       const date = new Date(parseISO(time));
       const timeago = formatDistanceToNowStrict(date, { addSuffix: true });
       setTimeAgo(timeago);
     }
   }, []);
-  
+
   return (
     <div
       onClick={handleClick}

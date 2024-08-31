@@ -22,7 +22,7 @@ const PostAvatar = ({
       style={{ width: `${size * 4}px`, height: `${size * 4}px` }}
     >
       <AvatarImage src={`${base64Prefix}${url}`} />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarFallback className="bg-red-300">CN</AvatarFallback>
     </Avatar>
   );
 };

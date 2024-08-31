@@ -33,9 +33,7 @@ const Page = () => {
     };
     fetchData();
 
-    // return () => {
-    //   axios.CancelToken.source().cancel("Component unmounted");
-    // };
+
   }, []);
 
   return (

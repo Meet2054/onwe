@@ -59,6 +59,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'custom-brown': '#644631',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -106,10 +107,14 @@ const config = {
       },
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        'source-serif': ['"Source Serif Pro"', 'serif'],
+      },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(113deg, #FEFEFD 0%, #E8DFDA 97.98%)',
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide"),  require('tailwind-scrollbar')],
 } satisfies Config;
 
 export default config;

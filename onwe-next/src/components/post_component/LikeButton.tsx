@@ -74,28 +74,26 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="flex justify-center items-center gap-2 ">
       <div
-        className={`w-8 h-8 rounded-2xl border border-gray-400 justify-center items-center gap-2.5 inline-flex cursor-pointer`}
+        className="flex justify-center"
+        onClick={() => {
+          setLikeCount((prev) => (isClicked ? prev - 1 : prev + 1));
+          setIsClicked(!isClicked);
+          handleLike();
+        }}
       >
-        <div
-          className="flex justify-center"
-          onClick={() => {
-            setLikeCount((prev) => (isClicked ? prev - 1 : prev + 1));
-            setIsClicked(!isClicked);
-            handleLike();
-          }}
-        >
-          <Heart
-            strokeWidth={1.4}
-            stroke="black"
-            fillOpacity={0.5}
-            fill={isClicked ? "red" : "white"}
-            className={`w-6 h-5 relative flex-col justify-start items-start  inline-flex`}
-          />
-        </div>
+        <Heart
+          strokeWidth={1.4}
+          stroke="black"
+          fillOpacity={0.5}
+          fill={isClicked ? "red" : "white"}
+          className={` flex-col justify-start items-start`}
+        />
       </div>
-      {likeCount}
+      <div className="absolute w-20 bottom-0 left-0 flex items-center justify-center text-sm text-black/60 ">
+        <div>{likeCount} likes</div>
+      </div>
     </div>
   );
 };

@@ -3,9 +3,21 @@ import React from "react";
 
 const CopyButton = () => {
   return (
-    <div className=" w-11 h-8 px-3 py-2 rounded-2xl border border-black/opacity-30 justify-center items-center gap-2.5 inline-flex">
-      <Copy strokeWidth={1} className="w-5 h-5 " />
-    </div>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 20.5V12.5652C3 9.80379 5.23858 7.56522 8 7.56522H21M21 7.56522L15.4138 3M21 7.56522L15.4138 12.1304"
+        stroke="black"
+        stroke-width="1.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
   );
 };
 

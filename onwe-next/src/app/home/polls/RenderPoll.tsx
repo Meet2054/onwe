@@ -3,7 +3,18 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import VoteBar from "./VoteBar";
 import { Button } from "@/components/ui/button";
 
-const Page = ({ poll }: {}) => {
+interface pollPorps {
+  id: number;
+  title: string;
+  username: string;
+  avatar: string;
+  options: {
+    title: string;
+    votes: number;
+  }[];
+}
+
+const Page = ({ poll }: { poll: pollPorps }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);

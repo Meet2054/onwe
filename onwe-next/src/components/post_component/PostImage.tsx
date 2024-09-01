@@ -3,6 +3,7 @@ import React from "react";
 import {
   Carousel,
   CarouselContent,
+  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
@@ -43,16 +44,16 @@ const PostImage = ({
     <Carousel>
       <CarouselContent>
         {images?.map((image, index) => {
-          const blobUrl = URL.createObjectURL(
-            base64toBlob(image, "image/jpeg")
-          );
+          // const blobUrl = URL.createObjectURL(
+          //   base64toBlob(image, "image/jpeg")
+          // );
 
           return (
             <CarouselItem key={index} className={className}>
               <Image
                 src={`${base64Prefix}${image}`}
                 layout="fill"
-                objectFit="contain"
+                objectFit="cover"
                 alt="Image"
               />
             </CarouselItem>
@@ -61,8 +62,9 @@ const PostImage = ({
       </CarouselContent>
       {images?.length! > 1 && (
         <>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-1" />
+          <CarouselNext className="absolute right-1" />
+          {/* <CarouselDots className="absolute bottom-0 w-10 right-1/2" /> */}
         </>
       )}
     </Carousel>

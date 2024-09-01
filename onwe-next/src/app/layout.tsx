@@ -9,6 +9,7 @@ import MinSideBar from "@/components/SideBar/MinSidebar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import BottomNavBar from "@/components/SideBar/BottomNavBar";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ interface RootLayoutProps {
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const showSideBar = pathname.startsWith("/home");
-  const showBottomNavBar = 
+  const showBottomNavBar =
     pathname !== "/forgot-password" &&
     pathname !== "/sign-up" &&
     pathname !== "/sign-in";
@@ -49,7 +50,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
               )}
               {showBottomNavBar && (
                 <div className="w-full flex items-center justify-between sm:hidden fixed bottom-0 z-10">
-                  <BottomNavBar/>
+                  <BottomNavBar />
                 </div>
               )}
               <div className="flex-1 h-full overflow-y-auto">{children}</div>

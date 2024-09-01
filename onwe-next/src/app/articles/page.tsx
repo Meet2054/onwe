@@ -35,7 +35,7 @@ const ArticlePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('General');
   const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [articles, setArticles] = useState<ArticleCardProps[]>([])
+  // const [articles, setArticles] = useState<ArticleCardProps[]>([])
 
   const { getToken } = useAuth();
   const dispatch = useDispatch();
@@ -77,73 +77,73 @@ const ArticlePage: React.FC = () => {
   };
 
   // Dummy data for articles
-  // const articles = [
-  //   {
-  //     author: 'mania.90',
-  //     time: '2h',
-  //     title: 'Article Lorem ipsum dolor sit amet',
-  //     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points.',
-  //     imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //     category: 'General'
-  //   },
-  //   {
-  //     author: 'john_doe',
-  //     time: '5h',
-  //     title: 'Sports Update: Latest Results',
-  //     content: 'Check out the latest results from the world of sports.',
-  //     imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //     category: 'Sports'
-  //   },
-  //   {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //     {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //     {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //     {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //     {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //     {
-  //       author: 'siddhu000',
-  //       time: '2h',
-  //       title: 'Rohith Sharma',
-  //       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
-  //       imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
-  //       category: 'Sports'
-  //     },
-  //   // Add more dummy data as needed
-  // ];
+  const articles = [
+    {
+      author: 'mania.90',
+      time: '2h',
+      title: 'Article Lorem ipsum dolor sit amet',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points. Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus. A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs. This is because paragraphs show a reader where the subdivisions of an essay begin and end, and thus help the reader see the organization of the essay and grasp its main points.',
+      imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+      category: 'General'
+    },
+    {
+      author: 'john_doe',
+      time: '5h',
+      title: 'Sports Update: Latest Results',
+      content: 'Check out the latest results from the world of sports.',
+      imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+      category: 'Sports'
+    },
+    {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+      {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+      {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+      {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+      {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+      {
+        author: 'siddhu000',
+        time: '2h',
+        title: 'Rohith Sharma',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. tincidunt lacus.',
+        imageUrl: 'https://cdn.builder.io/api/v1/image/assets/TEMP/ff88e320c5e1c6b53cd18956e53039f181d2bae99d1271e37353a546e0b53362?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0',
+        category: 'Sports'
+      },
+    // Add more dummy data as needed
+  ];
 
   return (
     <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100">

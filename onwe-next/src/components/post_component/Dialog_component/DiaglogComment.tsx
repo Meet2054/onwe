@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PostAuthor from "../PostAuthor";
 import SingleComment from "../SingleComment";
 import CommentInput from "../CommentInput";
-import LikeButton from "../LikeButton";
+
 import CopyButton from "../CopyButton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
@@ -44,11 +44,11 @@ const DiaglogComment = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-between">
-      <div className="">
+      <div>
         <PostAuthor post={post} />
         <div className="border border-gray-200" />
       </div>
-      <div className="w-full h-[70%] overflow-y-auto  space-y-4 scrollbar-hide p-4">
+      <div className="w-full flex-grow mt-3  h-[70%] overflow-y-auto  space-y-4 scrollbar-hide p-0">
         {comments &&
           comments.map((comment, index) => (
             <SingleComment key={index} data={comment} />

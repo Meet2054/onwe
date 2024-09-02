@@ -71,19 +71,18 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       )}
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
-        // style={{ height: imageHeight! * 3.5, width: imageWidth! * 3.5 }}
-        className={`flex  h-[80vh] min-w-[30rem]   flex-col sm:flex-row justify-center items-center  
+        className={`flex  h-[95vh] min-w-[28rem]   flex-col sm:flex-row justify-center items-center  
                    border-none sm:rounded-3xl  bg-transparent sm:p-0 ${
                      post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
                    }`}
       >
         {post?.media?.length > 0 && (
-          <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent bg-red-100">
+          <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent bg-red-100 ">
             <DialogImage imageUrl={post?.media[0]} />
           </div>
         )}
 
-        <div className="p-3  rounded-3xl sm:w-[30rem]  h-full  overflow-y-auto bg-white">
+        <div className="p-3 flex-grow  rounded-3xl sm:w-[30rem]  h-full  overflow-y-auto bg-white">
           <DiaglogComment />
         </div>
       </DialogContent>

@@ -1,7 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import VoteBar from "./VoteBar";
 import { Button } from "@/components/ui/button";
+import { getData, getGlobalToken } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
+import useSWR from "swr";
+
+interface PollOption {
+  id: string;
+  optionText: string;
+  votes: number | null;
+}
+
+interface Poll {
+  id: string;
+  question: string;
+  createdBy: string;
+  PollOptions: PollOption[];
+  userHasVoted: boolean;
+}
 
 interface pollPorps {
   id: number;
@@ -18,6 +35,23 @@ const Page = ({ poll }: { poll: pollPorps }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const { getToken } = useAuth();
+
+  // get polls
+  const fetcher = async (url: string) => {
+    try {
+      const token = await getToken({ template: "test" });
+      if (!token) throw new Error("No token found");
+      return getData(
+        url,
+        { headers: { Authorization: `Bearer ${token}` } },
+        "GET"
+      );
+    } catch (err) {
+      throw err;
+    }
+  };
+  const { data, isLoading } = useSWR("/polls", fetcher);
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
@@ -32,6 +66,9 @@ const Page = ({ poll }: { poll: pollPorps }) => {
     }, 500); // Transition duration (500ms)
   };
 
+  if (data) {
+    console.log(data);
+  }
   return (
     <div className="border transition-all duration-500 ease-in-out">
       <div className="flex items-center gap-3  ">

@@ -13,6 +13,8 @@ import DialogImage from "./DialogImage";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
+import { MessageSquare } from "lucide-react";
+import PostImage from "../PostImage";
 
 interface DialogBoxProps {
   imageUrl?: string;
@@ -29,10 +31,6 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 }) => {
   const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
   const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
 
   const handleImageLoad = (
     event: React.SyntheticEvent<HTMLImageElement, Event>
@@ -59,16 +57,15 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         </DialogTrigger>
       ) : (
         <DialogTrigger
-          className={`${
-            description
-              ? "bg-[#b5e2fa] flex h-52 justify-center items-center rounded-3xl  w-full"
-              : ""
-          }`}
+          className={cn(
+            "flex  justify-center items-center  z-50 ",
+            description ? "bg-[#b5e2fa]" : ""
+          )}
         >
           {description ? (
             <div className="text-xl">{description}</div>
           ) : (
-            "comment"
+            <MessageSquare strokeWidth={1.4} size={24} />
           )}
         </DialogTrigger>
       )}
@@ -81,7 +78,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
                    }`}
       >
         {post?.media?.length > 0 && (
-          <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent">
+          <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent bg-red-100">
             <DialogImage imageUrl={post?.media[0]} />
           </div>
         )}

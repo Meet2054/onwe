@@ -1,4 +1,5 @@
 "use client";
+
 // import { AnimatedLinks } from "@/components/AnimatedLinks";
 import MiddleNavbar from "@/components/middle_component/MiddleNavbar";
 import RightSide from "./Rightside";

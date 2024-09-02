@@ -48,5 +48,6 @@ export const getData = async (
 export const base64Prefix = "data:image/png;base64,";
 
 export const getGlobalToken = async () => {
+  console.log(await window.Clerk.session.getToken({ template: "test" }));
   return await window.Clerk.session.getToken({ template: "test" });
 };

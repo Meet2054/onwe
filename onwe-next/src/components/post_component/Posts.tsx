@@ -31,7 +31,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-11/12 border rounded-xl shadow-smrounded-md mt-9 p-4 "
+      className="w-11/12  mt-9 border-b-2 shadow bg-[#F1F1F1]"
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -45,12 +45,12 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
-      <div className="flex flex-col justify-center  items-center">
-        <div className="w-10/12 ">
-          <div className="mt-4">{post?.description || ""}</div>
+      <div className="flex flex-col ">
+        <div className="">
+          <div className="mt-4 relative">{post?.description || ""}</div>
           <PostImage
             images={post?.media}
-            className="w-full relative h-80 mt-4 overflow-hidden"
+            className="w-96 relative h-96 mt-4 overflow-hidden  bg-black"
           />
 
           <div className="w-full">

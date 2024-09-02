@@ -1,7 +1,7 @@
 "use client";
 // import { AnimatedLinks } from "@/components/AnimatedLinks";
 import MiddleNavbar from "@/components/middle_component/MiddleNavbar";
-
+import RightSide from "./Rightside";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full flex">
@@ -13,7 +13,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
-      <div className="lg:w-[40%] hidden lg:block bg-white"></div>
+      <div className="lg:w-[40%] hidden lg:block bg-white">
+        <RightSide />
+      </div>
     </div>
   );
 };

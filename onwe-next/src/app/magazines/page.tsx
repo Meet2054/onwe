@@ -8,6 +8,7 @@ import MagazinesComponent from "@/components/magazines/MagazinesComponent";
 import MagazineDetails from "@/components/magazines/MagazineDetails";
 import { useDispatch } from "react-redux";
 import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
+import Link from "next/link"; // Import Link from next/link
 
 // Sample magazine data type
 type Magazine = {
@@ -56,38 +57,27 @@ const Page: React.FC = () => {
       setMagazines(data);
     }
   }, [data]);
-  // useEffect(() => {
-  //   // Fetch magazines from API when the component mounts
-  //   const fetchMagazines = async () => {
-  //     try {
-  //       const token = await getToken();
-  //       const response = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/magazines`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             "ngrok-skip-browser-warning": "69420",
-  //           },
-  //         }
-  //       );
-  //       setMagazines(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching magazines:", error);
-  //     }
-  //   };
-
-  //   fetchMagazines();
-  // }, [getToken]); // Make sure to include getToken in the dependency array
 
   const handleSelectMagazine = (magazine: Magazine) => {
     setSelectedMagazine(magazine);
     dispatch(selectMagazine(magazine));
   };
 
-
   return (
     <div className="flex h-screen">
       <div className="w-1/4 bg-gray-100 overflow-y-auto border border-r-2 flex flex-col items-center">
+        <div className="flex flex-wrap gap-10  justify-center p-5 items-center w-full max-md:max-w-full">
+            <div className="flex gap-1.5 items-center self-stretch my-auto text-base tracking-normal leading-none text-center whitespace-nowrap">
+              <Link href="/articles" passHref>
+                <button className="overflow-hidden gap-2.5  self-stretch px-4 my-auto font-medium rounded-lg border border-solid border-black border-opacity-40 min-h-[40px] text-zinc-800 w-[124px]">
+                    Articles
+                </button>
+              </Link>
+              <div className="overflow-hidden gap-2.5 pt-3 self-stretch px-4 my-auto font-bold text-white rounded-lg bg-zinc-800 min-h-[40px] w-[124px]">
+                Magazines
+              </div>
+            </div>
+        </div>
         <h1 className="mt-4 w-1/2 border rounded-xl border-gray-400 flex justify-center items-center hover:bg-slate-400">
           Previous
         </h1>

@@ -53,7 +53,7 @@ const PostImage = ({
               <Image
                 src={`${base64Prefix}${image}`}
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
                 alt="Image"
               />
             </CarouselItem>

@@ -29,7 +29,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   }, []);
 
   return (
-    <div onClick={handleClick} className="w-11/12 border-b  rounded-md mt-9 ">
+    <div onClick={handleClick} className="w-11/12  mt-9 border-b-2 shadow">
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
         <div>
@@ -44,10 +44,10 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       </div>
       <div className="flex flex-col ">
         <div className="">
-          <div className="mt-4">{post?.description || ""}</div>
+          <div className="mt-4 relative">{post?.description || ""}</div>
           <PostImage
             images={post?.media}
-            className="w-96 relative h-96 mt-4 overflow-hidden"
+            className="w-96 relative h-96 mt-4 overflow-hidden  bg-gray-100"
           />
 
           <div className="w-full">

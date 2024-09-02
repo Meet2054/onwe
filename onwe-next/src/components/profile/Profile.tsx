@@ -42,12 +42,20 @@ const Profile = ({
       <div className="text-green-500 text-center">
         @{userInfo?.user?.username}
       </div>
-      <div className="flex gap-x-4">
-        <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
-          Follower
-        </div>
-        <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
-          Following
+      <div className="flex flex-col  gap-x-4">
+        {/* {showEdit==false && (userInfo?.isfollowed)?<button className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white">
+         Follow
+        </button>:
+        <button className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700">
+        Following
+       </button>} */}
+        <div className="flex "> 
+          <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
+          {userInfo?.followersCount} Follower 
+          </div>
+          <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
+          {userInfo?.followingCount} Following
+          </div>
         </div>
       </div>
       <div className="text-center w-52">

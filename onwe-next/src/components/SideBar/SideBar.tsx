@@ -1,12 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
-import home from "./sideBarImages/home.png";
-import clubs from "./sideBarImages/clubs.png";
-import explore from "./sideBarImages/Explore.png";
-import magazines from "./sideBarImages/Magazine.png";
-import events from "./sideBarImages/Events.png";
-import create from "./sideBarImages/Search1.png";
+import home from "./sideBarImages/Home.svg";
+import clubs from "./sideBarImages/category-2.svg";
+import explore from "./sideBarImages/Explore.svg";
+import magazines from "./sideBarImages/book.svg";
+import events from "./sideBarImages/calendar.svg";
+import create from "./sideBarImages/create.svg";
 import Image from "next/image";
 import {
   Home,

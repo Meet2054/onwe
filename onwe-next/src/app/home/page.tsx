@@ -82,8 +82,8 @@ const Page = () => {
   }
 
   return (
-    <div className="flex overflow-auto h-screen  w-full">
-      <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
+    <div className="flex overflow-auto h-screen w-full">
+      <div className="h-full w-full  flex flex-col   overflow-y-auto scrollbar-hide">
         {posts &&
           posts.length > 0 &&
           posts.map((post, index) => {

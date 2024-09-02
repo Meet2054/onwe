@@ -55,6 +55,7 @@ const PostImage = ({
                 layout="fill"
                 objectFit="contain"
                 alt="Image"
+                className="object-center"
               />
             </CarouselItem>
           );

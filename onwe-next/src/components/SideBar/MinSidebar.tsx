@@ -157,7 +157,7 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-            <Link
+            {/* <Link
               scroll={false}
               href="/create"
               className="flex items-center text-black hover:text-gray-500 w-full"
@@ -176,9 +176,9 @@ const MinSideBar = () => {
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
-            </Link>
+            </Link> */}
           </div>
-          <div className="flex flex-col items-start w-full mt-auto">
+          {/* <div className="flex flex-col items-start w-full mt-auto">
             <Link
               scroll={false}
               href="/profile"
@@ -199,7 +199,7 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </TooltipProvider>

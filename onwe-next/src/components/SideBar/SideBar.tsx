@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import home from "./sideBarImages/Home.svg";
 import clubs from "./sideBarImages/category-2.svg";
@@ -8,6 +8,7 @@ import magazines from "./sideBarImages/book.svg";
 import events from "./sideBarImages/calendar.svg";
 import create from "./sideBarImages/create.svg";
 import Image from "next/image";
+import { Create } from "../Create"
 import {
   Home,
   Users,
@@ -23,6 +24,10 @@ import {
 
 const SideBar = () => {
   const pathname = usePathname();
+  const [openCreate, setOpenCreate] = useState<boolean>(false)
+  const handleCreatePost = () => {
+    setOpenCreate(true)
+  }
 
   const isActive = (path: string) => pathname.includes(path);
 
@@ -96,14 +101,21 @@ const SideBar = () => {
             <h1 className="ml-2 text-sm ">Notifications</h1>
           </div>
         </Link> */}
-        <Link scroll={false} href="/create">
+        <button onClick={handleCreatePost}>
           <div className="flex p-1 items-center">
             <div className="bg-[#F1F1F1] p-2 rounded-3xl">
               <Image src={create} alt="" width={30} height={30} />
             </div>
             <h1 className="ml-2 text-lg ">Create</h1>
           </div>
-        </Link>
+        </button>
+        {openCreate &&
+          <div className="fixed bottom inset-0 flex  justify-center bg-black bg-opacity-10 backdrop-blur-sm z-50">
+            <div className=" p-6 h-4/5 w-1/4">
+              <Create open={openCreate} setOpen={setOpenCreate} />
+            </div>
+          </div>
+        }
       </div>
       <div className="flex flex-col items-start w-4/6">
         <Link scroll={false} href="/profile">

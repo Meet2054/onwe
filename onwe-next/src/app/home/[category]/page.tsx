@@ -42,7 +42,6 @@ const Page: React.FC<paramsProps> = ({ params }) => {
             }
           )
           .then((data) => {
-            console.log(data.data);
             dispatch(setPost(data.data[0]));
             // console.log(data.data);
 

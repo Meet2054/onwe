@@ -45,8 +45,8 @@ const  General = ({ club }: { club: string }) => {
   }, [club, getToken,createActive]);
 
   return (
-    <div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-20">
-      <div className=" flex flex-col-reverse gap-3">
+<div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-36">
+<div className=" flex flex-col-reverse gap-3">
         {posts.map((post) => {
           let cnm = "";
           if (post.username === session?.user.username) {

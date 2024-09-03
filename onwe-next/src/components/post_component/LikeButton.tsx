@@ -85,9 +85,9 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
       >
         <Heart
           strokeWidth={1.4}
-          stroke="black"
+          stroke={isClicked ? "#e62727" : "black"}
           fillOpacity={0.5}
-          fill={isClicked ? "red" : "white"}
+          fill={isClicked ? "#e62727" : "white"}
           className={` flex-col justify-start items-start`}
         />
       </div>

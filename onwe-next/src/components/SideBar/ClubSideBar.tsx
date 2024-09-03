@@ -140,11 +140,14 @@ const ClubSideBar = ({ closeSidebar }: { closeSidebar: () => void }) => {
           <ChevronLeft />
         </button>
       </div>
-      <div className="flex flex-col overflow-y-auto space-y-2 mt-4">
+      <div className="overflow-y-auto">
+
+      <div className="flex flex-col overflow-hidden space-y-2 mt-4">
         {myClubs.map((club) => (
           <ClubCard key={club.id} club={club} />
         ))}
       </div>
+        </div>
     </div>
   );
 };

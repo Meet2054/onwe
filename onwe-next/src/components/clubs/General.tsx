@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import CreatePost from "@/components/clubs/CreatePost";
-import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { PostsProps } from "@/types/type";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useSession } from "@clerk/clerk-react";
+import {NewPost} from "./NewPost";
+import PostImage from "../post_component/PostImage";
 
 // const General = ({ posts, club }: { posts: PostsProps[], club: string }) => {
 const  General = ({ club }: { club: string }) => {
@@ -17,14 +17,6 @@ const  General = ({ club }: { club: string }) => {
   const { session } = useSession();
   const handleClick = (post: PostsProps) => {
     dispatch(setPost(post));
-  };
-
-  const handleCreateClick = () => {
-    setCreateActive(true);
-  };
-
-  const handleCloseClick = () => {
-    setCreateActive(false);
   };
 
   useEffect(() => {
@@ -41,7 +33,8 @@ const  General = ({ club }: { club: string }) => {
           }
         );
         setPosts(response.data.posts);
-        console.log(session?.user.username);
+        console.log(posts)
+        // console.log(session?.user.username);
       } catch (err: any) {
         console.log(err);
         setPosts([]);
@@ -53,7 +46,7 @@ const  General = ({ club }: { club: string }) => {
 
   return (
     <div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-20">
-      <div className=" flex flex-col gap-3">
+      <div className=" flex flex-col-reverse gap-3">
         {posts.map((post) => {
           let cnm = "";
           if (post.username === session?.user.username) {
@@ -72,7 +65,11 @@ const  General = ({ club }: { club: string }) => {
                     {post.username}
                   </h1>
                   <div className="m-2 rounded-xl">
-                    <DialogBox imageUrl={post.media[0]} post={post} />
+                    
+                    <PostImage
+            images={post?.media}
+            className="w-96 relative h-96 mt-4 overflow-hidden  bg-black"
+          />
                   </div>
                   <p className="m-2 mt-[-10px] font-medium text-base">
                     {post.description}
@@ -83,7 +80,10 @@ const  General = ({ club }: { club: string }) => {
           );
         })}
       </div>
-      <button
+      <div className="fixed sm:bottom-4 bottom-16">
+        <NewPost clubName={club} setDone={setCreateActive}/>
+      </div>
+      {/* <button
         className="fixed sm:bottom-4 bottom-16 sm:right-14 right-10 bg-black font px-4 py-3 rounded-xl text-white font-semibold shadow-lg"
         onClick={handleCreateClick}
       >
@@ -95,7 +95,7 @@ const  General = ({ club }: { club: string }) => {
           category={"general"}
           onClose={handleCloseClick}
         />
-      )}
+      )} */}
     </div>
   );
 };

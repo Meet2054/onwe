@@ -1,6 +1,6 @@
 // app/page.tsx
 "use client";
-import { UserButton, useUser} from "@clerk/nextjs";
+import { UserButton,SignOutButton, useUser, useAuth} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,8 @@ export default function Home() {
   // const token = useSelector((state: RootState) => state.auth.token);
   const { isSignedIn, user, isLoaded } = useUser();
   const router = useRouter();
+  const { sessionId } = useAuth()
+
 
   // if (isSignedIn) {
   //   router.push('/home');
@@ -35,8 +37,9 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <UserButton afterSignOutUrl="/" />
+            {/* <UserButton afterSignOutUrl="/" /> */}
             {/* <h1 className="text-black">{token}</h1> */}
+            {sessionId && <SignOutButton signOutOptions={{sessionId}}/>}
           </>
         )}
       </div>

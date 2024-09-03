@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
@@ -11,12 +11,18 @@ import { setTimeline } from "@/lib/features/timeline/postSlice";
 import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
+import { useRouter } from "next/navigation";
 
 const PAGE_SIZE = 10;
 
 const Page = () => {
   const { getToken } = useAuth();
+  const {isSignedIn} = useUser()
   const dispatch = useDispatch();
+  const router = useRouter()
+  if (!isSignedIn) {
+      router.push('/sign-in');
+    }
 
   const fetcher = async (url: string) => {
     try {
@@ -66,7 +72,6 @@ const Page = () => {
     },
     [isValidating, setSize]
   );
-
   if (!posts) {
     return <PostsSkeleton />;
   }

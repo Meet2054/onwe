@@ -20,9 +20,9 @@ const Page = () => {
   const {isSignedIn} = useUser()
   const dispatch = useDispatch();
   const router = useRouter()
-  if (!isSignedIn) {
-      router.push('/sign-in');
-    }
+  // if (!getToken()) {
+  //     return router.push('/sign-in');
+  //   }
 
   const fetcher = async (url: string) => {
     try {

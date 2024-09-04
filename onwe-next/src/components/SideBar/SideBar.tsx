@@ -123,15 +123,30 @@ const SideBar = () => {
         
       </div>
       <div className="flex flex-col items-start w-4/6">
-      <Link scroll={false} href="/create">
+      {/* <Link scroll={false} href="/create">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              {/* <Image src={create} alt="" width={30} height={30} /> */}
+              <Image src={create} alt="" width={30} height={30} />
               <Plus width={28} height={28} />
             </div>
             <h1 className="ml-2 text-lg ">Create</h1>
           </div>
-        </Link>
+        </Link> */}
+        <button onClick={handleCreatePost}>
+          <div className="flex p-1 items-center">
+            <div className="bg-white p-2 rounded-3xl">
+              <Plus width={28} height={28} />
+            </div>
+            <h1 className="ml-2 text-lg ">Create</h1>
+          </div>
+        </button>
+        {openCreate &&
+          <div className="fixed bottom inset-0 flex  justify-center bg-black bg-opacity-10 backdrop-blur-sm z-50">
+            <div className=" p-6 h-4/5 w-1/4">
+              <Create open={openCreate} setOpen={setOpenCreate} />
+            </div>
+          </div>
+        }
         <Link scroll={false} href="/profile">
         <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">

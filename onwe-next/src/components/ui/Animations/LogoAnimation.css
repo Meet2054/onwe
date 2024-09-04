@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+  }
+  
+  .main {
+    width: 120px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .preAnimLogo {
+    pointer-events: none;
+    animation: preLogoMovAnim 2s infinite;
+  }
+  
+  @keyframes preLogoMovAnim {
+    0% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg1.jpg);}
+    10% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg1.jpg);}
+    20% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg3.jpg);}
+    30% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg4.jpg);}
+    40% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg5.jpg);}
+    50% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg6.jpg);}
+    60% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg7.jpg);}
+    70% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg8.jpg);}
+    80% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg9.jpg);}
+    90% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg10.jpg);}
+    100% { background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/938837/bcg11.jpg);}
+  }
+  

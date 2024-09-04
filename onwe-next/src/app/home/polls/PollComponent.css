@@ -1,0 +1,313 @@
+:root {
+    /* vars */
+    --post-bg: rgb(14, 14, 17);
+    --t: .4s;
+    --ease: linear(0,.005,.02 2.2%,.045,.081 4.9%,.16 7.3%,.465 16.2%,.561,.642,.713 25.8%,.773,.825 32.7%,.868 36.5%,.905 40.9%,.935 45.7%,.958 51.1%,.975 57.4%,.986 64.4%,.993 73.1%,.997 84.1%,.999);
+    --ease-bar: linear(
+      0, 0.005, 0.02, 0.045, 0.081 5%, 0.16 7.6%, 0.463 16.6%, 0.558, 0.639, 0.709,
+      0.769, 0.82 33.3%, 0.863 37.1%, 0.902 41.6%, 0.932 46.5%, 0.956 51.9%,
+      0.973 58.2%, 0.985 65.3%, 0.992 73.8%, 0.997 84.7%, 0.999
+    );
+    --trans: all var(--t) var(--ease);
+    --star-color: 210deg; 
+    --star-time: 7s;
+    --star-ease: cubic-bezier(0.75, 0, 0.25, 1);
+  }
+  
+  
+  
+  .post {
+    padding:  1.5rem 1rem 2rem;
+    padding-left: 3rem;
+    border-bottom: 1px solid hsl(0deg 0% 100% / 10%);
+  }
+  
+  .poll-details {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: hsl(240deg 15.6% 78.63% / 65%);
+  }
+  
+  .poll-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .poll-choice label {
+    padding-inline: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0.5rem;
+    border: 1px solid rgb(76, 76, 92);
+    position: relative;
+    isolation: isolate;
+  }
+  
+  .poll-choice .poll-label {
+    gap: 0.5rem;
+    overflow: hidden;
+    width: 100%;
+    min-height: 44px;
+  }
+  
+  .poll-choice .poll-percent,
+  .poll-choice .poll-label {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    margin: 0;
+    z-index: 1;
+  }
+  
+  .poll-choice .poll-percent {
+    opacity: 0;
+    translate: 100% 0;
+    width: 2rem;
+    text-align: right;
+    justify-content: end;
+    transition: all calc(var(--t)*3) var(--ease-bar);
+  }
+  
+  .poll-choice .answer {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    filter: none;
+    transition: var(--trans);
+  }
+  
+  .poll-choice .poll-label .radio {
+    display: flex;
+    transition: var(--trans);
+    overflow: hidden;
+    flex: 0 0 16px;
+  }
+  
+  .poll-result {
+    position: absolute;
+    inset: -1px;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    mask-size: cover;
+    background-size: 0% 100%; 
+    background-position: 0% 0%;
+    transition: opacity var(--t) var(--ease);
+    opacity: 0;
+  }
+  
+  .poll-result:before,
+  .poll-result:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: calc(0.5rem);
+    mix-blend-mode: hard-light;
+    background-image: linear-gradient(90deg, hsl(240deg 10% 90% / 50%), hsl(240deg 10% 90% / 90%) 80%);
+    background-size: inherit;
+    background-repeat: no-repeat;
+    background-position: inherit;
+    transition: all calc(var(--t)*3) var(--ease-bar);
+  }
+  
+  .poll-result:after {
+    inset: 1px;
+    border-radius: calc(0.5rem - 1px);
+    background: rgb(14 14 17 / 50%);
+    background-size: calc( 100% - 2px ) 100%;
+    opacity: 1;
+    z-index: 1;
+    mix-blend-mode: unset;
+  }
+  
+  .poll-result .star {
+    position: absolute;
+    left: var(--percent, 0%);
+    top: 50%;
+    translate: -50% -50%;
+    width: auto;
+    height: 90%;
+    transition: left calc(var(--t)*3) var(--ease-bar), opacity calc(var(--t)*3) var(--ease-bar);
+    mix-blend-mode: plus-lighter;
+    filter: drop-shadow(0 0 3px hsl(var(--star-color) 100% 60% / 70%)) drop-shadow(0 0 8px hsl(var(--star-color) 100% 60% / 70%));
+    z-index: 2;
+    opacity: 0;
+  }
+  
+  .poll-result .star:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    height: 120%;
+    aspect-ratio: 1/10;
+    border-radius: 100%;
+    background: 
+      radial-gradient(1px 50% at center, hsl(var(--star-color) 100% 100% / 100%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(3px 50% at center, hsl(var(--star-color) 100% 70% / 90%), hsl(var(--star-color) 100% 20% / 0%));
+    translate: -50% -50%;
+  }
+  
+  
+  .poll-result .star div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    height: 120%;
+    aspect-ratio: 1/2;
+    background: 
+      radial-gradient(1px 50% at center, hsl(var(--star-color) 100% 100% / 100%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(3px 50% at center, hsl(var(--star-color) 100% 90% / 90%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(5px 30% at center, hsl(var(--star-color) 100% 80% / 60%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(40% 3px at center, hsl(var(--star-color) 100% 80% / 60%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(45% 2px at center, hsl(var(--star-color) 100% 90% / 90%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(50% 1px at center, white, hsl(var(--star-color) 100% 100% / 100%), hsl(var(--star-color) 100% 20% / 0%));
+    mix-blend-mode: color-dodge;
+    opacity: 1;
+    z-index: 3;
+  }
+  .poll-result .star div::before,
+  .poll-result .star div::after {
+    content: "";
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    translate: 50% -50%;
+    rotate: 45deg;
+    height: 50%;
+    aspect-ratio: 1/1;
+    background: 
+      radial-gradient(2px 35% at center, hsl(var(--star-color) 100% 60% / 70%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(2px 40% at center, hsl(var(--star-color) 100% 80% / 90%), hsl(var(--star-color) 100% 20% / 0%)),
+      radial-gradient(1px 45% at center, white, hsl(var(--star-color) 100% 100% / 100%), hsl(var(--star-color) 100% 20% / 0%));
+    opacity: 1;
+    mix-blend-mode: plus-lighter;
+  }
+  .poll-result .star div::after {
+    rotate: -45deg;
+  }
+  
+  .poll.answered {
+  
+    .poll-choice.winner .poll-result:before {
+      background-image: linear-gradient(254deg, #D4F2FE 5%, #FFE7B7 45%, #F9CED5 95%);
+    }
+    
+    .poll-choice .poll-result {
+      opacity: 1;
+      background-size: var(--percent, 0%) 100%;
+    }
+    
+    .poll-choice.winner .poll-result .star {
+      opacity: 1;
+      transition-delay: 0s, 0.2s;
+    }
+    
+    .poll-choice.winner .poll-result .star div,
+    .poll-choice.winner .poll-result .star div:before,
+    .poll-choice.winner .poll-result .star div:after {
+      animation: starGlow var(--star-time) var(--star-ease) infinite;
+    }
+    .poll-choice.winner .poll-result .star div:before { animation-delay: 0.1s; }
+    .poll-choice.winner .poll-result .star div:after { animation-delay: 0s; }
+    
+    .poll-choice .radio {
+      flex: 0 1 0px;
+    }
+    
+    .poll-choice .answer {
+      translate: -0.5rem 0;
+    }
+    
+    .poll-choice .poll-percent {
+      translate: 0 0;
+      opacity: 1;
+    }
+    
+    .poll-choice.winner .poll-percent,
+    .poll-choice.winner .poll-label {
+      filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.5)) drop-shadow(-1px 1px 0px rgba(0,0,0,0.5)) drop-shadow(0px 1px 2px rgba(0,0,0,0.25)) drop-shadow(0px 1px 5px rgba(0,0,0,0.25));
+      z-index: 4;
+    }
+    
+  }
+  
+  
+  
+  
+  @keyframes starGlow {
+    0%, 90%, 100% {
+      filter: brightness(1) contrast(1) saturate(1) opacity(0);
+      scale: 0;
+    }
+    10%, 25% {
+      filter: brightness(1.6) contrast(1.5) saturate(2) opacity(1);
+      scale: 1;
+    }
+  }
+  
+  
+  
+  
+  
+  @layer app {
+  
+    #app {
+      width: 380px;
+      height: 600px;
+      background: var(--post-bg);
+      border-radius: 8px;
+      overflow-y: scroll;
+    }
+  
+    ul, li {
+      margin: unset;
+      padding: unset;
+      list-style: none;
+    }
+  
+    input {
+      width: 16px;
+      height: 16px;
+      appearance: none;
+      background-color: rgb(76 76 92 / 10%);
+      border: 1px solid rgb(76 76 92);
+      box-shadow: inset 0 0 0 1px transparent;
+      border-radius: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  
+    input:checked {
+      background-color: rgb(252, 210, 62);
+      border-color: rgb(252, 210, 62);
+      box-shadow: inset 0 0 0 2px var(--post-bg);
+    }
+    
+    p.text {
+      margin: 0;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      margin: 1em 0 0;
+    }
+    
+  }
+    
+  button {
+    margin: 2rem 3rem;
+    padding: .5rem 1rem;
+    background: rgba(235,235,255,0.15);
+    &:hover {
+      background: rgba(235,235,255,0.2);
+    }
+  }
+  
+  body, html {
+    margin: 0;
+  }

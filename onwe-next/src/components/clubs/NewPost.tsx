@@ -37,7 +37,7 @@ interface InputFieldProps {
   }
   
   const InputField: React.FC<InputFieldProps> = ({ label, id, value, onChange }) => {
-    const inputClasses = "flex flex-col justify-center items-center  pb-4 min-w-[60vw] text-xs font-medium tracking-wide  text-zinc-700";
+    const inputClasses = "flex flex-col space-evenly justify-center items-center  w-[90%] text-xs font-medium tracking-wide  text-zinc-700";
   
     return (
       <div className={inputClasses}>
@@ -101,6 +101,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
     const preventDefault = (e: DragEvent<HTMLDivElement>) => e.preventDefault();
 
     const handlePost = async () => {
+        if(description=="" && tags=="" && files.length==0) return 0;
         setLoading(true);
         try {
             const formData = new FormData();
@@ -131,6 +132,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
             setSuccessMessage("Post successful!");
             setDone((d:boolean)=>!d);
             setTimeout(() => setSuccessMessage(""), 3000);
+            return 1
 
         } catch (error) {
             console.error("Error posting data:", error);
@@ -147,7 +149,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
 
 
     return (
-        <div className="w-full h-full">
+        <div className="bg-white">
             <div className="flex flex-row mb-6">
 
             {files.length>0 && files.map((file, index) => {
@@ -178,7 +180,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                       );
                     })}
                     </div>
-            <div className="flex flex-wrap gap-10 justify-between items-center px-4 py-2.5 text-sm font-medium tracking-tight text-whitw bg-white min-w-[68vw] rounded-[42px]">
+            <div className="flex flex-wrap gap-10 justify-between items-center px-4 py-2.5 text-sm font-medium tracking-tight  min-w-[68vw] rounded-[42px]">
                 <input
                     type="file"
                     id="photoUpload"
@@ -195,9 +197,8 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
 
                 </label>
                 <InputField label={""} id={""}  value={description} onChange={setDescription}/>
-                <button onClick={()=>{
-                    handlePost()
-                    console.log("post ")
+                <button onClick={async ()=>{
+                    await handlePost();                    
                 }}>
                     
                 <Image

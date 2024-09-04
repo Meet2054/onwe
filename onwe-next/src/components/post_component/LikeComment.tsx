@@ -6,7 +6,7 @@ import { PostsProps } from "@/types/type";
 
 const LikeComment = ({ post }: { post: PostsProps }) => {
   return (
-    <div className="w-full p-2 flex justify-start items-start gap-3 relative  h-14  ">
+    <div className="w-full pt-2 pb-1 pl-0 flex justify-start items-start gap-5 relative   ">
       <LikeButton post={post} />
       <div>
         <DialogBox post={post} />

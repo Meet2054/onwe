@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const PostsSkeleton = () => {
   return (
-    <div className="w-11/12 border rounded-xl shadow-sm rounded-md mt-9 p-4 animate-pulse">
+    <div className="w-[85%] border rounded-xl bg-white shadow-sm rounded-md m-1 p-4 animate-pulse">
       <div className="flex items-center gap-3">
         <Skeleton className="w-10 h-10 rounded-full bg-gray-300" />
         <div>

@@ -5,19 +5,19 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 
 interface ArticleViewProps {
-    author: string;
-    date: string;
+    owner: string;
+    createdAt: string;
     title: string;
-    content: string;
+    description: string;
     imageUrl: string;
     onBack: () => void;
   }
   
   const ArticleView: React.FC<ArticleViewProps> = ({
-    author,
-    date,
+    owner,
+    createdAt,
     title,
-    content,
+    description,
     imageUrl,
     onBack,
   }) => {
@@ -33,8 +33,8 @@ interface ArticleViewProps {
   
       <div className="flex gap-4 justify-center self-stretch my-auto font-medium text-black">
         <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fa0db432333a92b264091df6d869605d89f8244515c5d9b879259b249afba747?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain shrink-0 my-auto w-7 rounded-2xl aspect-square" alt="Author avatar" />
-        <div className="text-base w-[72px] break-words whitespace-normal">{author}</div>
-        <div className="text-sm text-right w-[47px] break-words whitespace-normal">{date}</div>
+        <div className="text-base w-[72px] break-words whitespace-normal">{owner}</div>
+        <div className="text-sm text-right w-[47px] break-words whitespace-normal">{createdAt.slice(0,10)}</div>
       </div>
     </div>
   
@@ -44,12 +44,12 @@ interface ArticleViewProps {
         <div className="flex flex-col max-w-[666px] w-full">
           <div className="text-custom-brown text-3xl font-bold break-words whitespace-normal">{title}</div>
           <div className="mt-3 text-base font-source-serif text-black break-words whitespace-normal">
-            {content.slice(0, 1350)}
+            {description.slice(0, 1350)}
           </div>
         </div>
       </div>
       <div className="mt-1 text-base font-source-serif text-black break-words whitespace-normal">
-        {content.slice(1350)}
+        {description.slice(1350)}
       </div>
     </div>
   </div>
@@ -59,3 +59,40 @@ interface ArticleViewProps {
   };
 
   export default ArticleView;
+
+
+
+//   import React, { useEffect, useRef } from 'react';
+
+// interface PdfViewerProps {
+//   src: string;
+// }
+
+// const PdfViewer: React.FC<PdfViewerProps> = ({ src }) => {
+//   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+//   useEffect(() => {
+//     if (iframeRef.current) {
+//       iframeRef.current.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(src)}`;
+//     }
+//   }, [src]);
+
+//   return (
+//     <iframe
+//       ref={iframeRef}
+//       frameBorder="0"
+//       width="1280"
+//       height="900"
+//       title="PDF Viewer"
+//     />
+//   );
+// };
+
+// export default PdfViewer;
+
+
+// using
+
+// <div>
+//       <PdfViewer src="compressed.tracemonkey-pldi-09.pdf" />
+//     </div>

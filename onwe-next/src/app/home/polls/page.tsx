@@ -7,7 +7,7 @@ import RenderPoll from "./RenderPoll";
 const tempData = [
   {
     id: 1,
-    title: "option 1",
+    title: "This refactor allows PollComponent to fit seamlessly into your existing Page structure and handle data passed down via props, integrating smoothly with the RenderPoll component's expected data flow.",
     username: "rituisby",
     avatar: "image",
     options: [
@@ -43,8 +43,8 @@ const tempData = [
 
 const Page = () => {
   return (
-    <div className="flex overflow-auto h-screen w-screen">
-      <div className="h-full w-full flex flex-col  overflow-y-auto scrollbar-hide gap-5 p-5">
+    <div className="flex overflow-auto h-screen w-full">
+      <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide">
         {tempData.map((poll, index) => (
           <RenderPoll key={poll.id} poll={poll} />
         ))}

@@ -71,8 +71,8 @@ const Page: React.FC<paramsProps> = ({ params }) => {
   }
 
   return (
-    <div className="flex overflow-auto h-screen w-screen">
-      <div className="h-full w-full flex flex-col items-center overflow-y-auto scrollbar-hide">
+    <div className="flex overflow-auto h-screen w-full bg-white">
+      <div className="h-full w-full bg-white flex flex-col overflow-y-auto scrollbar-hide">
         {responseData && responseData.length > 0 ? (
           responseData.map((post, index) => <Posts key={index} post={post} />)
         ) : (

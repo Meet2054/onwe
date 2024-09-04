@@ -43,9 +43,9 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   const base64Prefix = "data:image/png;base64,";
 
   return (
-    <Dialog>
+    <Dialog >
       {imageUrl ? (
-        <DialogTrigger className={cn("relative h-60 w-full", className)}>
+        <DialogTrigger className={cn("relative  w-full ", className)}>
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"
@@ -58,7 +58,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       ) : (
         <DialogTrigger
           className={cn(
-            "flex  justify-center items-center  z-50 ",
+            "flex  justify-center items-center z-50 ",
             description ? "bg-[#b5e2fa]" : ""
           )}
         >

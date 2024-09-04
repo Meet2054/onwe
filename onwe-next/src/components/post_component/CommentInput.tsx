@@ -41,7 +41,7 @@ const CommentInput = ({ setComments }) => {
     };
 
     setComment("");
-    setComments((prev) => [...prev, newData]);
+    setComments((prev) => [newData,...prev ]);
   };
   return (
     <form onSubmit={handleClick}>

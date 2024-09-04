@@ -55,18 +55,18 @@ const PostImage = ({
                 layout="fill"
                 objectFit="contain"
                 alt="Image"
-                className="object-center"
+                className="object-contain"
               />
             </CarouselItem>
           );
         })}
       </CarouselContent>
       {images?.length! > 1 && (
-        <>
-          <CarouselPrevious className="absolute left-1" />
-          <CarouselNext className="absolute right-1" />
-          {/* <CarouselDots className="absolute bottom-0 w-10 right-1/2" /> */}
-        </>
+        <div className="flex justify-center">
+          {/* <CarouselPrevious className="absolute left-1" /> */}
+          {/* <CarouselNext className="absolute right-1" /> */}
+          <CarouselDots className="absolute bottom-0 mt-3 " />
+        </div>
       )}
     </Carousel>
     // </div>

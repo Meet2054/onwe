@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./types"],
     "lib": [
       "dom",
       "dom.iterable",
@@ -36,5 +37,5 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

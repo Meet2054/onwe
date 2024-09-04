@@ -174,8 +174,8 @@ const CarouselContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          "flex w-full h-full",
+          orientation === "horizontal" ? "-ml-0" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -197,7 +197,7 @@ const CarouselItem = React.forwardRef<
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
+        "shrink-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
@@ -216,7 +216,7 @@ const CarouselDots = React.forwardRef<
   return (
     <div
       className={cn(
-        "embla__dots absolute z-50 mt-4 flex w-[calc(100vw-16px)] items-center justify-center gap-4",
+        "embla__dots absolute z-50 mt-5 flex w-full items-center justify-center gap-1",
         className
       )}
       {...props}
@@ -225,10 +225,10 @@ const CarouselDots = React.forwardRef<
         <Button
           key={index}
           className={cn(
-            "embla__dot h-3 w-3 rounded-full p-0 transition-all",
+            "embla__dot h-2 w-2 rounded-full p-0 transition-all",
             index === selectedIndex
-              ? "embla__dot--selected  "
-              : "bg-primary-foreground"
+              ? "embla__dot--selected bg-zinc-700  "
+              : "bg-primary-foreground bg-zinc-400"
           )}
           onClick={() => scrollTo(index)}
         />

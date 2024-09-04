@@ -51,7 +51,7 @@ const Page: React.FC = () => {
     token ? `${process.env.NEXT_PUBLIC_API_URL}/magazines` : null,
     (url) => fetcher(url, token!)
   );
-
+  
   useEffect(() => {
     if (data) {
       setMagazines(data);

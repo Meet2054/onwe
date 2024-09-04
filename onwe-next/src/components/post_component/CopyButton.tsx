@@ -13,7 +13,7 @@ const CopyButton = () => {
       <path
         d="M3 20.5V12.5652C3 9.80379 5.23858 7.56522 8 7.56522H21M21 7.56522L15.4138 3M21 7.56522L15.4138 12.1304"
         stroke="black"
-        stroke-width="1.2"
+        stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

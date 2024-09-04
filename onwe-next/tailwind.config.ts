@@ -60,6 +60,8 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         'custom-brown': '#644631',
+        'new-bg' : '#F1F2F5',
+        'articles-card' : '#F1F1F1',
       },
       borderRadius: {
         lg: "var(--radius)",

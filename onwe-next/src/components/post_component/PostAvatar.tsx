@@ -3,7 +3,7 @@ import { base64Prefix } from "@/lib/utils";
 import React from "react";
 
 const PostAvatar = ({
-  size = 9,
+  size = 10,
   className,
   imageUrl,
 }: {
@@ -22,7 +22,7 @@ const PostAvatar = ({
       style={{ width: `${size * 4}px`, height: `${size * 4}px` }}
     >
       <AvatarImage src={`${base64Prefix}${url}`} />
-      <AvatarFallback className="bg-red-300">CN</AvatarFallback>
+      <AvatarFallback className="bg-zinc-200">OnwE</AvatarFallback>
     </Avatar>
   );
 };

@@ -31,28 +31,27 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-11/12  mt-9 border-b-2 shadow bg-[#F1F1F1]"
+      className="w-[85%] m-1 p-5 rounded-lg bg-white shadow border"
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
         <div>
           <Link
             href={`/profile/${post?.username}`}
-            className="font-bold hover:underline"
+            className="font-bold hover:text-custom-brown"
           >
-            {post?.username || "rituisboy"}
+            {post?.username || "OnwE"}
           </Link>
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
-      <div className="flex flex-col ">
-        <div className="">
-          <div className="mt-4 relative">{post?.description || ""}</div>
+      <div className="flex flex-col mt-4 ml-1">
+        <div className={post?.media.length === 0 ? " ":" "}>
           <PostImage
             images={post?.media}
-            className="w-96 relative h-96 mt-4 overflow-hidden  bg-black"
+            className="w-full h-80 relative bg-black rounded-lg ml-0 mb-4"
           />
-
+          <div className={post?.media.length !== 0 ? 'p-2 pt-0 font-sans normal-case relative' : 'font-sans normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium mb-2'}>{post?.description || ""}</div>
           <div className="w-full">
             <LikeComment post={post} />
           </div>

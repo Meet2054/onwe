@@ -84,16 +84,16 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         }}
       >
         <Heart
-          strokeWidth={1.4}
-          stroke={isClicked ? "#e62727" : "black"}
-          fillOpacity={0.5}
-          fill={isClicked ? "#e62727" : "white"}
+          strokeWidth={isClicked? 0 : 1.5}
+          fillOpacity={0.8}
+          fill={isClicked ? "red" : "white"}
           className={` flex-col justify-start items-start`}
         />
       </div>
-      <div className="absolute w-20 bottom-0 left-0 flex items-center justify-center text-sm text-black/60 ">
-        <div>{likeCount} likes</div>
-      </div>
+      <div className="text-[17px] w-1">{likeCount}</div>
+      {/* <div className="absolute w-18 bottom-0 left-0 flex items-start justify-start text-[13px] text-black/70 ">
+        
+      </div> */}
     </div>
   );
 };

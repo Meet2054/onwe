@@ -35,9 +35,9 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     >
       <Provider store={store}>
-        <html lang="en" className="bg-white">
+        <html lang="en" className="bg-new-bg">
           <body className={`${inter.className} h-screen overflow-hidden`}>
-            <div className="flex ">
+            <div className="flex">
               {showSideBar && (
                 <div className="w-3/12 hidden md:block">
                   <SideBar />

@@ -37,7 +37,7 @@ interface InputFieldProps {
   }
   
   const InputField: React.FC<InputFieldProps> = ({ label, id, value, onChange }) => {
-    const inputClasses = "flex flex-col space-evenly justify-center items-center  w-[90%] text-xs font-medium tracking-wide  text-zinc-700";
+    const inputClasses = " flex flex-col space-evenly justify-center items-center  w-[90%] text-xs font-medium tracking-wide  text-zinc-700";
   
     return (
       <div className={inputClasses}>
@@ -45,7 +45,7 @@ interface InputFieldProps {
           <textarea
             id={id}
             placeholder={label}
-            className="w-full focus:outline-none bg-transparent resize-none"
+            className="w-[50vw] h-4 focus:outline-none bg-transparent resize-none"
             rows={4}
             value={value}
             onChange={(e) => onChange(e.target.value)}
@@ -149,13 +149,13 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
 
 
     return (
-        <div className="bg-white">
-            <div className="flex flex-row mb-6">
+        <div className="bg-[#F1F1F1] rounded-3xl">
+            <div className="flex flex-row">
 
             {files.length>0 && files.map((file, index) => {
                 const fileUrl = URL.createObjectURL(file);
                 return (
-                    <li key={index} className="relative w-16 h-16 m-2">
+                    <li key={index} className="relative w-16 h-16 m-4">
                           {file.type.startsWith("image/") ? (
                             <img
                             src={fileUrl}
@@ -180,8 +180,8 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                       );
                     })}
                     </div>
-            <div className="flex flex-wrap gap-10 justify-between items-center px-4 py-2.5 text-sm font-medium tracking-tight  min-w-[68vw] rounded-[42px]">
-                <input
+            <div className=" flex flex-wrap gap-10 justify-between items-center px-4 h-12  text-sm font-medium tracking-tight  min-w-[68vw] rounded-[42px]">
+                <div className="flex items-center w-[70%]"><input
                     type="file"
                     id="photoUpload"
                     multiple
@@ -196,7 +196,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                     <Plus size={20} />
 
                 </label>
-                <InputField label={""} id={""}  value={description} onChange={setDescription}/>
+               <div className=" ml-14"> <InputField label={"Write Something"} id={""}  value={description} onChange={setDescription}/></div></div>
                 <button onClick={async ()=>{
                     await handlePost();                    
                 }}>

@@ -45,7 +45,7 @@ const  General = ({ club }: { club: string }) => {
   }, [club, getToken,createActive]);
 
   return (
-<div className="flex gap-20 flex-col bg-[#F1F3F5] grow min-h-full pt-24 pl-10 pr-10 pb-36">
+<div className="flex gap-20 flex-col bg-white grow min-h-full pt-24 pl-10 pr-10 pb-24">
 <div className=" flex flex-col-reverse gap-3">
         {posts.map((post) => {
           let cnm = "";
@@ -59,7 +59,7 @@ const  General = ({ club }: { club: string }) => {
                 <div
                   onClick={() => handleClick(post)}
                   key={post.id}
-                  className="grow max-w-60 sm:max-w-96 max-h-full bg-white rounded-xl"
+                  className="grow max-w-60 sm:max-w-96 max-h-full bg-[#F1F1F1] rounded-xl p-2"
                 >
                   <h1 className="font-semibold m-2 text-base">
                     {post.username}

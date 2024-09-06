@@ -64,7 +64,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
             } ${isExpanded ? "" : "line-clamp-4"}`} 
           >
             {post?.description ||
-              "Rohit Gurunath Sharma is an Indian international cricketer who currently plays for and captains the India national cricket team in Test and One Day International matches. Rohit Gurunath Sharma is an Indian international cricketer who currently plays for and captains the India national cricket team in Test and One Day International matches."}
+              ""}
           </div>
           {/* Toggle button for more/less */}
           <button

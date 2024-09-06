@@ -27,19 +27,19 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
             key={post.id}
           className="relative m-1 mb-2 border rounded-xl h-[300px]"
           >
-            <DialogBox
+            {/* <DialogBox
               imageUrl={post?.media[0]}
               description={post.description}
               post={post}
 
-            />
-            {/* <div onClick={() => handleClick(post)}>
+            /> */}
+             {/* <div onClick={() => handleClick(post)}> */}
 
              <PostImage
             images={post?.media}
             className="w-full h-80 relative bg-black rounded-lg ml-0 mb-4"
             />
-            </div> */}
+            {/* </div>  */}
           </div>
         ))}
     </div>

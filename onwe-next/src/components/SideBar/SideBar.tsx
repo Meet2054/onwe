@@ -24,12 +24,17 @@ import {
   BookOpenText,
 } from "lucide-react";
 import LogoAnimation from "../ui/Animations/LogoAnimation";
+import SearchC from "../SearchC";
 
 const SideBar = () => {
   const pathname = usePathname();
   const [openCreate, setOpenCreate] = useState<boolean>(false)
+  const [openSearch,setOpenSearch] = useState<boolean>(false)
   const handleCreatePost = () => {
     setOpenCreate(true)
+  }
+  const handleSearch = ()=>{
+    setOpenSearch(true)
   }
 
   const isActive = (path: string) => pathname.includes(path);
@@ -57,7 +62,15 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg ">Home</h1>
           </div>
         </Link>
-
+        <button onClick={handleSearch}>
+          <div className="flex p-1 items-center">
+            <div className="bg-white p-2 rounded-3xl">
+              {/* <Image src={explore} alt="" width={30} height={30} /> */}
+              <Search size={30} strokeWidth={1.5} />
+            </div>
+            <h1 className="ml-2 text-lg ">Search</h1>
+          </div>
+        </button>
         <Link scroll={false} href="/explore">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
@@ -77,12 +90,6 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg">Clubs</h1>
           </div>
         </Link>
-        {/* <Link scroll={false} href="/explore" className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${isActive("/explore") ? 'bg-gray-300 rounded-full' : ''}`}>
-          <div className='flex p-4'>
-            <Compass size={20} strokeWidth={1.4} stroke='black' />
-            <h1 className="ml-2 text-sm">Explore</h1>
-          </div>
-        </Link> */}
 
         <Link prefetch={true} scroll={false} href="/events">
           <div className="flex p-1 items-center">
@@ -103,27 +110,6 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg ">Magazines</h1>
           </div>
         </Link>
-      
-        {/* <Link scroll={false} href="/articles">
-          <div className="flex p-1 items-center">
-            <div className="bg-white p-2 rounded-3xl">
-              <Newspaper width={30} height={30} strokeWidth={1.5} />
-            </div>
-            <h1 className="ml-2 text-lg ">Articles</h1>
-          </div>
-        </Link> */}
-        {/* <Link
-          scroll={false} href="/notifications"
-          className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
-            isActive("/notifications") ? "bg-gray-300 rounded-full" : ""
-          }`}
-        >
-          <div className="flex p-4">
-            <Bell size={20} strokeWidth={2} stroke="black" />
-            <h1 className="ml-2 text-sm ">Notifications</h1>
-          </div>
-        </Link> */}
-        
       </div>
       <div className="flex flex-col items-start w-4/6">
       {/* <Link scroll={false} href="/create">
@@ -143,13 +129,22 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg ">Create</h1>
           </div>
         </button>
-        {openCreate &&
-          <div className="fixed bottom inset-0 flex  justify-center bg-black bg-opacity-10 backdrop-blur-sm z-50">
-            <div className=" p-6 h-4/5 w-1/4">
-              <Create open={openCreate} setOpen={setOpenCreate} />
-            </div>
-          </div>
-        }
+        {
+  openSearch && (
+    <div
+      className="fixed inset-0 z-50 animate-slide-in"
+      onClick={() => setOpenSearch(false)} // Clicking outside the modal closes it
+    >
+      <div
+        className="w-1/3 h-screen ml-[25%] z-50 bg-white"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+      >
+        <SearchC />
+      </div>
+    </div>
+  )
+}
+
         <Link scroll={false} href="/profile">
         <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
@@ -159,12 +154,6 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg ">Profile</h1>
           </div>
         </Link>
-        {/* <Link href="/settings" className={`text-black hover:text-gray-900 flex items-center w-52 ml-10 ${isActive("/settings") ? 'bg-gray-300 rounded-full' : ''}`}>
-          <div className='flex p-4'>
-            <Settings size={20} strokeWidth={2} stroke='black' />
-            <h1 className="ml-2 text-sm">Settings</h1>
-          </div>
-        </Link> */}
       </div>
     </div>
   );

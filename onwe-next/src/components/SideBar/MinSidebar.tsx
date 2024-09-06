@@ -25,12 +25,17 @@ import {
 import { TooltipArrow } from "@radix-ui/react-tooltip";
 import { Create } from "../Create";
 import Image from "next/image";
+import SearchC from "../SearchC";
 
 const MinSideBar = () => {
 
   const [openCreate, setOpenCreate] = useState<boolean>(false)
   const handleCreatePost = () => {
     setOpenCreate(true)
+  }
+  const [openSearch,setOpenSearch] = useState<boolean>(false)
+  const handleSearch = ()=>{
+    setOpenSearch(true)
   }
 
   return (
@@ -68,6 +73,25 @@ const MinSideBar = () => {
                 </TooltipContent>
               </Tooltip>
             </Link>
+            <button
+              className="flex items-center text-black hover:text-gray-500 w-full"
+              onClick={handleSearch}
+            >
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Search size={25} strokeWidth={2} />
+                </TooltipTrigger>
+                <TooltipContent
+                  className="text-black bg-white  rounded-full"
+                  align="center"
+                  sideOffset={7}
+                  side="left"
+                >
+                  <p>Explore</p>
+                  <TooltipArrow className="fill-white" />
+                </TooltipContent>
+              </Tooltip>
+            </button>
             <Link
               scroll={false}
               href="/explore"
@@ -262,6 +286,21 @@ const MinSideBar = () => {
             </div>
           </div>
         }
+        {
+  openSearch && (
+    <div
+      className={`fixed inset-0 z-50 animate-slide-in`}
+      onClick={() => setOpenSearch(false)} // Clicking outside the modal closes it
+    >
+      <div
+        className="w-1/3 h-screen ml-[5%] z-50 bg-white"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+      >
+        <SearchC />
+      </div>
+    </div>
+  )
+}
         <Link scroll={false} href="/profile">
         <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">

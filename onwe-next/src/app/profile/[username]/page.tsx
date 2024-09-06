@@ -19,13 +19,13 @@ interface PageProps {
 
 const Page = ({ params }: PageProps) => {
   const { username } = params;
-  const [uname, setUname] = useState<null|string>(null)
-  const {session} = useSession()
-  useEffect(()=>{
-    if(session){
-      setUname(session.user.username)
+  const [uname, setUname] = useState<null | string>(null);
+  const { session } = useSession();
+  useEffect(() => {
+    if (session) {
+      setUname(session.user.username);
     }
-  },[session])
+  }, [session]);
 
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
@@ -35,8 +35,8 @@ const Page = ({ params }: PageProps) => {
 
     try {
       const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,
-      
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,20 +44,17 @@ const Page = ({ params }: PageProps) => {
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",
           },
-        },
+        }
       );
-      dispatch(setUser(res.data));
-      setUserInfo(()=>res.data);
-      console.log(res.data)
-      
-    } catch (error) {
-      console.log("error in user/username call", error)
-    }
 
+      setUserInfo(() => res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("error in user/username call", error);
+    }
   };
   useEffect(() => {
-    if(uname){
-      
+    if (uname) {
       fetchData();
     }
 

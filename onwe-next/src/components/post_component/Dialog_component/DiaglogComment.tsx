@@ -48,7 +48,7 @@ const DiaglogComment = () => {
         <PostAuthor post={post} />
         <div className="border border-gray-200" />
       </div>
-      <div className="w-full flex-grow mt-3  h-[70%] overflow-y-auto  space-y-4 scrollbar-hide p-0">
+      <div className="w-full flex-grow mt-3  h-[70%] overflow-y-auto  space-y-4  p-2">
         {comments &&
           comments.map((comment, index) => (
             <SingleComment key={index} data={comment} />

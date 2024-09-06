@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { Skeleton } from "../ui/skeleton";
 import PostImage from "../post_component/PostImage";
+import PostsSkeleton from "../post_component/PostSkeleton";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const dispatch = useDispatch();
@@ -13,33 +14,23 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   };
 
   if (!posts) return <ProfilePostSkeleton />;
+  if (!posts) return;
 
   const newPosts = posts.filter((post) => post.media.length > 0);
-  console.log(posts, "hi")
+
+  // console.log(posts, "hi")
   return (
-    <div className=" flex grid grid-cols-3  gap-1 mt-10 h-max">
-      {newPosts!==null &&
+    <div className=" flex grid grid-cols-3  gap-1 mt-10 h-full w-full">
+      {newPosts !== null &&
         newPosts.map((post) => (
           <div
-            onClick={() => {
-              console.log(post)
-              handleClick(post)}}
             key={post.id}
-          className="relative m-1 mb-2 border rounded-xl h-[300px]"
+            onClick={() => {
+              handleClick(post);
+            }}
+            className="w-full h-52 "
           >
-            {/* <DialogBox
-              imageUrl={post?.media[0]}
-              description={post.description}
-              post={post}
-
-            /> */}
-             {/* <div onClick={() => handleClick(post)}> */}
-
-             <PostImage
-            images={post?.media}
-            className="w-full h-80 relative bg-black rounded-lg ml-0 mb-4"
-            />
-            {/* </div>  */}
+            <DialogBox post={post} imageUrl={post.media[0]} />
           </div>
         ))}
     </div>
@@ -60,7 +51,7 @@ const ProfilePostSkeleton = () => {
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
-      <Skeleton className="h-52 w-full animate-pulse" />
+      {/* <Skeleton className="h-52 w-full animate-pulse" /> */}
     </div>
   );
 };

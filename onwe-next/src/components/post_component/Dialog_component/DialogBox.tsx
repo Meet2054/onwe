@@ -34,7 +34,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   return (
     <Dialog>
       {imageUrl ? (
-        <DialogTrigger className={cn("relative  w-full ", className)}>
+        <DialogTrigger className={cn("relative  w-full h-full", className)}>
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"

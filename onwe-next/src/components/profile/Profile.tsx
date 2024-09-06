@@ -11,41 +11,35 @@ import { useAuth, useSession, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-interface followProps{
-  followers: number,
-  following: number
+interface followProps {
+  followers: number;
+  following: number;
 }
 
 const Profile = ({
   userInfo,
   showEdit = true,
-  
 }: {
   userInfo: UserProfile;
   showEdit?: boolean;
 }) => {
   const { getToken } = useAuth();
-  const [uname, setUname] = useState<null|string>(null)
-  const {session}=useSession()
-  
-  useEffect(()=>{
-    console.log(session?.user.username)
-    if(session){
-      
-      setUname(session.user.username)
+  const [uname, setUname] = useState<null | string>(null);
+  const { session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      setUname(session.user.username);
     }
-  },[session?.user.username])
-  const [followData, setFollowData] = useState<followProps|null>(null)
-  const [status, setStatus] = useState<boolean>(false)
+  }, [session?.user.username]);
+  const [followData, setFollowData] = useState<followProps | null>(null);
+  const [status, setStatus] = useState<boolean>(false);
 
   const handleFollow = async () => {
-    console.log("follow")
-    const token = await getToken();
     try {
-      
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/follow`,
-        {username: uname,  followUsername: userInfo?.user?.username },
+        { username: uname, followUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -55,25 +49,22 @@ const Profile = ({
           },
         }
       );
-    console.log(data)
-      setStatus(data.status) 
+      setStatus(data.status);
       setFollowData((prev) => ({
-        ...prev,                                // Spread previous state
-        followers: (prev?.followers || 0) + 1,  // Increment followers
-        following: (prev?.following || 0),              // Update following from API
-      }));   
-     } catch (error) {
-      console.log(error)
+        ...prev, // Spread previous state
+        followers: (prev?.followers || 0) + 1, // Increment followers
+        following: prev?.following || 0, // Update following from API
+      }));
+    } catch (error) {
+      console.log(error);
     }
-  }
-  const handleUnfollow = async () => { 
-    console.log("unfollow")
+  };
+  const handleUnfollow = async () => {
     const token = await getToken();
     try {
-      
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/unfollow`,
-        {username: uname,  unfollowUsername: userInfo?.user?.username },
+        { username: uname, unfollowUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -83,26 +74,23 @@ const Profile = ({
           },
         }
       );
-    console.log(data)
-    setStatus(data.status)  
-    setFollowData((prev) => ({
-      ...prev,                                // Spread previous state
-      followers: (prev?.followers || 0) - 1,  // Increment followers
-      following: (prev?.following || 0),              // Update following from API
-    })); 
+      setStatus(data.status);
+      setFollowData((prev) => ({
+        ...prev, // Spread previous state
+        followers: (prev?.followers || 0) - 1, // Increment followers
+        following: prev?.following || 0, // Update following from API
+      }));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  const handleCheck = async () => { 
-    console.log("////........ffffffffffffffffff")
+  };
+  const handleCheck = async () => {
     const token = await getToken();
-    console.log(uname,"hanlecheck")
+
     try {
-     
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/checkfollow`,
-        {username: uname,  followUsername: userInfo?.user?.username },
+        { username: uname, followUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,24 +100,22 @@ const Profile = ({
           },
         }
       );
-    console.log(data)
-    setFollowData({
-      followers: data.followers,
-      following: data.following
-    })
-    setStatus(data.status)
+      data;
+      setFollowData({
+        followers: data.followers,
+        following: data.following,
+      });
+      setStatus(data.status);
     } catch (error) {
-      console.log("errorororororo", error)
+      console.log("errorororororo", error);
     }
-  }
+  };
 
   useEffect(() => {
     if (uname && userInfo?.user?.username) {
-      console.log(uname, userInfo?.user?.username);
       handleCheck(); // Call handleCheck only when both values are available
     }
   }, [uname, userInfo?.user?.username]); // Add both as dependencies
-  
 
   return (
     <div className="w-[77%] items-center  mx-auto p-4 flex flex-col">
@@ -160,17 +146,22 @@ const Profile = ({
         @{userInfo?.user?.username}
       </div>
       <div className="flex flex-col  gap-x-4">
-        {showEdit === false && (
-          status === false ? (
-            <button onClick={handleFollow} className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white">
+        {showEdit === false &&
+          (status === false ? (
+            <button
+              onClick={handleFollow}
+              className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white"
+            >
               Follow
             </button>
           ) : (
-            <button onClick={handleUnfollow} className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700">
-              Following
+            <button
+              onClick={handleUnfollow}
+              className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700"
+            >
+              unfollow
             </button>
-          )
-        )}
+          ))}
         <div className="flex ">
           <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
             {followData?.followers} Follower

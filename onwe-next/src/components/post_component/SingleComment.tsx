@@ -67,7 +67,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
         avatar: user?.imageUrl,
       };
       res.data.user = newUser;
-      console.log(res.data);
+      
       setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
 
       setShowReplies(true);

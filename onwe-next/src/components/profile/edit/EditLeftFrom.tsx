@@ -39,9 +39,29 @@ const EditLeftFrom = () => {
           },
         }
       );
-      console.log();
+
       setImageUrl(res.data.avatar);
     }
+  };
+
+  const handleRemove = async () => {
+    // await clerkUser?.setProfileImage({ file: "" });
+    await clerkUser?.setProfileImage({ file: null });
+    const formData = new FormData();
+    formData.append("media", "");
+
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      }
+    );
+
+    setImageUrl("");
   };
   return (
     <div className="h-full ">
@@ -79,7 +99,7 @@ const EditLeftFrom = () => {
         <Button
           variant="ghost"
           className="text-red-500 border rounded-full"
-          onClick={() => setImageUrl("")}
+          onClick={handleRemove}
         >
           remove
         </Button>

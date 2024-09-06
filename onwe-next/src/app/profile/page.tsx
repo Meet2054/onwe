@@ -12,9 +12,12 @@ const Page = () => {
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
   const { getToken } = useAuth();
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = await getToken();
+  const fetchData = async () => {
+    const token = await getToken();
+
+    console.log("UserINfo")
+    try {
+      
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/user/info`,
         {},
@@ -28,9 +31,13 @@ const Page = () => {
         }
       );
       dispatch(setUser(data));
-
+  
       setUserInfo(data);
-    };
+    } catch (error) {
+      console.log("user/info error", error)
+    }
+  };
+  useEffect(() => {
     fetchData();
 
 

@@ -50,3 +50,8 @@ export const base64Prefix = "data:image/png;base64,";
 export const getGlobalToken = async () => {
   return await window.Clerk.session.getToken({ template: "test" });
 };
+export const extractHashTags = (text: string) => {
+  const hashRegex = /#\w+/g;
+  const hashTags = text.match(hashRegex);
+  return hashTags ? hashTags.join(" ") : "";
+};

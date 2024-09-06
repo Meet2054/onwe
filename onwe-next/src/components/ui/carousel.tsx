@@ -216,7 +216,7 @@ const CarouselDots = React.forwardRef<
   return (
     <div
       className={cn(
-        "embla__dots absolute z-50 mt-5 flex w-full items-center justify-center gap-1",
+        "embla__dots absolute  mt-5 flex w-full items-center justify-center gap-1",
         className
       )}
       {...props}

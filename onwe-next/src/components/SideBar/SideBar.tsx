@@ -21,6 +21,7 @@ import {
   User,
   Settings,
   HomeIcon,
+  BookOpenText,
 } from "lucide-react";
 import LogoAnimation from "../ui/Animations/LogoAnimation";
 
@@ -34,7 +35,7 @@ const SideBar = () => {
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <div className="h-screen md:flex flex-col items-center justify-evenly  bg-white animate-slide-in hidden">
+    <div className="h-screen md:flex flex-col items-center justify-evenly p-5  bg-white animate-slide-in hidden">
       <div className="flex ml-[-80px]">
         <Link
           scroll={false}
@@ -51,7 +52,7 @@ const SideBar = () => {
           <div className="flex p-1 items-center">
             <div className="bg-white rounded-3xl p-2">
               {/* <Image src={home} alt="" width={30} height={30} /> */}
-              <Home  width={30} height={30} />
+              <Home  size={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Home</h1>
           </div>
@@ -60,7 +61,8 @@ const SideBar = () => {
         <Link scroll={false} href="/explore">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              <Image src={explore} alt="" width={30} height={30} />
+              {/* <Image src={explore} alt="" width={30} height={30} /> */}
+              <Compass size={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Explore</h1>
           </div>
@@ -70,7 +72,7 @@ const SideBar = () => {
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
               {/* <Image src={clubs} alt="" width={30} height={30} /> */}
-              <Users width={30} height={30} />
+              <Users width={30} height={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg">Clubs</h1>
           </div>
@@ -85,7 +87,8 @@ const SideBar = () => {
         <Link prefetch={true} scroll={false} href="/events">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              <Image src={events} alt="" width={30} height={30} />
+              {/* <Image src={events} alt="" width={30} height={30} /> */}
+              <Calendar width={30} height={30} strokeWidth={1.5}/>
             </div>
             <h1 className="ml-2 text-lg ">Events</h1>
           </div>
@@ -94,21 +97,21 @@ const SideBar = () => {
         <Link scroll={false} href="/magazines">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              <Image src={magazines} alt="" width={30} height={30} />
+              {/* <Image src={magazines} alt="" width={30} height={30} /> */}
+              <BookOpenText size={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Magazines</h1>
           </div>
         </Link>
       
-        <Link scroll={false} href="/articles">
+        {/* <Link scroll={false} href="/articles">
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              {/* <Image src={magazines} alt="" width={30} height={30} /> */}
-              <Newspaper width={30} height={30} />
+              <Newspaper width={30} height={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Articles</h1>
           </div>
-        </Link>
+        </Link> */}
         {/* <Link
           scroll={false} href="/notifications"
           className={`flex items-center text-black hover:text-gray-500 w-52 ml-10 ${
@@ -135,7 +138,7 @@ const SideBar = () => {
         <button onClick={handleCreatePost}>
           <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
-              <Plus width={28} height={28} />
+              <Plus width={28} height={28} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Create</h1>
           </div>
@@ -151,7 +154,7 @@ const SideBar = () => {
         <div className="flex p-1 items-center">
             <div className="bg-white p-2 rounded-3xl">
               {/* <Image src={create} alt="" width={30} height={30} /> */}
-              <User width={28} height={28} />
+              <User width={28} height={28} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg ">Profile</h1>
           </div>

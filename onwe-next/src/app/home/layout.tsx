@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="sticky">
           <MiddleNavbar/>
         </div>
-        <div className="w-full bg-white flex items-center justify-start">
+        <div className="w-full h-screen bg-white flex items-center justify-start">
           {children}
         </div>
       </div>

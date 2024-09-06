@@ -44,7 +44,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                 </div>
               )}
               {showMinSideBar && (
-                <div className="w-5/100 hidden sm:block">
+                <div className="w-5/100 hidden sm:block animate-slide-out">
                   <MinSideBar />
                 </div>
               )}

@@ -196,7 +196,7 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
 
-            <Link
+            {/* <Link
               scroll={false}
               href="/articles"
               className="flex items-center text-black hover:text-gray-500 w-full"
@@ -204,7 +204,6 @@ const MinSideBar = () => {
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                   <Newspaper size={25} strokeWidth={2} />
-                  {/* <Image src={magazines} alt="" height={20} width={20} /> */}
 
                 </TooltipTrigger>
                 <TooltipContent
@@ -217,7 +216,7 @@ const MinSideBar = () => {
                   <TooltipArrow className="fill-white" />
                 </TooltipContent>
               </Tooltip>
-            </Link>
+            </Link> */}
             {/* <Link
               scroll={false}
               href="/create"

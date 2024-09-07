@@ -40,7 +40,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-[85%] m-1 p-5 rounded-lg bg-white shadow border"
+      className="w-[85%] m-1 p-5 rounded-lg bg-white "
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -56,23 +56,30 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
       </div>
       <div className="flex flex-col mt-4 ml-1">
         <div className={post?.media.length === 0 ? " " : " "}>
-          <div
-            className={`${
-              post?.media.length !== 0
-                ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
-                : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium mb-2"
-            } ${isExpanded ? "" : "line-clamp-4"}`} 
-          >
-            {post?.description ||
-              ""}
-          </div>
-          {/* Toggle button for more/less */}
-          <button
-            onClick={toggleDescription}
-            className="text-blue-500 text-sm font-semibold hover:underline ml-[92%]"
-          >
-            {isExpanded ? "less" : "more"}
-          </button>
+          
+        {post?.description && (
+    <>
+      <div
+        className={`${
+          post?.media.length !== 0
+            ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative mb-2 " 
+            : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5  font-medium mb-2"
+        } ${isExpanded ? "" : "line-clamp-4"}`}
+      >
+        {post?.description || ""}
+      </div>
+
+      {/* Toggle button for more/less */}
+      {post?.description.length > 505 && (
+        <button
+          onClick={toggleDescription}
+          className="text-blue-500 text-sm font-semibold hover:underline ml-[92%]"
+        >
+          {isExpanded ? "less" : "more"}
+        </button>
+      )}
+    </>
+  )}
 
           <PostImage
             images={post?.media}

@@ -154,8 +154,8 @@ const Post: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(images.length<1){
-            setMessage("Please Upload atleast 1 image");
+        if(images.length <1 && description.length<1){
+            setMessage("Please Upload atleast 1 image or description.");
             return
         }
         setLoading(true);

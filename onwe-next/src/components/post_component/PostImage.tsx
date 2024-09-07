@@ -63,8 +63,8 @@ const PostImage = ({
       </CarouselContent>
       {images?.length! > 1 && (
         <div className="flex justify-center">
-          {/* <CarouselPrevious className="absolute left-1" /> */}
-          {/* <CarouselNext className="absolute right-1" /> */}
+          <CarouselPrevious className="absolute left-1" />
+          <CarouselNext className="absolute right-1" />
           <CarouselDots className="absolute bottom-0 mt-3 " />
         </div>
       )}

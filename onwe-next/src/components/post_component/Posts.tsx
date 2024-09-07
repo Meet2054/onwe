@@ -63,7 +63,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
         className={`${
           post?.media.length !== 0
             ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative mb-2 " 
-            : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5  font-medium mb-2"
+            : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium mb-2"
         } ${isExpanded ? "" : "line-clamp-4"}`}
       >
         {post?.description || ""}

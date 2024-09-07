@@ -31,7 +31,7 @@ export const Create: React.FC<CreateArticleProps> = ({ open, setOpen}) => {
  }, [open]);
 
     return (
-        <main ref={modalRef} className="flex overflow-y-auto gap-2.5 h-[95vh] rounded-md">
+        <main ref={modalRef} className="flex overflow-y-auto gap-2.5 h-[95vh] w-[30vw] rounded-md">
             <section className="flex bg-white rounded-xl px-10 py-8 flex-col self-stretch mx-auto my-auto min-w-[240px] w-full ">
                 <header className="mx-auto flex gap-3 items-center self-start text-sm font-semibold ">
                     <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 0 ? "text-fuchsia-100 bg-fuchsia-500" : "bg-fuchsia-100 text-fuchsia-500"} rounded-md`} onClick={() => setCurrentCreate(0)}>

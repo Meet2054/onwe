@@ -37,9 +37,9 @@ const LikeComment = ({ post }: { post: PostsProps }) => {
   };
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex  items-center mt-4">
       {/* Content wrapper */}
-      <div className="w-full h-[34px]  pl-0 flex justify-start items-start gap-5 relative">
+      <div className="w-full h-[34px]  pl-0 flex justify-start items-start gap-5  relative">
         <LikeButton post={post} />
           <div>
             <DialogBox post={post} />

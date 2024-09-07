@@ -10,7 +10,7 @@ const LogoAnimation: React.FC = () => {
       <div className="logo">
         <Image
           src={onwe}
-          alt="preloader animated logo"
+          alt="OnwE"
           className="preAnimLogo"
         />
       </div>

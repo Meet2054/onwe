@@ -1,6 +1,7 @@
 import React,{useState,FormEvent,useEffect,useCallback} from 'react'
 import { useAuth } from "@clerk/nextjs";
 import ProfileCard from './explore/ProfileCard';
+import Hashtag from './search/HashTag';
 import debounce from "lodash.debounce";
 import axios from "axios";
 
@@ -11,13 +12,19 @@ const SearchC: React.FC = () => {
   const [activeTab, setActiveTab] = useState("users");
   const [searchText, setSearchText] = useState("");
   const { getToken } = useAuth();
-  const handleSearch = () =>{
-
-  }
+ 
   const fetchData = async (query: string, tab: string) => {
     setLoading(true);
     try {
-      // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/${tab}/${query}`);
+      let apiUrl = "";
+      if (query.startsWith("#")) {
+        // If the search starts with #, fetch from the hashtag endpoint
+        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/hashtags/${query.slice(1)}`; // Remove # before making API call
+      } else {
+        // Fetch from the default tab endpoint
+        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`;
+      }
+
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`,
         {
@@ -60,7 +67,7 @@ const SearchC: React.FC = () => {
       <div className='border w-full h-1/5 flex items-center justify-center'>
         <div className='flex flex-col justify-center p-1 h-[90%] w-[90%] space-y-8'>
           <h1 className='text-2xl'>Search</h1>
-          <form onSubmit={handleSearch} className='w-full'>
+          <form className='w-full'>
               <input
                 type='text'
                 placeholder='Search...'
@@ -76,7 +83,11 @@ const SearchC: React.FC = () => {
           <div className="text-center text-gray-500">Loading...</div>
         ) : (
           results.map((item: any) =>
+            searchText.startsWith("#") ? (
+              <Hashtag key={item.id} hashtag={item} />
+            ) : (
               <ProfileCard key={item.id} profile={item} />
+            )
           )
         )}
       </div>

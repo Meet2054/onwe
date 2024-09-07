@@ -44,8 +44,50 @@ const MinSideBar = () => {
           </Link>
         </div>
         <div className="flex flex-col items-center w-full space-y-4">
+          <Link
+            scroll={false}
+            href="/home"
+            className={`flex items-center justify-center w-full h-12 rounded-lg ${
+              isActive("/home") ? "bg-gray-100" : "hover:bg-gray-50"
+            }`}
+          >
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <Home size={25} strokeWidth={2} />
+              </TooltipTrigger>
+              <TooltipContent
+                className="text-black bg-white rounded-full"
+                align="center"
+                sideOffset={7}
+                side="left"
+              >
+                <p>Home</p>
+                <TooltipArrow fill="white" />
+              </TooltipContent>
+            </Tooltip>
+          </Link>
+          <button
+            className={`flex items-center justify-center w-full h-12 rounded-lg ${
+              openSearch ? "bg-gray-100" : "hover:bg-gray-50"
+            }`}
+            onClick={handleSearch}
+          >
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <Search size={25} strokeWidth={2} />
+              </TooltipTrigger>
+              <TooltipContent
+                className="text-black bg-white rounded-full"
+                align="center"
+                sideOffset={7}
+                side="left"
+              >
+                <p>Search</p>
+                <TooltipArrow fill="white" />
+              </TooltipContent>
+            </Tooltip>
+          </button>
           {[
-            { href: "/home", label: "Home", icon: Home },
             { href: "/explore", label: "Explore", icon: Compass },
             { href: "/clubs", label: "Clubs", icon: Users },
             { href: "/events", label: "Events", icon: Calendar },
@@ -75,27 +117,6 @@ const MinSideBar = () => {
               </Tooltip>
             </Link>
           ))}
-          <button
-            className={`flex items-center justify-center w-full h-12 rounded-lg ${
-              openSearch ? "bg-gray-100" : "hover:bg-gray-50"
-            }`}
-            onClick={handleSearch}
-          >
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Search size={25} strokeWidth={2} />
-              </TooltipTrigger>
-              <TooltipContent
-                className="text-black bg-white rounded-full"
-                align="center"
-                sideOffset={7}
-                side="left"
-              >
-                <p>Search</p>
-                <TooltipArrow fill="white" />
-              </TooltipContent>
-            </Tooltip>
-          </button>
         </div>
         <div className="flex flex-col items-center w-full space-y-4 mt-5 mb-2">
           <button

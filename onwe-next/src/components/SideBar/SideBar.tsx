@@ -125,6 +125,41 @@ const SideBar = () => {
           </div>
         </div>
       )}
+        </Link> */}
+        <button onClick={handleCreatePost}>
+          <div className="flex p-1 items-center">
+            <div className="bg-white p-2 rounded-3xl">
+              <Plus width={28} height={28} strokeWidth={1.5} />
+            </div>
+            <h1 className="ml-2 text-lg ">Create</h1>
+          </div>
+        </button>
+        {
+  openSearch && (
+    <div
+      className="fixed inset-0 z-50  bg-black bg-opacity-50"
+      onClick={() => setOpenSearch(false)} // Clicking outside the modal closes it
+    >
+      <div
+        className="w-1/3 h-screen ml-[25%] z-50 bg-white"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+      >
+        <SearchC />
+      </div>
+    </div>
+  )
+}
+
+        <Link scroll={false} href="/profile">
+        <div className="flex p-1 items-center">
+            <div className="bg-white p-2 rounded-3xl">
+              {/* <Image src={create} alt="" width={30} height={30} /> */}
+              <User width={28} height={28} strokeWidth={1.5} />
+            </div>
+            <h1 className="ml-2 text-lg ">Profile</h1>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };

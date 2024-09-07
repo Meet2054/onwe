@@ -132,7 +132,7 @@ const SideBar = () => {
         {
   openSearch && (
     <div
-      className="fixed inset-0 z-50 animate-slide-in"
+      className="fixed inset-0 z-50  bg-black bg-opacity-50"
       onClick={() => setOpenSearch(false)} // Clicking outside the modal closes it
     >
       <div

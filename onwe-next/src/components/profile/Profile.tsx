@@ -5,7 +5,7 @@ import PostAvatar from "../post_component/PostAvatar";
 import Link from "next/link";
 import { UserProfile } from "@/types/type";
 import RenderLinks from "./RenderLinks";
-import { LucidePencilLine } from "lucide-react";
+import { CircleDashed, LoaderCircle, LucidePencilLine } from "lucide-react";
 import { getData, getGlobalToken } from "@/lib/utils";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,8 @@ const Profile = ({
 }) => {
   const { getToken } = useAuth();
   const [uname, setUname] = useState<null | string>(null);
+  const [followLoading, setFollowLoading] = useState<boolean>(false);
+
   const { session } = useSession();
 
   useEffect(() => {
@@ -34,10 +36,12 @@ const Profile = ({
   }, [session?.user.username]);
   const [followData, setFollowData] = useState<followProps | null>(null);
   const [status, setStatus] = useState<boolean>(false);
-
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   const handleFollow = async () => {
+    setFollowLoading(true);
+    await delay(750);
     try {
-      const { data } = await axios.post(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/follow`,
         { username: uname, followUsername: userInfo?.user?.username },
         {
@@ -49,20 +53,25 @@ const Profile = ({
           },
         }
       );
-      setStatus(data.status);
-      setFollowData((prev) => ({
-        ...prev, // Spread previous state
-        followers: (prev?.followers || 0) + 1, // Increment followers
-        following: prev?.following || 0, // Update following from API
-      }));
+      if (res.status === 201) {
+        setStatus(res.data.status);
+        setFollowData((prev) => ({
+          ...prev, // Spread previous state
+          followers: (prev?.followers || 0) + 1, // Increment followers
+          following: prev?.following || 0, // Update following from API
+        }));
+      }
+      setFollowLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
   const handleUnfollow = async () => {
+    setFollowLoading(true);
+    await delay(750);
     const token = await getToken();
     try {
-      const { data } = await axios.post(
+      const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/unfollow`,
         { username: uname, unfollowUsername: userInfo?.user?.username },
         {
@@ -74,12 +83,16 @@ const Profile = ({
           },
         }
       );
-      setStatus(data.status);
-      setFollowData((prev) => ({
-        ...prev, // Spread previous state
-        followers: (prev?.followers || 0) - 1, // Increment followers
-        following: prev?.following || 0, // Update following from API
-      }));
+      if (res.status === 200) {
+        
+        setStatus(res.data.status);
+        setFollowData((prev) => ({
+          ...prev, // Spread previous state
+          followers: (prev?.followers || 0) - 1, // Increment followers
+          following: prev?.following || 0, // Update following from API
+        }));
+      }
+      setFollowLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -146,22 +159,26 @@ const Profile = ({
         @{userInfo?.user?.username}
       </div>
       <div className="flex flex-col  gap-x-4">
-        {showEdit === false &&
-          (status === false ? (
-            <button
-              onClick={handleFollow}
-              className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white"
-            >
-              Follow
-            </button>
-          ) : (
-            <button
-              onClick={handleUnfollow}
-              className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700"
-            >
-              unfollow
-            </button>
-          ))}
+        {uname !== userInfo?.user?.username &&
+          (followLoading ? (
+            <div className="my-3 p-1 px-5 w-full flex items-center justify-center rounded-full border text-gray-600 bg-gray-300"><LoaderCircle /></div>
+          ) :
+            (status === false ? (
+              <button
+                onClick={handleFollow}
+                className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white"
+              >
+                Follow
+              </button>
+            ) : (
+              <button
+                onClick={handleUnfollow}
+                className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700"
+              >
+                unfollow
+              </button>
+            )
+            ))}
         <div className="flex ">
           <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
             {followData?.followers} Follower

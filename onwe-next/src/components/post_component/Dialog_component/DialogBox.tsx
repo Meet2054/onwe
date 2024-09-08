@@ -15,6 +15,13 @@ import { cn } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import { MessageSquare } from "lucide-react";
 import PostImage from "../PostImage";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface DialogBoxProps {
   imageUrl?: string;
@@ -63,14 +70,21 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         //             sm:rounded-3xl  bg-transparent bg-white  sm:p-0 ${
         //               post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
         //             }`}
-        className={` h-[95vh]  gap-0  sm:flex-row justify-center items-center border-none
+        className={` h-[95vh]  gap-0   sm:flex-row justify-center items-center border-none
                       bg-transparent   sm:p-0 rounded-none ${
                         post?.media?.length > 0
                           ? "sm:min-w-[70vw] grid grid-cols-5 "
                           : "w-96"
                       }`}
       >
-        {post?.media?.length > 0 && (
+        {post && post.media && post.media.length > 1 ? (
+          <div className="col-span-3">
+            <PostImage
+              images={post?.media}
+              className="flex flex-grow h-[95vh] relative bg-black"
+            />
+          </div>
+        ) : (
           <div className="hidden sm:flex flex-grow col-span-3   w-full h-full ">
             <DialogImage imageUrl={post?.media[0]} />
           </div>

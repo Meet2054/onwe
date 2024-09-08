@@ -17,6 +17,8 @@ const nextConfig = {
       "s3-alpha-sig.figma.com",
       "i1.sndcdn.com",
       "encrypted-tbn0.gstatic.com",
+      "www.pexels.com",
+      "images.pexels.com",
     ],
   },
   transpilePackages: ["lucide-react"],

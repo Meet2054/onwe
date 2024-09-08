@@ -133,11 +133,11 @@ const TopPosts: React.FC = () => {
     }
   }, [data]);
   return (
-    <div className="w-full sm:p-4  h-full]">
-      <div className="px-5 h-full ">
-        <div className="gap-1 grid grid-cols-3 sm:grid-cols-4 h-full">
+    <div className="w-full sm:p-4">
+      <div className="px-5">
+        <div className="gap-1 grid grid-cols-3 sm:grid-cols-4">
           {posts?.map((post) => (
-            <div onClick={() => handleClick(post)} key={post.id}>
+            <div onClick={() => handleClick(post)} key={post.id} className="h-80">
               <DialogBox className={""} imageUrl={post.media[0]} post={post} />
             </div>
             // <Post key={inex} post={post} />

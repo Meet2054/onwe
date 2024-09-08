@@ -112,8 +112,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
         >
             <div className="flex flex-col items-center w-full">
                 <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/49b69fe3d7ae892f549ffe61bf9563fdd1b4c8230018dceeab1c0efc273d6373?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain w-10 aspect-[0.98]" alt="" />
-                <p className="mt-2.5 font-medium">Choose a file or drag and drop here.</p>
-                <p className="mt-2.5 text-center">PDF</p>
+                <p className="mt-2.5 font-medium">Choose Images or drag and drop here.</p>
+                
                 <input
                     type="file"
                     accept="image/*,video/*"
@@ -123,7 +123,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
                     id="file-upload"
                 />
                 <label htmlFor="file-upload" className="mt-4 cursor-pointer text-blue-500 hover:text-blue-600">
-                    Select Files
+                    Select Images
                 </label>
             </div>
         </div>
@@ -154,8 +154,8 @@ const Post: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(images.length<1){
-            setMessage("Please Upload atleast 1 image");
+        if(images.length <1 && description.length<1){
+            setMessage("Please Upload atleast 1 image or description.");
             return
         }
         setLoading(true);
@@ -209,7 +209,7 @@ const Post: React.FC = () => {
             <p className="mt-1 text-sm">Top stories, interviews, and insights handpicked for you.</p>
             <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
                 <InputField
-                    label="Write Details on Articles... (Description)"
+                    label="Write Description here..."
                     id="article-description"
                     type="textarea"
                     value={description}

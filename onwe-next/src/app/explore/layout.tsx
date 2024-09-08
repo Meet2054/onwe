@@ -4,10 +4,10 @@ import Top from "@/components/explore/Top";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full flex flex-col h-full">
-      <div className="sticky top-0">
+    <div className="w-full flex flex-col bg-white">
+      {/* <div className="sticky top-0">
         <Top />
-      </div>
+      </div> */}
       <div className="flex-1 overflow-y-auto">{children}</div>
     </div>
   );

@@ -32,16 +32,18 @@ const CommentInput = ({ setComments }) => {
         },
       }
     );
+
     const newData = {
       ...data,
       user: {
-        avatar: null,
+        avatar: user?.imageUrl,
         username: user?.username,
       },
     };
 
     setComment("");
-    setComments((prev) => [newData,...prev ]);
+
+    setComments((prev) => (prev ? [newData, ...prev] : [newData]));
   };
   return (
     <form onSubmit={handleClick}>

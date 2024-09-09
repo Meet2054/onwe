@@ -13,15 +13,23 @@ const PostAvatar = ({
 }) => {
   let url = imageUrl;
 
+  let publicUrl = "";
+
   if (imageUrl instanceof File) {
     url = URL.createObjectURL(imageUrl);
+  } else if (imageUrl?.startsWith("https")) {
+    publicUrl = imageUrl;
   }
   return (
     <Avatar
       className={className}
       style={{ width: `${size * 4}px`, height: `${size * 4}px` }}
     >
-      <AvatarImage src={`${base64Prefix}${url}`} />
+      {publicUrl ? (
+        <AvatarImage src={publicUrl} />
+      ) : (
+        <AvatarImage src={`${base64Prefix}${url}`} />
+      )}
       <AvatarFallback className="bg-zinc-200">OnwE</AvatarFallback>
     </Avatar>
   );

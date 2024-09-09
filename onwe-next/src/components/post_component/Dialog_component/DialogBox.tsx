@@ -9,8 +9,6 @@ import {
 
 import DiaglogComment from "./DiaglogComment";
 
-import DialogImage from "./DialogImage";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import { MessageSquare } from "lucide-react";
@@ -29,29 +27,17 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   post,
   className,
 }) => {
-  const [imageWidth, setImageWidth] = useState<number | undefined>(undefined);
-  const [imageHeight, setImageHeight] = useState<number | undefined>(undefined);
-
-  const handleImageLoad = (
-    event: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    const target = event.target as HTMLImageElement;
-    setImageWidth(target.width);
-    setImageHeight(target.height);
-  };
-
   const base64Prefix = "data:image/png;base64,";
 
   return (
-    <Dialog >
+    <Dialog>
       {imageUrl ? (
-        <DialogTrigger className={cn("relative  w-full ", className)}>
+        <DialogTrigger className={cn("relative  w-full h-full", className)}>
           <Image
             src={`${base64Prefix}${imageUrl}`}
             alt="image"
             layout="fill"
             objectFit="cover"
-            onLoad={handleImageLoad}
             className="rounded-lg object-scale-down"
           />
         </DialogTrigger>
@@ -71,12 +57,43 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       )}
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
-        className={`flex  h-[95vh] min-w-[28rem]   flex-col sm:flex-row justify-center items-center  
-                   border-none sm:rounded-3xl  bg-transparent sm:p-0 ${
-                     post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
-                   }`}
+        // className={`flex  h-[95vh] min-w-[28rem]   flex-col sm:flex-row justify-center items-center
+        //             sm:rounded-3xl  bg-transparent bg-white  sm:p-0 ${
+        //               post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
+        //             }`}
+        className={` h-[95vh]  gap-0   sm:flex-row justify-center items-center border-none
+                      bg-transparent   sm:p-0 rounded-none ${
+                        post?.media?.length > 0
+                          ? "sm:min-w-[70vw] grid grid-cols-5 "
+                          : "w-96"
+                      }`}
       >
-        {post?.media?.length > 0 && (
+        {post && post.media && (
+          <div className="col-span-3">
+            <PostImage
+              images={post?.media}
+              className="flex flex-grow h-[95vh] relative bg-black"
+            />
+          </div>
+        )}
+        {/* {post && post.media && post.media.length > 1 ? (
+          <div className="col-span-3">
+            <PostImage
+              images={post?.media}
+              className="flex flex-grow h-[95vh] relative bg-black"
+            />
+          </div>
+        ) : (
+          <div className="hidden sm:flex flex-grow col-span-3   w-full h-full ">
+            <DialogImage imageUrl={post?.media[0]} />
+          </div>
+        )} */}
+
+        <div className="flex flex-grow w-full col-span-2  h-[95vh] bg-white overflow-y-auto min-w-96">
+          <DiaglogComment post={post} />
+        </div>
+
+        {/* {post?.media?.length > 0 && (
           <div className="hidden sm:flex w-[70%] h-full justify-center items-end p-0 relative bg-transparent bg-red-100 ">
             <DialogImage imageUrl={post?.media[0]} />
           </div>
@@ -84,7 +101,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
 
         <div className="p-3 flex-grow  rounded-3xl sm:w-[30rem]  h-full  overflow-y-auto bg-white">
           <DiaglogComment />
-        </div>
+        </div> */}
       </DialogContent>
     </Dialog>
   );

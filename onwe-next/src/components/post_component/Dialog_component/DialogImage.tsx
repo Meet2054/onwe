@@ -11,14 +11,14 @@ const DialogImage: FC<DialogImageProps> = ({ imageUrl }) => {
   const base64Prefix = "data:image/png;base64,";
 
   return (
-    <div className="relative w-full h-full p-0">
+    <div className="relative w-full h-full p-0 bg-black">
       <Image
         src={`${base64Prefix}${imageUrl}` || img}
         // src={imageUrl || img}
         layout="fill"
         alt="image"
         objectFit="contain"
-        className=" p-0 absolute rounded-s-[2rem]"
+        className=" p-0 absolute"
       />
     </div>
   );

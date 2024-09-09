@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
 import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
@@ -15,6 +15,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const [replies, setReplies] = useState<Comment[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesHeight, setRepliesHeight] = useState(0);
+  const { user } = useUser();
 
   const repliesRef = useRef<HTMLDivElement>(null);
   const { getToken } = useAuth();
@@ -54,7 +55,14 @@ const SingleComment = ({ data }: { data: Comment }) => {
           },
         }
       );
-      setReply("");
+      const newUser = {
+        username: user?.username,
+        avatar: user?.imageUrl,
+      };
+      res.data.user = newUser;
+
+      setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
+
       setShowReplies(true);
       setReplyInputOpen(false);
     } catch (error) {
@@ -92,9 +100,9 @@ const SingleComment = ({ data }: { data: Comment }) => {
   }, [replies]);
 
   return (
-    <div className="relative flex gap-1 overflow-hidden">
+    <div className="relative flex gap-1 overflow-hidden ">
       {showReplies && (
-        <div className="absolute text-xl top-0 left-3 bottom-2   border-l-2 w-10   border-gray-400 rounded-full" />
+        <div className="absolute text-xl top-0 left-3 bottom-2   border-l w-10   border-rose-400 rounded-full" />
       )}
       <div>
         <PostAvatar size={7} imageUrl={data.user.avatar} />
@@ -131,16 +139,17 @@ const SingleComment = ({ data }: { data: Comment }) => {
           </form>
           <div
             ref={repliesRef}
-            className={`overflow-y-auto transition-all duration-500 ease-in-out ${
+            className={`overflow-y-auto transition-all duration-500 ease-in-out   ${
               showReplies ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
-            style={{ maxHeight: showReplies ? repliesHeight : 0 }}
+            // style={{ maxHeight: showReplies ? repliesHeight : 0 }}
           >
-            {replies.map((reply) => (
-              <SingleComment key={reply.id} data={reply} />
-            ))}
+            {replies &&
+              replies.map((reply) => (
+                <SingleComment key={reply.id} data={reply} />
+              ))}
           </div>
-          {replies.length > 0 && (
+          {replies && replies.length > 0 && (
             <div
               onClick={() => setShowReplies((prev) => !prev)}
               className="p-0 w-max hover:underline text-sm text-gray-500 cursor-pointer"
@@ -150,7 +159,8 @@ const SingleComment = ({ data }: { data: Comment }) => {
                   "hide replies"
                 ) : (
                   <span>
-                    show <span className="text-red-600">{replies.length}</span> replies
+                    show <span className="text-red-600">{replies.length}</span>{" "}
+                    replies
                   </span>
                 )}
               </span>

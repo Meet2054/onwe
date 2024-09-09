@@ -40,7 +40,7 @@ export const getData = async (
         "ngrok-skip-browser-warning": "69420",
       },
     });
-    // console.log(res.data);
+
     return res.data;
   } catch (error) {}
 };
@@ -48,6 +48,10 @@ export const getData = async (
 export const base64Prefix = "data:image/png;base64,";
 
 export const getGlobalToken = async () => {
-  console.log(await window.Clerk.session.getToken({ template: "test" }));
   return await window.Clerk.session.getToken({ template: "test" });
+};
+export const extractHashTags = (text: string) => {
+  const hashRegex = /#\w+/g;
+  const hashTags = text.match(hashRegex);
+  return hashTags ? hashTags.join(" ") : "";
 };

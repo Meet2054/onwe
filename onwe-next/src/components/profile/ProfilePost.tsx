@@ -4,6 +4,8 @@ import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { Skeleton } from "../ui/skeleton";
+import PostImage from "../post_component/PostImage";
+import PostsSkeleton from "../post_component/PostSkeleton";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const dispatch = useDispatch();
@@ -12,23 +14,23 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   };
 
   if (!posts) return <ProfilePostSkeleton />;
+  if (!posts) return;
 
   const newPosts = posts.filter((post) => post.media.length > 0);
 
+  // console.log(posts, "hi")
   return (
-    <div className=" flex grid grid-cols-3  gap-1 mt-10 h-max">
-      {newPosts &&
+    <div className=" flex grid grid-cols-3  gap-1 mt-10 h-full w-full">
+      {newPosts !== null &&
         newPosts.map((post) => (
           <div
-            onClick={() => handleClick(post)}
             key={post.id}
-            className="relative  rounded-xl"
+            onClick={() => {
+              handleClick(post);
+            }}
+            className="w-full h-52 "
           >
-            <DialogBox
-              imageUrl={post.media[0]}
-              description={post.description}
-              post={post}
-            />
+            <DialogBox post={post} imageUrl={post.media[0]} />
           </div>
         ))}
     </div>
@@ -49,7 +51,7 @@ const ProfilePostSkeleton = () => {
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
-      <Skeleton className="h-52 w-full animate-pulse" />
+      {/* <Skeleton className="h-52 w-full animate-pulse" /> */}
     </div>
   );
 };

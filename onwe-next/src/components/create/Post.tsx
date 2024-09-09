@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { CircleX } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { extractHashTags } from '@/lib/utils';
 
 interface ImagePreviewProps {
     images: File[];
@@ -53,7 +55,10 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
                     className="w-full bg-transparent focus:outline-none resize-none"
                     rows={4}
                     value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={(e) => {
+                        console.log(e.target.value)
+                        console.log(extractHashTags(e.target.value))
+                        onChange(e.target.value)}}
                 />
             ) : type === 'select' ? (
                 <select
@@ -107,8 +112,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
         >
             <div className="flex flex-col items-center w-full">
                 <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/49b69fe3d7ae892f549ffe61bf9563fdd1b4c8230018dceeab1c0efc273d6373?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain w-10 aspect-[0.98]" alt="" />
-                <p className="mt-2.5 font-medium">Choose a file or drag and drop here.</p>
-                <p className="mt-2.5 text-center">PDF</p>
+                <p className="mt-2.5 font-medium">Choose Images or drag and drop here.</p>
+                
                 <input
                     type="file"
                     accept="image/*,video/*"
@@ -118,7 +123,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
                     id="file-upload"
                 />
                 <label htmlFor="file-upload" className="mt-4 cursor-pointer text-blue-500 hover:text-blue-600">
-                    Select Files
+                    Select Images
                 </label>
             </div>
         </div>
@@ -126,14 +131,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
 };
 
 const Post: React.FC = () => {
+    const router = useRouter()
     const { getToken } = useAuth();
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState("");
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState<File[]>([]);
-    const [success, setSuccess] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleImageUpload = (files: FileList) => {
         const selectedFiles = Array.from(files).filter(
@@ -148,7 +154,13 @@ const Post: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if(images.length <1 && description.length<1){
+            setMessage("Please Upload atleast 1 image or description.");
+            return
+        }
         setLoading(true);
+        setTags(extractHashTags(description))
+        console.log(tags)
         try {
             const formData = new FormData();
             formData.append("category", category);
@@ -177,10 +189,13 @@ const Post: React.FC = () => {
             setDescription("");
             setTags("");
             setImages([]);
-            setSuccess("Post successful!");
+            setMessage("Post successful!");
 
             // Hide success message after 3 seconds
-            setTimeout(() => setSuccess(""), 3000);
+            setTimeout(() => {
+                setMessage("")
+                router.push("/profile")
+            }, 500);
         } catch (error) {
             console.error("Error posting data:", error);
         } finally {
@@ -194,7 +209,7 @@ const Post: React.FC = () => {
             <p className="mt-1 text-sm">Top stories, interviews, and insights handpicked for you.</p>
             <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
                 <InputField
-                    label="Write Details on Articles... (Description)"
+                    label="Write Description here..."
                     id="article-description"
                     type="textarea"
                     value={description}
@@ -207,7 +222,7 @@ const Post: React.FC = () => {
                     value={category}
                     onChange={setCategory}
                 />
-                <ImageUploader onImageUpload={handleImageUpload} />
+                {images.length<5 &&<ImageUploader onImageUpload={handleImageUpload} />}
                 <ImagePreview images={images} handleRemove={handleRemove} />
                 <button
                     type="submit"
@@ -217,7 +232,7 @@ const Post: React.FC = () => {
                     {loading ? "Posting..." : "Add Post"}
                 </button>
             </form>
-            {success && <p className="mt-4 text-green-500">{success}</p>}
+            {message && <p className="mt-4 text-green-500">{message}</p>}
         </div>
     );
 };

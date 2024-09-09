@@ -3,10 +3,11 @@ import Profile from "@/components/profile/Profile";
 import ProfilePost from "@/components/profile/ProfilePost";
 import { setUser } from "@/lib/features/user/userSlice";
 import { UserProfile } from "@/types/type";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useSession } from "@clerk/nextjs";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { string } from "zod";
 
 interface Params {
   username: string;
@@ -18,15 +19,24 @@ interface PageProps {
 
 const Page = ({ params }: PageProps) => {
   const { username } = params;
+  const [uname, setUname] = useState<null | string>(null);
+  const { session } = useSession();
+  useEffect(() => {
+    if (session) {
+      setUname(session.user.username);
+    }
+  }, [session]);
 
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
   const { getToken } = useAuth();
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = await getToken();
-      const { data } = await axios.get(
+  const fetchData = async () => {
+    const token = await getToken();
+
+    try {
+      const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,16 +46,22 @@ const Page = ({ params }: PageProps) => {
           },
         }
       );
-      dispatch(setUser(data));
 
-      setUserInfo(data);
-    };
-    fetchData();
+      setUserInfo(() => res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("error in user/username call", error);
+    }
+  };
+  useEffect(() => {
+    if (uname) {
+      fetchData();
+    }
 
     // return () => {
     //   axios.CancelToken.source().cancel("Component unmounted");
     // };
-  }, []);
+  }, [uname]);
   return (
     <div className="h-[100vh] w-full flex items-center  bg-[#F1F1F1]  overflow-y-hidden">
       <div className="w-full h-[96vh] flex animate-slide-up fade-in-5 rounded-xl bg-white mr-4">

@@ -1,5 +1,6 @@
 // app/page.tsx
 "use client";
+import LogoAnimation from "@/components/ui/Animations/LogoAnimation";
 import { UserButton,SignOutButton, useUser, useAuth} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,9 @@ export default function Home() {
   //   router.push('/home');
   // }
   return (
-    <div className="text-center flex flex-col gap-4 content-center h-screen items-center">
+    <div className="text-center flex flex-col justify-center gap-4 content-center h-screen items-center bg-white">
+      <div><LogoAnimation /></div>
+      
       <h1 className="text-2xl mt-4">Hello!</h1>
       {isSignedIn && <h1 className="text-2xl">You are logged in!</h1>}
       <div className="flex align-center justify-center">

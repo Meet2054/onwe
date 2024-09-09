@@ -3,13 +3,14 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/lib/store";
 
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const EditLeftFrom = () => {
+  const { user: clerkUser } = useUser();
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState<File | string>("");
   const { getToken } = useAuth();
@@ -24,6 +25,7 @@ const EditLeftFrom = () => {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setImageUrl(e.target.files[0]);
+      await clerkUser?.setProfileImage({ file: e.target.files[0] });
       const formData = new FormData();
       formData.append("media", e.target.files[0]);
 
@@ -37,9 +39,29 @@ const EditLeftFrom = () => {
           },
         }
       );
-      console.log();
+
       setImageUrl(res.data.avatar);
     }
+  };
+
+  const handleRemove = async () => {
+    // await clerkUser?.setProfileImage({ file: "" });
+    await clerkUser?.setProfileImage({ file: null });
+    const formData = new FormData();
+    formData.append("media", "");
+
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      }
+    );
+
+    setImageUrl("");
   };
   return (
     <div className="h-full ">
@@ -77,7 +99,7 @@ const EditLeftFrom = () => {
         <Button
           variant="ghost"
           className="text-red-500 border rounded-full"
-          onClick={() => setImageUrl("")}
+          onClick={handleRemove}
         >
           remove
         </Button>

@@ -26,13 +26,6 @@ const SingleComment = ({ data }: { data: Comment }) => {
   };
 
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      // user.setProfileImage()
-    }
-  }, [user]);
-
-  useEffect(() => {
     const time = data.createdAt;
     if (time) {
       const date = new Date(parseISO(time));
@@ -67,7 +60,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
         avatar: user?.imageUrl,
       };
       res.data.user = newUser;
-      
+
       setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
 
       setShowReplies(true);
@@ -107,7 +100,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   }, [replies]);
 
   return (
-    <div className="relative flex gap-1 overflow-hidden">
+    <div className="relative flex gap-1 overflow-hidden ">
       {showReplies && (
         <div className="absolute text-xl top-0 left-3 bottom-2   border-l w-10   border-rose-400 rounded-full" />
       )}
@@ -146,7 +139,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
           </form>
           <div
             ref={repliesRef}
-            className={`overflow-y-auto transition-all duration-500 ease-in-out ${
+            className={`overflow-y-auto transition-all duration-500 ease-in-out   ${
               showReplies ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
             // style={{ maxHeight: showReplies ? repliesHeight : 0 }}

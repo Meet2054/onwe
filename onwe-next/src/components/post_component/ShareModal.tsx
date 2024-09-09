@@ -1,5 +1,5 @@
 // components/ShareModal.tsx
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FacebookShareButton, FacebookIcon,
   LineShareButton, LineIcon,
@@ -10,8 +10,9 @@ import {
   EmailShareButton, EmailIcon
 } from 'next-share';
 
-const ShareModal = ({ onClose }: { onClose: () => void }) => {
+const ShareModal = ({ postId, onClose }: {postId:number,  onClose: () => void }) => {
   // Create a ref for the modal container
+  const [link, setLink] = useState<string>(`http://localhost:3000/post/${postId}`);
 
   return (
     <>
@@ -44,22 +45,25 @@ const ShareModal = ({ onClose }: { onClose: () => void }) => {
 
       {/* Share button container */}
       <div  className="share-modal">
-        <WhatsappShareButton url={'https://github.com/next-share'} title={'Check this out!'} separator=":: ">
+        <LineShareButton url={link}>
+          <LineIcon size={30} round className="animate-jump" />
+        </LineShareButton>
+        <WhatsappShareButton url={link} title={'Check this out!'} separator=":: ">
           <WhatsappIcon size={30} round className="animate-jump" />
         </WhatsappShareButton>
-        <FacebookShareButton url={'https://github.com/next-share'} hashtag={'#nextshare'}>
+        <FacebookShareButton url={link} hashtag={'#nextshare'}>
           <FacebookIcon size={30} round className="animate-jump" />
         </FacebookShareButton>
-        <TwitterShareButton url={'https://github.com/next-share'} title={'Check this out!'}>
+        <TwitterShareButton url={link} title={'Check this out!'}>
           <TwitterIcon size={30} round className="animate-jump" />
         </TwitterShareButton>
-        <PinterestShareButton url={'https://github.com/next-share'} media={'Check this out!'}>
+        <PinterestShareButton url={link} media={'Check this out!'}>
           <PinterestIcon size={30} round className="animate-jump" />
         </PinterestShareButton>
-        <LinkedinShareButton url={'https://github.com/next-share'}>
+        <LinkedinShareButton url={link}>
           <LinkedinIcon size={30} round className="animate-jump" />
         </LinkedinShareButton>
-        <EmailShareButton url={'https://github.com/next-share'} subject={'Check this out!'} body="body">
+        <EmailShareButton url={link} subject={'Check this out!'} body="body">
           <EmailIcon size={30} round className="animate-jump" />
         </EmailShareButton>
       </div>

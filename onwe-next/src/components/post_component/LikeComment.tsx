@@ -48,7 +48,7 @@ const LikeComment = ({ post }: { post: PostsProps }) => {
           <CopyButton />
         </button>
         <div>
-          {share && <ShareModal onClose={() => setShare(false)} />}
+        {share && <ShareModal postId={post.id} onClose={() => setShare(false)} />}
         </div>
       </div>
       

@@ -9,19 +9,10 @@ import {
 
 import DiaglogComment from "./DiaglogComment";
 
-import DialogImage from "./DialogImage";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import { MessageSquare } from "lucide-react";
 import PostImage from "../PostImage";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 interface DialogBoxProps {
   imageUrl?: string;
@@ -77,7 +68,15 @@ const DialogBox: React.FC<DialogBoxProps> = ({
                           : "w-96"
                       }`}
       >
-        {post && post.media && post.media.length > 1 ? (
+        {post && post.media && (
+          <div className="col-span-3">
+            <PostImage
+              images={post?.media}
+              className="flex flex-grow h-[95vh] relative bg-black"
+            />
+          </div>
+        )}
+        {/* {post && post.media && post.media.length > 1 ? (
           <div className="col-span-3">
             <PostImage
               images={post?.media}
@@ -88,10 +87,10 @@ const DialogBox: React.FC<DialogBoxProps> = ({
           <div className="hidden sm:flex flex-grow col-span-3   w-full h-full ">
             <DialogImage imageUrl={post?.media[0]} />
           </div>
-        )}
+        )} */}
 
-        <div className="flex flex-grow w-full col-span-2  h-full bg-white overflow-y-auto min-w-96">
-          <DiaglogComment />
+        <div className="flex flex-grow w-full col-span-2  h-[95vh] bg-white overflow-y-auto min-w-96">
+          <DiaglogComment post={post} />
         </div>
 
         {/* {post?.media?.length > 0 && (

@@ -9,10 +9,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
-import { Comment } from "@/types/type";
+import { Comment, PostsProps } from "@/types/type";
 
-const DiaglogComment = () => {
-  const { post } = useSelector((state: RootState) => state.post);
+const DiaglogComment = ({ post }: { post?: PostsProps }) => {
+  const { post: storedPost } = useSelector((state: RootState) => state.post);
   const { getToken } = useAuth();
   const [comments, setComments] = useState<Comment[]>([]);
 
@@ -21,7 +21,9 @@ const DiaglogComment = () => {
 
     try {
       const comment = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}/comments`,
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/${
+          post?.id || storedPost?.id
+        }/comments`,
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -45,7 +47,7 @@ const DiaglogComment = () => {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <div>
-        <PostAuthor post={post} />
+        <PostAuthor post={post || storedPost} />
         <div className="border border-gray-200" />
       </div>
       <div className="w-full flex-grow mt-1 h-[70%] overflow-y-auto  space-y-4  p-2 ">

@@ -52,10 +52,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   };
 
   return (
-    <div
-      onClick={handleClick}
-      className="w-[85%] m-1 p-5 rounded-lg bg-white"
-    >
+    <div onClick={handleClick} className="w-[85%] m-1 p-5 rounded-lg bg-white">
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
         <div>
@@ -75,7 +72,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
               ref={descriptionRef}
               className={`${
                 post?.media.length !== 0
-                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative" 
+                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
                   : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium "
               } ${isExpanded ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}

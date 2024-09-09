@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setClubTab } from "@/lib/features/clubs/tabSlice";
 import { RootState } from "@/lib/store";
 
-const GeneralAnnounce = () => {
+const GeneralAnnounce = ({ club }: { club: string }) => {
   const dispatch = useDispatch();
   const tab = useSelector((state: RootState) => state.tab.tab);
 
@@ -39,8 +39,11 @@ const GeneralAnnounce = () => {
             Announcements
           </div>
         </div>
+        <div className="flex items-center">
+          <div className="mr-2 bg-white px-8 py-2 rounded-xl shadow border">{club}</div>
         <div className="pr-8 ml-2">
           <Info />
+        </div>
         </div>
       </div>
     </div>

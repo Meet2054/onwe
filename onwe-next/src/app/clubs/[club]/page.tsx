@@ -9,6 +9,7 @@ import Join from "@/components/clubs/Join";
 import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
+import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
 
 
 const Page = () => {
@@ -72,6 +73,7 @@ const Page = () => {
   else{
     return (
       <div className="content h-full">
+        <GeneralAnnounce club={club} />
       {tab === "general" ? (
         <General club={club} />
         // <General posts={clubposts} club={club} />

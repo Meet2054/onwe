@@ -16,7 +16,7 @@ const ClubCard: React.FC<props> = ({ club }) => {
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname.includes(path);
-
+  console.log(club)
   return (
 
     <div className={cn(" hover:bg-gray-300 transition-all",{

@@ -94,7 +94,7 @@ import useSWR from "swr";
 import ClubCard from "../clubs/ClubCard";
 import { ClubCardProps } from "@/types/type";
 import { ChevronLeft } from "lucide-react";
-
+import {ArrowRight} from "lucide-react"
 const fetcher = async (url: string, token: string) => {
   const response = await axios.get(url, {
     headers: {
@@ -132,7 +132,10 @@ const ClubSideBar = ({ closeSidebar }: { closeSidebar: () => void }) => {
   return (
     <div className="h-screen w-full flex flex-col border">
       <div className="flex items-center border-b h-[8vh] relative">
-        <h1 className="text-2xl font-bold sm:pl-8 pl-20">MY CLUBS</h1>
+        <div className="bg-[#f1f1f1] w-80 rounded-3xl h-10 ml-7 flex items-center justify-between pr-4">
+          <input type="text" placeholder="Search clubs" className="bg-transparent pl-4 outline-none" />
+          <ArrowRight/>
+        </div>
         <button
           className="absolute right-4 sm:hidden"
           onClick={closeSidebar}

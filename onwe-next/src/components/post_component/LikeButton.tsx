@@ -1,29 +1,25 @@
 "use client";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { RootState } from "@/lib/store";
-import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import { Heart, ThumbsUp } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Heart } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const LikeButton = ({ post }: { post: PostsProps }) => {
-  // const post = useSelector((state: RootState) => state.post.post);
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const { getToken } = useAuth();
 
   const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
+  
+  const likeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null); // Timeout reference
 
   const handleLike = async () => {
-    // console.log(post);
-    // const res = await getData(`/posts/${post.id}`, {}, "GET");
-    // console.log(res);
-
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/posts/like`,
       { postId: post.id },
@@ -36,24 +32,28 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         },
       }
     );
+    // Optionally update the post in redux store
+    // dispatch(setPost({...post, likes: isClicked ? post.likes - 1 : post.likes + 1, liked: !isClicked}));
+  };
 
-    // let newTimeline = timeline?.map((pst) => {
-    //   if (pst.id == post.id) {
-    //   }
-    // });
+  const handleClick = () => {
+    setLikeCount((prev) => (isClicked ? prev - 1 : prev + 1));
+    setIsClicked((prev) => !prev);
 
-    // const newPost = {
-    //   ...post,
-    //   likes: isClicked ? post.likes - 1 : post.likes + 1,
-    //   liked: !isClicked,
-    // };
-    // dispatch(setPost(newPost));
+    // Clear the previous timeout if the user clicks again within 1 second
+    if (likeTimeout.current) {
+      clearTimeout(likeTimeout.current);
+    }
+
+    // Set a new timeout for 1 second to handle the debounced like request
+    likeTimeout.current = setTimeout(() => {
+      handleLike(); // Send the API request only after 1 second of inactivity
+    }, 1000);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      // const res = await getData(`/posts/${post.id}`);
-      const { data: res } = await axios.get(
+      const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`,
         {
           headers: {
@@ -65,35 +65,27 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         }
       );
 
-      const data = res[0];
-      // dispatch(setPost(data));
-      setIsClicked(data?.liked);
-      setLikeCount(data?.likes);
+      const data = res.data;
+      setIsClicked(() => data?.liked);
+      setLikeCount(() => data?.likes);
     };
     fetchData();
-  }, []);
+  }, [getToken, post.id]);
 
   return (
     <div className="flex justify-center items-center gap-2 ">
       <div
         className="flex justify-center"
-        onClick={() => {
-          setLikeCount((prev) => (isClicked ? prev - 1 : prev + 1));
-          setIsClicked(!isClicked);
-          handleLike();
-        }}
+        onClick={handleClick}
       >
         <Heart
-          strokeWidth={isClicked? 0 : 1.5}
+          strokeWidth={isClicked ? 0 : 1.5}
           fillOpacity={0.8}
           fill={isClicked ? "red" : "white"}
-          className={` flex-col justify-start items-start`}
+          className={`flex-col justify-start items-start`}
         />
       </div>
       <div className="text-[17px] w-1">{likeCount}</div>
-      {/* <div className="absolute w-18 bottom-0 left-0 flex items-start justify-start text-[13px] text-black/70 ">
-        
-      </div> */}
     </div>
   );
 };

@@ -55,3 +55,7 @@ export const extractHashTags = (text: string) => {
   const hashTags = text.match(hashRegex);
   return hashTags ? hashTags.join(" ") : "";
 };
+
+export const extractTags = (text: string) => {
+  
+};

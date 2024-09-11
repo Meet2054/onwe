@@ -132,7 +132,7 @@ const Profile = ({
   console.log(userInfo?.posts)
   return (
     <div className="w-full items-center p-4 pl-0 flex flex-col">
-      <div className="flex justify-center items-center relative ">
+      <div className="flex justify-center items-center relative w-full">
         {/* <PostAvatar
           size={40}
           className="ring-8 ring-slate-300"
@@ -141,7 +141,7 @@ const Profile = ({
         {showEdit && (
           <div
             className="my-3 p-2 group border rounded-full 
-        absolute -bottom-6  right-0  transition-all duration-100 border"
+        absolute -bottom-10  right-10 transition-all duration-100 border"
           >
             <Link href="/profile/edit">
               <LucidePencilLine
@@ -217,13 +217,12 @@ const Profile = ({
       {/* <div className="text-center w-52">
         <p className="whitespace-pre-wrap break-words">{userInfo?.user?.bio}</p>
       </div> */}
-      <div className="mt-4 w-[85%] text-start leading-5 text-black whitespace-wrap">
+      <div className="mt-4 w-[85%] text-center leading-5 text-black whitespace-wrap">
                  <span className="font-medium">
-                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet est et leo pellentesque, in interdum est luctus
                    {userInfo?.user?.bio}
                  </span>
-                 <span className="font-medium">... </span>
-                 <span className="font-medium text-black">See more</span>
+                 {/* <span className="font-medium">... </span>
+                 <span className="font-medium text-black">See more</span> */}
                </div>
       <div className="flex justify-center gap-8 space mt-4 w-full ">
         {userInfo?.user?.links.map((link, index) => (

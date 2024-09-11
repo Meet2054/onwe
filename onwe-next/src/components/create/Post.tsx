@@ -43,7 +43,7 @@ interface InputFieldProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
-    const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 max-w-[348px] text-zinc-700";
+    const inputClasses = "flex flex-col justify-center items-start px-1.5  pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
 
     return (
         <div className={inputClasses}>
@@ -52,12 +52,11 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
                 <textarea
                     id={id}
                     placeholder={label}
-                    className="w-full bg-transparent focus:outline-none resize-none"
+                    className="w-full scrollbar-custom bg-transparent focus:outline-none resize-none"
                     rows={4}
                     value={value}
                     onChange={(e) => {
-                        console.log(e.target.value)
-                        console.log(extractHashTags(e.target.value))
+                         
                         onChange(e.target.value)}}
                 />
             ) : type === 'select' ? (
@@ -133,7 +132,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
 const Post: React.FC = () => {
     const router = useRouter()
     const { getToken } = useAuth();
-    const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState("");
@@ -154,19 +152,17 @@ const Post: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(images.length <1 && description.length<1){
-            setMessage("Please Upload atleast 1 image or description.");
+        if(images.length ==0){
+            setMessage("Please Upload atleast 1 image.");
             return
         }
         setLoading(true);
-        setTags(extractHashTags(description))
-        console.log(tags)
+        
         try {
             const formData = new FormData();
             formData.append("category", category);
             formData.append("description", description);
-            formData.append("tags", tags);
-
+            formData.append("tags", extractHashTags(description));
             for (let i = 0; i < images.length; i++) {
                 formData.append("media", images[i]);
             }
@@ -195,7 +191,7 @@ const Post: React.FC = () => {
             setTimeout(() => {
                 setMessage("")
                 router.push("/profile")
-            }, 500);
+            }, 100);
         } catch (error) {
             console.error("Error posting data:", error);
         } finally {
@@ -207,7 +203,7 @@ const Post: React.FC = () => {
         <div className="flex flex-col w-full text-black">
             <h1 className="text-lg font-bold">✨ Create Post</h1>
             <p className="mt-1 text-sm">Top stories, interviews, and insights handpicked for you.</p>
-            <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
+            <form className="flex flex-col items-center gap-3 mt-4" onSubmit={handleSubmit}>
                 <InputField
                     label="Write Description here..."
                     id="article-description"

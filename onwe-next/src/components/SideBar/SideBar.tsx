@@ -107,14 +107,14 @@ const SideBar = () => {
       </div>
       {openCreate && (
         <div className="fixed inset-0 flex justify-center bg-black bg-opacity-10 backdrop-blur-sm z-50">
-          <div className="p-6 h-4/5 w-1/4">
+          <div className="p-6 max-h-[80vh] w-1/4">
             <Create open={openCreate} setOpen={setOpenCreate} />
           </div>
         </div>
       )}
       {openSearch && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-50"
+          className="fixed inset-0 z-50"
           onClick={() => setOpenSearch(false)}
         >
           <div

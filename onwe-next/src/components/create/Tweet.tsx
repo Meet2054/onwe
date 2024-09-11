@@ -1,3 +1,7 @@
+import { extractHashTags } from '@/lib/utils';
+import { useAuth } from '@clerk/nextjs';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
 interface InputFieldProps {
@@ -53,20 +57,42 @@ interface InputFieldProps {
   };
 
 const Tweet = () => {
-
+  const { getToken } = useAuth();
     const [title, setTitle] = useState('');
-    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
-    
-    const handleImageUpload = (files: FileList) => {
-        const newImages = Array.from(files).map(file => URL.createObjectURL(file));
-        
-      };
+    const router = useRouter()
 
-    const handleSubmit = (e: React.FormEvent) => {
+   
+
+    const handleSubmit =async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log({ title, category, description });
+        
+        try {
+          const formData = new FormData();
+          formData.append('title', title);
+          formData.append('description', description);
+          formData.append("tags", extractHashTags(description));
+
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/posts`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${await getToken()}`,
+                },
+            }
+        );
+        setTitle('');
+        setDescription('');
+        setTimeout(() => {
+          router.push("/profile")
+      }, 100);
+        } catch (err) {
+          console.log(err)
+        }
+
+        console.log({ title, description });
       };
   return (
     <>

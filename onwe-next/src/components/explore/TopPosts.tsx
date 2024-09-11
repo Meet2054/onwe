@@ -134,7 +134,7 @@ const TopPosts: React.FC = () => {
             );
           })}
         </div>
-        {isValidating && hasMore && <div className="w-full flex items-center justify-center h-40 m-auto"><LoaderPinwheelIcon /></div>} {/* Show skeleton only when fetching */}
+        {isValidating && hasMore && <div className="w-full flex items-center justify-center h-40 m-auto"><LoaderPinwheelIcon strokeWidth={1.25} strokeOpacity={0.7} height={40} width={40}/></div>} 
       </div>
     </div>
   );

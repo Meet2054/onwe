@@ -31,20 +31,20 @@ export const Create: React.FC<CreateArticleProps> = ({ open, setOpen}) => {
  }, [open]);
 
     return (
-        <main ref={modalRef} className="flex overflow-y-auto gap-2.5 h-[95vh] w-[30vw] rounded-md">
-            <section className="flex bg-white rounded-xl px-10 py-8 flex-col self-stretch mx-auto my-auto min-w-[240px] w-full ">
+        <main ref={modalRef} className="flex overflow-y-auto gap-2.5 h-full w-[30vw] rounded-md">
+            <section className="flex bg-white rounded-xl px-10 py-8 flex-col self-stretch mx-auto my-auto w-50vh w-full ">
                 <header className="mx-auto flex gap-3 items-center self-start text-sm font-semibold ">
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 0 ? "text-fuchsia-100 bg-fuchsia-500" : "bg-fuchsia-100 text-fuchsia-500"} rounded-md`} onClick={() => setCurrentCreate(0)}>
+                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 0 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(0)}>
                         Create Post
                     </button>
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 1 ? "text-fuchsia-100 bg-fuchsia-500" : "bg-fuchsia-100 text-fuchsia-500"} rounded-md`} onClick={() => setCurrentCreate(1)}>
+                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 1 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(1)}>
                         Create Tweet
                     </button>
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 2 ? "text-fuchsia-100 bg-fuchsia-500" : "bg-fuchsia-100 text-fuchsia-500"} rounded-md`} onClick={() => setCurrentCreate(2)}>
+                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 2 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(2)}>
                         Create Poll
                     </button>
                 </header>
-                <div className="flex flex-col mt-5 w-full">
+                <div className="flex max-h-[60vh] flex-col mt-5 w-full">
                     {currentCreate == 0 && <Post />}
                     {currentCreate == 1 && <Tweet />}
                     {currentCreate == 2 && <Poll />}

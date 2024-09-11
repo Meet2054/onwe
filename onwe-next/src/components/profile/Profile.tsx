@@ -39,6 +39,7 @@ const Profile = ({
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   const handleFollow = async () => {
     setFollowLoading(true);
+    
     await delay(750);
     try {
       const res = await axios.post(
@@ -99,7 +100,6 @@ const Profile = ({
   };
   const handleCheck = async () => {
     const token = await getToken();
-
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/checkfollow`,

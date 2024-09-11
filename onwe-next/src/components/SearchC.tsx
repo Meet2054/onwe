@@ -19,16 +19,17 @@ const SearchC: React.FC = () => {
       let apiUrl = "";
       if (query.startsWith("#")) {
         // If the search starts with #, fetch from the hashtag endpoint
+        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/search/hashtagcount/${query.slice(1)}`; // Remove # before making API call
         apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/hashtags/${query.slice(
           1
         )}`; // Remove # before making API call
       } else {
         // Fetch from the default tab endpoint
-        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`;
+        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`;
       }
-
+     
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`,
+        apiUrl,
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -36,6 +37,7 @@ const SearchC: React.FC = () => {
         }
       );
       setResults(response.data);
+     
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

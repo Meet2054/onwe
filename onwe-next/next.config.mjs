@@ -20,6 +20,7 @@ const nextConfig = {
       "www.pexels.com",
       "images.pexels.com",
     ],
+    unoptimized: true,
   },
   transpilePackages: ["lucide-react"],
   async rewrites() {

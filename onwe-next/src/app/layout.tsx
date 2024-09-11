@@ -19,7 +19,7 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const showSideBar = pathname.startsWith("/home");
+  const showSideBar = pathname.startsWith("/home") || pathname.startsWith("/profile");
   const showBottomNavBar =
     pathname !== "/forgot-password" &&
     pathname !== "/sign-up" &&
@@ -29,7 +29,8 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     pathname !== "/forgot-password" &&
     pathname !== "/sign-up" &&
     pathname !== "/sign-in" &&
-    !pathname.startsWith("/home");
+    !pathname.startsWith("/home") &&
+    !pathname.startsWith("/profile");
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
@@ -39,7 +40,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <body className={`${inter.className} h-screen overflow-hidden bg-white`}>
             <div className="flex">
               {showSideBar && (
-                <div className="w-3/12 hidden md:block">
+                <div className="w-[20%] hidden md:block">
                   <SideBar />
                 </div>
               )}

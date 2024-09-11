@@ -5,7 +5,7 @@ import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { Skeleton } from "../ui/skeleton";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Trash } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,7 +50,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
 
   // console.log(posts, "hi")
   return (
-    <div className=" flex grid md:grid-cols-3 grid-cols-2  gap-1 mt-10 h-full w-full">
+    <div className=" flex grid md:grid-cols-3 grid-cols-2  gap-1 mt-10 h-max w-full ">
       {newPosts !== null &&
         newPosts.map((post) => (
           <div
@@ -71,8 +71,6 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                     e.stopPropagation();
                   }}
                 >
-                  <DropdownMenuItem>Report</DropdownMenuItem>
-                  <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={(e) => {
                       e.preventDefault();
@@ -83,8 +81,8 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                         console.log("open change");
                       }}
                     >
-                      <AlertDialogTrigger className="w-full text-start">
-                        Delete
+                      <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">
+                        <Trash size={16} stroke="red" /> <span>Delete</span>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>

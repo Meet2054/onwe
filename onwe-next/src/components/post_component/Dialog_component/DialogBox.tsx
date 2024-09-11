@@ -39,6 +39,9 @@ const DialogBox: React.FC<DialogBoxProps> = ({
             layout="fill"
             objectFit="cover"
             className="rounded-lg object-scale-down"
+            loading="lazy"
+            unoptimized={true}
+            blurDataURL={`${base64Prefix}${imageUrl}`}
           />
         </DialogTrigger>
       ) : (

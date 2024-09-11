@@ -3,26 +3,30 @@ import Link from "next/link";
 import { ClubCardProps } from "@/types/type";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 interface props {
   club: ClubCardProps;
+  showJoin?: boolean;
 }
 
-
-
-const ClubCard: React.FC<props> = ({ club }) => {
+const ClubCard: React.FC<props> = ({ club, showJoin }) => {
   // const base64Prefix = "data:image/png;base64,";
   const imageSrc = `data:image/png;base64,${club.coverImage}`;
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname.includes(path);
-  console.log(club)
-  return (
 
-    <div className={cn(" hover:bg-gray-300 transition-all",{
-      "bg-gray-300 rounded-md":isActive(club.clubName),
-      "hover:scale-105":!isActive(club.clubName),
-    })}>
+  return (
+    <div
+      className={cn(
+        "flex justify-between items-center  hover:bg-gray-300 transition-all",
+        {
+          "bg-gray-300 rounded-md": isActive(club.clubName),
+          "hover:scale-105": !isActive(club.clubName),
+        }
+      )}
+    >
       <Link href={`/clubs/${club.clubName}`}>
         <div className={`flex items-center mt-2 ml-6 p-2`}>
           <div
@@ -39,6 +43,11 @@ const ClubCard: React.FC<props> = ({ club }) => {
           </div>
         </div>
       </Link>
+      {showJoin && (
+        <div className="rounded-full flex gap-1  bg-slate-200 mr-3 items-center px-2 py-1 text-xs">
+          Join <Plus strokeWidth={1} size={15} />
+        </div>
+      )}
     </div>
   );
 };

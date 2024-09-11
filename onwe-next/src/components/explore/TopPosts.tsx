@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Post from "./Post"; // Assuming Club component is in the same directory
+"use client";
+
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
+import PostsSkeleton from "@/components/post_component/PostSkeleton"; // Loading Skeleton for posts
+import { LoaderPinwheelIcon } from "lucide-react";
 
 interface Post {
   id: string;
   media: string[];
 }
 
+const PAGE_SIZE = 16; // Set to 16 as you mentioned in the query
 
 const fetcher = async (url: string, token: string) => {
   const response = await axios.get(url, {
@@ -23,99 +27,18 @@ const fetcher = async (url: string, token: string) => {
   return response.data;
 };
 
-
 const TopPosts: React.FC = () => {
-  
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/5d69/a9f9/3952b88d5fd84f90a556f47763842415?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=abdt0iQ1BwrJO~29HFysbTIKIxnN2QbX6-4cYTsH2X24R~AioTTO~JN4ncH2ctSUwyOXjiXvftampp~6XZQ4xEGxCf5I2-uKMIGyNposihDY8twKaj9rBUY-9GNYgsVAYxIQFNewqnNqvlS6jlkNQzenF0WXZ0rXLS657xtQUWB0iICTbLM1lIbTPKNM6g70lYow0FVaGrSQfMZEMR28QuU858VdqQVoq-L8zEOj0CpBYEsY5LZl4OpEJKxjjwDjd0qdFfvYghNZYfQvl3dPx3narMoV1dJTNyanc-dZ~OV4MjFSVSGN-Zt5rk4RE5fdBzpEwlizBiJqpF-ibeNoxg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/50d5/b9fa/cde50cbe3fd41599de80119dedae4570?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZA~nwvpAnPQ34TUnyZst3-y4A~SA5fhru2TqnEELoQqe42WVl5BIWQeBxf24QlhC9~JmHYSk6xle~b3gOGIM7r1duMYYx9z34xWvijxOtjGxndfI5lDOcfWCZd-uxkTvYUUhBeCEREtdGzUcEjpWtPCFPJumHq8F~z7Ua0uqFb4ucQIkBy15WocP~8cNMe2AUF-xulQgwVNofzTD1ZiTUwbeemtVDMIsX0mFoP0UiEtjv56fnm4nP5lI~xE~WtMwp6xq2oxAamm2AFcVkAOEJOBg3yxPUGEYM8rzE8MuOCsfHVcuqtWjV-P-PKPZ-beAuXngPcMkrFRANkLHxFSbqQ__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/d42d/c033/76cb041dbfea4d64aa1081a923436433?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PlKHaKeZH2wzqj6rIu5k15EzuY9sdZLvgFEx7l8OZepE5kFmJj76KisN~8XoH5db8v-XWx0KbYj5SXXUgjb-9vmNn5b7Gp7BtuWfL5e-58YNe1mD8nhgRsbo9Cg3gga56daGovBsakWRLcEnVglSrQfJte9DUK1C-YVHK8HX1-A4Q7qhIssdXwFBisORxRXQxktMs3Ya4~GldZEkDNwC7V5TZ7xKl1qxMZI0yeikM8fJspnA-MU9ldCFQKNsqtsNHCKuf63RNnlJ5OnH-hquyGqaZ0NgWvol1aLO5B9Gz9jQxMD0~YYe2awa5bW9zWKDhEc4ZeQOT4ZHQ94cuquxnw__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/9844/1699/fe650196bc5b5e10e697b8e5c1a2c6a7?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TIZiATfiCamhS-QjhktWP7kjhK5qB54AAC040tr~38AolV8ZWNp1CnxnnjDcID~wX~QgvRi8p6AMHb~qWA3TpAlkovF1KfCc~EgYzT4J4gUU5XcQuBn87apb~8SUHivenxHmxLQSk2FxxxmQH9x4~~uVZrS5a9c8UY02NTd-8nJCMPbEjkPpqBnDm~OcWRkmNM32MBehT~3CwldomoLtz79AaFDefLSr2iIlr2bFL~ggC8cqltIBQKh4Tx5RQPWN3QnZEavh-eKqZvcKk-lHewgxYDVd2YaJVwD0zNtTtfTGD1Tfn-6bYrlkjRV-Pc-VyeGYriy3KXKQ-3ZjQHsIBQ__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/d42d/c033/76cb041dbfea4d64aa1081a923436433?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PlKHaKeZH2wzqj6rIu5k15EzuY9sdZLvgFEx7l8OZepE5kFmJj76KisN~8XoH5db8v-XWx0KbYj5SXXUgjb-9vmNn5b7Gp7BtuWfL5e-58YNe1mD8nhgRsbo9Cg3gga56daGovBsakWRLcEnVglSrQfJte9DUK1C-YVHK8HX1-A4Q7qhIssdXwFBisORxRXQxktMs3Ya4~GldZEkDNwC7V5TZ7xKl1qxMZI0yeikM8fJspnA-MU9ldCFQKNsqtsNHCKuf63RNnlJ5OnH-hquyGqaZ0NgWvol1aLO5B9Gz9jQxMD0~YYe2awa5bW9zWKDhEc4ZeQOT4ZHQ94cuquxnw__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/9844/1699/fe650196bc5b5e10e697b8e5c1a2c6a7?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TIZiATfiCamhS-QjhktWP7kjhK5qB54AAC040tr~38AolV8ZWNp1CnxnnjDcID~wX~QgvRi8p6AMHb~qWA3TpAlkovF1KfCc~EgYzT4J4gUU5XcQuBn87apb~8SUHivenxHmxLQSk2FxxxmQH9x4~~uVZrS5a9c8UY02NTd-8nJCMPbEjkPpqBnDm~OcWRkmNM32MBehT~3CwldomoLtz79AaFDefLSr2iIlr2bFL~ggC8cqltIBQKh4Tx5RQPWN3QnZEavh-eKqZvcKk-lHewgxYDVd2YaJVwD0zNtTtfTGD1Tfn-6bYrlkjRV-Pc-VyeGYriy3KXKQ-3ZjQHsIBQ__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/d42d/c033/76cb041dbfea4d64aa1081a923436433?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PlKHaKeZH2wzqj6rIu5k15EzuY9sdZLvgFEx7l8OZepE5kFmJj76KisN~8XoH5db8v-XWx0KbYj5SXXUgjb-9vmNn5b7Gp7BtuWfL5e-58YNe1mD8nhgRsbo9Cg3gga56daGovBsakWRLcEnVglSrQfJte9DUK1C-YVHK8HX1-A4Q7qhIssdXwFBisORxRXQxktMs3Ya4~GldZEkDNwC7V5TZ7xKl1qxMZI0yeikM8fJspnA-MU9ldCFQKNsqtsNHCKuf63RNnlJ5OnH-hquyGqaZ0NgWvol1aLO5B9Gz9jQxMD0~YYe2awa5bW9zWKDhEc4ZeQOT4ZHQ94cuquxnw__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/9844/1699/fe650196bc5b5e10e697b8e5c1a2c6a7?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TIZiATfiCamhS-QjhktWP7kjhK5qB54AAC040tr~38AolV8ZWNp1CnxnnjDcID~wX~QgvRi8p6AMHb~qWA3TpAlkovF1KfCc~EgYzT4J4gUU5XcQuBn87apb~8SUHivenxHmxLQSk2FxxxmQH9x4~~uVZrS5a9c8UY02NTd-8nJCMPbEjkPpqBnDm~OcWRkmNM32MBehT~3CwldomoLtz79AaFDefLSr2iIlr2bFL~ggC8cqltIBQKh4Tx5RQPWN3QnZEavh-eKqZvcKk-lHewgxYDVd2YaJVwD0zNtTtfTGD1Tfn-6bYrlkjRV-Pc-VyeGYriy3KXKQ-3ZjQHsIBQ__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/5d69/a9f9/3952b88d5fd84f90a556f47763842415?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=abdt0iQ1BwrJO~29HFysbTIKIxnN2QbX6-4cYTsH2X24R~AioTTO~JN4ncH2ctSUwyOXjiXvftampp~6XZQ4xEGxCf5I2-uKMIGyNposihDY8twKaj9rBUY-9GNYgsVAYxIQFNewqnNqvlS6jlkNQzenF0WXZ0rXLS657xtQUWB0iICTbLM1lIbTPKNM6g70lYow0FVaGrSQfMZEMR28QuU858VdqQVoq-L8zEOj0CpBYEsY5LZl4OpEJKxjjwDjd0qdFfvYghNZYfQvl3dPx3narMoV1dJTNyanc-dZ~OV4MjFSVSGN-Zt5rk4RE5fdBzpEwlizBiJqpF-ibeNoxg__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/50d5/b9fa/cde50cbe3fd41599de80119dedae4570?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZA~nwvpAnPQ34TUnyZst3-y4A~SA5fhru2TqnEELoQqe42WVl5BIWQeBxf24QlhC9~JmHYSk6xle~b3gOGIM7r1duMYYx9z34xWvijxOtjGxndfI5lDOcfWCZd-uxkTvYUUhBeCEREtdGzUcEjpWtPCFPJumHq8F~z7Ua0uqFb4ucQIkBy15WocP~8cNMe2AUF-xulQgwVNofzTD1ZiTUwbeemtVDMIsX0mFoP0UiEtjv56fnm4nP5lI~xE~WtMwp6xq2oxAamm2AFcVkAOEJOBg3yxPUGEYM8rzE8MuOCsfHVcuqtWjV-P-PKPZ-beAuXngPcMkrFRANkLHxFSbqQ__",
-  //   },
-  //   {
-  //     coverImage:
-  //       "https://s3-alpha-sig.figma.com/img/1d84/a113/5297444437a9094b28ba5a7719b140b1?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K7JczNOw2pnT8IXpiEs3Z~~M0dwvJK-CJ-UdmXFYI106R-nmRJaU6azB-tmn327SYniH7WfSdHjswDb4seSuxWVdYgIj461v4bTJu7CSB8wW6VtnuLbuSi2-CSq8W7RsajO9YMQCXsepTS7OIVmyn7Y95Z5DaY-oxAvxn7vibP9XIRkbil8KNYkKgERk~9b35oMQ5nwdF3jgcMtny3KFM~iMzIPi4XnXoJk~tV1A-T7y-CV0eLMxpI7gaThc~azVZEXmG6zTjj8uEAd3l4zq1J9hnA-8DCcLaZYK2AZkFfg-7-Tzy~m7XQW~xOQIZnKW8Y0Eq9PxqiUa1Yw7xLfRFg__",
-  //   },
-  // ];
   const dispatch = useDispatch();
-  const [posts, setPosts] = useState<Post[]>();
-  const [token, setToken] = useState<string | null>(null);
   const { getToken } = useAuth();
+  const [token, setToken] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true); // Track if there are more posts to load
+  const [allPosts, setAllPosts] = useState<Post[]>([]); // New state for all posts
 
-  const handleClick = (post: any) => {
-    dispatch(setPost(post));
-  };
+  // Parse query parameters from window.location.search
+  const queryParams = new URLSearchParams(window.location.search);
+  const tag = queryParams.get("tag");
 
-  // useEffect(() => {
-  //   const fetchEvents = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/top-posts`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${await getToken()}`,
-  //             "ngrok-skip-browser-warning": "69420",
-  //           },
-  //         }
-  //       );
-  //       setPosts(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching events:", error);
-  //     }
-  //   };
-
-  //   fetchEvents();
-  // }, [getToken]);
+  // Fetch the token
   useEffect(() => {
     const fetchToken = async () => {
       const fetchedToken = await getToken({ template: "test" });
@@ -123,26 +46,95 @@ const TopPosts: React.FC = () => {
     };
     fetchToken();
   }, [getToken]);
-  const { data, error } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/top-posts` : null,
+
+  // Function to generate the URL based on tag and page index
+  const getKey = (pageIndex: number, previousPageData: Post[] | null) => {
+    if (!hasMore) return null; // Stop fetching if no more data
+    if (!token) return null; // Wait until token is available
+    if (previousPageData && previousPageData.length < PAGE_SIZE) {
+      setHasMore(false); // Stop if previous data has fewer than PAGE_SIZE posts
+      return null;
+    }
+    if (tag) {
+      return `${process.env.NEXT_PUBLIC_API_URL}/search/hashtag/${tag}?page=${pageIndex + 1}&limit=${PAGE_SIZE}`;
+    }
+    return `${process.env.NEXT_PUBLIC_API_URL}/top-posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`;
+  };
+
+  const { data, error, setSize, isValidating } = useSWRInfinite<Post[]>(
+    (pageIndex, previousPageData) => getKey(pageIndex, previousPageData),
     (url) => fetcher(url, token!)
   );
+
+  // Update the allPosts state when new data is fetched
   useEffect(() => {
     if (data) {
-      setPosts(data);
+      const newPosts = ([] as Post[]).concat(...data);
+      setAllPosts((prevPosts) => [...prevPosts, ...newPosts]);
     }
   }, [data]);
+
+  // Infinite scrolling logic
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isValidating || !hasMore) return; // Stop if validating or no more posts
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setSize((size) => size + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isValidating, setSize, hasMore]
+  );
+
+  const handleClick = (post: Post) => {
+    dispatch(setPost(post));
+  };
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen w-screen">
+        <div className="text-red-500">
+          <p>Error fetching data: {error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full sm:p-4">
+      {tag && (
+        <h4 className="w-full h-20 flex items-center text-5xl">#{tag}</h4>
+      )}
       <div className="px-5">
         <div className="gap-1 grid grid-cols-3 sm:grid-cols-4">
-          {posts?.map((post) => (
-            <div onClick={() => handleClick(post)} key={post.id} className="h-80">
-              <DialogBox className={""} imageUrl={post.media[0]} post={post} />
-            </div>
-            // <Post key={inex} post={post} />
-          ))}
+          {allPosts?.map((post, index) => {
+            if (index === allPosts.length - 4) {
+              return (
+                <div
+                  ref={lastElementRef}
+                  key={post.id || index}
+                  className="h-80"
+                >
+                  <DialogBox
+                    className={""}
+                    imageUrl={post.media[0]}
+                    post={post}
+                  />
+                </div>
+              );
+            }
+            return (
+              <div onClick={() => handleClick(post)} key={post.id} className="h-80">
+                <DialogBox className={""} imageUrl={post.media[0]} post={post} />
+              </div>
+            );
+          })}
         </div>
+        {isValidating && hasMore && <div className="w-full flex items-center justify-center h-40 m-auto"><LoaderPinwheelIcon /></div>} {/* Show skeleton only when fetching */}
       </div>
     </div>
   );

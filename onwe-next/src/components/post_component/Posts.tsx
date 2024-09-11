@@ -9,6 +9,7 @@ import { PostsProps } from "@/types/type";
 import { parseISO, formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import "../../app/globals.css";
+import Description from "./Description";
 
 interface PostsComponentProps {
   post: PostsProps;
@@ -52,7 +53,10 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   };
 
   return (
-    <div onClick={handleClick} className="w-[85%] m-1 p-5 rounded-lg bg-white">
+    <div
+      onClick={handleClick}
+      className="w-[85%] m-1 p-5 rounded-lg bg-white"
+    >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
         <div>
@@ -72,23 +76,24 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
               ref={descriptionRef}
               className={`${
                 post?.media.length !== 0
-                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
+                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative" 
                   : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium "
               } ${isExpanded ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}
             >
-              {post?.description}
-            </div>
-
-            {/* Toggle button for more/less */}
+              <Description des={post?.description}/>
+              {/* {post?.description} */}
             {showMoreButton && (
               <button
                 onClick={toggleDescription}
-                className="text-blue-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
+                className="absolute bottom-0 right-4 text-gray-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
               >
-                {isExpanded ? "less" : "more"}
+                {isExpanded ? "...less" : "...more"}
               </button>
             )}
+            </div>
+
+            {/* Toggle button for more/less */}
           </div>
         )}
 

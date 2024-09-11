@@ -15,7 +15,6 @@ const Page = () => {
   const fetchData = async () => {
     const token = await getToken();
 
-    console.log("UserINfo");
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/user/info`,

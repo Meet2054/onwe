@@ -51,3 +51,13 @@ export interface ClubCardHome {
   coverimage: string;
   slogan: string
 }
+
+export interface EventCardHome{
+  id: string;
+  title: string;
+  subtitle: string;
+  dateOfEvent: string;
+  time: string;
+  description: string;
+  photo: string;
+}

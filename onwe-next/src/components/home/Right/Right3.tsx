@@ -1,28 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import useSWR from "swr";
+import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
+import ListViewCard from "@/components/events/ListViewCard";
+import { EventCardHome } from '@/types/type';
+import ListViewHome from '@/components/events/ListViewHome';
+
+const fetcher = async (url: string, token: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  });
+  return response.data;
+};
 
 const Right3 = () => {
+  const [upcomingEvents, setUpcomingEvents] = useState<EventCardHome[]>([]);
+    console.log(upcomingEvents,"raaaaaaaaaa");
+    
+    const { getToken } = useAuth();
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchToken = async () => {
+          const fetchedToken = await getToken({ template: "test" });
+          setToken(fetchedToken);
+        };
+        fetchToken();
+      }, [getToken]);
+
+      const { data, error } = useSWR(
+        token ? `${process.env.NEXT_PUBLIC_API_URL}/events` : null,
+        (url) => fetcher(url, token!)
+      );
+    
+      useEffect(() => {
+        if (data) {
+          console.log(data,"sundarammmmm");
+          
+          setUpcomingEvents(data);
+        }
+      }, [data]);
+      console.log(upcomingEvents);
+      
   return (
     <div>
-      <div className="w-full h-[40vh] mt-4 ">
+      <div className="w-full h-[40vh] mt-4">
           <div className="pl-4 pt-2 border-l-4 border-black">
             <span className="text-xl ">Upcoming Events</span>
           </div>
-          <div className="w-full mt-4 h-[70px] bg-black flex items-center justify-between pl-4 pr-4 rounded-2xl  text-white">
-            <div className="flex gap-4">
-              <div className="flex flex-col bg-white px-3 text-black rounded-xl">
-                <span className="text-lg font-extrabold">24</span>
-                <span className="text-[12px]">Jun</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-extrabold">Summer Night!</span>
-                <span className="font-extralight">EDM Party</span>
-              </div>
-            </div>
-            <div className=" bg-[#DCDCDC] px-3 py-1 rounded-2xl">
-              <img src="" alt="" />
-              <span className="text-black">remind</span>
-            </div>
-          </div>
+          <div className="flex flex-col overflow-hidden space-y-2 mt-4">
+          {upcomingEvents.map((uevent) => (
+            <ListViewHome key={uevent.id} event={uevent}/>
+          ))}
+        </div>
         </div>
     </div>
   )

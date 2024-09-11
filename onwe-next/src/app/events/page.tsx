@@ -360,6 +360,5 @@ const Page: React.FC = () => {
   );
 };
 
-// className="flex bg-[#F1F1F1] overflow-y-hidden"
 
 export default Page;

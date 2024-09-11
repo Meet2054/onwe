@@ -8,7 +8,7 @@ const VoteBar = ({ value }: { value: number }) => {
       <div className="w-3/4 h-5 border rounded-md">
         <div
           style={{ width: `${value}%` }}
-          className="bg-green-400 h-5 rounded-md"
+          className="bg-zinc-500 h-5 rounded-md"
         ></div>
       </div>
       {intVal}%

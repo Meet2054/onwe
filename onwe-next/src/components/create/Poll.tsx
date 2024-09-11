@@ -1,3 +1,6 @@
+import { useAuth } from '@clerk/nextjs';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
 interface InputFieldProps {
@@ -52,13 +55,46 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
 };
 
 const Poll = () => {
-  const [title, setTitle] = useState('');
+  const { getToken } = useAuth()
+  const [title, setTitle] = useState("");
   const [options, setOptions] = useState(2);
-  const [optionContent, setOptionContent] = useState<string[]>(Array(2).fill(''));
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [optionContent, setOptionContent] = useState<string[]>(Array(2).fill(""));
+  const router = useRouter()
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ title, optionContent });
+    if (title == "") {
+      return 
+    }
+    for(let i = 0; i < optionContent.length; i++) {
+      if (optionContent[i] == "") {
+        return
+      }
+    }
+
+    try {
+      //
+      console.log(optionContent)
+      console.log(JSON.stringify(optionContent))
+      // console.log(await getToken())
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/polls`,
+        {
+          question: title,
+          options: optionContent,
+        }
+        , {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        });
+      // console.log( Object.fromEntries(formData))
+      console.log("Post successful:", response.data);
+      router.push("/profile")
+    } catch (error) {
+      console.error("Error posting data:", error);
+    }
+
   };
 
   const handleOptionChange = (index: number, value: string) => {
@@ -90,7 +126,7 @@ const Poll = () => {
           value={title}
           onChange={setTitle}
         />
-        
+
         {Array.from({ length: options }, (_, index) => (
           <InputField
             key={index}
@@ -101,7 +137,7 @@ const Poll = () => {
             onChange={(value) => handleOptionChange(index, value)}
           />
         ))}
-        
+
         {options < 6 && (
           <button
             type="button"

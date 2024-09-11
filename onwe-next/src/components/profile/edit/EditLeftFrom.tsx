@@ -30,7 +30,7 @@ const EditLeftFrom = () => {
       formData.append("media", e.target.files[0]);
 
       const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+        `${process.env.NEXT_PUBLIC_API_URL}/user/edit?isavatar=true`,
         formData,
         {
           headers: {
@@ -45,13 +45,12 @@ const EditLeftFrom = () => {
   };
 
   const handleRemove = async () => {
-    // await clerkUser?.setProfileImage({ file: "" });
     await clerkUser?.setProfileImage({ file: null });
     const formData = new FormData();
-    formData.append("media", "");
+    formData.append("media", "gg");
 
     const res = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/edit`,
+      `${process.env.NEXT_PUBLIC_API_URL}/user/edit?isavatar=true`,
       formData,
       {
         headers: {

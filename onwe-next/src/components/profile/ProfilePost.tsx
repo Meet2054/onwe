@@ -25,6 +25,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import axios from "axios";
+import { usePathname } from "next/navigation";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const [newPosts, setNewPosts] = useState<PostsProps[] | []>([]);
@@ -32,6 +33,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   const handleClick = (post: PostsProps) => {
     dispatch(setPost(post));
   };
+  const pathName = usePathname();
 
   useEffect(() => {
     if (posts) {
@@ -61,51 +63,53 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
             className="w-full h-52 relative"
           >
             <>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <EllipsisVertical className="z-10 right-1 absolute text-white opacity-35 top-2 hover:opacity-100" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-56 border-2 "
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <DropdownMenuItem
+              {pathName == "/profile" && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <EllipsisVertical className="z-10 right-1 absolute text-white opacity-35 top-2 hover:opacity-100" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-56 border-2 "
                     onClick={(e) => {
-                      e.preventDefault();
+                      e.stopPropagation();
                     }}
                   >
-                    <AlertDialog
-                      onOpenChange={() => {
-                        console.log("open change");
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.preventDefault();
                       }}
                     >
-                      <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">
-                        <Trash size={16} stroke="red" /> <span>Delete</span>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Are you absolutely sure?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action will delete this post
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => handleSettings(post.id)}
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                      <AlertDialog
+                        onOpenChange={() => {
+                          console.log("open change");
+                        }}
+                      >
+                        <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">
+                          <Trash size={16} stroke="red" /> <span>Delete</span>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action will delete this post
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleSettings(post.id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
 
               <DialogBox post={post} imageUrl={post.media[0]} />
             </>

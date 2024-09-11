@@ -5,6 +5,7 @@ import ProfilePost from "@/components/profile/ProfilePost";
 import { setUser } from "@/lib/features/user/userSlice";
 import { UserProfile } from "@/types/type";
 import { useAuth } from "@clerk/nextjs";
+import { Token } from "@clerk/nextjs/server";
 import axios from "axios";
 import Image from "next/image";
 import React, { Suspense, useEffect, useState } from "react";
@@ -40,9 +41,9 @@ const Page = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+ 
   return (
-    <div className="overflow-y-auto h-screen scrollbar-hidden scrollbar-custom p-2 pl-0">
+    <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0">
       <div> 
       <div className="relative w-full h-64 bg-white">
       {/* Cover Image Section */}
@@ -55,7 +56,7 @@ const Page = () => {
       </div>
 
       {/* Profile Picture */}
-      <div className="absolute left-[10%] bottom-[-80px] ">
+      <div className="absolute left-[9.5%] bottom-[-80px] ">
       <PostAvatar
           size={40}
           className="ring-8 ring-slate-300"
@@ -89,7 +90,7 @@ const Page = () => {
 
 <div className="h-[100vh] w-full sm:flex items-center sm:p-0  bg-white">
       <div className="hidden sm:flex w-full h-full flex-col sm:flex-row animate-slide-up fade-in-5 rounded-xl bg-white mr-4  justify-between">
-        <div className="w-[35%] h-full flex justify-center items-start mt-[50px]">
+        <div className="w-[35%] h-full flex justify-center items-start mt-[50px] ">
           <Suspense fallback={<div>loading ...</div>}>
             <Profile userInfo={userInfo!} />
           </Suspense>

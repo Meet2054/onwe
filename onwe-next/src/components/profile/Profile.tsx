@@ -131,7 +131,7 @@ const Profile = ({
   }, [uname, userInfo?.user?.username]); // Add both as dependencies
   console.log(userInfo?.posts)
   return (
-    <div className="w-full items-center   mx-auto p-4 flex flex-col">
+    <div className="w-full items-center p-4 pl-0 flex flex-col">
       <div className="flex justify-center items-center relative ">
         {/* <PostAvatar
           size={40}

@@ -57,12 +57,13 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
           ))}
       </div>
       <div className="flex flex-col space-y-2">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center">
           {/* <LikeButton post={post} /> */}
           <span>{comments.length} comments</span>
-          <CopyButton />
+          {/* <CopyButton /> */}
         </div>
-        <CommentInput setComments={setComments} />
+        
+          <CommentInput setComments={setComments} />
       </div>
     </div>
   );

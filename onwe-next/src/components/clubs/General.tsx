@@ -90,7 +90,7 @@ const General = ({ club }: { club: string }) => {
                       className="w-full relative h-64 overflow-hidden"
                     />
                   </div>
-                  <p className="m-2 ml-0 mt-[5px] p-2 w-[25vw] font-medium text-base rounded pl-2 whitespace-wrap">
+                  <p className="m-2 ml-0 mt-[5px] p-2 w-[25vw] font-medium text-base rounded pl-2 whitespace-wrap break-all ">
                     {post.description}
                   </p>
                 </div>

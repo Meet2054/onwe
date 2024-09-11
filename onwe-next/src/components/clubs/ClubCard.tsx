@@ -8,9 +8,10 @@ import { Plus } from "lucide-react";
 interface props {
   club: ClubCardProps;
   showJoin?: boolean;
+  isJoined?: boolean;
 }
 
-const ClubCard: React.FC<props> = ({ club, showJoin }) => {
+const ClubCard: React.FC<props> = ({ club, showJoin, isJoined }) => {
   // const base64Prefix = "data:image/png;base64,";
   const imageSrc = `data:image/png;base64,${club.coverImage}`;
   const pathname = usePathname();
@@ -45,7 +46,14 @@ const ClubCard: React.FC<props> = ({ club, showJoin }) => {
       </Link>
       {showJoin && (
         <div className="rounded-full flex gap-1  bg-slate-200 mr-3 items-center px-2 py-1 text-xs">
-          Join <Plus strokeWidth={1} size={15} />
+          {isJoined ? (
+            <>Joined</>
+          ) : (
+            <>
+              Join
+              <Plus strokeWidth={1} size={15} />
+            </>
+          )}
         </div>
       )}
     </div>

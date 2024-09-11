@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useMemo } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { setTimeline } from "@/lib/features/timeline/postSlice";
-
 import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
@@ -17,44 +16,52 @@ const PAGE_SIZE = 10;
 
 const Page = () => {
   const { getToken } = useAuth();
-  const {isSignedIn} = useUser()
+  const { isSignedIn } = useUser();
   const dispatch = useDispatch();
-  const router = useRouter()
-  // if (!getToken()) {
-  //     return router.push('/sign-in');
-  //   }
+  const router = useRouter();
 
-  const fetcher = async (url: string) => {
-    try {
-      const token = await getToken({ template: "test" });
-      if (!token) throw new Error("No token found");
-      return getData(
-        url,
-        { headers: { Authorization: `Bearer ${token}` } },
-        "GET"
-      );
-    } catch (err) {
-      throw err;
-    }
-  };
-  const getKey = (pageIndex: number, previousPageData: PostsProps[] | null) => {
-    if (previousPageData && !previousPageData.length) return null; // reached the end
-    return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
-  };
-
-  const { data, error, setSize, isValidating } = useSWRInfinite<PostsProps[]>(
-    getKey,
-    fetcher
+  const fetcher = useCallback(
+    async (url: string) => {
+      try {
+        const token = await getToken({ template: "test" });
+        if (!token) throw new Error("No token found");
+        return getData(
+          url,
+          { headers: { Authorization: `Bearer ${token}` } },
+          "GET"
+        );
+      } catch (err) {
+        throw err;
+      }
+    },
+    [getToken]
   );
 
-  // if (data) console.log(data);
+  const getKey = useCallback(
+    (pageIndex: number, previousPageData: PostsProps[] | null) => {
+      if (previousPageData && !previousPageData.length) return null; // reached the end
+      return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
+    },
+    []
+  );
 
-  const posts = data ? ([] as PostsProps[]).concat(...data) : [];
+  const { data, error, size, setSize, isValidating } = useSWRInfinite<
+    PostsProps[]
+  >(getKey, fetcher, {
+    revalidateFirstPage: false,
+    persistSize: true,
+    revalidateOnFocus: false,
+  });
+
+  const posts = useMemo(
+    () => (data ? ([] as PostsProps[]).concat(...data) : []),
+    [data]
+  );
 
   useEffect(() => {
-    if (posts) {
+    if (posts.length > 0) {
       dispatch(setTimeline(posts));
-      if (posts.length > 0) dispatch(setPost(posts[0]));
+      dispatch(setPost(posts[0]));
     }
   }, [posts, dispatch]);
 
@@ -64,16 +71,17 @@ const Page = () => {
       if (isValidating) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setSize((size) => size + 1);
+        if (entries[0].isIntersecting && !isValidating) {
+          setSize((prevSize) => prevSize + 1);
         }
       });
       if (node) observer.current.observe(node);
     },
     [isValidating, setSize]
   );
-  if (!posts) {
-    return <PostsSkeleton />;
+
+  if (!isSignedIn) {
+    return <div>Please sign in to view posts.</div>;
   }
 
   if (error) {
@@ -89,18 +97,18 @@ const Page = () => {
   return (
     <div className="flex overflow-auto h-screen w-full bg-white">
       <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide bg-white">
-        {posts &&
-          posts.length > 0 &&
-          posts.map((post, index) => {
-            if (index === posts.length - 4) {
-              return (
-                <div ref={lastElementRef} key={post.id || index}>
-                  <Posts post={post} />
-                </div>
-              );
-            }
-            return <Posts key={post?.id || index} post={post} />;
-          })}
+        {posts.length === 0 && !isValidating ? (
+          <div>No posts available.</div>
+        ) : (
+          posts.map((post, index) => (
+            <div
+              key={post.id || index}
+              ref={index === posts.length - 4 ? lastElementRef : null}
+            >
+              <Posts post={post} />
+            </div>
+          ))
+        )}
         {isValidating && <PostsSkeleton />}
         <div className="mt-20" />
       </div>
@@ -108,4 +116,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default React.memo(Page);

@@ -47,7 +47,7 @@ const CommentInput = ({ setComments }) => {
   };
   return (
     <form onSubmit={handleClick}>
-      <div className="flex justify-center border border-black rounded-full">
+      <div className="flex justify-center border border-black ">
         <input
           className=" w-10/12 px-2  rounded-full focus-visible:outline-none border-0 focus-visible:ring-0"
           placeholder="comment ...."

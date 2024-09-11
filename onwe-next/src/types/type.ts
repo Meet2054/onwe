@@ -44,3 +44,10 @@ export interface ClubCardProps {
   clubName: string;
   coverImage: string;
 }
+
+export interface ClubCardHome {
+  id:string;
+  name: string;
+  coverimage: string;
+  slogan: string
+}

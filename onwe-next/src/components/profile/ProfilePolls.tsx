@@ -2,12 +2,13 @@
 
 import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
-import RenderPoll from "./RenderPoll";
+import RenderPoll from "../../app/home/polls/RenderPoll";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 
-const Page = () => {
+
+const ProfilePolls = () => {
 
   const { getToken } = useAuth()
   const [tempData, setData] = useState([]);
@@ -18,7 +19,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const token = await getToken(); // Get the token outside of axios request
-
+        console.log(token)
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/polls`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -26,7 +27,7 @@ const Page = () => {
             "ngrok-skip-browser-warning": "69420",
           },
         });
-
+        
         setData(res.data); // Set the data from response
         // console.log(res.data);
       } catch (err) {
@@ -38,9 +39,10 @@ const Page = () => {
   }, [getToken]);
 
   return (
-    <div className="flex  h-screen w-full">
-      <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide">
-        {tempData.map((poll, index) => (
+    <div className="flex  h-screen w-[90%]">
+      <div className="h-full w-full flex flex-col ">
+        {tempData
+        .map((poll, index) => (
           <RenderPoll key={index} poll={poll} />
         ))}
 
@@ -50,4 +52,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ProfilePolls;

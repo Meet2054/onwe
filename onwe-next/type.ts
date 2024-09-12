@@ -9,3 +9,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_API_URL: string;
   }
 }
+declare module '*.mp4' {
+  const src: string;
+  export default src;
+}

@@ -40,7 +40,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <body className={`${inter.className} h-screen overflow-hidden bg-white`}>
             <div className="flex">
               {showSideBar && (
-                <div className="w-[18%] hidden md:block">
+                <div className="w-[20%] hidden md:block">
                   <SideBar />
                 </div>
               )}

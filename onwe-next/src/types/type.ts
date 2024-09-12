@@ -30,6 +30,7 @@ export interface PostsProps {
   liked: boolean;
   avatar?: string;
   createdAt: string;
+  createdBy: string;
 }
 
 export interface UserProfile {

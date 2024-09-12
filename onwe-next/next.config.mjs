@@ -32,6 +32,22 @@ const nextConfig = {
     ];
   },
   webpack: (config, { isServer }) => {
+    // Configure Webpack to handle mp4 files
+    config.module.rules.push({
+      test: /\.mp4$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            publicPath: '/_next/static/videos',
+            outputPath: 'static/videos',
+            name: '[name].[hash].[ext]',
+          },
+        },
+      ],
+    });
+
+    // Resolve fallbacks for client-side builds
     if (!isServer) {
       config.resolve.fallback = {
         fs: false,
@@ -39,6 +55,7 @@ const nextConfig = {
         os: false,
       };
     }
+
     return config;
   },
 };

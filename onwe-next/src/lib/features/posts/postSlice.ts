@@ -17,6 +17,8 @@ const initialState: PostState = {
     media: [""],
     category: "",
     liked: false,
+    createdAt:"",
+    createdBy:"",
   },
 };
 

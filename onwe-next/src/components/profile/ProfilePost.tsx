@@ -59,7 +59,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
   // console.log(posts, "hi")
   return (
     <>
-     <div className="flex overflow-hidden flex-wrap sticky top-0 gap-1 items-center pt-2 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
+     {/* <div className="flex overflow-hidden flex-wrap sticky top-0 gap-1 items-center pt-2 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
                 {['Media', 'Texts', 'Polls', 'Articles'].map((category) => (
                   <div
                     key={category}
@@ -71,7 +71,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                     {category} 
                   </div>
                 ))}
-              </div>
+              </div> */}
      <div className=" flex grid md:grid-cols-3 grid-cols-2  gap-1 mt-5 h-max w-full">
       {newPosts !== null &&
         newPosts.map((post) => (
@@ -145,7 +145,7 @@ export default ProfilePost;
 
 const ProfilePostSkeleton = () => {
   return (
-    <div className=" flex grid grid-cols-3 border gap-1 h-[95dvh]">
+    <div className=" flex grid grid-cols-3 border gap-1  h-[95dvh] mt-5">
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />

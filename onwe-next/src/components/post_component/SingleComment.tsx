@@ -35,6 +35,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setReply("");
     e.preventDefault();
     if (!reply) return;
     try {
@@ -62,7 +63,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
       res.data.user = newUser;
 
       setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
-
+      setReply("");
       setShowReplies(true);
       setReplyInputOpen(false);
     } catch (error) {

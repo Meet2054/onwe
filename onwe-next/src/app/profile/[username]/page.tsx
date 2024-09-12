@@ -2,6 +2,8 @@
 import PostAvatar from "@/components/post_component/PostAvatar";
 import Profile from "@/components/profile/Profile";
 import ProfilePost from "@/components/profile/ProfilePost";
+import ProfileRightSection from "@/components/profile/ProfileRightSection";
+import RenderLinks from "@/components/profile/RenderLinks";
 import { setUser } from "@/lib/features/user/userSlice";
 import { UserProfile } from "@/types/type";
 import { useAuth, useSession } from "@clerk/nextjs";
@@ -9,6 +11,7 @@ import axios from "axios";
 import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { string } from "zod";
+import onwevideo from '../../../components/profile/vid.mp4'
 
 interface Params {
   username: string;
@@ -68,13 +71,18 @@ const Page = ({ params }: PageProps) => {
     <div> 
     <div className="relative w-full h-64 bg-white">
     {/* Cover Image Section */}
-    <div className="absolute inset-0 ">
-      <img
-        src="https://s3-alpha-sig.figma.com/img/9b83/1a86/621b7e2196d598bdc440cb6ebf27de3a?Expires=1727049600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AoC5lf~i8CmAEObKFN9x6hE0gTGXfFPX7u1BPwRQGT7dOP45lZLgm2lg6Jj4tfZyrs1M6c2EcZA-wgXh66bZnX0d34dTl2mM7Y8sfm~jXzu7H5v4JHfEav6T1GR4nqlUKyAUiFFdsS06pc6vkX9Eb2SDicCun9h39i~8XJin0Krn4JzZt26b~81vZC9T0YyZsTtFPcktEaJDUmECLPZdHzc1ZEX3Nxtn-vCx8tz0eMxPpjAwGll9a5eZhbYfmZVlMIETlbRcgy7mD7vIG5EBN1272nn0JkUo-E8Dq3Lb8UsCOUXhdbug8OJZXxMkeh78Iu2-JP2Jvu2eLjtbKPKmHQ__"
-        alt="Cover"
-        className="w-full h-full object-cover rounded-lg"
-      />
-    </div>
+    <div className="absolute inset-0 bg-black rounded-xl">
+            {/* <img
+              src="https://s3-alpha-sig.figma.com/img/9b83/1a86/621b7e2196d598bdc440cb6ebf27de3a?Expires=1727049600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AoC5lf~i8CmAEObKFN9x6hE0gTGXfFPX7u1BPwRQGT7dOP45lZLgm2lg6Jj4tfZyrs1M6c2EcZA-wgXh66bZnX0d34dTl2mM7Y8sfm~jXzu7H5v4JHfEav6T1GR4nqlUKyAUiFFdsS06pc6vkX9Eb2SDicCun9h39i~8XJin0Krn4JzZt26b~81vZC9T0YyZsTtFPcktEaJDUmECLPZdHzc1ZEX3Nxtn-vCx8tz0eMxPpjAwGll9a5eZhbYfmZVlMIETlbRcgy7mD7vIG5EBN1272nn0JkUo-E8Dq3Lb8UsCOUXhdbug8OJZXxMkeh78Iu2-JP2Jvu2eLjtbKPKmHQ__"
+              alt="Cover"
+              className="w-full h-full object-cover rounded-lg"
+            /> */}
+            
+            <video className="absolute h-full w-full" loop autoPlay muted>
+              <source src={onwevideo} type="video/mp4" />
+            </video>
+            
+          </div>
 
     {/* Profile Picture */}
     <div className="absolute left-[9.5%] bottom-[-80px] ">
@@ -86,20 +94,10 @@ const Page = ({ params }: PageProps) => {
       
     </div>
 
-    {/* Social Icons */}
-    <div className="absolute bottom-8 right-8 flex space-x-4">
-      <a href="#" className="text-white">
-        <i className="fab fa-twitter"></i>
-      </a>
-      <a href="#" className="text-white">
-        <i className="fab fa-instagram"></i>
-      </a>
-      <a href="#" className="text-white">
-        <i className="fab fa-linkedin"></i>
-      </a>
-      <a href="#" className="text-white">
-        <i className="fab fa-facebook"></i>
-      </a>
+    <div className="absolute bottom-8 right-8 flex space-x-4 border p-2 bg-gray-500 rounded-lg ">
+      {userInfo?.user?.links.map((link, index) => (
+          <RenderLinks key={index} link={link} />
+        ))}
     </div>
 
     
@@ -118,7 +116,7 @@ const Page = ({ params }: PageProps) => {
       </div>
       <div className="w-full sm:w-[65%] p-2 pt-3 bg-white rounded-lg h-full ml-5">
         <Suspense fallback={<div>loading ...</div>}>
-          <ProfilePost posts={userInfo?.posts!} />
+        <ProfileRightSection posts={userInfo?.posts!} />
         </Suspense>
       </div>
     </div>

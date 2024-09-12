@@ -42,7 +42,9 @@ export const getData = async (
     });
 
     return res.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const base64Prefix = "data:image/png;base64,";
@@ -56,6 +58,4 @@ export const extractHashTags = (text: string) => {
   return hashTags ? hashTags.join(" ") : "";
 };
 
-export const extractTags = (text: string) => {
-  
-};
+export const extractTags = (text: string) => {};

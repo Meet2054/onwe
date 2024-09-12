@@ -14,14 +14,13 @@ interface PollOption {
   userHasVoted: boolean
 }
 
-//  
-
 interface pollPorps {
   id: number;
   question: string;
   createdBy: string;
   userHasVoted: boolean;
   PollOptions: PollOption[];
+  avatar:string
 }
 
 const Page = ({ poll }: { poll: pollPorps }) => {
@@ -31,6 +30,7 @@ const Page = ({ poll }: { poll: pollPorps }) => {
   const { getToken } = useAuth();
   const [totalVotes, setTV]=useState(0)
   const [voted, setVoted]=useState(false)
+  console.log("poll",poll.createdBy)
   // get polls
   const fetcher = async (url: string) => {
     try {
@@ -70,7 +70,7 @@ const Page = ({ poll }: { poll: pollPorps }) => {
         });
       // console.log( Object.fromEntries(formData))
       console.log("Post successful:", response.data);
-      if(response.data==="Vote counted"){
+      if(response.status == 201) {
         setIsSubmitted(true);
         setVoted(true)
         setTV((total)=>total+1)
@@ -107,8 +107,8 @@ const Page = ({ poll }: { poll: pollPorps }) => {
     <div className=" border  transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg shadow bg-[#F1F1F1] bg-white">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-        <PostAvatar />
-        <span>Single Poll</span>
+        <PostAvatar imageUrl={poll.avatar}/>
+        <span>{poll.createdBy}</span>
         </div>
         <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500  rounded-lg">
             Poll

@@ -92,7 +92,7 @@ const ProfileText = ({ posts }: { posts: PostsProps[] }) => {
           <div
             key={post.id}
             onClick={() => handleClick(post)}
-            className="w-[85%] relative p-5 border shadow rounded-xl"
+            className="w-[85%] relative p-5 shadow rounded-xl"
           >
             <div
               ref={(el) => {

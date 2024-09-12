@@ -5,6 +5,7 @@ import { PostsProps } from "@/types/type";
 import ProfilePost from "./ProfilePost";
 import ProfilePolls from "./ProfilePolls";
 import ProfileText from "./ProfileText";
+import ProfileArticles from "./ProfileArticles";
 
 const ProfileRightSection = ({ posts }: { posts: PostsProps[] }) =>{
 
@@ -41,10 +42,14 @@ const ProfileRightSection = ({ posts }: { posts: PostsProps[] }) =>{
             )}
 
             {selectedCategory === "Polls" && (
-                <ProfilePolls />
+                <ProfilePolls username={posts[0]?.username}  />
             )}
         
-           
+           {
+            selectedCategory === "Articles" && (
+                <ProfileArticles username={posts[0]?.username} />
+            )
+           }
         
 
       

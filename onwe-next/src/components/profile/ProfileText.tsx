@@ -137,6 +137,7 @@ const ProfilePostSkeleton = () => {
       <Skeleton className="h-[120px] w-[85%] animate-pulse" />
       <Skeleton className="h-[120px] w-[85%] animate-pulse" />
       <Skeleton className="h-[120px] w-[85%] animate-pulse" />
+      <Skeleton className="h-[120px] w-[85%] animate-pulse" />
     </div>
   );
 };

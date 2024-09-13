@@ -6,6 +6,7 @@ import RenderPoll from "../../app/home/polls/RenderPoll";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 // Add `username` prop to the component
 const ProfilePolls = ({ username }: { username: string | null }) => {
@@ -33,11 +34,14 @@ const ProfilePolls = ({ username }: { username: string | null }) => {
     fetchData();
   }, [getToken]);
 
+  
+
   return (
     <div className="flex h-screen w-[90%]">
       <div className="h-full w-full flex flex-col">
+        {tempData.length === 0 && (<ProfilePollSkeleton />)}
         {tempData
-          .filter(poll => poll.createdBy === username) // Filter polls based on username
+          .filter(poll => poll.createdBy === username) 
           .map((poll, index) => (
             <RenderPoll key={index} poll={poll} />
           ))}
@@ -48,3 +52,14 @@ const ProfilePolls = ({ username }: { username: string | null }) => {
 };
 
 export default ProfilePolls;
+
+const ProfilePollSkeleton = () => {
+  return (
+    <div className="flex flex-col gap-1 h-full mt-5">
+      <Skeleton className="h-[150px] w-[85%] animate-pulse" />
+      <Skeleton className="h-[150px] w-[85%] animate-pulse" />
+      <Skeleton className="h-[150px] w-[85%] animate-pulse" />
+      <Skeleton className="h-[150px] w-[85%] animate-pulse" />
+    </div>
+  );
+};

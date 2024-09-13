@@ -16,7 +16,7 @@ interface ArticleCardProps {
   }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ author, time, title, content, imageUrl, onClick }) => (
-    <div className="flex flex-col grow shrink p-5 cursor-pointer overflow-auto scrollbar-custom rounded-md bg-new-bg max-h-[222px] max-w-[440px] max-md:px-5"
+    <div className="flex flex-col grow shrink p-5 cursor-pointer overflow-auto scrollbar-custom rounded-md bg-gray-100 max-h-[222px] max-w-[440px] max-md:px-5"
     onClick={onClick} >
       <div className="flex gap-3 justify-center items-center w-full font-medium whitespace-nowrap">
         <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c043ab72ee954c5418f45468e5bf5d384965c4c6ceacf7798085e921a161f778?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain shrink-0 self-stretch my-auto w-7 rounded-2xl aspect-square" alt={`${author}'s avatar`} />

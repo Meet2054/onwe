@@ -42,12 +42,12 @@ const ProfileRightSection = ({ posts }: { posts: PostsProps[] }) =>{
             )}
 
             {selectedCategory === "Polls" && (
-                <ProfilePolls username={posts[0]?.username}  />
+                <ProfilePolls username={posts?posts[0]?.username: ""}  />
             )}
         
            {
             selectedCategory === "Articles" && (
-                <ProfileArticles username={posts[0]?.username} />
+                <ProfileArticles username={posts? posts[0]?.username : ""} />
             )
            }
         

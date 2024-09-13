@@ -71,7 +71,7 @@ const EditLeftFrom = () => {
           </Link>
         </Button>
       </div>
-      <div className="text-3xl font-bold">Edit Profile</div>
+      <div className="text-2xl font-bold">Edit Profile</div>
       <div className="text-base">
         Keep your personal details private. Information you add here is visible
         to anyone who can view your profile.
@@ -86,21 +86,21 @@ const EditLeftFrom = () => {
         />
       </div>
       <div className="flex justify-center mt-5 gap-3">
-        <Button variant="ghost" className="border rounded-full relative group">
+        <Button variant="ghost" className="border rounded-xl relative group">
           <input
             type="file"
             className="border border-none opacity-0  absolute w-10"
             onChange={handleFileChange}
             accept="image/*"
           />
-          new
+          New
         </Button>
         <Button
           variant="ghost"
-          className="text-red-500 border rounded-full"
+          className="text-red-500 border rounded-xl"
           onClick={handleRemove}
         >
-          remove
+          Remove
         </Button>
       </div>
     </div>

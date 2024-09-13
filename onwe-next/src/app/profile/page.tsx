@@ -80,7 +80,7 @@ const Page = () => {
   // }, []);
 
   return (
-    <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0">
+    <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0 " >
       <div>
         <div className="relative w-full h-64 bg-white">
           {/* Cover Image Section */}

@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import ArticleView from '@/components/articles/ArticlesView';
 import ArticleCard from '@/components/articles/ArticlesCard';
 import CreateArticle from '@/components/articles/CreateArticle';
+import { Skeleton } from '../ui/skeleton';
 
 interface ArticleCardProps {
   owner: string;
@@ -93,7 +94,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
   const handleArticleClick = (article: ArticleCardProps) => {
     setSelectedArticle(article);
   };
-
+  console.log(token)
   return (
     <div className="flex flex-col">
 
@@ -104,7 +105,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
           ) : (
             <div className="flex-col w-full bg-white h-screen max-md:max-w-full">
               {loading ? (
-                <div className="text-center py-5">Loading...</div>
+                <div className="text-center py-5"><ProfileArticleSkeleton /></div>
               ) : error ? (
                 <div className="text-center text-red-500 py-5">{error}</div>
               ) : (
@@ -139,3 +140,13 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
 };
 
 export default ProfileArticles;
+
+const ProfileArticleSkeleton = () => {
+  return (
+    <div className="flex flex-col gap-1 h-full mt-5">
+      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
+      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
+      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
+    </div>
+  );
+};

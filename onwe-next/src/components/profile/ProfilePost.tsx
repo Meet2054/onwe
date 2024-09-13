@@ -145,7 +145,7 @@ export default ProfilePost;
 
 const ProfilePostSkeleton = () => {
   return (
-    <div className=" flex grid grid-cols-3 border gap-1  h-[95dvh] mt-5">
+    <div className=" flex grid grid-cols-3 gap-1  h-[87dvh] mt-5">
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />
       <Skeleton className="h-52 w-full animate-pulse" />

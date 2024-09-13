@@ -159,7 +159,7 @@ const Profile = ({
         @{userInfo?.user?.username}
       </div>
       <div className="flex flex-col  gap-x-4">
-        {/* {uname !== userInfo?.user?.username &&
+        {uname !== userInfo?.user?.username &&
           (followLoading ? (
             <div className="my-3 p-1 px-5 w-full flex items-center justify-center rounded-full border text-gray-600 bg-gray-300"><LoaderCircle /></div>
           ) :
@@ -178,7 +178,7 @@ const Profile = ({
                 unfollow
               </button>
             )
-            ))} */}
+            ))}
         {/* <div className="flex ">
           <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
             {followData?.followers} Follower

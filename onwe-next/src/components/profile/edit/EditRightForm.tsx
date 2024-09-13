@@ -99,7 +99,7 @@ const EditRightForm = () => {
           <div className="h-10 flex gap-3 justify-end mb-10 ">
             <Button
               variant="ghost"
-              className="border h-10  text-black rounded-full px-3"
+              className="border h-10  text-black rounded-lg px-3"
             >
               Discard changes
             </Button>
@@ -109,7 +109,7 @@ const EditRightForm = () => {
               variant="ghost"
               className="border h-10 text-black bg-blue-500
                        transition-all ease-in-out
-                     text-white hover:ring-2 rounded-full"
+                     text-white hover:ring-2 rounded-lg"
             >
               Save
             </Button>
@@ -160,13 +160,13 @@ const EditRightForm = () => {
                 {...register("bio")}
                 id="bio"
                 className="resize-none w-full"
-                placeholder="Tell use about yourself"
+                placeholder="Tell us about yourself"
               />
             </div>
             <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="links">links</Label>
-              <div className="flex gap-1">
-                <div className=" flex justify-center items-center text-muted-foreground">
+              <Label htmlFor="links">Links</Label>
+              <div className="flex gap-2 justify-center items-center ">
+                <div className=" flex justify-center items-center text-muted-foreground ">
                   https://
                 </div>
                 <Input
@@ -177,8 +177,6 @@ const EditRightForm = () => {
                   placeholder="add links"
                   className="border-opacity-60 "
                 />
-              </div>
-              <div className="flex grow">
                 <Button
                   onClick={addNewLink}
                   className="hover:text-sky-300"
@@ -187,6 +185,15 @@ const EditRightForm = () => {
                   + Add link
                 </Button>
               </div>
+              {/* <div className="flex grow absolute right-12">
+                <Button
+                  onClick={addNewLink}
+                  className="hover:text-sky-300"
+                  variant="ghost"
+                >
+                  + Add link
+                </Button>
+              </div> */}
               <div className="flex flex-col gap-3">
                 {linksArr &&
                   linksArr.map((link, index) => (

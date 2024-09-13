@@ -31,10 +31,11 @@ const SideBar = () => {
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <div className="h-screen hidden md:flex flex-col items-center justify-between p-5 bg-white animate-slide-in">
-      <div className="flex items-center justify-center w-full py-5">
-        <Link scroll={false} href="/" className="text-gray-700 hover:text-gray-900">
-          <LogoAnimation />
+    <div className="h-screen hidden  md:flex flex-col items-center justify-between p-5 bg-pink-300 animate-slide-in m-2  rounded-xl">
+      <div className="flex items-center justify-center w-full pt-5">
+        <Link scroll={false} href="/" className="text-black hover:text-custom-brown text-4xl font-bold  mr-5">
+          {/* <LogoAnimation /> */}
+          ONWE
         </Link>
       </div>
       <div className="flex flex-col items-center justify-center w-full space-y-4">
@@ -45,7 +46,7 @@ const SideBar = () => {
             isActive("/home") ? "bg-gray-100" : "hover:bg-gray-50"
           }`}
         >
-          <div className={`p-2 rounded-full ${isActive("/home") ? "bg-gray-100" : "bg-white"}`}>
+          <div className={`p-2 rounded-full ${isActive("/home") ? "bg-gray-100" : "bg-transparent"}`}>
             <Home size={30} strokeWidth={1.5} />
           </div>
           <h1 className="ml-2 text-lg">Home</h1>
@@ -56,7 +57,7 @@ const SideBar = () => {
             openSearch ? "bg-gray-100" : "hover:bg-gray-50"
           }`}
         >
-          <div className={`p-2 rounded-full ${openSearch ? "bg-gray-100" : "bg-white"}`}>
+          <div className={`p-2 rounded-full ${openSearch ? "bg-gray-100" : "bg-transparent"}`}>
             <Search size={30} strokeWidth={1.5} />
           </div>
           <h1 className="ml-2 text-lg">Search</h1>
@@ -75,7 +76,7 @@ const SideBar = () => {
               isActive(item.href) ? "bg-gray-100" : "hover:bg-gray-50"
             }`}
           >
-            <div className={`p-2 rounded-full ${isActive(item.href) ? "bg-gray-100" : "bg-white"}`}>
+            <div className={`p-2 rounded-full ${isActive(item.href) ? "bg-gray-100" : "bg-transparent"}`}>
               <item.icon size={30} strokeWidth={1.5} />
             </div>
             <h1 className="ml-2 text-lg">{item.label}</h1>
@@ -87,7 +88,7 @@ const SideBar = () => {
           onClick={handleCreatePost}
           className="flex items-center justify-start w-3/4 h-12 p-2 rounded-lg hover:bg-gray-50"
         >
-          <div className="p-2 rounded-full bg-white">
+          <div className="p-2 rounded-full bg-transparent">
             <Plus size={30} strokeWidth={1.5} />
           </div>
           <h1 className="ml-2 text-lg">Create</h1>
@@ -99,7 +100,7 @@ const SideBar = () => {
             isActive("/profile") ? "bg-gray-100" : "hover:bg-gray-50"
           }`}
         >
-          <div className={`p-2 rounded-full ${isActive("/profile") ? "bg-gray-100" : "bg-white"}`}>
+          <div className={`p-2 rounded-full ${isActive("/profile") ? "bg-gray-100" : "bg-transparent"}`}>
             <User size={30} strokeWidth={1.5} />
           </div>
           <h1 className="ml-2 text-lg">Profile</h1>

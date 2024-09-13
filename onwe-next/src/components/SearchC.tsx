@@ -5,7 +5,11 @@ import Hashtag from "./search/HashTag";
 import debounce from "lodash.debounce";
 import axios from "axios";
 
-const SearchC: React.FC = () => {
+interface SearchCProps {
+  setOpenSearch: (value: boolean) => void; // Define prop for closing the search bar
+}
+
+const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,32 +22,24 @@ const SearchC: React.FC = () => {
     try {
       let apiUrl = "";
       if (query.startsWith("#")) {
-        // If the search starts with #, fetch from the hashtag endpoint
         apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/search/hashtagcount/${query.slice(1)}`; // Remove # before making API call
-        apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/hashtags/${query.slice(
-          1
-        )}`; // Remove # before making API call
       } else {
-        // Fetch from the default tab endpoint
         apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`;
       }
-     
-      const response = await axios.get(
-        apiUrl,
-        {
-          headers: {
-            Authorization: `Bearer ${await getToken()}`,
-          },
-        }
-      );
+
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
       setResults(response.data);
-     
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   };
+
   const debouncedFetchData = useCallback(
     debounce((query: string, tab: string) => {
       setLoading(true);
@@ -65,6 +61,10 @@ const SearchC: React.FC = () => {
     setSearchText(e.target.value);
   };
 
+  const handleClick = () => {
+    setOpenSearch(false); // Close the search bar
+  };
+
   return (
     <div className="bg-white h-full w-full border rounded-md">
       <div className="border w-full h-1/5 flex items-center justify-center">
@@ -76,7 +76,7 @@ const SearchC: React.FC = () => {
               placeholder="Search..."
               value={searchText}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md "
             />
           </form>
         </div>
@@ -87,9 +87,9 @@ const SearchC: React.FC = () => {
         ) : (
           results.map((item: any) =>
             searchText.startsWith("#") ? (
-              <Hashtag key={item.id} hashtag={item} />
+              <Hashtag key={item.id} hashtag={item} onClick={handleClick} />
             ) : (
-              <ProfileCard key={item.id} profile={item} />
+              <ProfileCard key={item.id} profile={item} onClick={handleClick} />
             )
           )
         )}

@@ -2,50 +2,36 @@ import React, { useEffect, useState } from "react";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import VoteBar from "./VoteBar";
 import { Button } from "@/components/ui/button";
-import { getData, getGlobalToken } from "@/lib/utils";
+import { getData } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import axios from "axios";
 
 interface PollOption {
-  id:number;
+  id: number;
   optionText: string;
   votes: number;
-  userHasVoted: boolean
 }
 
-interface pollPorps {
+interface PollProps {
   id: number;
   question: string;
   createdBy: string;
   userHasVoted: boolean;
   PollOptions: PollOption[];
-  avatar:string
+  avatar: string;
 }
 
-const Page = ({ poll }: { poll: pollPorps }) => {
+const Page = ({ poll }: { poll: PollProps }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { getToken } = useAuth();
-  const [totalVotes, setTV]=useState(0)
-  const [voted, setVoted]=useState(false)
-  console.log("poll",poll.createdBy)
-  // get polls
-  const fetcher = async (url: string) => {
-    try {
-      const token = await getToken({ template: "test" });
-      if (!token) throw new Error("No token found");
-      return getData(
-        url,
-        { headers: { Authorization: `Bearer ${token}` } },
-        "GET"
-      );
-    } catch (err) {
-      throw err;
-    }
-  };
-  const { data, isLoading } = useSWR("/polls", fetcher);
+  const [pollOptions, setPollOptions] = useState(poll.PollOptions); // Keep track of poll options state
+  const [voted, setVoted] = useState(poll.userHasVoted);
+  const [totalVotes, setTotalVotes] = useState(
+    poll.PollOptions.reduce((acc, option) => acc + option.votes, 0) // Calculate initial total votes
+  );
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.id);
@@ -55,25 +41,36 @@ const Page = ({ poll }: { poll: pollPorps }) => {
     e.preventDefault();
     setIsTransitioning(true);
     try {
-      //
-      
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/polls/${poll.id}/vote`,
+      const token = await getToken();
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/polls/${poll.id}/vote`,
         {
-          "optionId": selectedOption
-        }
-        , {
+          optionId: selectedOption,
+        },
+        {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
             "ngrok-skip-browser-warning": "69420",
           },
-        });
-      // console.log( Object.fromEntries(formData))
-      console.log("Post successful:", response.data);
-      if(response.status == 201) {
+        }
+      );
+
+      if (response.status === 201) {
         setIsSubmitted(true);
-        setVoted(true)
-        setTV((total)=>total+1)
+        setVoted(true);
+
+        // Update the vote count dynamically
+        const updatedOptions = pollOptions.map((option) => {
+          if (option.id === parseInt(selectedOption)) {
+            return { ...option, votes: option.votes + 1 };
+          }
+          return option;
+        });
+
+        // Update total votes and poll options
+        setTotalVotes(totalVotes + 1);
+        setPollOptions(updatedOptions);
       }
     } catch (error) {
       console.error("Error posting data:", error);
@@ -83,87 +80,62 @@ const Page = ({ poll }: { poll: pollPorps }) => {
     }, 500); // Transition duration (500ms)
   };
 
-  useEffect(() => {
-    const countingtotal = async () => {
-      let totalVotesCount = 0;
-  
-      // Sum up all votes in one go
-      poll.PollOptions.forEach((option) => {
-        totalVotesCount += option.votes;
-      });
-  
-      // Set the totalVotes state after calculation
-      setTV(totalVotesCount);
-      
-      // Log the values for debugging
-    };
-  
-    countingtotal();
-    setVoted(poll.userHasVoted)
-  }, [poll]); 
-
-  
   return (
-    <div className=" border  transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg shadow bg-[#F1F1F1] bg-white">
+    <div className="border transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg shadow bg-[#F1F1F1] bg-white">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
-        <PostAvatar imageUrl={poll.avatar}/>
-        <span>{poll.createdBy}</span>
+          <PostAvatar imageUrl={poll.avatar} />
+          <span>{poll.createdBy}</span>
         </div>
-        <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500  rounded-lg">
-            Poll
-          </div>
-        
+        <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg">
+          Poll
+        </div>
       </div>
-    <div className="bg-articles-card-300 rounded-xl p-5 m-2 mt-3">
-      <div className="font-bold px-3 pl-4 mb-4 bg-articles-card rounded-xl p-5 border shadow ">
-        <span>{poll.question}</span>
-        {/* <span>Is Pole Ready?</span> */}
-      </div>
+      <div className="bg-articles-card-300 rounded-xl p-5 m-2 mt-3">
+        <div className="font-bold px-3 pl-4 mb-4 bg-articles-card rounded-xl p-5 border shadow ">
+          <span>{poll.question}</span>
+        </div>
 
-      <div
-        className={`transition-opacity duration-500 ease-in-out ${
-          isTransitioning ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        {voted ? (
-          <div className="flex flex-col gap-2 px-5">
-            {poll.PollOptions.map((data) => (
-              <div key={data.id}>
-                <div>{data.optionText}</div>
-                <VoteBar value={(data.votes / (totalVotes )) * 100} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <form
-            className="flex flex-col gap-2  px-5 pb-2"
-            onSubmit={handlePollSubmit}
-          >
-            {poll.PollOptions.map((data) => (
-              <div key={data.id} className="flex gap-3 items-center cursor-grab border rounded-md px-2 bg-new-bg shadow">
-                <input
-                  type="radio"
-                  id={`${data.id}`}
-                  value={data.optionText}
-                  name="poll-options"
-                  className="text-black h-10 border cursor-grab"
-                  onChange={handleOptionChange}
-                />
-                <label htmlFor={`option-${data.id}-${poll.id}`} className="cursor-grab w-full">
-                  {data.optionText}
-                </label>
-              </div>
-            ))}
-            <Button
-              disabled={selectedOption.length == 0 ? true : false}
-              type="submit"
-            >
-              VOTE
-            </Button>
-          </form>
-        )}
-      </div>
+        <div
+          className={`transition-opacity duration-500 ease-in-out ${
+            isTransitioning ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          {voted ? (
+            <div className="flex flex-col gap-2 px-5">
+              {pollOptions.map((data) => (
+                <div key={data.id}>
+                  <div>{data.optionText}</div>
+                  <VoteBar value={(data.votes / totalVotes) * 100} /> {/* Dynamic progress */}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <form className="flex flex-col gap-2 px-5 pb-2" onSubmit={handlePollSubmit}>
+              {pollOptions.map((data) => (
+                <div key={data.id} className="flex gap-3 items-center cursor-grab border rounded-md px-2 bg-new-bg shadow">
+                  <input
+                    type="radio"
+                    id={`${data.id}`}
+                    value={data.optionText}
+                    name="poll-options"
+                    className="text-black h-10 border cursor-grab"
+                    onChange={handleOptionChange}
+                  />
+                  <label htmlFor={`option-${data.id}-${poll.id}`} className="cursor-grab w-full">
+                    {data.optionText}
+                  </label>
+                </div>
+              ))}
+              <Button
+                disabled={selectedOption.length === 0}
+                type="submit"
+              >
+                VOTE
+              </Button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );

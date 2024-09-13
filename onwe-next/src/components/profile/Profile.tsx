@@ -44,7 +44,7 @@ const Profile = ({
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/follow`,
-        { username: uname, followUsername: userInfo?.user?.username },
+        {  followUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -74,7 +74,7 @@ const Profile = ({
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/unfollow`,
-        { username: uname, unfollowUsername: userInfo?.user?.username },
+        { unfollowUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ const Profile = ({
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/checkfollow`,
-        { username: uname, followUsername: userInfo?.user?.username },
+        {  followUsername: userInfo?.user?.username },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,11 +125,10 @@ const Profile = ({
   };
 
   useEffect(() => {
-    if (uname && userInfo?.user?.username) {
+    if ( userInfo?.user?.username) {
       handleCheck(); // Call handleCheck only when both values are available
     }
-  }, [uname, userInfo?.user?.username]); // Add both as dependencies
-  console.log(userInfo?.posts)
+  }, [ userInfo?.user?.username]); // Add both as dependencies
   return (
     <div className="w-full items-center p-4 pl-0 flex flex-col ">
       <div className="flex justify-center items-center relative w-full">

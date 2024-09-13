@@ -9,19 +9,19 @@ interface Hashtag {
 
 interface HashTagCardProps {
   hashtag: Hashtag;
+  onClick: () => void;
 }
 
-const Hashtag: React.FC<HashTagCardProps> = ({ hashtag }) => {
-  console.log("hashtag",hashtag)
+const Hashtag: React.FC<HashTagCardProps> = ({ hashtag, onClick }) => {
   const imageSrc = 'https://github.com/Meet2054/onwe/blob/main/onwe-next/public/images/pngtree-hashtags-icon-on-white-background-png-image_5040948.png'
 
   return (
-    <div className="flex justify-between items-center mt-2 ml-6 pl-2 pr-10">
+    <div onClick={onClick} className="flex justify-between items-center mt-2 ml-6 pl-2 pr-10">
       {/* <div className="rounded-full bg-gray-300 h-10 w-10 mr-3 border"
       style={{ backgroundImage: `url(${imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
        </div> */}
       <div>
-        <Link href={`/explore?tag=${hashtag.tag.slice(1)}`} className="text-gray-700 hover:text-black">
+        <Link href={`/explore?tag=${hashtag.tag?.slice(1)}`} className="text-gray-700 hover:text-black">
         <h2 className="text-sm text-black font-bold">{hashtag.tag}</h2>
             {/* <img src="" alt="" /> */}
         </Link>

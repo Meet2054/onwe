@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import ClubCard from "../clubs/ClubCard";
 import { ClubCardProps } from "@/types/type";
 import { ChevronLeft, ArrowRight, Loader2 } from "lucide-react";
-import { conforms, debounce } from "lodash";
+import { debounce } from "lodash";
 
 export interface searchClubsProps extends ClubCardProps {
-  isJoined: boolean;
+  isUserMember: boolean;
 }
 
 const fetcher = async (url: string, token: string) => {
@@ -23,7 +23,7 @@ const fetcher = async (url: string, token: string) => {
   return response.data;
 };
 
-export default function ClubSideBar({
+export default function Component({
   closeSidebar,
 }: {
   closeSidebar: () => void;
@@ -35,6 +35,7 @@ export default function ClubSideBar({
   const [token, setToken] = useState<string | null>(null);
   const [showSearchArea, setShowSearchArea] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const searchAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -51,7 +52,7 @@ export default function ClubSideBar({
     }
     setIsSearching(true);
     try {
-      const response = await axios.get(
+      const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/explore/clubs/${query}`,
         {
           headers: {
@@ -59,20 +60,9 @@ export default function ClubSideBar({
           },
         }
       );
-      const newResData = response.data.map((club: ClubCardProps) => {
-        const isJoined = myClubs.some(
-          (myClub) => myClub.clubName === club.clubName
-        );
-        return { ...club, isJoined };
-      });
-
-      console.log(newResData);
-      console.log(myClubs);
-
-      setSearchClubs(newResData);
+      setSearchClubs(data);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Optionally, set an error state here to show to the user
     } finally {
       setIsSearching(false);
     }
@@ -81,7 +71,7 @@ export default function ClubSideBar({
   const debouncedFetchData = useCallback(
     debounce((query: string) => {
       fetchSearchClubs(query);
-    }, 300), // Increased debounce time to 300ms
+    }, 300),
     []
   );
 
@@ -104,6 +94,22 @@ export default function ClubSideBar({
     }
   }, [data]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchAreaRef.current &&
+        !searchAreaRef.current.contains(event.target as Node)
+      ) {
+        setShowSearchArea(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="h-screen w-full flex flex-col border">
       <div className="flex items-center border-b h-[8vh] relative ">
@@ -113,7 +119,6 @@ export default function ClubSideBar({
             placeholder="Search clubs"
             className="bg-transparent pl-4 outline-none w-full"
             onFocus={() => setShowSearchArea(true)}
-            onBlur={() => setTimeout(() => setShowSearchArea(false), 200)}
             onChange={(e) => setSearchInput(e.target.value)}
           />
           {isSearching ? <Loader2 className="animate-spin" /> : <ArrowRight />}
@@ -122,7 +127,10 @@ export default function ClubSideBar({
           <ChevronLeft />
         </button>
         {showSearchArea && (
-          <div className="w-full h-[calc(100dvh-4rem)] p-3 absolute bg-gray-50 top-14 border rounded overflow-y-auto">
+          <div
+            ref={searchAreaRef}
+            className="w-full h-[calc(100dvh-4rem)] p-3 absolute bg-gray-50 top-14 border rounded overflow-y-auto"
+          >
             {isSearching ? (
               <div className="flex justify-center items-center h-full">
                 <Loader2 className="animate-spin" />
@@ -133,7 +141,7 @@ export default function ClubSideBar({
                   key={club.id}
                   club={club}
                   showJoin={true}
-                  isJoined={club.isJoined}
+                  isJoined={club.isUserMember}
                 />
               ))
             ) : (

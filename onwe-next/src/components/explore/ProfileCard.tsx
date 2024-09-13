@@ -10,9 +10,10 @@ interface Profile {
 
 interface ProfileCardProps {
   profile: Profile;
+  onClick: () => void;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onClick }) => {
   const base64Prefix = "data:image/png;base64,";
   console.log(profile.username);
   const imageSrc = `data:image/png;base64,${profile.avatar}`;

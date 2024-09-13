@@ -119,10 +119,10 @@ const SideBar = () => {
           onClick={() => setOpenSearch(false)}
         >
           <div
-            className="w-1/3 h-screen ml-[25%] z-50 bg-white"
+            className="w-1/3 h-screen ml-[20%] z-50 mt-2 bg-white animate-slide-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <SearchC />
+            <SearchC setOpenSearch={setOpenSearch}/>
           </div>
         </div>
       )}

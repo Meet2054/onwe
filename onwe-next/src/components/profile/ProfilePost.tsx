@@ -28,6 +28,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 
 const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
+  console.log(posts)
   const [newPosts, setNewPosts] = useState<PostsProps[] | []>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('Media')
   const dispatch = useDispatch();

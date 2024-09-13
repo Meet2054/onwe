@@ -148,20 +148,29 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/artical`,
-        {
-          coverPhoto,
-          title,
-          category,
-          description,
-          pdfFile,
-          page: 1,  
-        },
+      
+        const formData = new FormData();
+    
+        formData.append("title", title);
+        formData.append("category", category);
+        formData.append("description", description);
+    
+        if (coverPhoto) {
+          const coverFile = await fetch(coverPhoto).then((r) => r.blob());
+          formData.append("media", coverFile, "cover-photo.jpg");
+        }
+        if (pdfFile) {
+          const pdfFileBlob = await fetch(pdfFile).then((r) => r.blob());
+          formData.append("media", pdfFileBlob, "article.pdf");
+        }
+
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/artical`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             "ngrok-skip-browser-warning": "69420",
           },
         }

@@ -12,16 +12,19 @@ import CreateArticle from '@/components/articles/CreateArticle';
 interface ArticleCardProps {
   owner: string;
   time: string;
+  media: string[];
   createdAt: string;
   title: string;
   description: string;
   imageUrl: string;
   category: string;
+  avatar: string;
+  coverphoto: string;
   onClick: () => void;
 }
 
 const ArticlePage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('General');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [articles, setArticles] = useState<ArticleCardProps[]>([]);
@@ -33,7 +36,6 @@ const ArticlePage: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-    console.log("hiiiii from useEffect");
 
     const fetchTokenAndArticles = async () => {
       try {
@@ -76,9 +78,7 @@ const ArticlePage: React.FC = () => {
     };
   }, [getToken]);
 
-  console.log("hi")
   console.log('Articles:', JSON.stringify(articles, null, 2))
-  console.log("booo")
 
   const handleBackToArticles = () => {
     setSelectedArticle(null);
@@ -139,7 +139,7 @@ const ArticlePage: React.FC = () => {
           ) : (
             <div className="flex-column mt-2.5 p-8 w-full bg-white rounded-xl min-h-[834px] max-md:max-w-full">
               <div className="flex overflow-hidden overflow-x-auto flex-wrap gap-1 items-center pt-3 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
-                {['General', 'Sports', 'Academia', 'Art/ Fashion', 'Social engagement'].map((category) => (
+                {['All', 'General', 'Sports', 'Academia', 'Art', 'Fashion', 'Social engagement'].map((category) => (
                   <div
                     key={category}
                     onClick={() => handleCategoryClick(category)}
@@ -151,7 +151,6 @@ const ArticlePage: React.FC = () => {
                   </div>
                 ))}
               </div>
-
               {loading ? (
                 <div className="text-center py-5">Loading...</div>
               ) : error ? (
@@ -170,9 +169,9 @@ const ArticlePage: React.FC = () => {
 
                   <div className="flex z-10 flex-wrap gap-2 items-start mt-5 text-black max-md:mt-0 max-md:mr-2.5 max-h-[59vh] overflow-y-auto scrollbar-custom">
                     {
-                    // articles
-                      // .filter((article) => article.category === selectedCategory)
-                      articles.map((article, index) => (
+                    articles
+                      .filter((article) => selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase())
+                      .map((article, index) => (
                         <ArticleCard
                           key={index}
                           author={article.owner}
@@ -180,8 +179,10 @@ const ArticlePage: React.FC = () => {
                           date={article.createdAt}
                           title={article.title}
                           content={article.description}
-                          imageUrl={article.imageUrl}
+                          media = {article.media}
                           category={article.category}
+                          avatar = {article.avatar}
+                          coverImage={article.coverphoto}
                           onClick={() => handleArticleClick(article)}
                         />
                       ))}

@@ -13,11 +13,14 @@ import { Skeleton } from '../ui/skeleton';
 interface ArticleCardProps {
   owner: string;
   time: string;
+  media: string[];
   createdAt: string;
   title: string;
   description: string;
   imageUrl: string;
   category: string;
+  avatar: string;
+  coverphoto: string;
   onClick: () => void;
 }
 
@@ -41,7 +44,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
         const fetchedToken = await getToken({ template: 'test' });
         if (isMounted) {
           setToken(fetchedToken);
-  
+          
           if (fetchedToken) {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/artical`, {
               headers: {
@@ -94,7 +97,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
   const handleArticleClick = (article: ArticleCardProps) => {
     setSelectedArticle(article);
   };
-  console.log(token)
+  
   return (
     <div className="flex flex-col">
 
@@ -110,23 +113,24 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
                 <div className="text-center text-red-500 py-5">{error}</div>
               ) : (
                 <div className="flex flex-col  ml-2.5 max-w-full w-full">
-
-                  <div className="flex z-10 flex-wrap gap-2 items-start mt-5 text-black max-md:mt-0 max-md:mr-2.5 h-screen ">
+                  <div className="flex z-10 flex-wrap gap-2 items-start mt-3 text-black max-md:mt-0 max-md:mr-2.5 h-screen ">
                     {
-                    // articles
-                      // .filter((article) => article.category === selectedCategory)
-                      articles.map((article, index) => (
+                    articles
+                      .filter((article) => article.owner === username)
+                      .map((article, index) => (
                         <ArticleCard
-                          key={index}
-                          author={article.owner}
-                          time={article.time}
-                          date={article.createdAt}
-                          title={article.title}
-                          content={article.description}
-                          imageUrl={article.imageUrl}
-                          category={article.category}
-                          onClick={() => handleArticleClick(article)}
-                        />
+                        key={index}
+                        author={article.owner}
+                        time={article.time}
+                        date={article.createdAt}
+                        title={article.title}
+                        content={article.description}
+                        media = {article.media}
+                        category={article.category}
+                        avatar = {article.avatar}
+                        coverImage={article.coverphoto}
+                        onClick={() => handleArticleClick(article)}
+                      />
                       ))}
                   </div>
                 </div>

@@ -10,6 +10,7 @@ interface ArticleViewProps {
     title: string;
     description: string;
     imageUrl: string;
+    avatar:string;
     onBack: () => void;
   }
   
@@ -20,10 +21,11 @@ interface ArticleViewProps {
     description,
     imageUrl,
     onBack,
+    avatar,
   }) => {
     return (
       <div className="flex flex-col px-6 pt-4 pb-3 mt-2 w-full h-[90vh] overflow-auto scrollbar-custom font-source-serif text-custom-brown-700 rounded-xl max-md:pl-5 max-md:max-w-full bg-custom-gradient">
-    <div className="flex flex-wrap gap-10 justify-between items-center w-full max-md:max-w-full">
+    <div className="flex flex-wrap  justify-between items-center w-full max-md:max-w-full">
       <button
         onClick={onBack}
         style={{ fontSize: '36px', cursor: 'pointer' }}
@@ -31,10 +33,13 @@ interface ArticleViewProps {
         <MdOutlineKeyboardBackspace />
       </button>
   
-      <div className="flex gap-4 justify-center self-stretch my-auto font-medium text-black">
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fa0db432333a92b264091df6d869605d89f8244515c5d9b879259b249afba747?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain shrink-0 my-auto w-7 rounded-2xl aspect-square" alt="Author avatar" />
-        <div className="text-base w-[72px] break-words whitespace-normal">{owner}</div>
-        <div className="text-sm text-right w-[47px] break-words whitespace-normal">{createdAt.slice(0,10)}</div>
+      <div className="flex w-full gap-1 justify-end items-center self-stretch my-auto font-medium text-black">
+        <img loading="lazy" src={`data:image/*;base64,${avatar}`} className="object-cover shrink-0 my-auto w-12 rounded-full aspect-square " alt="Author avatar" />
+        <div className="flex flex-col  pl-0">
+        <div className="text-lg capitalize font-sans break-words whitespace-normal">{owner}</div>
+        <div className="text-xs text-center font-mono break-words whitespace-normal">{createdAt.slice(0,10)}</div>
+          </div>
+        
       </div>
     </div>
   

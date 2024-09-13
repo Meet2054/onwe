@@ -36,7 +36,7 @@ const Page = ({ params }: PageProps) => {
   const { getToken } = useAuth();
   const fetchData = async () => {
     const token = await getToken();
-
+  
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,

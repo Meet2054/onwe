@@ -24,6 +24,7 @@ const Page = () => {
     async (url: string) => {
       try {
         const token = await getToken({ template: "test" });
+        console.log(token)
         if (!token) throw new Error("No token found");
         return getData(
           url,
@@ -36,7 +37,7 @@ const Page = () => {
     },
     [getToken]
   );
-
+  
   const getKey = useCallback(
     (pageIndex: number, previousPageData: PostsProps[] | null) => {
       if (previousPageData && !previousPageData.length) return null; // reached the end

@@ -31,7 +31,7 @@ const SideBar = () => {
   const isActive = (path: string) => pathname.includes(path);
 
   return (
-    <div className="h-screen hidden  md:flex flex-col items-center justify-between p-5 bg-pink-300 animate-slide-in m-2  rounded-xl">
+    <div className="h-screen hidden  md:flex flex-col items-center justify-between p-5 bg-white animate-slide-in m-2  rounded-xl">
       <div className="flex items-center justify-center w-full pt-5">
         <Link scroll={false} href="/" className="text-black hover:text-custom-brown text-4xl font-bold  mr-5">
           {/* <LogoAnimation /> */}

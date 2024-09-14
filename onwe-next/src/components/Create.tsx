@@ -1,55 +1,67 @@
-import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
+import React, { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
 import Post from "./create/Post";
 import Tweet from "./create/Tweet";
 import Poll from "./create/Poll";
 
 interface CreateArticleProps {
-    open: boolean
-    setOpen: Dispatch<SetStateAction<boolean>>
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Create: React.FC<CreateArticleProps> = ({ open, setOpen}) => {
-
+export const Create: React.FC<CreateArticleProps> = ({ open, setOpen }) => {
     const [currentCreate, setCurrentCreate] = useState<0 | 1 | 2>(0);
+    const modalRef = useRef<HTMLDivElement>(null);
 
- // Create a ref for the Create component
- const modalRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        }
 
- // Add an event listener to detect clicks outside the component
- useEffect(() => {
-   function handleClickOutside(event: MouseEvent) {
-     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-       setOpen(false); // Close the modal
-     }
-   }
-
-   document.addEventListener("mousedown", handleClickOutside);
-
-   return () => {
-     document.removeEventListener("mousedown", handleClickOutside);
-   };
- }, [open]);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [open]);
 
     return (
-        <main ref={modalRef} className="flex overflow-y-auto gap-2.5 h-full w-[30vw] rounded-md">
-            <section className="flex bg-white rounded-xl px-10 py-8 flex-col self-stretch mx-auto my-auto w-50vh w-full ">
-                <header className="mx-auto flex gap-3 items-center self-start text-sm font-semibold ">
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 0 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(0)}>
-                        Create Post
-                    </button>
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 1 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(1)}>
-                        Create Tweet
-                    </button>
-                    <button className={`gap-2.5 self-stretch p-2.5 my-auto ${currentCreate == 2 ? "text-gray-200 bg-black" : "bg-gray-200 text-black"} rounded-md`} onClick={() => setCurrentCreate(2)}>
-                        Create Poll
-                    </button>
-                </header>
-                <div className="flex max-h-[60vh] flex-col mt-5 w-full">
-                    {currentCreate == 0 && <Post />}
-                    {currentCreate == 1 && <Tweet />}
-                    {currentCreate == 2 && <Poll />}
-                </div>
-            </section>
-        </main>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50 p-4">
+            <main ref={modalRef} className="bg-white rounded-xl w-full max-w-lg max-h-[90vh] overflow-y-visible">
+                <section className="p-4 sm:p-6 md:p-8">
+                    <header className="flex flex-wrap gap-2 mb-4">
+                        <button
+                            className={`flex-grow px-3 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors ${
+                                currentCreate == 0 ? "text-white bg-black" : "bg-gray-200 text-black hover:bg-gray-300"
+                            }`}
+                            onClick={() => setCurrentCreate(0)}
+                        >
+                            Create Post
+                        </button>
+                        <button
+                            className={`flex-grow px-3 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors ${
+                                currentCreate == 1 ? "text-white bg-black" : "bg-gray-200 text-black hover:bg-gray-300"
+                            }`}
+                            onClick={() => setCurrentCreate(1)}
+                        >
+                            Create Tweet
+                        </button>
+                        <button
+                            className={`flex-grow px-3 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors ${
+                                currentCreate == 2 ? "text-white bg-black" : "bg-gray-200 text-black hover:bg-gray-300"
+                            }`}
+                            onClick={() => setCurrentCreate(2)}
+                        >
+                            Create Poll
+                        </button>
+                    </header>
+                    <div className="mt-4">
+                        {currentCreate == 0 && <Post done={setOpen} />}
+                        {currentCreate == 1 && <Tweet done={setOpen} />}
+                        {currentCreate == 2 && <Poll done={setOpen} />}
+                    </div>
+                </section>
+            </main>
+        </div>
     );
 };

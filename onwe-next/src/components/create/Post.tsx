@@ -128,8 +128,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
         </div>
     );
 };
-
-const Post: React.FC = () => {
+interface ChildComponentProps {
+    done: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+  
+  const Post: React.FC<ChildComponentProps> = ({ done }) => {
     const router = useRouter()
     const { getToken } = useAuth();
     const [category, setCategory] = useState('');
@@ -140,6 +143,7 @@ const Post: React.FC = () => {
     const [message, setMessage] = useState('');
 
     const handleImageUpload = (files: FileList) => {
+        setMessage("")
         const selectedFiles = Array.from(files).filter(
             (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
         );
@@ -178,20 +182,18 @@ const Post: React.FC = () => {
                 }
             );
 
-            console.log("Post successful:", response.data);
 
             // Clear form fields
+            setMessage("Post successful!");
             setCategory("general");
             setDescription("");
             setTags("");
             setImages([]);
-            setMessage("Post successful!");
+            done(false)
+            router.push("/profile")
 
             // Hide success message after 3 seconds
-            setTimeout(() => {
-                setMessage("")
-                router.push("/profile")
-            }, 100);
+            
         } catch (error) {
             console.error("Error posting data:", error);
         } finally {
@@ -220,6 +222,7 @@ const Post: React.FC = () => {
                 />
                 {images.length<5 &&<ImageUploader onImageUpload={handleImageUpload} />}
                 <ImagePreview images={images} handleRemove={handleRemove} />
+                {message && <p className="text-sm text-red-500">{message}</p>}
                 <button
                     type="submit"
                     className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
@@ -228,7 +231,6 @@ const Post: React.FC = () => {
                     {loading ? "Posting..." : "Add Post"}
                 </button>
             </form>
-            {message && <p className="mt-4 text-green-500">{message}</p>}
         </div>
     );
 };

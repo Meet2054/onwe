@@ -13,7 +13,7 @@ interface InputFieldProps {
   }
   
   const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
-    const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 max-w-[348px] text-zinc-700";
+    const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300  text-zinc-700";
   
     return (
       <div className={inputClasses}>
@@ -23,7 +23,7 @@ interface InputFieldProps {
             id={id}
             placeholder={label}
             className="w-full focus:outline-none bg-transparent resize-none"
-            rows={4}
+            rows={8}
             value={value}
             onChange={(e) => onChange(e.target.value)}
           />
@@ -55,21 +55,28 @@ interface InputFieldProps {
       </div>
     );
   };
-
-const Tweet = () => {
-  const { getToken } = useAuth();
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+  interface ChildComponentProps {
+    done: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+  
+  const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
+    const { getToken } = useAuth();
+    const [description, setDescription] = useState("");
+    const [message, setMessage] = useState("")
     const router = useRouter()
 
    
 
     const handleSubmit =async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if(description=="") {
+          setMessage("Please enter something")
+          return
+        }
         
         try {
           const formData = new FormData();
-          formData.append('title', title);
           formData.append('description', description);
           formData.append("tags", extractHashTags(description));
 
@@ -83,16 +90,15 @@ const Tweet = () => {
                 },
             }
         );
-        setTitle('');
         setDescription('');
-        setTimeout(() => {
-          router.push("/profile")
-      }, 100);
+        done(false)
+        router.push("/profile")
+       
         } catch (err) {
           console.log(err)
         }
 
-        console.log({ title, description });
+        // console.log({ description });
       };
   return (
     <>
@@ -102,23 +108,27 @@ const Tweet = () => {
                 Top stories, interviews, and insights handpicked for you.
               </p>
             </div>
-            <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
-              <InputField
+            <form className="flex flex-col w-full gap-3 mt-4" onSubmit={handleSubmit}>
+              {/* <InputField
                 label="What's on Your Mind?"
+                
                 id="article-title"
                 type="text"
                 value={title}
                 onChange={setTitle}
-              />
+              /> */}
               
               <InputField
-                label="Enjoying the sunset at the beach #Relation #NatureLover"
+                label="What's on Your Mind?"
                 id="article-description"
                 type="textarea"
                 value={description}
-                onChange={setDescription}
+                onChange={(value)=>{
+                  setDescription(value)
+                  setMessage("")
+                }}
               />
-              
+              {message && <p className="text-sm text-red-500">{message}</p>}
               <button
                 type="submit"
                 className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"

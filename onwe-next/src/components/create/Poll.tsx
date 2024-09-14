@@ -1,7 +1,8 @@
 import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { X } from 'lucide-react'; // Import the X icon from lucide-react
 
 interface InputFieldProps {
   label: string;
@@ -9,13 +10,15 @@ interface InputFieldProps {
   type: 'text' | 'select' | 'textarea';
   value: string;
   onChange: (value: string) => void;
+  onDelete?: () => void; // New prop for delete functionality
+  showDelete?: boolean; // New prop to determine if delete button should be shown
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
-  const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 max-w-[348px] text-zinc-700";
+const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange, onDelete, showDelete }) => {
+  const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
 
   return (
-    <div className={inputClasses}>
+    <div className={`${inputClasses} relative`}>
       <label htmlFor={id} className="sr-only">{label}</label>
       {type === 'textarea' ? (
         <textarea
@@ -45,68 +48,82 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
           type={type}
           id={id}
           placeholder={label}
-          className="w-full focus:outline-none bg-transparent"
+          className="w-full focus:outline-none bg-transparent pr-8" // Added right padding for delete button
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
+      )}
+      {showDelete && onDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500"
+        >
+          <X size={16} />
+        </button>
       )}
     </div>
   );
 };
 
-const Poll = () => {
-  const { getToken } = useAuth()
+interface ChildComponentProps {
+  done: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Poll: React.FC<ChildComponentProps> = ({ done }) => {
+  const { getToken } = useAuth();
   const [title, setTitle] = useState("");
-  const [options, setOptions] = useState(2);
-  const [optionContent, setOptionContent] = useState<string[]>(Array(2).fill(""));
-  const router = useRouter()
+  const [optionContent, setOptionContent] = useState<string[]>(["", ""]);
+  const router = useRouter();
+  const [message, setMessage] = useState<string>("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (title == "") {
-      return 
+    if (title === "" || optionContent.some(option => option === "") || optionContent.length < 2) {
+      setMessage("Poll incomplete: Add title and at least 2 or more proper options.");
+      return;
     }
-    for(let i = 0; i < optionContent.length; i++) {
-      if (optionContent[i] == "") {
-        return
-      }
-    }
-
+   
     try {
-      //
-      console.log(optionContent)
-      console.log(JSON.stringify(optionContent))
-      // console.log(await getToken())
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/polls`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/polls`,
         {
           question: title,
           options: optionContent,
-        }
-        , {
+        },
+        {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
             "Content-Type": "application/json",
             "ngrok-skip-browser-warning": "69420",
           },
-        });
-      // console.log( Object.fromEntries(formData))
+        }
+      );
       console.log("Post successful:", response.data);
-      router.push("/profile")
+      router.push("/profile");
+      done(false);
     } catch (error) {
       console.error("Error posting data:", error);
     }
-
   };
 
   const handleOptionChange = (index: number, value: string) => {
+    setMessage("")
     const newOptionContent = [...optionContent];
     newOptionContent[index] = value;
     setOptionContent(newOptionContent);
   };
 
   const addOption = () => {
-    if (options < 6) {
-      setOptions(options + 1);
+    if (optionContent.length < 6) {
       setOptionContent([...optionContent, '']);
+    }
+  };
+
+  const deleteOption = (index: number) => {
+    if (optionContent.length > 2) {
+      const newOptionContent = optionContent.filter((_, i) => i !== index);
+      setOptionContent(newOptionContent);
     }
   };
 
@@ -118,27 +135,33 @@ const Poll = () => {
           Top stories, interviews, and insights handpicked for you.
         </p>
       </div>
+      
       <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
         <InputField
           label="What's on Your Mind?"
           id="article-title"
           type="text"
           value={title}
-          onChange={setTitle}
+          onChange={(value)=>{
+            setMessage("")
+            setTitle(value)
+          }}
         />
 
-        {Array.from({ length: options }, (_, index) => (
+        {optionContent.map((option, index) => (
           <InputField
             key={index}
             label={`Option ${index + 1}`}
             id={`option-input-${index}`}
             type="text"
-            value={optionContent[index]}
+            value={option}
             onChange={(value) => handleOptionChange(index, value)}
+            onDelete={() => deleteOption(index)}
+            showDelete={optionContent.length > 2}
           />
         ))}
 
-        {options < 6 && (
+        {optionContent.length < 6 && (
           <button
             type="button"
             className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide rounded-lg text-gray-800"
@@ -147,6 +170,7 @@ const Poll = () => {
             Add Option
           </button>
         )}
+        {message && <div className="text-red-500 text-sm">{message}</div>}
         <button
           type="submit"
           className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
@@ -155,7 +179,7 @@ const Poll = () => {
         </button>
       </form>
     </>
-  )
-}
+  );
+};
 
-export default Poll
+export default Poll;

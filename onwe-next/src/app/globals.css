@@ -76,3 +76,10 @@
 .inter{
   font-family: 'Inter';
 }
+
+html {
+  scroll-behavior: smooth;
+}
+.fade-section {
+  transition: opacity 0.5s ease-in-out;
+}

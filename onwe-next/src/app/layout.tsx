@@ -30,7 +30,8 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     pathname !== "/sign-up" &&
     pathname !== "/sign-in" &&
     !pathname.startsWith("/home") &&
-    !pathname.startsWith("/profile");
+    !pathname.startsWith("/profile")&&
+    !pathname.startsWith("/landingpage");
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

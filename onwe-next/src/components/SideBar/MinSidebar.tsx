@@ -151,7 +151,7 @@ const MinSideBar = () => {
               className="w-1/3 h-screen ml-[5%] z-50 bg-white"
               onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
             >
-              <SearchC />
+              <SearchC setOpenSearch={setOpenSearch}/>
             </div>
           </div>
         )}

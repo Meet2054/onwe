@@ -43,6 +43,7 @@ const Page: React.FC = () => {
     const fetchToken = async () => {
       const fetchedToken = await getToken({ template: "test" });
       setToken(fetchedToken);
+      console.log(fetchedToken);
     };
     fetchToken();
   }, [getToken]);
@@ -65,7 +66,7 @@ const Page: React.FC = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-1/4 bg-gray-100 overflow-y-auto border border-r-2 flex flex-col items-center">
+      <div className="w-1/4 bg-gray-100 overflow-y-auto scrollbar-custom border border-r-2 flex flex-col items-center">
         <div className="flex flex-wrap gap-10  justify-center p-5 items-center w-full max-md:max-w-full">
             <div className="flex gap-1.5 items-center self-stretch my-auto text-base tracking-normal leading-none text-center whitespace-nowrap">
               <Link href="/articles" passHref>

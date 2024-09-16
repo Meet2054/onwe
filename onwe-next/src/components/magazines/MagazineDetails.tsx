@@ -1,203 +1,191 @@
-// // components/MagazineDetailsComponent.tsx
-// import React from "react";
-// import Image from "next/image";
-// import { useDispatch } from 'react-redux';
-// import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/lib/store";
-
-
-
-
-// // Sample magazine data type
-// type Magazine = {
-//   id: number;
-//   title: string;
-//   date: string;
-//   description: string;
-//   media: string[]; // Assuming media is an array of strings
-// };
-
-// const MagazineDetails: React.FC<{ magazine: Magazine }> = ({
-//   magazine,
-// }) => {
-//   const base64Prefix = 'data:image/png;base64,';
-//   const dispatch = useDispatch();
-//   const selectedMagazine = useSelector((state: RootState) => state.magazine.selectedMagazine);
-
-
-//   function handleMagazineClick(magazine: Magazine): void {
-//     dispatch(selectMagazine(magazine));
-//   }
-
-//   return (
-//     <div className="w-screen h-screen p-4 flex flex-col"onClick={() => handleMagazineClick(magazine)}>
-//       <h1 className="text-4xl font-bold text-gray-600">WHATS AROUND?</h1>
-//       <h2 className="text-xl text-gray-600 mb-4">
-//         MAGAZINE {magazine.id < 10 ? `0${magazine.id}` : magazine.id}.{" "}
-//         {magazine.date}
-//       </h2>
-//       <p className="mb-4">{magazine.description}</p>
-//       <div className="w-full h-full relative">
-//         <Image
-//           src={`${base64Prefix}${magazine.media[0]}`}
-//           alt={magazine.title}
-//           layout="fill"
-//           objectFit="contain"
-//           className="rounded-lg"
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MagazineDetails;
-
-// components/MagazineDetailsComponent.tsx
 import React, { useState } from "react";
 import Image from "next/image";
-import M from "./Magazine_page-1.jpg"
-import { useDispatch, useSelector } from "react-redux";
-// import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
+import Ma from "./Magazine_page-1.jpg";
+import Mb from "./Magazine_page-2.jpg";
+import Mc from "./Magazine_page-3.jpg";
+import Md from "./Magazine_page-4.jpg";
+const images = [Ma, Mb, Mc, Md];
+const data = Array.from({ length: 24 }, (_, index) => ({
+  imageUrl: images[index % 4]
+}));
+
+import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-// import "@react-pdf-viewer/core/lib/styles/index.css";
-// import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-
-// Sample magazine data type
-
-const data = [
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-  { imageUrl: M },
-];
 
 type Magazine = {
   id: number;
   title: string;
   date: string;
   description: string;
-  media: string[]; // Assuming media is an array of strings
+  media: string[];
 };
 
 const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
-  const base64Prefix = 'data:image/png;base64,';
   const selectedMagazine = useSelector((state: RootState) => state.magazine.selectedMagazine);
-  // const defaultLayoutPluginInstance = defaultLayoutPlugin();
-
-  // function handleMagazineClick(magazine: Magazine): void {
-  //   dispatch(selectMagazine(magazine));
-  // }
   const [currentPage, setCurrentPage] = useState(0);
 
   const goToNextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % data.length);
+    setCurrentPage((prev) => Math.min(prev + 2, data.length - 1));
   };
 
   const goToPreviousPage = () => {
-    setCurrentPage((prev) => (prev - 1 + data.length) % data.length);
+    setCurrentPage((prev) => Math.max(prev - 2, 0));
   };
 
-  const goToPage = (pageNumber:number) => {
+  const goToPage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
+  };
+
+  const renderPageNumbers = () => {
+    const totalPages = data.length;
+    const pageNumbers = [];
+    
+    pageNumbers.push(
+      <PageNumber key={0} pageNum={1} currentPage={currentPage} onClick={() => goToPage(0)} />
+    );
+
+    if (currentPage > 2 && currentPage < totalPages - 3) {
+      pageNumbers.push(<span key="ellipsis1">...</span>);
+      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+        pageNumbers.push(
+          <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
+        );
+      }
+      pageNumbers.push(<span key="ellipsis2">...</span>);
+    } else {
+      if (currentPage <= 2) {
+        for (let i = 1; i <= 3; i++) {
+          pageNumbers.push(
+            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
+          );
+        }
+        pageNumbers.push(<span key="ellipsis">...</span>);
+      } else {
+        pageNumbers.push(<span key="ellipsis">...</span>);
+        for (let i = totalPages - 4; i < totalPages - 1; i++) {
+          pageNumbers.push(
+            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
+          );
+        }
+      }
+    }
+
+    pageNumbers.push(
+      <PageNumber key={totalPages - 1} pageNum={totalPages} currentPage={currentPage} onClick={() => goToPage(totalPages - 1)} />
+    );
+
+    return pageNumbers;
+  };
+
+  const renderContent = () => {
+    if (currentPage === 0) {
+      return (
+        <>
+          <div className="w-1/2 p-8 flex flex-col items-center justify-center">
+            <h1 className="text-5xl font-bold mb-2">WHATS AROUND? <span className="text-xs align-top bg-black text-white px-1 py-0.5 ml-2">New</span></h1>
+            <h2 className="text-xl mb-4">MAGAZINE 03. SEP 02</h2>
+            <p className="text-sm text-gray-600 max-w-md">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dapibus tincidunt tortor et pharetra. Pellentesque congue dictum lacus.
+            </p>
+          </div>
+          <div className="w-1/2 relative">
+            <Image
+              src={data[currentPage].imageUrl}
+              alt={`Magazine cover ${currentPage + 1}`}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+        </>
+      );
+    } else if (currentPage === data.length - 1) {
+      return (
+        <>
+          <div className="w-1/2 relative">
+            <Image
+              src={data[currentPage].imageUrl}
+              alt={`Magazine cover ${currentPage + 1}`}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className="w-1/2 p-8 flex flex-col items-center justify-center">
+            <h1 className="text-5xl font-bold mb-2">Thank You</h1>
+            <p className="text-sm text-gray-600 max-w-md">
+              We hope you enjoyed this issue of WHATS AROUND?
+            </p>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className="w-1/2 relative">
+            <Image
+              src={data[currentPage].imageUrl}
+              alt={`Magazine cover ${currentPage + 1}`}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className="w-1/2 relative">
+            <Image
+              src={data[currentPage + 1].imageUrl}
+              alt={`Magazine cover ${currentPage + 2}`}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+        </>
+      );
+    }
   };
 
   return (
     <div className="w-screen h-screen flex flex-col p-[0.2rem]">
-        
-      {selectedMagazine ? (
-          <div className="w-full h-screen flex flex-col bg-white text-black">
-          <div className="flex-grow flex">
-            {/* Left side content */}
-            <div className="w-1/2 p-8 flex flex-col items-center justify-center">
-              <button 
-                className="text-sm text-gray-500 w-20 h-8 border border-gray-300 rounded-full mb-8"
-                onClick={goToPreviousPage}
-              >
-                previous
-              </button>
-              <h1 className="text-5xl font-bold mb-2">WHATS AROUND? <span className="text-xs align-top bg-black text-white px-1 py-0.5 ml-2">New</span></h1>
-              <h2 className="text-xl mb-4">MAGAZINE 03. SEP 02</h2>
-              <p className="text-sm text-gray-600 max-w-md">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dapibus tincidunt tortor et pharetra. Pellentesque congue dictum lacus.
-              </p>
+      <div className="w-full h-screen flex flex-col bg-white text-black">
+        <div className="flex-grow flex">
+          {renderContent()}
+        </div>
+        <div className="h-20 flex bg-transparent text-zinc-200">
+          <div className="w-full flex items-center bg-zinc-900 justify-between">
+            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
+              {currentPage > 1 && (
+                <ArrowLeft 
+                  className="text-white cursor-pointer" 
+                  size={30} 
+                  onClick={goToPreviousPage}
+                />
+              )}
             </div>
-    
-            {/* Right side image */}
-            <div className="w-1/2 relative">
-              <Image
-                src={data[currentPage].imageUrl}
-                alt={`Magazine cover ${currentPage + 1}`}
-                layout="fill"
-                objectFit="cover"
-              />
-              <div className="absolute top-4 right-4 flex text-zinc-200 text-sm">
-                <div className="rounded opacity-60 p-2 hover:bg-zinc-200 hover:text-zinc-900 mr-4">Download</div>
-                <div className="rounded opacity-60 p-2 hover:bg-zinc-200 hover:text-zinc-900">Show fullscreen</div>
-              </div>
+            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center items-center space-x-2`}>
+              {renderPageNumbers()}
             </div>
-          </div>
-    
-          {/* Bottom navigation */}
-          <div className="h-20 flex bg-transparent text-zinc-200">
-            <div className="w-1/2 flex items-center bg-zinc-900 justify-center space-x-2">
-              {data.map((_, index) => (
-                <div key={index} className="flex items-center">
-                  <div 
-                    className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer
-                      ${index === currentPage ? 'bg-white text-black' : 'border border-white'}`}
-                    onClick={() => goToPage(index)}
-                  >
-                    {index + 1}
-                  </div>
-                  {index < data.length - 1 && <div className="w-4 h-px bg-white mx-1"></div>}
-                </div>
-              ))}
-            </div>
-            <div className="w-1/2 flex items-center justify-center pr-8">
-              <ArrowLeft 
-                className="text-zinc-900 cursor-pointer mr-4" 
-                size={30} 
-                onClick={goToPreviousPage}
-              />
-              <ArrowRight 
-                className="text-zinc-900 cursor-pointer" 
-                size={30} 
-                onClick={goToNextPage}
-              />
+            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
+              {currentPage < data.length - 2 && (
+                <ArrowRight 
+                  className="text-white cursor-pointer" 
+                  size={30} 
+                  onClick={goToNextPage}
+                />
+              )}
             </div>
           </div>
         </div>
-      ) : (
-        <>
-          <h1 className="text-4xl font-bold text-gray-600">WHATS AROUND?</h1>
-          <h2 className="text-xl text-gray-600 mb-4">
-            MAGAZINE {magazine.id < 10 ? `0${magazine.id}` : magazine.id}. {magazine.date}
-          </h2>
-          <p className="mb-4">{magazine.description}</p>
-          <div className="w-full h-full relative">
-            <Image
-              src={`${base64Prefix}${magazine.media[0]}`}
-              alt={magazine.title}
-              layout="fill"
-              objectFit="contain"
-              className="rounded-lg"
-            />
-          </div>
-        </>
-      )}
+      </div>
     </div>
   );
 };
+
+const PageNumber: React.FC<{ pageNum: number; currentPage: number; onClick: () => void }> = ({ pageNum, currentPage, onClick }) => (
+  <div 
+    className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer
+      ${pageNum - 1 === currentPage ? 'bg-white text-black' : 'border border-white text-white'}`}
+    onClick={onClick}
+  >
+    {pageNum}
+  </div>
+);
 
 export default MagazineDetails;

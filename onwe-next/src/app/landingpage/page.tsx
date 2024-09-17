@@ -53,7 +53,7 @@ const Page: React.FC = () => {
         if (e.deltaY < 0) handleScroll("prev");
       }}
     >
-      <Header />
+      {/* <Header /> */}
       <AnimatePresence mode="wait">
         {sections.map(({ component: Component, id }, index) =>
           index === currentSection ? (

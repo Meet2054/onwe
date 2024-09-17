@@ -160,7 +160,7 @@ const Signup = () => {
             <div className="text-red-500 text-center">{error}</div>
           )}
           <span
-            onClick={() => router.push("/sign-in2")}
+            onClick={() => router.push("/sign-in")}
             className="block text-center text-red-500 cursor-pointer lg:text-md text-sm"
           >
             I have an account

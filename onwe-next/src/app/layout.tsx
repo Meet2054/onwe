@@ -10,6 +10,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import BottomNavBar from "@/components/SideBar/BottomNavBar";
 import { ViewTransitions } from "next-view-transitions";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +21,20 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
+  const router = useRouter()
+  const [hasToken, setHasToken] = useState(false);
+
+  useEffect(() => {
+    // Check for the token in local storage
+    const token = localStorage.getItem("token");
+    setHasToken(!!token);
+
+    // Redirect to sign-in page if token is not present and current path is restricted
+    if (!token && !["/sign-in", "/sign-up", "/forgot-password", "/"].includes(pathname)) {
+      router.push("/sign-in");
+    }
+  }, [pathname, router]);
+
   const showSideBar = pathname.startsWith("/home") || pathname.startsWith("/profile");
   const showBottomNavBar =
     pathname !== "/forgot-password" &&

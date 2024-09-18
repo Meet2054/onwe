@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { PostsProps } from "@/types/type";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 import axios from "axios";
-import { useSession } from "@clerk/clerk-react";
 import { NewPost } from "./NewPost";
 import PostImage from "../post_component/PostImage";
 import PostAvatar from "../post_component/PostAvatar";
@@ -13,9 +12,8 @@ const General = ({ club }: { club: string }) => {
   const [createActive, setCreateActive] = useState(false);
   const [posts, setPosts] = useState<PostsProps[]>([]);
   const dispatch = useDispatch();
-  const { getToken } = useAuth();
-  const { session } = useSession();
-
+  const { getToken,getUsername } = useSignIn();
+  const username = getUsername();
   // Define a ref object to store refs for each post
   const postRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
@@ -63,7 +61,7 @@ const General = ({ club }: { club: string }) => {
       <div className="flex flex-col-reverse gap-3">
         {posts.map((post) => {
           let cnm = "";
-          if (post.username === session?.user.username) {
+          if (post.username === username) {
             cnm = "flex-row-reverse";
           }
 

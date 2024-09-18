@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import Join from "@/components/clubs/Join";
@@ -16,7 +16,7 @@ const Page = () => {
   const params = useParams();
   const club = Array.isArray(params.club) ? params.club[0] : params.club;
   const tab = useSelector((state: RootState) => state.tab.tab);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   
   // const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
   const [error, setError] = useState<string | null>(null);

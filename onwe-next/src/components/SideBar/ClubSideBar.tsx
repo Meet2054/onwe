@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 import useSWR from "swr";
 import ClubCard from "../clubs/ClubCard";
 import { ClubCardProps } from "@/types/type";
@@ -31,7 +31,7 @@ export default function Component({
   const [myClubs, setMyClubs] = useState<ClubCardProps[]>([]);
   const [searchClubs, setSearchClubs] = useState<searchClubsProps[]>([]);
   const [searchInput, setSearchInput] = useState("");
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
   const [showSearchArea, setShowSearchArea] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -39,7 +39,7 @@ export default function Component({
 
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken = await getToken();
       setToken(fetchedToken);
     };
     fetchToken();

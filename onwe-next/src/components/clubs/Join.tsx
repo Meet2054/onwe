@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 import { useRouter } from "next/navigation";
 
 interface JoinProps {
@@ -8,7 +8,7 @@ interface JoinProps {
 }
 
 const Join: React.FC<JoinProps> = ({ clubName }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [message, setMessage] = useState<string>("");
   const router = useRouter()
 

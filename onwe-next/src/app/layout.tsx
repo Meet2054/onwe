@@ -26,7 +26,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     // Check for the token in local storage
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("onwetoken");
     setHasToken(!!token);
 
     // Redirect to sign-in page if token is not present and current path is restricted

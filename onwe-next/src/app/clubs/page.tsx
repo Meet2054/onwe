@@ -1,14 +1,15 @@
-// import ClubChatAnnouncement from '@/components/ClubChatAnnouncement'
-import React from "react";
+import ClubCarousel from "@/components/clubs/ClubCarousel";
+import PopularClubs from "@/components/clubs/PopularClubs";
 
-const page = () => {
+export default function Component() {
   return (
-    <div className="h-screen w-grow">
-      <h1 className="h-full flex items-center justify-center">
-        Click on the clubs to view them.
-      </h1>
+    <div className="h-screen p-5">
+      <ClubCarousel />
+      <PopularClubs />
+      <PopularClubs />
+      <PopularClubs />
+      <PopularClubs />
+      <PopularClubs />
     </div>
   );
-};
-
-export default page;
+}

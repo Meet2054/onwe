@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useMemo } from "react";
-import { useUser } from "@clerk/nextjs";
+
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
@@ -16,7 +16,6 @@ import axios from "axios";
 const PAGE_SIZE = 10;
 
 const Page = () => {
-  const { isSignedIn } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
   const { getToken } = useSignIn();
@@ -35,7 +34,7 @@ const Page = () => {
         );
         return data;
       } catch (err) {
-        throw new Error(err.response?.data?.message || err.message);
+        throw new Error(err?.response?.data?.message || err?.message);
       }
     },
     [getToken]
@@ -83,10 +82,6 @@ const Page = () => {
     },
     [isValidating, setSize]
   );
-
-  if (!isSignedIn) {
-    return <div>Please sign in to view posts.</div>;
-  }
 
   if (error) {
     return (

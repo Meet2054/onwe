@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -8,7 +8,36 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { base64Prefix } from "@/lib/utils";
+import { checkVidImg } from "@/lib/utils";
+// import { base64Prefix } from "@/lib/utils";
+
+const YourComponent = ({ image }: { image: string }) => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  const handleVideoClick = (event: React.MouseEvent<HTMLVideoElement>) => {
+    const videoElement = event.currentTarget;
+    setIsMuted(!isMuted); // Toggle mute
+    videoElement.muted = !isMuted; // Sync with state
+  };
+
+  return checkVidImg(image) === 0 ? (
+    <Image
+      src={image}
+      layout="fill"
+      objectFit="contain"
+      alt="Image"
+      className="object-contain"
+    />
+  ) : (
+    <video
+      src={image}
+      muted={isMuted}
+      autoPlay
+      onClick={handleVideoClick}
+      className="object-contain w-full h-full"
+    />
+  );
+};
 
 const PostImage = ({
   className = "",
@@ -17,27 +46,27 @@ const PostImage = ({
   className?: string;
   images?: string[];
 }) => {
-  const images1 = ["/img.svg", "/img.svg", "/img.svg", "/img.svg", "/img.svg"];
-  const base64toBlob = (
-    base64Data: string,
-    contentType = "",
-    sliceSize = 512
-  ): Blob => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays: Uint8Array[] = [];
 
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
+  // const base64toBlob = (
+  //   base64Data: string,
+  //   contentType = "",
+  //   sliceSize = 512
+  // ): Blob => {
+  //   const byteCharacters = atob(base64Data);
+  //   const byteArrays: Uint8Array[] = [];
 
-    return new Blob(byteArrays, { type: contentType });
-  };
+  //   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+  //     const slice = byteCharacters.slice(offset, offset + sliceSize);
+  //     const byteNumbers = new Array(slice.length);
+  //     for (let i = 0; i < slice.length; i++) {
+  //       byteNumbers[i] = slice.charCodeAt(i);
+  //     }
+  //     const byteArray = new Uint8Array(byteNumbers);
+  //     byteArrays.push(byteArray);
+  //   }
+
+  //   return new Blob(byteArrays, { type: contentType });
+  // };
 
   return (
     // <div className={className}>
@@ -50,13 +79,7 @@ const PostImage = ({
 
           return (
             <CarouselItem key={index} className={className}>
-              <Image
-                src={`${base64Prefix}${image}`}
-                layout="fill"
-                objectFit="contain"
-                alt="Image"
-                className="object-contain"
-              />
+              <YourComponent image={image}/>
             </CarouselItem>
           );
         })}

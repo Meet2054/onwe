@@ -54,6 +54,15 @@ export const getData = async (
 
 export const base64Prefix = "data:image/png;base64,";
 
+export const checkVidImg = (imgUrl: string): number => {
+  if (imgUrl.includes("image")) {
+    return 0; // It's an image
+  } else if (imgUrl.includes("video")) {
+    return 1; // It's a video
+  }
+  return -1; // Invalid or unsupported URL format
+};
+
 export const extractHashTags = (text: string) => {
   const hashRegex = /#\w+/g;
   const hashTags = text.match(hashRegex);

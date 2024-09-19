@@ -80,8 +80,9 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const maxsize = 20*1024*1024
         const selectedFiles = Array.from(e.target.files ?? []).filter(
-            (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
+            (file) => (file.size <= maxsize) && (file.type.startsWith("image/") || file.type.startsWith("video/"))
         );
         setFiles((prevFiles) => {
             const newFiles = [...prevFiles, ...selectedFiles].slice(0, 5);

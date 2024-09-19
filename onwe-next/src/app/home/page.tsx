@@ -24,7 +24,6 @@ const Page = () => {
     async (url: string) => {
       try {
         const token =  getToken();
-        console.log(token)
         if (!token) throw new Error("No token found");
         return getData(
           url,

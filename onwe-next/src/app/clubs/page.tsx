@@ -9,7 +9,8 @@ export default function Component() {
   return (
     <div className="h-screen p-5">
       <ClubCarousel />
-        <PopularClubs />
+      <PopularClubs type={"/trending"} />
+      <PopularClubs type={"/clubs/all"} />
     </div>
   );
 }

@@ -15,16 +15,18 @@ export interface Club {
 }
 
 const fetcher = async (url: string) => {
-  const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url);
+  const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
+    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+  });
   return response.data;
 };
 
-const PopularClubs = () => {
-  const {
-    data: clubs,
-    error,
-    isLoading,
-  } = useSWR<Club[]>("/trending", fetcher);
+interface PopularClubsProps {
+  type: "/popular" | "/trending" | "/clubs/all";
+}
+
+const PopularClubs = ({ type }: PopularClubsProps) => {
+  const { data: clubs, error, isLoading } = useSWR<Club[]>(`${type}`, fetcher);
 
   if (!clubs || isLoading) {
     return (
@@ -43,6 +45,9 @@ const PopularClubs = () => {
         </div>
       </div>
     );
+  }
+  if (clubs) {
+    console.log(clubs);
   }
   return (
     <div className="p-2  mt-3 ">

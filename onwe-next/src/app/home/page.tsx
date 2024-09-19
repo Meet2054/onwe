@@ -10,12 +10,12 @@ import { setTimeline } from "@/lib/features/timeline/postSlice";
 import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
 import { useRouter } from "next/navigation";
+import { useSignIn } from "@/hooks/useSignIn";
+import { getData } from "@/lib/utils";
 
 const PAGE_SIZE = 10;
 
 const Page = () => {
-  const { getToken } = useAuth();
-  const { isSignedIn } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
   const { getToken } = useSignIn();
@@ -23,7 +23,7 @@ const Page = () => {
   const fetcher = useCallback(
     async (url: string) => {
       try {
-        const token = await getToken({ template: "test" });
+        const token =  getToken();
         console.log(token)
         if (!token) throw new Error("No token found");
         return getData(
@@ -82,10 +82,7 @@ const Page = () => {
     [isValidating, setSize]
   );
 
-  if (!isSignedIn) {
-    return <div>Please sign in to view posts.</div>;
-  }
-
+  
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">

@@ -10,7 +10,6 @@ import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
 import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
-import { useSignIn } from "@/hooks/useSignIn";
 
 
 const Page = () => {

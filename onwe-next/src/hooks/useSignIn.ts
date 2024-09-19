@@ -5,8 +5,8 @@ interface SignInParams {
   password: string;
 }
 
+// const [token,setToken] = useState<string | null>(null)
 export const useSignIn = () => {
-    // const [token,setToken] = useState<string | null>(null)
   const create = async ({ identity, password }: SignInParams) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
@@ -22,7 +22,6 @@ export const useSignIn = () => {
       }
 
       const data = await response.json();
-      console.log(response)
       return data;
     } catch (error) {
       throw error;
@@ -37,9 +36,10 @@ export const useSignIn = () => {
   const getToken = () => {
     return localStorage.getItem("onwetoken");
   };
-
+  
   const getUsername =  () => {
-    return localStorage.getItem("username");
+
+    return localStorage.getItem("onweusername");
   };
 
   return {

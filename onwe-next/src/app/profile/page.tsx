@@ -18,12 +18,13 @@ import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import { useSignIn } from "@/hooks/useSignIn";
 
 const fetcher = async (url: string, getToken: any) => {
+  
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/user/info`,
     {},
     {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${ getToken()}`,
       },
     }
   );

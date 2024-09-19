@@ -1,8 +1,8 @@
-import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { X } from 'lucide-react'; // Import the X icon from lucide-react
+import { useSignIn } from '@/hooks/useSignIn';
 
 interface InputFieldProps {
   label: string;
@@ -71,7 +71,7 @@ interface ChildComponentProps {
 }
 
 const Poll: React.FC<ChildComponentProps> = ({ done }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [title, setTitle] = useState("");
   const [optionContent, setOptionContent] = useState<string[]>(["", ""]);
   const router = useRouter();
@@ -93,7 +93,7 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "Content-Type": "application/json",
             "ngrok-skip-browser-warning": "69420",
           },

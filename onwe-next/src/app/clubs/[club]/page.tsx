@@ -26,7 +26,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await getToken();
+        const token =  getToken();
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`, {
           headers: {
             Authorization: `Bearer ${token}`,

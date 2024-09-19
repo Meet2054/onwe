@@ -200,6 +200,7 @@ import RenderCalendar from "@/components/calendar/RenderCalendar";
 import ActiveComponent from "@/components/events/ActiveComponent";
 import { Event } from "../../lib/types/event";
 import { Ban, LoaderCircle } from "lucide-react";
+import { useSignIn } from "@/hooks/useSignIn";
 
 // Fetcher function that includes token in headers
 const fetcher = async (url: string, token: string) => {
@@ -213,7 +214,7 @@ const fetcher = async (url: string, token: string) => {
 };
 
 const Page: React.FC = () => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [listview, setListView] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
@@ -224,7 +225,7 @@ const Page: React.FC = () => {
   // Fetch token and set it in state
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken = getToken();
       setToken(fetchedToken);
     };
     fetchToken();

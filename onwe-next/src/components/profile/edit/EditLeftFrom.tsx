@@ -1,9 +1,10 @@
 "use client";
 import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
+import { useSignIn } from "@/hooks/useSignIn";
 import { RootState } from "@/lib/store";
 
-import { useAuth, useUser } from "@clerk/nextjs";
+import {  useUser } from "@clerk/nextjs";
 import axios from "axios";
 import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -13,7 +14,7 @@ const EditLeftFrom = () => {
   const { user: clerkUser } = useUser();
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState<File | string>("");
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const { user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const EditLeftFrom = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
           },
         }
       );
@@ -55,7 +56,7 @@ const EditLeftFrom = () => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${await getToken()}`,
+          Authorization: `Bearer ${ getToken()}`,
         },
       }
     );

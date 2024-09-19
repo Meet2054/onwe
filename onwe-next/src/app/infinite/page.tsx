@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useCallback } from "react";
-import { useAuth } from "@clerk/nextjs";
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
@@ -10,16 +9,17 @@ import { setTimeline } from "@/lib/features/timeline/postSlice";
 import useSWRInfinite from "swr/infinite";
 import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const PAGE_SIZE = 10;
 
 const Page = () => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const dispatch = useDispatch();
 
   const fetcher = async (url: string) => {
     try {
-      const token = await getToken({ template: "test" });
+      const token =  getToken();
       if (!token) throw new Error("No token found");
       return getData(
         url,

@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import DialogBox from "../post_component/Dialog_component/DialogBox";
-import { useSignIn } from "@/hooks/useSignIn";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import useSWRInfinite from "swr/infinite";
 import PostsSkeleton from "@/components/post_component/PostSkeleton"; // Loading Skeleton for posts
 import { LoaderPinwheelIcon } from "lucide-react";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface Post {
   id: string;
@@ -41,7 +41,7 @@ const TopPosts: React.FC = () => {
   // Fetch the token
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken();
+      const fetchedToken =  getToken();
       setToken(fetchedToken);
     };
     fetchToken();

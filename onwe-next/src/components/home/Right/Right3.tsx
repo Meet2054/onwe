@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import useSWR from "swr";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import ListViewCard from "@/components/events/ListViewCard";
 import { EventCardHome } from '@/types/type';
 import ListViewHome from '@/components/events/ListViewHome';
+import { useSignIn } from '@/hooks/useSignIn';
 
 const fetcher = async (url: string, token: string) => {
   const response = await axios.get(url, {
@@ -20,12 +20,12 @@ const Right3 = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<EventCardHome[]>([]);
     console.log(upcomingEvents,"raaaaaaaaaa");
     
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchToken = async () => {
-          const fetchedToken = await getToken({ template: "test" });
+          const fetchedToken =  getToken();
           setToken(fetchedToken);
         };
         fetchToken();

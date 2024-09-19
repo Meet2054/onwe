@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
 import { Event } from "../../lib/types/event";
+import { useSignIn } from "@/hooks/useSignIn";
 
 
 
@@ -27,13 +27,13 @@ function RenderCalendar({
   scrollToEvent?: (eventId: number) => void;
 }) {
   // const events = useSelector((state: RootState) => state.events.events);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [events, setEvents] = useState<Event[]>([]);  useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/events`, {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "ngrok-skip-browser-warning": "69420"
           },
         });

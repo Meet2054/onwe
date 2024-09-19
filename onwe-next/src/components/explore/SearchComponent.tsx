@@ -6,7 +6,7 @@ import ProfileCard from "@/components/explore/ProfileCard"; // Ensure this is th
 import ClubCard from "@/components/clubs/ClubCard"; // Ensure this is the correct path
 import debounce from "lodash.debounce";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const SearchComponent = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const SearchComponent = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const handleClose = () => {
     dispatch(setSearch(false));
@@ -32,7 +32,7 @@ const SearchComponent = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/explore/${tab}/${query}`,
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "ngrok-skip-browser-warning": "69420",
           },
         }

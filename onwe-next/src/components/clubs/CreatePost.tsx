@@ -2,8 +2,8 @@
 import React, { useState, ChangeEvent, DragEvent } from "react";
 import axios from "axios";
 import { CircleX, LoaderCircle, Upload } from "lucide-react";
-import { useAuth } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface CreatePostProps {
   onClose: () => void;
@@ -21,7 +21,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const [files, setFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
           },
         }
       );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Club from "./Club"; // Assuming Club component is in the same directory
-import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 export interface TopClubProp {
   id: string;
@@ -9,6 +8,7 @@ export interface TopClubProp {
   coverImage: string;
 }
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const fetcher = async (url: string, token: string) => {
   const response = await axios.get(url, {
@@ -42,7 +42,7 @@ const TopClubs: React.FC = () => {
   //   },
   // ];
   const [clubs, setClubs] = useState<TopClubProp[]>();
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
 
   // useEffect(() => {
@@ -67,7 +67,7 @@ const TopClubs: React.FC = () => {
   // }, [getToken]);
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken = getToken();
       setToken(fetchedToken);
     };
     fetchToken();

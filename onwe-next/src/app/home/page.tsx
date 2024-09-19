@@ -11,7 +11,7 @@ import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
 import { useRouter } from "next/navigation";
 import { useSignIn } from "@/hooks/useSignIn";
-import axios from "axios";
+import { getData } from "@/lib/utils";
 
 const PAGE_SIZE = 10;
 
@@ -22,15 +22,14 @@ const Page = () => {
 
   const fetcher = useCallback(
     async (url: string) => {
-      const token = getToken();
-      if (!token) throw new Error("No token found");
-
       try {
-        const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}${url}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+        const token =  getToken();
+        console.log(token)
+        if (!token) throw new Error("No token found");
+        return getData(
+          url,
+          { headers: { Authorization: `Bearer ${token}` } },
+          "GET"
         );
         return data;
       } catch (err) {
@@ -83,6 +82,7 @@ const Page = () => {
     [isValidating, setSize]
   );
 
+  
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">

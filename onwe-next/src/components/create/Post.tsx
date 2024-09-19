@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { extractHashTags } from '@/lib/utils';
+import { useSignIn } from '@/hooks/useSignIn';
 
 interface ImagePreviewProps {
     images: File[];
@@ -134,7 +134,7 @@ interface ChildComponentProps {
   
   const Post: React.FC<ChildComponentProps> = ({ done }) => {
     const router = useRouter()
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState("");
@@ -177,7 +177,7 @@ interface ChildComponentProps {
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${await getToken()}`,
+                        Authorization: `Bearer ${ getToken()}`,
                     },
                 }
             );

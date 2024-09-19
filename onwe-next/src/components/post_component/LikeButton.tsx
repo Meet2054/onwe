@@ -24,7 +24,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
       { postId: post.id },
       {
         headers: {
-          Authorization: `Bearer ${await getToken()}`,
+          Authorization: `Bearer ${ getToken()}`,
           "Content-Type": "application/json",
           Accept: "*/*",
           "ngrok-skip-browser-warning": "69420",
@@ -56,7 +56,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`,
         {
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",

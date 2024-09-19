@@ -6,12 +6,13 @@ import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import RenderLinks from "@/components/profile/RenderLinks";
 import { setUser } from "@/lib/features/user/userSlice";
 import { UserProfile } from "@/types/type";
-import { useAuth, useSession } from "@clerk/nextjs";
+import {  useSession } from "@clerk/nextjs";
 import axios from "axios";
 import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { string } from "zod";
 import onwevideo from '../../../components/profile/vid.mp4'
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface Params {
   username: string;
@@ -24,19 +25,14 @@ interface PageProps {
 const Page = ({ params }: PageProps) => {
   const { username } = params;
   const [uname, setUname] = useState<null | string>(null);
-  const { session } = useSession();
-  useEffect(() => {
-    if (session) {
-      setUname(session.user.username);
-    }
-  }, [session]);
+  
 
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
-  const { getToken } = useAuth();
+  const { getToken, getUsername } = useSignIn();
   const fetchData = async () => {
-    const token = await getToken();
-  
+    const token =  getToken();
+    setUname(getUsername)
     try {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/user/${username}`,

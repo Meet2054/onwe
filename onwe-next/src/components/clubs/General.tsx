@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { PostsProps } from "@/types/type";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
-import { useSignIn } from "@/hooks/useSignIn";
 import axios from "axios";
 import { NewPost } from "./NewPost";
 import PostImage from "../post_component/PostImage";
 import PostAvatar from "../post_component/PostAvatar";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const General = ({ club }: { club: string }) => {
   const [createActive, setCreateActive] = useState(false);
@@ -24,7 +24,7 @@ const General = ({ club }: { club: string }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const token = await getToken();
+        const token =  getToken();
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/general`,
           {

@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
+import {  useUser } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
 import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Link } from "next-view-transitions";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const SingleComment = ({ data }: { data: Comment }) => {
   const [replyInputOpen, setReplyInputOpen] = useState(false);
@@ -18,7 +19,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const { user } = useUser();
 
   const repliesRef = useRef<HTMLDivElement>(null);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [timeAgo, setTimeAgo] = useState("");
 
   const handleReplyClick = () => {
@@ -49,7 +50,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",

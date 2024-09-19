@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import rect from "@/../public/images/rightsideImages/Rectangle.png"
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import Right1Club from './Right1Club';
 import { ClubCardHome } from '@/types/type';
+import { useSignIn } from '@/hooks/useSignIn';
 const fetcher = async (url: string, token: string) => {
     const response = await axios.get(url, {
       headers: {
@@ -20,12 +20,12 @@ const Right1 = () => {
     const [trendingClubs, setTrendingClubs] = useState<ClubCardHome[]>([]);
     console.log(trendingClubs);
     
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchToken = async () => {
-          const fetchedToken = await getToken({ template: "test" });
+          const fetchedToken =  getToken();
           setToken(fetchedToken);
         };
         fetchToken();

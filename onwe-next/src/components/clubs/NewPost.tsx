@@ -4,8 +4,8 @@ import plus from '../SideBar/sideBarImages/create.svg'
 import create from '../SideBar/sideBarImages/create.svg'
 import Image from "next/image";
 import { CircleX, Plus } from "lucide-react";
-import { useSignIn } from "@/hooks/useSignIn";
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface ImagePreviewProps {
     images: string[];
@@ -120,7 +120,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${await getToken()}`,
+                        Authorization: `Bearer ${ getToken()}`,
                     },
                 }
             );

@@ -1,9 +1,9 @@
 import React, { useState, FormEvent, useEffect, useCallback } from "react";
-import { useAuth } from "@clerk/nextjs";
 import ProfileCard from "./explore/ProfileCard";
 import Hashtag from "./search/HashTag";
 import debounce from "lodash.debounce";
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface SearchCProps {
   setOpenSearch: (value: boolean) => void; // Define prop for closing the search bar
@@ -15,7 +15,7 @@ const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("users");
   const [searchText, setSearchText] = useState("");
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const fetchData = async (query: string, tab: string) => {
     setLoading(true);
@@ -29,7 +29,7 @@ const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
 
       const response = await axios.get(apiUrl, {
         headers: {
-          Authorization: `Bearer ${await getToken()}`,
+          Authorization: `Bearer ${ getToken()}`,
         },
       });
       setResults(response.data);

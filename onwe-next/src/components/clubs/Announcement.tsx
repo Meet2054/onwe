@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import CreatePost from "./CreatePost";
 import { PostsProps } from "@/types/type";
 import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
+import { useSignIn } from "@/hooks/useSignIn";
 
 // const Announcement = ({ posts, club }: { posts: PostsProps[], club: string, isAdmin: boolean }) => {
 const Announcement = ({ club }: { club: string }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [createActive, setCreateActive] = useState(false);
   const [isAdmin, setisAdmin] = useState(false);
   const [posts, setPosts] = useState<PostsProps[]>([]);
@@ -36,7 +36,7 @@ const Announcement = ({ club }: { club: string }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await getToken();
+        const token =getToken();
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/announcement`,
           {

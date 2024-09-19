@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
-import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import DialogBox from '@/components/post_component/Dialog_component/DialogBox';
+import { useSignIn } from '@/hooks/useSignIn';
 
 
 interface Post {
@@ -29,12 +29,12 @@ const Page = () => {
     const [result,setresults] = useState<Post[]>();
     const query = path.split('/').pop();
     const [token, setToken] = useState<string | null>(null);
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchToken = async () => {
-          const fetchedToken = await getToken({ template: "test" });
+          const fetchedToken =  getToken();
           setToken(fetchedToken);
         };
         fetchToken();

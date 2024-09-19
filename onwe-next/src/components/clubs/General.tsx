@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { PostsProps } from "@/types/type";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
-import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useSession } from "@clerk/clerk-react";
 import { NewPost } from "./NewPost";
 import PostImage from "../post_component/PostImage";
 import PostAvatar from "../post_component/PostAvatar";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const General = ({ club }: { club: string }) => {
   const [createActive, setCreateActive] = useState(false);
   const [posts, setPosts] = useState<PostsProps[]>([]);
   const dispatch = useDispatch();
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const { session } = useSession();
 
   // Define a ref object to store refs for each post
@@ -26,7 +26,7 @@ const General = ({ club }: { club: string }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const token = await getToken();
+        const token =  getToken();
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/clubs/${club}/general`,
           {

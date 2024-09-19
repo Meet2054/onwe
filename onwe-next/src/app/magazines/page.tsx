@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import MagazinesComponent from "@/components/magazines/MagazinesComponent";
 import MagazineDetails from "@/components/magazines/MagazineDetails";
 import { useDispatch } from "react-redux";
 import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
 import Link from "next/link"; // Import Link from next/link
+import { useSignIn } from "@/hooks/useSignIn";
 
 // Sample magazine data type
 type Magazine = {
@@ -35,13 +35,13 @@ const Page: React.FC = () => {
   const [selectedMagazine, setSelectedMagazine] = useState<Magazine | null>(
     null
   );
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const dispatch = useDispatch();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken =  getToken();
       setToken(fetchedToken);
       console.log(fetchedToken);
     };

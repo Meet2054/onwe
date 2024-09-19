@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface InputFieldProps {
   label: string;
@@ -103,13 +103,13 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
   const [coverPhoto, setCoverPhoto] = useState<string>("");
   const [pdfFile, setPdfFile] = useState<string>("");
 
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const fetchedToken = await getToken({ template: "test" });
+        const fetchedToken =  getToken();
         if (typeof fetchedToken === "string") {
           setToken(fetchedToken);
         } else {

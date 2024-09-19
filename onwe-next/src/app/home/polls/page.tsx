@@ -4,22 +4,22 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
 import RenderPoll from "./RenderPoll";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import useSWRInfinite from "swr/infinite";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const PAGE_SIZE = 10;
 
 const Page = () => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [tempData, setData] = useState([]);
 
   // Fetcher function using axios
   const fetcher = useCallback(
     async (url: string) => {
       try {
-        const token = await getToken(); // Get the token outside of axios request
+        const token =getToken(); // Get the token outside of axios request
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,

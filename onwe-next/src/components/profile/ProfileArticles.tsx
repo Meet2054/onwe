@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
-import { useAuth } from '@clerk/nextjs';
 import { useDispatch } from 'react-redux';
 import ArticleView from '@/components/articles/ArticlesView';
 import ArticleCard from '@/components/articles/ArticlesCard';
 import CreateArticle from '@/components/articles/CreateArticle';
 import { Skeleton } from '../ui/skeleton';
+import { useSignIn } from '@/hooks/useSignIn';
 
 interface ArticleCardProps {
   owner: string;
@@ -32,7 +32,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
 
     const fetchTokenAndArticles = async () => {
       try {
-        const fetchedToken = await getToken({ template: 'test' });
+        const fetchedToken =  getToken();
         if (isMounted) {
           setToken(fetchedToken);
           

@@ -8,12 +8,12 @@ import CopyButton from "../CopyButton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import { Comment, PostsProps } from "@/types/type";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   const { post: storedPost } = useSelector((state: RootState) => state.post);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [comments, setComments] = useState<Comment[]>([]);
 
   const getComments = async () => {
@@ -26,7 +26,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
         }/comments`,
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",

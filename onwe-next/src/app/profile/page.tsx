@@ -5,7 +5,6 @@ import ProfilePost from "@/components/profile/ProfilePost";
 import { setUser } from "@/lib/features/user/userSlice";
 
 import { UserProfile } from "@/types/type";
-import { useAuth } from "@clerk/nextjs";
 
 import axios from "axios";
 
@@ -17,14 +16,16 @@ import onwevideo from '../../components/profile/vid.mp4'
 import { Instagram } from "lucide-react";
 import RenderLinks from "@/components/profile/RenderLinks";
 import ProfileRightSection from "@/components/profile/ProfileRightSection";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const fetcher = async (url: string, getToken: any) => {
+  
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/user/info`,
     {},
     {
       headers: {
-        Authorization: `Bearer ${await getToken()}`,
+        Authorization: `Bearer ${ getToken()}`,
       },
     }
   );
@@ -33,7 +34,7 @@ const fetcher = async (url: string, getToken: any) => {
 const Page = () => {
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const { data: swrData } = useSWR(
     ["/user/info", getToken],

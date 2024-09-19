@@ -4,19 +4,19 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
 import RenderPoll from "../../app/home/polls/RenderPoll";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { useSignIn } from "@/hooks/useSignIn";
 
 // Add `username` prop to the component
 const ProfilePolls = ({ username }: { username: string | null }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [tempData, setData] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await getToken();
+        const token =  getToken();
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/polls`, {
           headers: {
             Authorization: `Bearer ${token}`,

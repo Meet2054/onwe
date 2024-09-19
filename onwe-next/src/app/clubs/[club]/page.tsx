@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import Join from "@/components/clubs/Join";
@@ -10,13 +9,14 @@ import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
 import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
+import { useSignIn } from "@/hooks/useSignIn";
 
 
 const Page = () => {
   const params = useParams();
   const club = Array.isArray(params.club) ? params.club[0] : params.club;
   const tab = useSelector((state: RootState) => state.tab.tab);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   
   // const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +26,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await getToken();
+        const token =  getToken();
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`, {
           headers: {
             Authorization: `Bearer ${token}`,

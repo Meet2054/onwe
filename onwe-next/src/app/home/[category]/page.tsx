@@ -7,6 +7,7 @@ import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { PostsProps } from "@/types/type";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface paramsProps {
   params: {
@@ -15,7 +16,7 @@ interface paramsProps {
 }
 
 const Page: React.FC<paramsProps> = ({ params }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState("");
   const [error, setError] = useState<any>(null);
   const [responseData, setResponseData] = useState<PostsProps[] | null>(null);
@@ -24,7 +25,7 @@ const Page: React.FC<paramsProps> = ({ params }) => {
   useEffect(() => {
     const fetchTokenAndData = async () => {
       try {
-        const fetchedToken = await getToken({ template: "test" });
+        const fetchedToken =  getToken();
         // console.log(fetchedToken);
 
         setToken(fetchedToken!);

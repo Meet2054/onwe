@@ -1,5 +1,5 @@
+import { useSignIn } from '@/hooks/useSignIn';
 import { extractHashTags } from '@/lib/utils';
-import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -60,7 +60,7 @@ interface InputFieldProps {
   }
   
   const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
     const [description, setDescription] = useState("");
     const [message, setMessage] = useState("")
     const router = useRouter()
@@ -86,7 +86,7 @@ interface InputFieldProps {
             {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${await getToken()}`,
+                    Authorization: `Bearer ${ getToken()}`,
                 },
             }
         );

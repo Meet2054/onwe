@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import ClubCard from "../clubs/ClubCard";
 import { ClubCardProps } from "@/types/type";
 import { ChevronLeft, ArrowRight, Loader2 } from "lucide-react";
 import { debounce } from "lodash";
+import { useSignIn } from "@/hooks/useSignIn";
 
 export interface searchClubsProps extends ClubCardProps {
   isUserMember: boolean;
@@ -31,7 +31,7 @@ export default function Component({
   const [myClubs, setMyClubs] = useState<ClubCardProps[]>([]);
   const [searchClubs, setSearchClubs] = useState<searchClubsProps[]>([]);
   const [searchInput, setSearchInput] = useState("");
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
   const [showSearchArea, setShowSearchArea] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -39,7 +39,7 @@ export default function Component({
 
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken =  getToken();
       setToken(fetchedToken);
     };
     fetchToken();
@@ -56,7 +56,7 @@ export default function Component({
         `${process.env.NEXT_PUBLIC_API_URL}/explore/clubs/${query}`,
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
           },
         }
       );

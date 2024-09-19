@@ -2,16 +2,17 @@
 import React, { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowUp } from "lucide-react";
-import { useAuth, useUser } from "@clerk/nextjs";
+import {  useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import { useSignIn } from "@/hooks/useSignIn";
 
 const CommentInput = ({ setComments }) => {
   const { user } = useUser();
   const [comment, setComment] = useState("");
   const { post } = useSelector((state: RootState) => state.post);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const handleClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ const CommentInput = ({ setComments }) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${await getToken()}`,
+          Authorization: `Bearer ${ getToken()}`,
           "Content-Type": "application/json",
           Accept: "*/*",
           "ngrok-skip-browser-warning": "69420",

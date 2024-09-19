@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useSignIn } from "@/hooks/useSignIn";
 import { RootState } from "@/lib/store";
 import { UserProfile } from "@/types/type";
-import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ const EditFormSchema = z.object({
 type EditFormProps = z.infer<typeof EditFormSchema>;
 
 const EditRightForm = () => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const { user } = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -62,7 +62,7 @@ const EditRightForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
           },
         }
       );

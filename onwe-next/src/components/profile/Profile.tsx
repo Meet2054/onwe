@@ -6,10 +6,10 @@ import Link from "next/link";
 import { UserProfile } from "@/types/type";
 import RenderLinks from "./RenderLinks";
 import { CircleDashed, LoaderCircle, LucidePencilLine } from "lucide-react";
-import { getData, getGlobalToken } from "@/lib/utils";
-import { useAuth, useSession, useUser } from "@clerk/nextjs";
+import {  useSession } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface followProps {
   followers: number;
@@ -23,17 +23,16 @@ const Profile = ({
   userInfo: UserProfile;
   showEdit?: boolean;
 }) => {
-  const { getToken } = useAuth();
+  const { getToken, getUsername } = useSignIn();
   const [uname, setUname] = useState<null | string>(null);
   const [followLoading, setFollowLoading] = useState<boolean>(false);
 
-  const { session } = useSession();
-
   useEffect(() => {
-    if (session) {
-      setUname(session.user.username);
-    }
-  }, [session?.user.username]);
+    setUname(getUsername())
+  }, [getUsername])
+  
+
+
   const [followData, setFollowData] = useState<followProps | null>(null);
   const [status, setStatus] = useState<boolean>(false);
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -47,7 +46,7 @@ const Profile = ({
         {  followUsername: userInfo?.user?.username },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",
@@ -70,7 +69,7 @@ const Profile = ({
   const handleUnfollow = async () => {
     setFollowLoading(true);
     await delay(750);
-    const token = await getToken();
+    const token =  getToken();
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/unfollow`,
@@ -99,7 +98,7 @@ const Profile = ({
     }
   };
   const handleCheck = async () => {
-    const token = await getToken();
+    const token =  getToken();
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/checkfollow`,

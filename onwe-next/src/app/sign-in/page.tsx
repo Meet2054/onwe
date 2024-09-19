@@ -7,7 +7,6 @@ import {useSignIn} from "@/hooks/useSignIn";
 import SignInForm from "@/components/SignInForm";
 import { useDispatch } from 'react-redux';
 import { setToken } from '@/lib/features/auth/authSlice';
-import { useAuth } from "@clerk/nextjs";
 
 
 const Signin = () => {
@@ -37,7 +36,7 @@ const Signin = () => {
       }
     } catch (err: any) {
       console.log(JSON.stringify(err, null, 2));
-      setError(err.errors[0].message);
+      setError(err.message);
     }
   };
 

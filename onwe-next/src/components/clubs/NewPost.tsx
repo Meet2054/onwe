@@ -4,8 +4,8 @@ import plus from '../SideBar/sideBarImages/create.svg'
 import create from '../SideBar/sideBarImages/create.svg'
 import Image from "next/image";
 import { CircleX, Plus } from "lucide-react";
-import { useAuth } from '@clerk/nextjs';
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface ImagePreviewProps {
     images: string[];
@@ -66,7 +66,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
     const [files, setFiles] = useState<File[]>([]);
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const { getToken } = useAuth();
+    const { getToken } = useSignIn();
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -120,7 +120,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${await getToken()}`,
+                        Authorization: `Bearer ${ getToken()}`,
                     },
                 }
             );

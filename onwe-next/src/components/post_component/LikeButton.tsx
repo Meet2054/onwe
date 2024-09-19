@@ -1,9 +1,9 @@
 "use client";
+import { useSignIn } from "@/hooks/useSignIn";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { RootState } from "@/lib/store";
 import { PostsProps } from "@/types/type";
 
-import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { Heart } from "lucide-react";
 import React, { useEffect, useState, useRef } from "react";
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 const LikeButton = ({ post }: { post: PostsProps }) => {
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
 
   const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
       { postId: post.id },
       {
         headers: {
-          Authorization: `Bearer ${await getToken()}`,
+          Authorization: `Bearer ${ getToken()}`,
           "Content-Type": "application/json",
           Accept: "*/*",
           "ngrok-skip-browser-warning": "69420",
@@ -57,7 +57,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`,
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${ getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",

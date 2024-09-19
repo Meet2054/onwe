@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface JoinProps {
   clubName: string;
 }
 
 const Join: React.FC<JoinProps> = ({ clubName }) => {
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [message, setMessage] = useState<string>("");
   const router = useRouter()
 
   const handleJoinClub = async () => {
     try {
-      const token = await getToken();
+      const token =  getToken();
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/clubs/join`, 
         { clubName },
         {

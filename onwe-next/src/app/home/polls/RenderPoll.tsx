@@ -3,9 +3,9 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import VoteBar from "./VoteBar";
 import { Button } from "@/components/ui/button";
 import { getData } from "@/lib/utils";
-import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import axios from "axios";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface PollOption {
   id: number;
@@ -26,7 +26,7 @@ const Page = ({ poll }: { poll: PollProps }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [pollOptions, setPollOptions] = useState(poll.PollOptions); // Keep track of poll options state
   const [voted, setVoted] = useState(poll.userHasVoted);
   const [totalVotes, setTotalVotes] = useState(
@@ -41,7 +41,7 @@ const Page = ({ poll }: { poll: PollProps }) => {
     e.preventDefault();
     setIsTransitioning(true);
     try {
-      const token = await getToken();
+      const token =  getToken();
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/polls/${poll.id}/vote`,
         {

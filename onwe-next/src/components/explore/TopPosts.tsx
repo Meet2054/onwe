@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import DialogBox from "../post_component/Dialog_component/DialogBox";
-import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import useSWRInfinite from "swr/infinite";
 import PostsSkeleton from "@/components/post_component/PostSkeleton"; // Loading Skeleton for posts
 import { LoaderPinwheelIcon } from "lucide-react";
+import { useSignIn } from "@/hooks/useSignIn";
 
 interface Post {
   id: string;
@@ -29,7 +29,7 @@ const fetcher = async (url: string, token: string) => {
 
 const TopPosts: React.FC = () => {
   const dispatch = useDispatch();
-  const { getToken } = useAuth();
+  const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true); // Track if there are more posts to load
   const [allPosts, setAllPosts] = useState<Post[]>([]); // New state for all posts
@@ -41,7 +41,7 @@ const TopPosts: React.FC = () => {
   // Fetch the token
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken = await getToken({ template: "test" });
+      const fetchedToken =  getToken();
       setToken(fetchedToken);
     };
     fetchToken();

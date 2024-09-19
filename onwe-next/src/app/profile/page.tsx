@@ -12,8 +12,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useSWR from "swr";
 
-import onwevideo from '../../components/profile/vid.mp4'
-import { Instagram } from "lucide-react";
+import onwevideo from "../../components/profile/vid.mp4";
 import RenderLinks from "@/components/profile/RenderLinks";
 import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import { useSignIn } from "@/hooks/useSignIn";
@@ -81,7 +80,7 @@ const Page = () => {
   // }, []);
 
   return (
-    <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0 " >
+    <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0 ">
       <div>
         <div className="relative w-full h-64 bg-white">
           {/* Cover Image Section */}
@@ -91,11 +90,10 @@ const Page = () => {
               alt="Cover"
               className="w-full h-full object-cover rounded-lg"
             /> */}
-            
+
             <video className="absolute h-full w-full" loop autoPlay muted>
               <source src={onwevideo} type="video/mp4" />
             </video>
-            
           </div>
 
           {/* Profile Picture */}
@@ -108,11 +106,11 @@ const Page = () => {
           </div>
 
           {/* Social Icons */}
-      <div className="absolute bottom-8 right-8 flex space-x-4 border p-2 bg-gray-500 rounded-lg ">
-      {userInfo?.user?.links.map((link, index) => (
-          <RenderLinks key={index} link={link} />
-        ))}
-    </div>
+          <div className="absolute bottom-8 right-8 flex space-x-4 border p-2 bg-gray-500 rounded-lg ">
+            {userInfo?.user?.links.map((link, index) => (
+              <RenderLinks key={index} link={link} />
+            ))}
+          </div>
         </div>
       </div>
       {/* <div className="bg-white w-full h-[200px] ">
@@ -143,7 +141,7 @@ const Page = () => {
             </div>
             <div className="w-full p-2  bg-white rounded-lg h-full">
               <Suspense fallback={<div>loading ...</div>}>
-               {/* <ProfilePost posts={userInfo?.posts!} /> */}
+                {/* <ProfilePost posts={userInfo?.posts!} /> */}
                 <ProfileRightSection posts={userInfo?.posts!} />
               </Suspense>
             </div>

@@ -13,10 +13,9 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
   const [isClicked, setIsClicked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const { getToken } = useSignIn();
-
   const { timeline } = useSelector((state: RootState) => state.timeline);
   const dispatch = useDispatch();
-  
+
   const likeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null); // Timeout reference
 
   const handleLike = async () => {
@@ -74,10 +73,7 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
 
   return (
     <div className="flex justify-center items-center gap-2 ">
-      <div
-        className="flex justify-center"
-        onClick={handleClick}
-      >
+      <div className="flex justify-center" onClick={handleClick}>
         <Heart
           strokeWidth={isClicked ? 0 : 1.5}
           fillOpacity={0.8}

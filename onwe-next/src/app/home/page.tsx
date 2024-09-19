@@ -1,45 +1,47 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useMemo } from "react";
+
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { setTimeline } from "@/lib/features/timeline/postSlice";
-import { getData } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import useSWRInfinite from "swr/infinite";
 import { useRouter } from "next/navigation";
-import { useSignIn } from "@/hooks/useSignIn";
 
 const PAGE_SIZE = 10;
 
 const Page = () => {
-  const { getToken } = useSignIn();
+  const { getToken } = useAuth();
+  const { isSignedIn } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
+  const { getToken } = useSignIn();
 
   const fetcher = useCallback(
     async (url: string) => {
       try {
-        const token =  getToken();
-        
+        const token = await getToken({ template: "test" });
+        console.log(token)
         if (!token) throw new Error("No token found");
         return getData(
           url,
           { headers: { Authorization: `Bearer ${token}` } },
           "GET"
         );
+        return data;
       } catch (err) {
-        throw err;
+        throw new Error(err?.response?.data?.message || err?.message);
       }
     },
     [getToken]
   );
-  
+
   const getKey = useCallback(
     (pageIndex: number, previousPageData: PostsProps[] | null) => {
-      if (previousPageData && !previousPageData.length) return null; // reached the end
+      if (previousPageData && !previousPageData.length) return null; // Reached the end
       return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
     },
     []
@@ -80,9 +82,9 @@ const Page = () => {
     [isValidating, setSize]
   );
 
-  // if (!isSignedIn) {
-  //   return <div>Please sign in to view posts.</div>;
-  // }
+  if (!isSignedIn) {
+    return <div>Please sign in to view posts.</div>;
+  }
 
   if (error) {
     return (

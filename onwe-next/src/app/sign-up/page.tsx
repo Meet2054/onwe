@@ -40,7 +40,7 @@ const Signup = () => {
     } catch (err: any) {
       console.error("Sign up error:", err);
       setError(
-        err.errors[0]?.message || "An unexpected error occurred. Please try again."
+         "An unexpected error occurred. Please try again."
       );
     }
   };

@@ -34,14 +34,12 @@ const Signin = () => {
         password,
       });
       if (result.status === "complete") {
-        console.log(result);
         await setActive({session: result.createdSessionId});
         getToken({ template: "test" }).then((token) => {
           dispatch(setToken(token!));
         });
         router.push("/home");
       } else {
-        console.log(result);
       }
     } catch (err: any) {
       console.log(JSON.stringify(err, null, 2));

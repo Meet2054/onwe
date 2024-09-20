@@ -212,7 +212,6 @@ const CarouselDots = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }) => {
   const { selectedIndex, scrollTo, api } = useCarousel();
-  console.log(selectedIndex);
   return (
     <div
       className={cn(

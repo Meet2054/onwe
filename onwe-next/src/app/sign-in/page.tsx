@@ -28,11 +28,9 @@ const Signin = () => {
         password,
       });
       if (result.status === "complete") {
-        console.log(result);
         await setActive({usertoken: result.token, username:result.username});
         router.push("/home");
       } else {
-        console.log(result);
       }
     } catch (err: any) {
       console.log(JSON.stringify(err, null, 2));

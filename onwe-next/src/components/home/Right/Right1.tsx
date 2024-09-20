@@ -18,7 +18,6 @@ const fetcher = async (url: string, token: string) => {
 
 const Right1 = () => {
     const [trendingClubs, setTrendingClubs] = useState<ClubCardHome[]>([]);
-    console.log(trendingClubs);
     
     const { getToken } = useSignIn();
     const [token, setToken] = useState<string | null>(null);

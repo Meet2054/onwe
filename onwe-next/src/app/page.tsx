@@ -49,7 +49,7 @@ export default function Home() {
               router.push('/sign-in')
             }}
             className="px-3 py-2 mb-6 text-xl font-light text-white hover:text-blue-900 hover:bg-white bg-slate-700 rounded-md"
-            >Click</div>}
+            >Sign-out</div>}
             </>
         )}
           </div>

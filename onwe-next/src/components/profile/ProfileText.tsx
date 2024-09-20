@@ -117,7 +117,6 @@ const ProfileText = ({ posts }: { posts: PostsProps[] }) => {
                   >
                     <AlertDialog
                       onOpenChange={() => {
-                        console.log("open change");
                       }}
                     >
                       <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">

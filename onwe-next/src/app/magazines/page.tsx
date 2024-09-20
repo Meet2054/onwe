@@ -43,7 +43,6 @@ const Page: React.FC = () => {
     const fetchToken = async () => {
       const fetchedToken =  getToken();
       setToken(fetchedToken);
-      console.log(fetchedToken);
     };
     fetchToken();
   }, [getToken]);

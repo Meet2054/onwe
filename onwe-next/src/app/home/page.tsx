@@ -25,14 +25,14 @@ const Page = () => {
       try {
         const token =  getToken();
         if (!token) throw new Error("No token found");
-        return getData(
+        const data =  await getData(
           url,
           { headers: { Authorization: `Bearer ${token}` } },
           "GET"
         );
         return data;
       } catch (err) {
-        throw new Error(err?.response?.data?.message || err?.message);
+        console.log(error);
       }
     },
     [getToken]

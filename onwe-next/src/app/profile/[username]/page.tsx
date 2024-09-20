@@ -42,7 +42,6 @@ const Page = ({ params }: PageProps) => {
         }
       );
       setUserInfo(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log("Error in fetching user data:", error);
     }

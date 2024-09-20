@@ -78,7 +78,6 @@ const CreatePost: React.FC<CreatePostProps> = ({
         }
       );
 
-      console.log("Post successful:", response.data);
 
       setDescription("");
       setTags("");

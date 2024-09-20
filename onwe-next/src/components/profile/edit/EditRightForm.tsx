@@ -53,7 +53,6 @@ const EditRightForm = () => {
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     setIsSaving(true);
     const newData = { ...data, links: linksArr };
-    console.log(newData);
 
     try {
       const res = await axios.patch(

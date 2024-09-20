@@ -38,7 +38,6 @@ const SearchComponent = () => {
         }
       );
       setResults(response.data);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

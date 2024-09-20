@@ -99,7 +99,6 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
           },
         }
       );
-      console.log("Post successful:", response.data);
       router.push("/profile");
       done(false);
     } catch (error) {

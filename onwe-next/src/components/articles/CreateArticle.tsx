@@ -176,7 +176,6 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
         }
       );
 
-      console.log("Article created successfully:", response.data);
       // Reset form fields if needed
       setTitle("");
       setCategory("");

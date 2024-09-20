@@ -37,7 +37,6 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
 
   useEffect(() => {
     let isMounted = true;
-    console.log("hiiiii from useEffect");
 
     const fetchTokenAndArticles = async () => {
       try {
@@ -53,7 +52,6 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
               },
             });
             
-            console.log('API Response:', response.data);
 
             if (Array.isArray(response.data)) {
               setArticles(response.data);
@@ -80,9 +78,7 @@ const ProfileArticles = ({ username }: { username: string | null }) => {
     };
   }, [getToken]);
 
-  console.log("hi")
-  console.log('Articles:', JSON.stringify(articles, null, 2))
-  console.log("booo")
+ 
 
   const handleBackToArticles = () => {
     setSelectedArticle(null);

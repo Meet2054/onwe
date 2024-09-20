@@ -15,8 +15,7 @@ const ProfileRightSection = ({ posts }: { posts: PostsProps[] }) =>{
         setSelectedCategory(category);
       };
     
-    console.log(posts)
-
+  
     return(
         <div>
         <div className="flex overflow-hidden flex-wrap  top-0 gap-1 items-center pt-2  w-full text-sm font-medium tracking-normal leading-5 text-center  border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">

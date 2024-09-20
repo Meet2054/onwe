@@ -102,7 +102,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
             onImageUpload(e.target.files);
         }
     };
-
     return (
         <div
             className="flex flex-col justify-center px-10 py-9 w-full text-sm tracking-tight text-black rounded-md bg-neutral-400 bg-opacity-10 min-h-[168px]"
@@ -115,6 +114,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
                 
                 <input
                     type="file"
+
                     accept="image/*,video/*"
                     multiple
                     className="hidden"
@@ -144,8 +144,14 @@ interface ChildComponentProps {
 
     const handleImageUpload = (files: FileList) => {
         setMessage("")
+        const maxsize = 20*1024*1024
+
         const selectedFiles = Array.from(files).filter(
-            (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
+            (file) =>{
+                if (file.size > maxsize){
+                    setMessage("Please upload file less than 20mb")
+                }
+                return (file.size <= maxsize) && (file.type.startsWith("image/") || file.type.startsWith("video/"))}
         );
         setImages((prevFiles) => [...prevFiles, ...selectedFiles].slice(0, 5));
     };

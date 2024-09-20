@@ -9,7 +9,7 @@ import {
 
 import DiaglogComment from "./DiaglogComment";
 
-import { cn } from "@/lib/utils";
+import { checkVidImg, cn } from "@/lib/utils";
 import { PostsProps } from "@/types/type";
 import { MessageSquare } from "lucide-react";
 import PostImage from "../PostImage";
@@ -33,16 +33,28 @@ const DialogBox: React.FC<DialogBoxProps> = ({
     <Dialog>
       {imageUrl ? (
         <DialogTrigger className={cn("relative  w-full h-full", className)}>
+
+          {checkVidImg(imageUrl)===0?
           <Image
-            src={`${base64Prefix}${imageUrl}`}
-            alt="image"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg object-scale-down"
-            loading="lazy"
-            unoptimized={true}
-            blurDataURL={`${base64Prefix}${imageUrl}`}
-          />
+          src={imageUrl}
+          alt="image"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-lg object-scale-down"
+          loading="lazy"
+          unoptimized={true}
+          blurDataURL={imageUrl}
+        />
+        :
+        <video
+        src={imageUrl}
+        muted
+        autoPlay
+        
+        className="object-contain w-full h-full"
+      />
+        }
+          
         </DialogTrigger>
       ) : (
         <DialogTrigger

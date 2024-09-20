@@ -229,7 +229,7 @@ const Page: React.FC = () => {
       setToken(fetchedToken);
     };
     fetchToken();
-  }, [getToken]);
+  }, []);
 
   // Use SWR to fetch events
   const { data: events, error } = useSWR(

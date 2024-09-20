@@ -42,7 +42,7 @@ const General = ({ club }: { club: string }) => {
     };
 
     fetchPosts();
-  }, [club, getToken, createActive]);
+  }, [club,createActive]);
 
   useEffect(() => {
     if (posts.length > 0) {

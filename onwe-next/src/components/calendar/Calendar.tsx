@@ -22,6 +22,7 @@ const EventCalendar: FC<EventCalendarProps> = ({
   month: current,
   scrollToEvent,
 }) => {
+  console.log("events",events)
   const currentDate = new Date();
   const currentMonthDate = format(new Date(), "MMMM yyyy");
 

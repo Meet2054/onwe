@@ -45,7 +45,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   }, [post]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="w-full h-full flex flex-col justify-between p-2">
       <div>
         <PostAuthor post={post || storedPost} />
         <div className="border border-gray-200" />

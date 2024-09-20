@@ -16,7 +16,7 @@ interface ArticleCardProps {
 const ArticleCard: React.FC<ArticleCardProps> = ({ author, time, title, content, media, onClick, coverImage , avatar}) => {
   // Extract the first two base64 images and the third PDF string
   const [image1, image2, pdf] = media;
-  const image1Url = `data:image/png;base64,${coverImage}`
+  const image1Url = coverImage
 
   return (
     <div className="flex flex-col grow shrink p-5 cursor-pointer overflow-auto scrollbar-custom rounded-md bg-gray-100 max-h-[222px] max-w-[440px] max-md:px-5"

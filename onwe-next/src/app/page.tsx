@@ -3,7 +3,6 @@
 import LogoAnimation from "@/components/ui/Animations/LogoAnimation";
 import { useSignIn } from "@/hooks/useSignIn";
 import { revalidatePath } from "next/cache";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

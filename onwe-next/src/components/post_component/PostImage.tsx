@@ -22,11 +22,13 @@ const YourComponent = ({ image }: { image: string }) => {
 
   return checkVidImg(image) === 0 ? (
     <Image
+    contextMenu="return false;"
+
       src={image}
       layout="fill"
       objectFit="contain"
       alt="Image"
-      className="object-contain"
+      className="object-contain pointer-events-none"
     />
   ) : (
     <video

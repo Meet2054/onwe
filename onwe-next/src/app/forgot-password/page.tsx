@@ -78,6 +78,7 @@ const ForgotPasswordPage: NextPage = () => {
   return (
     <div className="container min-h-screen relative flex items-center justify-center bg-gray-100">
       <Image
+        
         src={back}
         alt="Background"
         layout="fill"

@@ -44,9 +44,10 @@ export const useSignIn = () => {
 
   return {
     signIn: { create },
-    setActive: async ({ usertoken, username }: { usertoken: string, username:string }) => {
+    setActive: async ({ usertoken, username, avatar }: { usertoken: string, username:string, avatar:string }) => {
       localStorage.setItem('onwetoken', usertoken);
       localStorage.setItem('onweusername', username);
+      localStorage.setItem('onweAvatar', avatar)
     },
     getToken,
     getUsername,

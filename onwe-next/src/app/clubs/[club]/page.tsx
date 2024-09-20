@@ -38,7 +38,6 @@ const Page = () => {
         setAdmin(response.data.isAdmin);
         setError(null);
         setStatus(response.status);
-        console.log(response.status);
       } catch (err: any) {
         if (err.response) {
           setError(err.response.data.message);

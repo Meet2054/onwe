@@ -28,7 +28,6 @@ const Page = () => {
                     },
                 }
                 );
-                console.log(data)
                 setPost(data as PostsProps)
             } catch (error) {
                 console.log(error)

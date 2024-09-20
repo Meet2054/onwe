@@ -10,16 +10,14 @@ interface Profile {
 
 interface ProfileCardProps {
   profile: Profile;
-  
+  onClick: () => void;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ profile }) => {
-  const base64Prefix = "data:image/png;base64,";
-  console.log(profile.username);
+const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onClick }) => {
   const imageSrc = `data:image/png;base64,${profile.avatar}`;
 
   return (
-    <div className="flex items-center mt-2 ml-6 p-2">
+    <div onClick={onClick} className="flex items-center mt-2 ml-6 p-2">
       <div className="rounded-full bg-gray-300 h-10 w-10 mr-3 border"
       style={{ backgroundImage: `url(${imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
        </div>

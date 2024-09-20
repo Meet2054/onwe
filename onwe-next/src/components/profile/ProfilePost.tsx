@@ -55,7 +55,6 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
     setSelectedCategory(category);
   };
 
-  console.log(posts, "hi");
   return (
     <>
       {/* <div className="flex overflow-hidden flex-wrap sticky top-0 gap-1 items-center pt-2 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
@@ -100,7 +99,6 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                       >
                         <AlertDialog
                           onOpenChange={() => {
-                            console.log("open change");
                           }}
                         >
                           <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">

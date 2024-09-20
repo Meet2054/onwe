@@ -6,7 +6,6 @@ const getData = async (getToken) => {
       Authorization: `Bearer ${await getToken()}`,
     },
   });
-  console.log(res.data);
 
   return res.data;
 };

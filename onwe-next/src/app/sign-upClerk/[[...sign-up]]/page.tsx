@@ -58,7 +58,6 @@ const Signup = () => {
       });
 
       if (completeSignUp.status !== "complete") {
-        console.log(JSON.stringify(completeSignUp, null, 2));
         setClerkError(
           "Verification not complete. Please check the code and try again."
         );

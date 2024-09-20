@@ -51,7 +51,6 @@ const ArticlePage: React.FC = () => {
               },
             });
             
-            console.log('API Response:', response.data);
 
             if (Array.isArray(response.data)) {
               setArticles(response.data);
@@ -78,7 +77,6 @@ const ArticlePage: React.FC = () => {
     };
   }, [getToken]);
 
-  console.log('Articles:', JSON.stringify(articles, null, 2))
 
   const handleBackToArticles = () => {
     setSelectedArticle(null);

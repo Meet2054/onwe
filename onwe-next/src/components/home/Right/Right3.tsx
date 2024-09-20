@@ -18,7 +18,6 @@ const fetcher = async (url: string, token: string) => {
 
 const Right3 = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<EventCardHome[]>([]);
-    console.log(upcomingEvents,"raaaaaaaaaa");
     
     const { getToken } = useSignIn();
     const [token, setToken] = useState<string | null>(null);
@@ -38,12 +37,10 @@ const Right3 = () => {
     
       useEffect(() => {
         if (data) {
-          console.log(data,"sundarammmmm");
           
           setUpcomingEvents(data);
         }
       }, [data]);
-      console.log(upcomingEvents);
       
   return (
     <div>

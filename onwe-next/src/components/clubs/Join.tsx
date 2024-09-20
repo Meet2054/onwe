@@ -26,7 +26,6 @@ const Join: React.FC<JoinProps> = ({ clubName }) => {
       );
       setMessage("Successfully joined the club!");
       router.push(`/clubs/${clubName}`)
-      console.log(response.data); // Handle the response as needed
     } catch (error: any) {
       if (error.response) {
         setMessage(`Error: ${error.response.data.message}`);

@@ -44,7 +44,7 @@ const PopularClubs = ({ type }: PopularClubsProps) => {
     }
   }, []);
 
-  if (!clubs || isLoading) {
+  if (isLoading) {
     return (
       <div className="p-2  mt-3 ">
         <div className="space-x-2">
@@ -67,14 +67,22 @@ const PopularClubs = ({ type }: PopularClubsProps) => {
     <div className="p-2  mt-3 ">
       <div className="space-x-2">
         <span className="text-lg font-bold">{title}</span>
-        <span className="px-4 py-[2px] text-base  font-semibold rounded-full border-2 border-black shadow-[3px_3px_0_0_#000]">
+        <span className="px-4 py-[2px] text-sm text-gray-500  font-semibold rounded-full border-2 border-black ">
           CLUB
         </span>
       </div>
-      <div className="w-full  mt-3 grid grid-cols-4 gap-3">
-        {clubs.map((club) => (
-          <PopularClubsCard key={club.id} club={club} type={type} />
-        ))}
+      <div className="w-full  mt-3 grid grid-cols-4 gap-3 mt-4">
+        {clubs ? (
+          <>
+            {clubs?.map((club) => (
+              <PopularClubsCard key={club.id} club={club} type={type} />
+            ))}
+          </>
+        ) : (
+          <div className="whitespace-nowrap p-9 m-auto flex justify-center items-center text-muted-foreground text-xl ">
+            No Clubs Available For this category
+          </div>
+        )}
       </div>
     </div>
   );

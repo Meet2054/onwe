@@ -1,4 +1,3 @@
-import { base64Prefix } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import { AllClub, Club } from "./PopularClubs";
@@ -13,7 +12,7 @@ const PopularClubsCard = ({ club, type }: { club: any; type: string }) => {
         className="hover:scale-105 border flex gap-x-1 h-14   rounded-md border-black transition-all ease-in-out duration-150 "
       >
         <div className="w-16 aspect-square  rounded-md relative">
-          <Image src={`${base64Prefix}${club.coverimage}`} fill alt="image" />
+          <Image src={`${(club.coverimage)}`} fill alt="image" />
         </div>
         <div className="w-full h-full rounded-md">
           <div className="text-xl font-bold">{club.name}</div>
@@ -34,7 +33,7 @@ const PopularClubsCard = ({ club, type }: { club: any; type: string }) => {
       >
         <div className="w-20 aspect-square  rounded-md relative">
           <Image
-            src={`${base64Prefix}${club.coverImage[0]}`}
+            src={`${club.coverImage[0]}`}
             fill
             alt="image"
           />

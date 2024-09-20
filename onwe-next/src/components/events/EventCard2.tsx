@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import Image from "next/image";
+import { checkVidImg } from "@/lib/utils";
 
 interface EventCard2Props {
   title: string;
@@ -17,6 +18,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
     { title, subtitle, dateOfEvent, time, description, media, onClick },
     ref
   ) => {
+    console.log(media[0])
     return (
       <div
         ref={ref}
@@ -26,7 +28,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
         <div
           className="border w-[190px] rounded-xl"
           style={{
-            backgroundImage: `url(data:image/png;base64,${media[0]})`,
+            backgroundImage: `url("${(media[0])}")`,
             backgroundSize: "100% 100%",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",

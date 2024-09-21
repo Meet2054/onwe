@@ -38,7 +38,7 @@ function RenderCalendar({
             },
           }
         );
-        console.log(response.data)
+        console.log(response.data);
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);

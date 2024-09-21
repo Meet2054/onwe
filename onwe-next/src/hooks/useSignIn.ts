@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface SignInParams {
   identity: string;
@@ -10,15 +10,15 @@ export const useSignIn = () => {
   const create = async ({ identity, password }: SignInParams) => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ emailOrUsername:identity, password }),
+        body: JSON.stringify({ emailOrUsername: identity, password }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to sign in');
+        throw new Error("Failed to sign in");
       }
 
       const data = await response.json();
@@ -28,29 +28,40 @@ export const useSignIn = () => {
     }
   };
 
-  const signout = ()=>{
-    localStorage.removeItem('onwetoken')
-    localStorage.removeItem('onweusername')
-  }
+  const signout = () => {
+    localStorage.removeItem("onwetoken");
+    localStorage.removeItem("onweusername");
+  };
 
   const getToken = () => {
     return localStorage.getItem("onwetoken");
   };
-  
-  const getUsername =  () => {
 
+  const getUsername = () => {
     return localStorage.getItem("onweusername");
   };
-
+  const user = {
+    userName: localStorage.getItem("onweusername"),
+    avatar: localStorage.getItem("avatar"),
+  };
   return {
     signIn: { create },
-    setActive: async ({ usertoken, username, avatar }: { usertoken: string, username:string, avatar:string }) => {
-      localStorage.setItem('onwetoken', usertoken);
-      localStorage.setItem('onweusername', username);
-      localStorage.setItem('onweAvatar', avatar)
+    setActive: async ({
+      usertoken,
+      username,
+      avatar,
+    }: {
+      usertoken: string;
+      username: string;
+      avatar: string;
+    }) => {
+      localStorage.setItem("onwetoken", usertoken);
+      localStorage.setItem("onweusername", username);
+      localStorage.setItem("onweAvatar", avatar);
     },
     getToken,
     getUsername,
-    signout
+    signout,
+    user,
   };
 };

@@ -5,7 +5,6 @@ import {
   getDay,
   startOfMonth,
   isSameMonth,
-  parseISO,
   isSameDay,
   parse,
 } from "date-fns";
@@ -22,10 +21,8 @@ const EventCalendar: FC<EventCalendarProps> = ({
   month: current,
   scrollToEvent,
 }) => {
-  console.log("events",events)
   const currentDate = new Date();
   const currentMonthDate = format(new Date(), "MMMM yyyy");
-
   const currentMonthDate2 = parse(current, "MMMM yyyy", new Date());
 
   const lastDayOfMonth = parseInt(format(endOfMonth(currentMonthDate2), "d"));
@@ -61,7 +58,6 @@ const EventCalendar: FC<EventCalendarProps> = ({
         <div className="w-full border border-gray-400 mt-3 opacity-30"></div>
         <div className="grid grid-cols-7 gap-3 mt-1">
           {monthArray.map((val, index) => {
-            const eventBgRef = useRef<HTMLDivElement>(null);
             const date = new Date(
               currentMonthDate2.getFullYear(),
               currentMonthDate2.getMonth(),
@@ -69,17 +65,20 @@ const EventCalendar: FC<EventCalendarProps> = ({
             );
 
             const hasEvent = events.some((event) =>
-              isSameDay(parseISO(event.dateOfEvent), date)
+              isSameDay(
+                parse(event.dateOfEvent, "MM-dd-yyyy", new Date()),
+                date
+              )
             );
 
             const event = events.find((event) =>
-              isSameDay(parseISO(event.dateOfEvent), date)
+              isSameDay(
+                parse(event.dateOfEvent, "MM-dd-yyyy", new Date()),
+                date
+              )
             );
-            let eventBackground = "";
-            if (hasEvent && event?.bg) {
-              eventBackground = `bg-[#${event.bg.toLowerCase()}]`;
-            }
 
+            const eventStyle = hasEvent ? "" : ""; // Change as needed
             const isCurrentDay =
               currentDay === val.i.toString() &&
               isSameMonth(currentMonthDate2, currentDate);
@@ -88,16 +87,6 @@ const EventCalendar: FC<EventCalendarProps> = ({
               val.i !== ""
                 ? "hover:bg-gray-200 opacity-80 text-black text-sm font-medium"
                 : "";
-
-            const eventStyle = `${isCurrentDay ? "bg-black text-white" : ""} ${
-              hasEvent && event?.bg ? `bg-[#${event.bg.toLowerCase()}]` : ""
-            }`;
-
-            // useEffect(() => {
-            //   if (eventBgRef.current) {
-            //     eventBgRef.current.style.backgroundColor = `#${event?.bg}`;
-            //   }
-            // });
 
             return (
               <div
@@ -110,24 +99,15 @@ const EventCalendar: FC<EventCalendarProps> = ({
                 key={index}
               >
                 <span
-                  className={`flex flex-col justify-center items-center w-8 h-8 rounded-full ${hoverClass} ${eventStyle}`}
+                  className={`flex flex-col justify-center items-center w-8 h-8 rounded-full ${hoverClass} ${
+                    isCurrentDay ? "bg-black text-white" : eventStyle
+                  }`}
                 >
                   {hasEvent ? (
-                    eventBackground ? (
-                      <span
-                        ref={eventBgRef}
-                        className={`size-7 flex justify-center items-center rounded-full`}
-                      >
-                        {val.i}
-                      </span>
-                    ) : (
-                      <span
-                        className={`flex flex-col justify-center items-center`}
-                      >
-                        {val.i}
-                        <span className="size-1 bg-red-600 flex rounded-full"></span>
-                      </span>
-                    )
+                    <span className="flex flex-col justify-center items-center">
+                      {val.i}
+                      <span className="size-1 bg-red-600 flex rounded-full"></span>
+                    </span>
                   ) : (
                     <span>{val.i}</span>
                   )}

@@ -12,7 +12,7 @@ const CommentInput = ({ setComments }) => {
   const { user } = useUser();
   const [comment, setComment] = useState("");
   const { post } = useSelector((state: RootState) => state.post);
-  const { getToken } = useSignIn();
+  const { getToken, } = useSignIn();
 
   const handleClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

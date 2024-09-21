@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 
 const RenderLinks = ({ link }: { link: string }) => {
-  const newLink = `https://${link.toLowerCase()}`;
+  const newLink = `${link.toLowerCase()}`;
 
   if (newLink.includes("github.com")) {
     return (

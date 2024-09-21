@@ -55,7 +55,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-[85%] m-1 p-5 rounded-lg bg-white"
+      className="w-[80%] m-1 p-5 rounded-lg bg-white"
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -99,7 +99,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
 
         <PostImage
           images={post?.media}
-          className="w-full h-[400px] relative bg-black rounded-lg ml-0 mt-2"
+          className=" h-[450px] relative bg-black rounded-lg ml-0 mt-2"
         />
         <div className="w-full">
           <LikeComment post={post} />

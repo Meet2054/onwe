@@ -23,14 +23,14 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter()
   const [hasToken, setHasToken] = useState(false);
-
+  
   useEffect(() => {
     // Check for the token in local storage
     const token = localStorage.getItem("onwetoken");
     setHasToken(!!token);
 
     // Redirect to sign-in page if token is not present and current path is restricted
-    if (!token && !["/sign-in", "/sign-up", "/forgot-password", "/"].includes(pathname)) {
+    if (!token && !["/sign-in", "/sign-up", "/forgot-password", "/","/landingpage"].includes(pathname)) {
       router.push("/sign-in");
     }
   }, [pathname, router]);

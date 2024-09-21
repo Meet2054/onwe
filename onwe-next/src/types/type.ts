@@ -62,3 +62,14 @@ export interface EventCardHome{
   description: string;
   photo: string;
 }
+
+export interface Hashtag {
+  tag: string;
+  count: number
+}
+
+export interface Profile {
+  id: string;
+  username: string;
+  avatar: string
+}

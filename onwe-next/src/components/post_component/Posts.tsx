@@ -55,7 +55,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-[80%] m-1 p-5 rounded-lg bg-white"
+      className="w-[80%] m-1 p-5 pb-2 rounded-lg bg-white shadow"
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -69,7 +69,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
-      <div className="flex flex-col mt-4 ml-1">
+      <div className="flex flex-col mt-4 ml-12">
         {post?.description && (
           <div className={post?.media.length === 0 ? " " : " "}>
             <div
@@ -99,7 +99,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
 
         <PostImage
           images={post?.media}
-          className=" h-[450px] relative bg-black rounded-lg ml-0 mt-2"
+          className="h-[450px] bg-black relative rounded-lg ml-0 mt-2"
         />
         <div className="w-full">
           <LikeComment post={post} />

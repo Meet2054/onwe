@@ -43,18 +43,18 @@ const Right1 = () => {
 
   return (
     <div>
-      <div className="w-full h-[40vh] flex flex-col p-3 border rounded-2xl" style={{
-                    backgroundImage: `url(${rect.src})`, // Use the imported rect as background image
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+      <div className="w-full h-[40vh] flex flex-col p-3 pl-0   rounded-2xl" style={{
+                    // backgroundImage: `url(${rect.src})`, // Use the imported rect as background image
+                    // backgroundSize: 'cover',
+                    // backgroundPosition: 'center',
                 }}>
-          <div className="text-white text-lg">
+          <div className=" text-black pl-4 pl-2 text-lg border-l-4 border-black">
             Trending
             <span className="text-[10px] ml-2 border rounded-2xl py-1 px-3">
               club
             </span>
           </div>
-          <div className="flex flex-col overflow-hidden space-y-2 mt-4">
+          <div className="flex flex-col overflow-hidden space-y-2 mt-4 ml-4">
           {trendingClubs.map((trendingclub) => (
             <Right1Club key={trendingclub.id} club={trendingclub}/>
           ))}

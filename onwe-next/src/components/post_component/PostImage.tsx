@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
+
 import {
   Carousel,
   CarouselContent,
@@ -28,7 +29,7 @@ const YourComponent = ({ image }: { image: string }) => {
       layout="fill"
       objectFit="cover"
       alt="Image"
-      className="object-contain pointer-events-none rounded-lg"
+      className="object-cover w-full h-[500px] pointer-events-none rounded-lg"
     />
   ) : (
     <video
@@ -36,10 +37,13 @@ const YourComponent = ({ image }: { image: string }) => {
       muted={isMuted}
       autoPlay
       onClick={handleVideoClick}
-      className="object-contain w-full h-full"
+      className="object-cover w-full h-full rounded-lg"
     />
   );
 };
+
+
+
 
 const PostImage = ({
   className = "",
@@ -97,5 +101,8 @@ const PostImage = ({
     // </div>
   );
 };
+
+
+
 
 export default PostImage;

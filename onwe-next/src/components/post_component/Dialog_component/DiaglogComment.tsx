@@ -62,8 +62,8 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
           <span>{comments.length} comments</span>
           {/* <CopyButton /> */}
         </div>
-        
-          <CommentInput setComments={setComments} />
+
+        <CommentInput setComments={setComments} />
       </div>
     </div>
   );

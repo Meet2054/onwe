@@ -33,28 +33,25 @@ const DialogBox: React.FC<DialogBoxProps> = ({
     <Dialog>
       {imageUrl ? (
         <DialogTrigger className={cn("relative  w-full h-full", className)}>
-
-          {checkVidImg(imageUrl)===0?
-          <Image
-          src={imageUrl}
-          alt="image"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg object-scale-down"
-          loading="lazy"
-          unoptimized={true}
-          blurDataURL={imageUrl}
-        />
-        :
-        <video
-        src={imageUrl}
-        muted
-        autoPlay
-        
-        className="object-contain w-full h-full"
-      />
-        }
-          
+          {checkVidImg(imageUrl) === 0 ? (
+            <Image
+              src={imageUrl}
+              alt="image"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg object-scale-down"
+              loading="lazy"
+              unoptimized={true}
+              blurDataURL={imageUrl}
+            />
+          ) : (
+            <video
+              src={imageUrl}
+              muted
+              autoPlay
+              className="object-contain w-full h-full"
+            />
+          )}
         </DialogTrigger>
       ) : (
         <DialogTrigger
@@ -87,6 +84,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
           <div className="col-span-3">
             <PostImage
               images={post?.media}
+              fill="contain"
               className="flex flex-grow h-[95vh] relative bg-black"
             />
           </div>

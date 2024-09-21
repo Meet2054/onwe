@@ -76,21 +76,21 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
               ref={descriptionRef}
               className={`${
                 post?.media.length !== 0
-                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative" 
+                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
                   : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium "
               } ${isExpanded ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}
             >
-              <Description des={post?.description}/>
+              <Description des={post?.description} />
               {/* {post?.description} */}
-            {showMoreButton && (
-              <button
-                onClick={toggleDescription}
-                className="absolute bottom-0 right-4 text-gray-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
-              >
-                {isExpanded ? "...less" : "...more"}
-              </button>
-            )}
+              {showMoreButton && (
+                <button
+                  onClick={toggleDescription}
+                  className="absolute bottom-0 right-4 text-gray-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
+                >
+                  {isExpanded ? "...less" : "...more"}
+                </button>
+              )}
             </div>
 
             {/* Toggle button for more/less */}
@@ -99,6 +99,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
 
         <PostImage
           images={post?.media}
+          fill="cover"
           className="h-[450px] bg-black relative rounded-lg ml-0 mt-2"
         />
         <div className="w-full">

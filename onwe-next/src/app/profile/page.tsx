@@ -11,6 +11,7 @@ import PostAvatar from '@/components/post_component/PostAvatar'
 import Profile from '@/components/profile/Profile'
 import ProfileRightSection from '@/components/profile/ProfileRightSection'
 import RenderLinks from '@/components/profile/RenderLinks'
+import onwevideo from '../../components/profile/vid.mp4'
 
 const fetcher = async (url: string, token: string) => {
   const { data } = await axios.post(
@@ -57,8 +58,8 @@ export default function Page() {
       <div>
         <div className="relative w-full h-64 bg-white">
           <div className="absolute inset-0 bg-black rounded-xl">
-            <video className="absolute h-full w-full object-cover" loop autoPlay muted>
-              <source src="/path/to/your/video.mp4" type="video/mp4" />
+            <video className="absolute h-full w-full object-contain rounded-xl" loop autoPlay muted>
+              <source src={onwevideo} type="video/mp4" />
             </video>
           </div>
           <div className="absolute left-[9.5%] bottom-[-80px]">

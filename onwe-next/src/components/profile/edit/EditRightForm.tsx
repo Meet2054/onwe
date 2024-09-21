@@ -165,9 +165,9 @@ const EditRightForm = () => {
             <div className="grid w-full items-center gap-1.5">
               <Label htmlFor="links">Links</Label>
               <div className="flex gap-2 justify-center items-center ">
-                <div className=" flex justify-center items-center text-muted-foreground ">
+                {/* <div className=" flex justify-center items-center text-muted-foreground ">
                   https://
-                </div>
+                </div> */}
                 <Input
                   value={linkInput}
                   onChange={(e) => setLinkInput(e.target.value)}

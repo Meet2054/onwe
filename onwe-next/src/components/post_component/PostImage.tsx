@@ -26,9 +26,9 @@ const YourComponent = ({ image }: { image: string }) => {
 
       src={image}
       layout="fill"
-      objectFit="contain"
+      objectFit="cover"
       alt="Image"
-      className="object-contain pointer-events-none"
+      className="object-contain pointer-events-none rounded-lg"
     />
   ) : (
     <video

@@ -4,18 +4,28 @@ import Hashtag from "./search/HashTag";
 import debounce from "lodash.debounce";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
+import { Hashtag as HashTagProp } from "@/types/type";
+import { Profile } from "@/types/type";
 
 interface SearchCProps {
   setOpenSearch: (value: boolean) => void; // Define prop for closing the search bar
 }
 
 const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchHistory, setSearchHistory] = useState<(HashTagProp|Profile)[]>([]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("users");
   const [searchText, setSearchText] = useState("");
   const { getToken } = useSignIn();
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("onweSearchHistory");
+    if (storedHistory) {
+      const parsedHistory = JSON.parse(storedHistory);
+      setSearchHistory(parsedHistory);
+    }
+  }, []);
 
   const fetchData = async (query: string, tab: string) => {
     setLoading(true);
@@ -61,7 +71,16 @@ const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
     setSearchText(e.target.value);
   };
 
-  const handleClick = () => {
+  const handleClick = (item:string) => {
+    let history= localStorage.getItem("onweSearchHistory")
+    if(history==undefined || !history){
+      localStorage.setItem("onweSearchHistory",JSON.stringify([item]))
+    }else{
+      history=JSON.parse(history)
+      history!.push(item)
+      localStorage.setItem("onweSearchHistory",JSON.stringify(history))
+    }
+    console.log(item);
     setOpenSearch(false); // Close the search bar
   };
 
@@ -82,14 +101,32 @@ const SearchC: React.FC<SearchCProps> = ({ setOpenSearch }) => {
         </div>
       </div>
       <div className="w-full h-4/5 border overflow-y-auto">
-        {loading ? (
+      {
+        searchText=="" && searchHistory && 
+        <div className="p-1">
+          <h1 className="text-md text-gray-400 ml-3">Recent Searches</h1>
+          {/* <div onClick={()=>{
+            localStorage.setItem("onweSearchHistory","")
+            setSearchHistory([])
+          }}>Delete</div> */}
+        {searchHistory.map((item: any) =>
+          "tag" in item ? (
+            <Hashtag key={item.id} hashtag={item} onClick={()=>handleClick(item)} />
+          ) : (
+            <ProfileCard key={item.id} profile={item} onClick={()=>handleClick(item)} />
+          )
+        )}
+        </div>
+      }
+        { 
+        loading ? (
           <div className="text-center text-gray-500">Loading...</div>
         ) : (
           results.map((item: any) =>
             searchText.startsWith("#") ? (
-              <Hashtag key={item.id} hashtag={item} onClick={handleClick} />
+              <Hashtag key={item.id} hashtag={item} onClick={()=>handleClick(item)} />
             ) : (
-              <ProfileCard key={item.id} profile={item} onClick={handleClick} />
+              <ProfileCard key={item.id} profile={item} onClick={()=>handleClick(item)} />
             )
           )
         )}

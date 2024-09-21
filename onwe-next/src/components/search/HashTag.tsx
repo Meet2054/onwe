@@ -1,16 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Hashtag as HashtagProps } from '@/types/type';
 
-interface Hashtag {
-    tag: string;
-    count: number
-}
+// interface Hashtag {
+//     tag: string;
+//     count: number
+// }
 
 interface HashTagCardProps {
-  hashtag: Hashtag;
+  hashtag: HashtagProps;
   onClick: () => void;
 }
+
+
+
 
 const Hashtag: React.FC<HashTagCardProps> = ({ hashtag, onClick }) => {
   const imageSrc = 'https://github.com/Meet2054/onwe/blob/main/onwe-next/public/images/pngtree-hashtags-icon-on-white-background-png-image_5040948.png'

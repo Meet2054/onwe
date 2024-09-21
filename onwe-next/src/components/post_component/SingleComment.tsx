@@ -16,10 +16,9 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const [replies, setReplies] = useState<Comment[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesHeight, setRepliesHeight] = useState(0);
-  const { user } = useUser();
 
   const repliesRef = useRef<HTMLDivElement>(null);
-  const { getToken } = useSignIn();
+  const { getToken, user } = useSignIn();
   const [timeAgo, setTimeAgo] = useState("");
 
   const handleReplyClick = () => {
@@ -58,8 +57,8 @@ const SingleComment = ({ data }: { data: Comment }) => {
         }
       );
       const newUser = {
-        username: user?.username,
-        avatar: user?.imageUrl,
+        username: user?.userName,
+        avatar: user?.avatar,
       };
       res.data.user = newUser;
 

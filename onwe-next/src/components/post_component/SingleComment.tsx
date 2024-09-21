@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
 import axios from "axios";
-import {  useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { getData } from "@/lib/utils";
 import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
@@ -50,7 +50,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${ getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
             "Content-Type": "application/json",
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",
@@ -104,7 +104,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   return (
     <div className="relative flex gap-1 overflow-hidden ">
       {showReplies && (
-        <div className="absolute text-xl top-0 left-3 bottom-2   border-l w-10   border-rose-400 rounded-full" />
+        <div className="absolute text-xl top-0 left-3 bottom-2   border-l w-10   border-gray-600 rounded-3xl" />
       )}
       <div>
         <PostAvatar size={7} imageUrl={data.user.avatar} />
@@ -154,7 +154,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
           {replies && replies.length > 0 && (
             <div
               onClick={() => setShowReplies((prev) => !prev)}
-              className="p-0 w-max hover:underline text-sm text-gray-500 cursor-pointer"
+              className="p-0 w-max hover:underline text-xs text-gray-500 cursor-pointer"
             >
               <span>
                 {showReplies ? (

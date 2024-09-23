@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+  useContext,
+  createContext,
+} from "react";
 
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
@@ -14,6 +21,7 @@ import { useSignIn } from "@/hooks/useSignIn";
 import { getData } from "@/lib/utils";
 
 const PAGE_SIZE = 10;
+export const PostContext = createContext<any | undefined>(undefined);
 
 const Page = () => {
   const dispatch = useDispatch();
@@ -22,12 +30,10 @@ const Page = () => {
 
   const fetcher = useCallback(
     async (url: string) => {
-
-      
       try {
-        const token =  getToken();
+        const token = getToken();
         if (!token) throw new Error("No token found");
-        const data =  await getData(
+        const data = await getData(
           url,
           { headers: { Authorization: `Bearer ${token}` } },
           "GET"
@@ -48,9 +54,14 @@ const Page = () => {
     []
   );
 
-  const { data, error, size, setSize, isValidating } = useSWRInfinite<
-    PostsProps[]
-  >(getKey, fetcher, {
+  const {
+    data,
+    error,
+    size,
+    setSize,
+    isValidating,
+    mutate: postMutate,
+  } = useSWRInfinite<PostsProps[]>(getKey, fetcher, {
     revalidateFirstPage: false,
     persistSize: true,
     revalidateOnFocus: false,
@@ -83,7 +94,6 @@ const Page = () => {
     [isValidating, setSize]
   );
 
-  
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen w-screen">
@@ -95,24 +105,26 @@ const Page = () => {
   }
 
   return (
-    <div className="flex overflow-auto h-screen w-full bg-white">
-      <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide bg-white">
-        {posts.length === 0 && !isValidating ? (
-          <div>No posts available.</div>
-        ) : (
-          posts.map((post, index) => (
-            <div
-              key={post.id || index}
-              ref={index === posts.length - 4 ? lastElementRef : null}
-            >
-              <Posts post={post} />
-            </div>
-          ))
-        )}
-        {isValidating && <PostsSkeleton />}
-        <div className="mt-20" />
+    <PostContext.Provider value={postMutate}>
+      <div className="flex overflow-auto h-screen w-full bg-white">
+        <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide bg-white">
+          {posts.length === 0 && !isValidating ? (
+            <div>No posts available.</div>
+          ) : (
+            posts.map((post, index) => (
+              <div
+                key={post.id || index}
+                ref={index === posts.length - 4 ? lastElementRef : null}
+              >
+                <Posts post={post} />
+              </div>
+            ))
+          )}
+          {isValidating && <PostsSkeleton />}
+          <div className="mt-20" />
+        </div>
       </div>
-    </div>
+    </PostContext.Provider>
   );
 };
 

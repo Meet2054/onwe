@@ -8,6 +8,7 @@ import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
+import useSWR from "swr";
 
 const SingleComment = ({ data }: { data: Comment }) => {
   const [replyInputOpen, setReplyInputOpen] = useState(false);
@@ -20,6 +21,8 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const repliesRef = useRef<HTMLDivElement>(null);
   const { getToken, user } = useSignIn();
   const [timeAgo, setTimeAgo] = useState("");
+
+  const { data: swrData } = useSWR(`/subcomments/${data.postId}/${data.id}`);
 
   const handleReplyClick = () => {
     setReplyInputOpen(!replyInputOpen);

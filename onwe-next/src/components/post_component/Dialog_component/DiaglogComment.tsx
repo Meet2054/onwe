@@ -11,39 +11,50 @@ import axios from "axios";
 import { Comment, PostsProps } from "@/types/type";
 import { useSignIn } from "@/hooks/useSignIn";
 import LikeButton from "../LikeButton";
+import useSWR from "swr";
+import { globalFetcher } from "@/lib/utils";
 
 const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   const { post: storedPost } = useSelector((state: RootState) => state.post);
-  const { getToken } = useSignIn();
+
   const [comments, setComments] = useState<Comment[]>([]);
-
-  const getComments = async () => {
-    // console.log(post);
-
-    try {
-      const comment = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts/${
-          post?.id || storedPost?.id
-        }/comments`,
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
-
-      setComments(comment.data);
-    } catch (error) {
-      console.log(error);
+  const { data } = useSWR(
+    `/posts/${post?.id || storedPost?.id}/comments`,
+    globalFetcher,
+    {
+      onSuccess: (data) => {
+        setComments(data);
+      },
     }
-  };
+  );
 
-  useEffect(() => {
-    getComments();
-  }, [post]);
+  // const getComments = async () => {
+  //   // console.log(post);
+
+  //   try {
+  //     const comment = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/posts/${
+  //         post?.id || storedPost?.id
+  //       }/comments`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${getToken()}`,
+  //           "Content-Type": "application/json",
+  //           Accept: "*/*",
+  //           "ngrok-skip-browser-warning": "69420",
+  //         },
+  //       }
+  //     );
+
+  //     setComments(comment.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getComments();
+  // }, [post]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-2">
@@ -59,7 +70,9 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
       </div>
       <div className="flex flex-col space-y-2">
         <div className="grid grid-cols-3">
-          <LikeButton post={post!} />
+          <div className="justify-self-start px-3">
+            <LikeButton post={post!} />
+          </div>
           <span>{comments.length} comments</span>
           {/* <CopyButton /> */}
         </div>

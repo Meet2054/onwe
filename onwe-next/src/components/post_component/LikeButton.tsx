@@ -1,59 +1,43 @@
 "use client";
-import { useSignIn } from "@/hooks/useSignIn";
-import { setPost } from "@/lib/features/posts/postSlice";
-import { RootState } from "@/lib/store";
-import { PostsProps } from "@/types/type";
 
+import { PostContext } from "@/app/home/page";
+import { useSignIn } from "@/hooks/useSignIn";
+import { PostsProps } from "@/types/type";
 import axios from "axios";
 import { Heart } from "lucide-react";
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 
 const LikeButton = ({ post }: { post: PostsProps }) => {
-  const [isClicked, setIsClicked] = useState(post?.liked || false);
+  const [isLiked, setIsLiked] = useState(post?.liked || false);
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
+  const [isUpdating, setIsUpdating] = useState(false);
   const { getToken } = useSignIn();
-  const { timeline } = useSelector((state: RootState) => state.timeline);
-  const dispatch = useDispatch();
+  const mutate = useContext(PostContext);
 
-  const likeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null); // Timeout reference
+  const updateLikeStatus = useCallback(async () => {
+    if (isUpdating) return;
 
-  const handleLike = async () => {
-    const res = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_URL}/posts/like`,
-      { postId: post.id },
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          "Content-Type": "application/json",
-          Accept: "*/*",
-          "ngrok-skip-browser-warning": "69420",
-        },
-      }
-    );
-    // Optionally update the post in redux store
-    // dispatch(setPost({...post, likes: isClicked ? post.likes - 1 : post.likes + 1, liked: !isClicked}));
-  };
+    setIsUpdating(true);
+    const newIsLiked = !isLiked;
+    const newLikeCount = newIsLiked ? likeCount + 1 : likeCount - 1;
+    setIsLiked(newIsLiked);
+    setLikeCount(newLikeCount);
 
-  const handleClick = () => {
-    setLikeCount((prev) => (isClicked ? prev - 1 : prev + 1));
-    setIsClicked((prev) => !prev);
+    // Update the SWR cache
+    mutate((prevData: PostsProps[][]) => {
+      return prevData.map((page) =>
+        page.map((p) =>
+          p.id === post.id
+            ? { ...p, liked: newIsLiked, likes: newLikeCount }
+            : p
+        )
+      );
+    }, false);
 
-    // Clear the previous timeout if the user clicks again within 1 second
-    if (likeTimeout.current) {
-      clearTimeout(likeTimeout.current);
-    }
-
-    // Set a new timeout for 1 second to handle the debounced like request
-    likeTimeout.current = setTimeout(() => {
-      handleLike(); // Send the API request only after 1 second of inactivity
-    }, 1000);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/posts/${post.id}`,
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/posts/like`,
+        { postId: post.id },
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -64,26 +48,37 @@ const LikeButton = ({ post }: { post: PostsProps }) => {
         }
       );
 
-      const data = res.data;
-      setIsClicked(() => data?.liked);
-      setLikeCount(() => data?.likes);
-    };
-    fetchData();
-  }, [getToken, post.id]);
+      // false means we don't want to revalidate immediately
+    } catch (error) {
+      console.error("Error updating like status:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  }, [isLiked, likeCount, post.id, getToken, mutate, isUpdating]);
+
+  useEffect(() => {
+    setIsLiked(post.liked);
+    setLikeCount(post.likes);
+  }, [post.liked, post.likes]);
 
   return (
-    <div className="flex justify-center items-center gap-2 ">
-      <div className="flex justify-center" onClick={handleClick}>
+    <div className="flex justify-center items-center gap-2">
+      <button
+        className="flex justify-center items-center"
+        onClick={updateLikeStatus}
+        disabled={isUpdating}
+        aria-label={isLiked ? "Unlike" : "Like"}
+      >
         <Heart
-          strokeWidth={isClicked ? 0 : 1.5}
+          strokeWidth={isLiked ? 0 : 1.5}
           fillOpacity={0.8}
-          fill={isClicked ? "red" : "white"}
-          className={`flex-col justify-start items-start`}
+          fill={isLiked ? "red" : "white"}
+          className="flex-col justify-start items-start w-6 h-6"
         />
-      </div>
-      <div className="text-[17px] w-1">{likeCount}</div>
+      </button>
+      <div className="text-[17px] w-4">{likeCount}</div>
     </div>
   );
 };
 
-export default LikeButton;
+export default React.memo(LikeButton);

@@ -41,8 +41,8 @@ export const useSignIn = () => {
     return localStorage.getItem("onweusername");
   };
   const user = {
-    userName: localStorage.getItem("onweusername"),
-    avatar: localStorage.getItem("onweAvatar"),
+    userName: localStorage.getItem("onweusername") || "",
+    avatar: localStorage.getItem("onweAvatar") || "",
   };
   return {
     signIn: { create },

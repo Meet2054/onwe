@@ -10,6 +10,7 @@ import { RootState } from "@/lib/store";
 import axios from "axios";
 import { Comment, PostsProps } from "@/types/type";
 import { useSignIn } from "@/hooks/useSignIn";
+import LikeButton from "../LikeButton";
 
 const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   const { post: storedPost } = useSelector((state: RootState) => state.post);
@@ -57,8 +58,8 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
           ))}
       </div>
       <div className="flex flex-col space-y-2">
-        <div className="flex justify-center items-center">
-          {/* <LikeButton post={post} /> */}
+        <div className="grid grid-cols-3">
+          <LikeButton post={post!} />
           <span>{comments.length} comments</span>
           {/* <CopyButton /> */}
         </div>

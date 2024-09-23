@@ -50,8 +50,8 @@ const Page = ({ params }: PageProps) => {
   useEffect(() => {
     // Ensure that `getToken` and `getUsername` are awaited properly
     const initializeData = async () => {
-      const token = await getToken(); // Ensure token is fetched correctly
-      const unameFromHook = await getUsername(); // Get the username
+      const token =  getToken(); // Ensure token is fetched correctly
+      const unameFromHook =  getUsername(); // Get the username
       setUname(unameFromHook); // Set the username in state
 
       if (token && unameFromHook) {
@@ -63,7 +63,7 @@ const Page = ({ params }: PageProps) => {
     if (!uname) {
       initializeData();
     }
-  }, [uname, getToken, getUsername, username]); // Ensure it only runs once when `uname` changes
+  }, [ getToken]); // Ensure it only runs once when `uname` changes
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0">

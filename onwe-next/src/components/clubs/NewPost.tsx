@@ -166,7 +166,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                         ) : (
                             <video
                             src={fileUrl}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             controls
                             />
                         )}

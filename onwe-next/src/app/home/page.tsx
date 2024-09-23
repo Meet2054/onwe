@@ -22,6 +22,8 @@ const Page = () => {
 
   const fetcher = useCallback(
     async (url: string) => {
+
+      
       try {
         const token =  getToken();
         if (!token) throw new Error("No token found");

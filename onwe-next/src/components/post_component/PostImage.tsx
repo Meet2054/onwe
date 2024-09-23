@@ -36,8 +36,9 @@ const YourComponent = ({ image, fill }: { image: string; fill: string }) => {
       src={image}
       muted={isMuted}
       autoPlay
+      loop
       onClick={handleVideoClick}
-      className="object-cover w-full h-full rounded-lg"
+      className="object-contain w-full h-full rounded-lg"
     />
   );
 };

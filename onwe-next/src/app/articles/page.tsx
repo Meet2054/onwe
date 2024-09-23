@@ -75,7 +75,7 @@ const ArticlePage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [getToken]);
+  }, []);
 
 
   const handleBackToArticles = () => {

@@ -12,7 +12,7 @@ import {
 
 const ShareModal = ({ postId, onClose }: {postId:number,  onClose: () => void }) => {
   // Create a ref for the modal container
-  const [link, setLink] = useState<string>(`http://localhost:3000/post/${postId}`);
+  const [link, setLink] = useState<string>(`https://developers.onwe.in/post/${postId}`);
 
   return (
     <>

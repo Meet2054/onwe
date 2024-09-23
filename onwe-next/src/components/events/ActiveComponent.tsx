@@ -24,7 +24,7 @@ const ActiveComponent: React.FC<ActiveComponentProps> = ({
       <div className="bg-white p-6 rounded-lg shadow-lg z-50 space-y-4">
         <h2 className="text-xl font-bold mb-4">{currentEvent.title}</h2>
         <img
-          src={`${base64Prefix}${currentEvent.media[0]}`}
+          src={currentEvent.media[0]}
           alt="Background"
           width={400}
           height={400}

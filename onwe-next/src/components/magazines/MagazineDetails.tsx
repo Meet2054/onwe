@@ -1,14 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Ma from "./Magazine_page-1.jpg";
-import Mb from "./Magazine_page-2.jpg";
-import Mc from "./Magazine_page-3.jpg";
-import Md from "./Magazine_page-4.jpg";
-const images = [Ma, Mb, Mc, Md];
-const data = Array.from({ length: 24 }, (_, index) => ({
-  imageUrl: images[index % 4]
-}));
-
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -26,7 +17,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const goToNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 2, data.length - 1));
+    setCurrentPage((prev) => Math.min(prev + 2, magazine.media.length - 1));
   };
 
   const goToPreviousPage = () => {
@@ -38,42 +29,39 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
   };
 
   const renderPageNumbers = () => {
-    const totalPages = data.length;
+    const totalPages = magazine.media.length;
     const pageNumbers = [];
     
+    // Always show first page
     pageNumbers.push(
       <PageNumber key={0} pageNum={1} currentPage={currentPage} onClick={() => goToPage(0)} />
     );
 
-    if (currentPage > 2 && currentPage < totalPages - 3) {
+    // Show ellipsis if there are more than 5 pages and we're not at the start
+    if (totalPages > 5 && currentPage > 1) {
       pageNumbers.push(<span key="ellipsis1">...</span>);
-      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+    }
+
+    // Show current page and one before/after
+    for (let i = Math.max(1, currentPage - 1); i <= Math.min(currentPage + 1, totalPages - 2); i++) {
+      if (i !== 0 && i !== totalPages - 1) {
         pageNumbers.push(
           <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
         );
       }
-      pageNumbers.push(<span key="ellipsis2">...</span>);
-    } else {
-      if (currentPage <= 2) {
-        for (let i = 1; i <= 3; i++) {
-          pageNumbers.push(
-            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
-          );
-        }
-        pageNumbers.push(<span key="ellipsis">...</span>);
-      } else {
-        pageNumbers.push(<span key="ellipsis">...</span>);
-        for (let i = totalPages - 4; i < totalPages - 1; i++) {
-          pageNumbers.push(
-            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
-          );
-        }
-      }
     }
 
-    pageNumbers.push(
-      <PageNumber key={totalPages - 1} pageNum={totalPages} currentPage={currentPage} onClick={() => goToPage(totalPages - 1)} />
-    );
+    // Show ellipsis if there are more than 5 pages and we're not at the end
+    if (totalPages > 5 && currentPage < totalPages - 3) {
+      pageNumbers.push(<span key="ellipsis2">...</span>);
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
+      pageNumbers.push(
+        <PageNumber key={totalPages - 1} pageNum={totalPages} currentPage={currentPage} onClick={() => goToPage(totalPages - 1)} />
+      );
+    }
 
     return pageNumbers;
   };
@@ -91,7 +79,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
           </div>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
+              src={magazine.media[currentPage]}
               alt={`Magazine cover ${currentPage + 1}`}
               layout="fill"
               objectFit="cover"
@@ -99,12 +87,12 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
           </div>
         </>
       );
-    } else if (currentPage === data.length - 1) {
+    } else if (currentPage === magazine.media.length - 1) {
       return (
         <>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
+              src={magazine.media[currentPage]}
               alt={`Magazine cover ${currentPage + 1}`}
               layout="fill"
               objectFit="cover"
@@ -123,7 +111,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
         <>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
+              src={magazine.media[currentPage]}
               alt={`Magazine cover ${currentPage + 1}`}
               layout="fill"
               objectFit="cover"
@@ -131,7 +119,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
           </div>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage + 1].imageUrl}
+              src={magazine.media[currentPage + 1]}
               alt={`Magazine cover ${currentPage + 2}`}
               layout="fill"
               objectFit="cover"
@@ -150,7 +138,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
         </div>
         <div className="h-20 flex bg-transparent text-zinc-200">
           <div className="w-full flex items-center bg-zinc-900 justify-between">
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
+            <div className={`w-1/${currentPage === 0 || currentPage === magazine.media.length - 1 ? '2' : '3'} flex justify-center`}>
               {currentPage > 1 && (
                 <ArrowLeft 
                   className="text-white cursor-pointer" 
@@ -159,11 +147,11 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
                 />
               )}
             </div>
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center items-center space-x-2`}>
+            <div className={`w-1/${currentPage === 0 || currentPage === magazine.media.length - 1 ? '2' : '3'} flex justify-center items-center space-x-2`}>
               {renderPageNumbers()}
             </div>
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
-              {currentPage < data.length - 2 && (
+            <div className={`w-1/${currentPage === 0 || currentPage === magazine.media.length - 1 ? '2' : '3'} flex justify-center`}>
+              {currentPage < magazine.media.length - 2 && (
                 <ArrowRight 
                   className="text-white cursor-pointer" 
                   size={30} 

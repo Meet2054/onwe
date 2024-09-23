@@ -13,7 +13,6 @@ const ActiveComponent: React.FC<ActiveComponentProps> = ({
   if (!currentEvent) return null;
 
   // Determine the MIME type of the base64 string (assuming PNG, change as necessary)
-  const base64Prefix = 'data:image/png;base64,';
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 animate-scale-up transition-all">

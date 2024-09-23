@@ -32,7 +32,8 @@ const MagazinesComponent: React.FC<{
         >
           <div className="w-full h-48 relative">
             <Image
-              src={M} // Assuming media is an array of base64 strings
+              src={M}              
+              // src={magazine.media[0]} 
               alt={magazine.title}
               layout="fill"
               objectFit="cover"

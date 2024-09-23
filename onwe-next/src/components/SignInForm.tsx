@@ -53,7 +53,7 @@ const SigninForm: React.FC<SignInFormProps> = ({
             name="email"
             className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
             placeholder="username or email"
-            type="email"
+            type="text"
             required
           />
           <input

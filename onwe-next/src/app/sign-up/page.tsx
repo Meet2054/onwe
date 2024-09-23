@@ -8,6 +8,57 @@ import back from "@/app/../../public/images/back.png";
 import logo from "@app/../../public/images/onwelogo.svg";
 import rightArrow from "@app/../../public/images/right-arrow.png";
 
+const PasswordInput = ({ password, setPassword }:{password: string, setPassword: Function}) => {
+  const [isValid, setIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const validatePassword = (pass: string) => {
+    const minLength = /.{8,}/; // Minimum 8 characters
+    const hasUpperCase = /[A-Z]/; // At least one uppercase letter
+    const hasNumber = /[0-9]/; // At least one number
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/; // At least one special character
+
+    if (!minLength.test(pass)) {
+      setErrorMessage('Password must be at least 8 characters long.');
+      return false;
+    }
+    if (!hasUpperCase.test(pass)) {
+      setErrorMessage('Password must contain at least one uppercase letter.');
+      return false;
+    }
+    if (!hasNumber.test(pass)) {
+      setErrorMessage('Password must contain at least one number.');
+      return false;
+    }
+    if (!hasSpecialChar.test(pass)) {
+      setErrorMessage('Password must contain at least one special character.');
+      return false;
+    }
+
+    setErrorMessage('');
+    return true;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setIsValid(validatePassword(newPassword));
+  };
+  return (
+    <div>
+      <input
+        type="password"
+        placeholder="Create Password"
+        value={password}
+        onChange={handleChange}
+        className={`w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1 ${!isValid ? 'border-red-500' : ''}`}
+        required
+      />
+      {!isValid && <p className="text-red-500 text-sm">{errorMessage}</p>}
+    </div>
+  );
+};
+
 const Signup = () => {
   const { signUp } = useSignUp();
   const [error, setError] = useState("");
@@ -21,33 +72,20 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  const signUpWithEmail = async ({
-    emailAddress,
-    password,
-    username,
-  }: {
-    emailAddress: string;
-    password: string;
-    username: string;
-  }) => {
+  const signUpWithEmail = async ({ emailAddress, password, username }:{emailAddress: string, password: string, username: string}) => {
+
+    // console.log(emailAddress, password, username);
     try {
-      await signUp.create({
-        emailAddress,
-        password,
-        username,
-      });
+      await signUp.create({ emailAddress, password, username });
       setVerifying(true);
     } catch (err: any) {
       console.error("Sign up error:", err);
-      setError(
-         "An unexpected error occurred. Please try again."
-      );
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
   const handleVerify = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code,
@@ -55,9 +93,7 @@ const Signup = () => {
       });
 
       if (completeSignUp.status !== "complete") {
-        setError(
-          "Verification not complete. Please check the code and try again."
-        );
+        setError("Verification not complete. Please check the code and try again.");
         return;
       }
       router.push("/sign-in");
@@ -126,25 +162,24 @@ const Signup = () => {
           {!verifying ? (
             <>
               <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // Only allow valid characters (letters, numbers, and underscores) and check length >= 3
-                  if (/^[a-zA-Z0-9_]*$/.test(value)) {
-                    setUsername(value);
-                  }
-                }}
-                className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
-                required
-              />
-              {username.length < 3 && username !== "" && (
-                <div className="text-red-500 text-sm">
-                  Username must be at least 3 characters long.
-                </div>
-              )}
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^[a-zA-Z0-9_]*$/.test(value)) {
+                      setUsername(value);
+                    }
+                  }}
+                  className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
+                  required
+                />
+                {username.length < 3 && username !== "" && (
+                  <div className="text-red-500 text-sm">
+                    Username must be at least 3 characters long.
+                  </div>
+                )}
                 {usernameError && (
                   <div className="text-red-500 text-sm">{usernameError}</div>
                 )}
@@ -158,16 +193,7 @@ const Signup = () => {
                 />
               </div>
               <div className="border-b-2 my-4"></div>
-              <div className="space-y-4">
-                <input
-                  type="password"
-                  placeholder="Create Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
-                  required
-                />
-              </div>
+              <PasswordInput password={password} setPassword={setPassword} />
               <div className="border-b-2 my-4"></div>
               <div
                 className={`cursor-pointer text-center md:py-2 border rounded-xl bg-white text-sm lg:text-md py-1 w-full lg:w-full ${

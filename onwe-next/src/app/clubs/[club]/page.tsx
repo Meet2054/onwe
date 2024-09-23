@@ -11,28 +11,30 @@ import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
 import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
 
-
 const Page = () => {
   const params = useParams();
   const club = Array.isArray(params.club) ? params.club[0] : params.club;
   const tab = useSelector((state: RootState) => state.tab.tab);
   const { getToken } = useSignIn();
-  
+
   // const [clubposts, setClubPosts] = useState<PostsProps[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
-  const [admin,setAdmin] = useState<boolean>(false);
+  const [admin, setAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token =  getToken();
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "69420",
-          },
-        });
+        const token = getToken();
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
         // setClubPosts(response.data.posts);
         // console.log(clubposts);
         setAdmin(response.data.isAdmin);
@@ -51,14 +53,18 @@ const Page = () => {
     };
 
     fetchData();
-  }, [club,tab,getToken]);
+  }, [club, tab, getToken]);
 
   if (status === 404) {
-    return <div className="text-black flex justify-center items-center h-screen">Club does not exist</div>;
+    return (
+      <div className="text-black flex justify-center items-center h-screen">
+        Club does not exist
+      </div>
+    );
   }
 
   if (status === 403) {
-    return <Join clubName={club}/>;
+    return <Join clubName={club} />;
   }
 
   if (error) {
@@ -67,20 +73,18 @@ const Page = () => {
 
   if (!status) {
     return <div>Loading...</div>;
-  }
-
-  else{
+  } else {
     return (
       <div className="content h-full">
         <GeneralAnnounce club={club} />
-      {tab === "general" ? (
-        <General club={club} />
-        // <General posts={clubposts} club={club} />
-      ) : (
-        <Announcement club={club} />
-        // <Announcement posts={clubposts} club={club} isAdmin={admin} />
-      )}
-    </div>
+        {tab === "general" ? (
+          <General club={club} />
+        ) : (
+          // <General posts={clubposts} club={club} />
+          <Announcement club={club} />
+          // <Announcement posts={clubposts} club={club} isAdmin={admin} />
+        )}
+      </div>
     );
   }
 };

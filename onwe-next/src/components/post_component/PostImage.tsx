@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
+
 import {
   Carousel,
   CarouselContent,
@@ -9,9 +10,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { checkVidImg } from "@/lib/utils";
+import { fill } from "lodash";
 // import { base64Prefix } from "@/lib/utils";
 
-const YourComponent = ({ image }: { image: string }) => {
+const YourComponent = ({ image, fill }: { image: string; fill: string }) => {
   const [isMuted, setIsMuted] = useState(true);
 
   const handleVideoClick = (event: React.MouseEvent<HTMLVideoElement>) => {
@@ -22,13 +24,12 @@ const YourComponent = ({ image }: { image: string }) => {
 
   return checkVidImg(image) === 0 ? (
     <Image
-    contextMenu="return false;"
-
+      contextMenu="return false;"
       src={image}
       layout="fill"
-      objectFit="cover"
+      objectFit={fill}
       alt="Image"
-      className="object-contain pointer-events-none rounded-lg"
+      // className="object-cover w-full h-[500px] pointer-events-none rounded-lg"
     />
   ) : (
     <video
@@ -36,7 +37,7 @@ const YourComponent = ({ image }: { image: string }) => {
       muted={isMuted}
       autoPlay
       onClick={handleVideoClick}
-      className="object-contain w-full h-full"
+      className="object-cover w-full h-full rounded-lg"
     />
   );
 };
@@ -44,11 +45,12 @@ const YourComponent = ({ image }: { image: string }) => {
 const PostImage = ({
   className = "",
   images,
+  fill,
 }: {
   className?: string;
   images?: string[];
+  fill: string;
 }) => {
-
   // const base64toBlob = (
   //   base64Data: string,
   //   contentType = "",
@@ -81,7 +83,7 @@ const PostImage = ({
 
           return (
             <CarouselItem key={index} className={className}>
-              <YourComponent image={image}/>
+              <YourComponent image={image} fill={fill} />
             </CarouselItem>
           );
         })}

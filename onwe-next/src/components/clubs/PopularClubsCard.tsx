@@ -24,7 +24,7 @@ const PopularClubsCard = ({ club, type }: { club: any; type: string }) => {
   if (type == "/clubs/all") {
     return (
       <Link
-        href={`/clubs/${club.name}`}
+        href={`/clubs/${club.clubName}`}
         className="hover:scale-105 border flex gap-x-1 h-[70px] overflow-hidden rounded-md p-3 border-gray-300
         transition-all ease-in-out duration-150 hover:shadow-[0_1px_0_0_#000] "
       >

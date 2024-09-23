@@ -55,7 +55,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-[80%] m-1 p-5 rounded-lg bg-white"
+      className="w-[80%] m-1 p-5 pb-2 rounded-lg bg-white shadow"
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -69,28 +69,28 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
-      <div className="flex flex-col mt-4 ml-1">
+      <div className="flex flex-col mt-4 ml-12">
         {post?.description && (
           <div className={post?.media.length === 0 ? " " : " "}>
             <div
               ref={descriptionRef}
               className={`${
                 post?.media.length !== 0
-                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative" 
+                  ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
                   : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium "
               } ${isExpanded ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}
             >
-              <Description des={post?.description}/>
+              <Description des={post?.description} />
               {/* {post?.description} */}
-            {showMoreButton && (
-              <button
-                onClick={toggleDescription}
-                className="absolute bottom-0 right-4 text-gray-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
-              >
-                {isExpanded ? "...less" : "...more"}
-              </button>
-            )}
+              {showMoreButton && (
+                <button
+                  onClick={toggleDescription}
+                  className="absolute bottom-0 right-4 text-gray-500 text-sm font-semibold hover:underline ml-[92%] mt-0"
+                >
+                  {isExpanded ? "...less" : "...more"}
+                </button>
+              )}
             </div>
 
             {/* Toggle button for more/less */}
@@ -99,7 +99,8 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
 
         <PostImage
           images={post?.media}
-          className=" h-[450px] relative bg-black rounded-lg ml-0 mt-2"
+          fill="cover"
+          className="h-[450px] bg-black relative rounded-lg ml-0 mt-2"
         />
         <div className="w-full">
           <LikeComment post={post} />

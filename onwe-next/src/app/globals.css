@@ -83,3 +83,10 @@ html {
 .fade-section {
   transition: opacity 0.5s ease-in-out;
 }
+
+.aspect-w-16 {
+  aspect-ratio: 16 / 9;
+}
+.aspect-h-9 {
+  aspect-ratio: 16 / 9;
+}

@@ -13,8 +13,12 @@ interface ProfileCardProps {
   onClick: () => void;
 }
 
+const saveHistory =()=>{
+
+}
+
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onClick }) => {
-  const imageSrc = `data:image/png;base64,${profile.avatar}`;
+  const imageSrc = profile.avatar;
 
   return (
     <div onClick={onClick} className="flex items-center mt-2 ml-6 p-2">

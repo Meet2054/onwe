@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import useSWR from "swr";
 import ClubCard from "../clubs/ClubCard";
@@ -9,12 +9,12 @@ import { ChevronLeft, ArrowRight, Loader2 } from "lucide-react";
 import { debounce } from "lodash";
 import { useSignIn } from "@/hooks/useSignIn";
 
-export interface searchClubsProps extends ClubCardProps {
+interface SearchClubsProps extends ClubCardProps {
   isUserMember: boolean;
 }
 
 const fetcher = async (url: string, token: string) => {
-  const response = await axios.get(url, {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
@@ -28,98 +28,72 @@ export default function Component({
 }: {
   closeSidebar: () => void;
 }) {
-  const [myClubs, setMyClubs] = useState<ClubCardProps[]>([]);
-  const [searchClubs, setSearchClubs] = useState<searchClubsProps[]>([]);
+  const [searchClubs, setSearchClubs] = useState<SearchClubsProps[]>([]);
   const [searchInput, setSearchInput] = useState("");
-  const { getToken } = useSignIn();
-  const [token, setToken] = useState<string | null>(null);
   const [showSearchArea, setShowSearchArea] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const searchAreaRef = useRef<HTMLDivElement>(null);
+  const { getToken } = useSignIn();
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const fetchedToken =  getToken();
-      setToken(fetchedToken);
-    };
-    fetchToken();
-  }, [getToken]);
+  const { data: myClubs, isValidating } = useSWR<ClubCardProps[]>(
+    "/myclubs",
+    (url: string) => fetcher(url, getToken() as string)
+  );
 
-  const fetchSearchClubs = async (query: string) => {
-    if (!query.trim()) {
-      setSearchClubs([]);
-      return;
-    }
-    setIsSearching(true);
-    try {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/explore/clubs/${query}`,
-        {
-          headers: {
-            Authorization: `Bearer ${ getToken()}`,
-          },
-        }
-      );
-      setSearchClubs(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsSearching(false);
+  const fetchSearchClubs = useCallback(
+    debounce(async (query: string) => {
+      if (!query.trim()) {
+        setSearchClubs([]);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/explore/clubs/${query}`,
+          {
+            headers: { Authorization: `Bearer ${getToken()}` },
+          }
+        );
+        setSearchClubs(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300),
+    [getToken]
+  );
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchInput(query);
+    fetchSearchClubs(query);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      searchAreaRef.current &&
+      !searchAreaRef.current.contains(event.target as Node)
+    ) {
+      setShowSearchArea(false);
     }
   };
 
-  const debouncedFetchData = useCallback(
-    debounce((query: string) => {
-      fetchSearchClubs(query);
-    }, 300),
-    []
-  );
-
-  const { data, error, isValidating } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/myclubs` : null,
-    (url) => fetcher(url, token!)
-  );
-
-  useEffect(() => {
-    if (searchInput.trim() !== "") {
-      debouncedFetchData(searchInput);
-    } else {
-      setSearchClubs([]);
-    }
-  }, [searchInput, debouncedFetchData]);
-
-  useEffect(() => {
-    if (data) {
-      setMyClubs(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        searchAreaRef.current &&
-        !searchAreaRef.current.contains(event.target as Node)
-      ) {
-        setShowSearchArea(false);
-      }
-    };
-
+  React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <div className="h-screen w-full flex flex-col border">
-      <div className="flex items-center border-b h-[8vh] relative ">
+    <div className="h-screen w-full flex flex-col border z-10">
+      <div className="flex items-center border-b h-[8vh] relative z-20">
         <div className="bg-[#f1f1f1] w-80 rounded-3xl h-10 ml-7 flex items-center justify-between pr-4">
           <input
             type="text"
             placeholder="Search clubs"
             className="bg-transparent pl-4 outline-none w-full"
             onFocus={() => setShowSearchArea(true)}
-            onChange={(e) => setSearchInput(e.target.value)}
+            onChange={handleSearchInputChange}
           />
           {isSearching ? <Loader2 className="animate-spin" /> : <ArrowRight />}
         </div>
@@ -129,7 +103,7 @@ export default function Component({
         {showSearchArea && (
           <div
             ref={searchAreaRef}
-            className="w-full h-[calc(100dvh-4rem)] p-3 absolute bg-gray-50 top-14 border rounded overflow-y-auto"
+            className="w-full h-[calc(100dvh-4rem)] p-3 absolute bg-gray-50 top-14 border rounded overflow-y-auto z-30"
           >
             {isSearching ? (
               <div className="flex justify-center items-center h-full">
@@ -156,7 +130,7 @@ export default function Component({
             <div className="flex justify-center items-center h-20">
               <Loader2 className="animate-spin" />
             </div>
-          ) : myClubs.length > 0 ? (
+          ) : myClubs && myClubs.length > 0 ? (
             myClubs.map((club) => (
               <ClubCard key={club.id} club={club} showJoin={false} />
             ))

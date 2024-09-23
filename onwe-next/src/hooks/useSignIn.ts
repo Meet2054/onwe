@@ -42,7 +42,7 @@ export const useSignIn = () => {
   };
   const user = {
     userName: localStorage.getItem("onweusername"),
-    avatar: localStorage.getItem("avatar"),
+    avatar: localStorage.getItem("onweAvatar"),
   };
   return {
     signIn: { create },

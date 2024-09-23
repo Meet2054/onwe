@@ -3,8 +3,6 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useSignIn } from "@/hooks/useSignIn";
 
-
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -32,7 +30,7 @@ export const getData = async (
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET"
 ) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {getToken} = useSignIn()
+  const { getToken } = useSignIn();
   try {
     const res = await axios({
       method: method,
@@ -70,3 +68,16 @@ export const extractHashTags = (text: string) => {
 };
 
 export const extractTags = (text: string) => {};
+
+export const globalFetcher = async (url: string) => {
+  const { data } = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
+      "Content-Type": "application/json",
+      Accept: "*/*",
+      "ngrok-skip-browser-warning": "69420",
+    },
+  });
+  console.log(data);
+  return data;
+};

@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, DragEvent, Dispatch, SetStateAction } fro
 import plus from '../SideBar/sideBarImages/create.svg'
 import create from '../SideBar/sideBarImages/create.svg'
 import Image from "next/image";
-import { CircleX, Plus } from "lucide-react";
+import { CircleX, Plus, Send } from "lucide-react";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
 
@@ -166,7 +166,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                         ) : (
                             <video
                             src={fileUrl}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             controls
                             />
                         )}
@@ -200,16 +200,18 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                <div className=" ml-14"> <InputField label={"Write Something"} id={""}  value={description} onChange={setDescription}/></div></div>
                 <button onClick={async ()=>{
                     await handlePost();                    
-                }}>
+                }}
+                disabled={loading}>
                     
-                <Image
+                {/* <Image
                     height={24} 
                     width={24}
                     alt="post"
                     loading="lazy"
                     src={create}
                     className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                    />
+                    /> */}
+                    <Send/>
                 </button>
             </div>
         </div>

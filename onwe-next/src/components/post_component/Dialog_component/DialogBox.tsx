@@ -49,7 +49,8 @@ const DialogBox: React.FC<DialogBoxProps> = ({
               src={imageUrl}
               muted
               autoPlay
-              className="object-contain w-full h-full"
+              loop
+              className="object-cover w-full h-full"
             />
           )}
         </DialogTrigger>

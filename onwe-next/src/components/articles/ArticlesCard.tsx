@@ -24,7 +24,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ author, time, title, content,
       <div className="flex gap-3 justify-center items-center w-full font-medium whitespace-nowrap">
         <img
           loading="lazy"
-          src={`data:image/*;base64,${avatar}`}
+          src={avatar}
           className="object-cover shrink-0 self-stretch my-auto w-8 rounded-full aspect-square"
           alt={`${author}'s avatar`}
         />
@@ -39,7 +39,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ author, time, title, content,
           <div className="text-base">{content}</div>
         </div>
         <div className='overflow-hidden flex-shrink-0'>
-          <img loading="lazy" src={`data:image/*;base64,${coverImage}`} className="object-fill self-stretch my-auto rounded  aspect-[0.79] w-[111px]" alt="Article thumbnail" />
+          <img loading="lazy" src={coverImage} className="object-fill self-stretch my-auto rounded  aspect-[0.79] w-[111px]" alt="Article thumbnail" />
         </div>
       </div>
     </div>

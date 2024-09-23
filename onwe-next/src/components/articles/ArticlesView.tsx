@@ -34,7 +34,7 @@ interface ArticleViewProps {
       </button>
   
       <div className="flex w-full gap-1 justify-end items-center self-stretch my-auto font-medium text-black">
-        <img loading="lazy" src={`data:image/*;base64,${avatar}`} className="object-cover shrink-0 my-auto w-12 rounded-full aspect-square " alt="Author avatar" />
+        <img loading="lazy" src={avatar} className="object-cover shrink-0 my-auto w-12 rounded-full aspect-square " alt="Author avatar" />
         <div className="flex flex-col  pl-0">
         <div className="text-lg capitalize font-sans break-words whitespace-normal">{owner}</div>
         <div className="text-xs text-center font-mono break-words whitespace-normal">{createdAt.slice(0,10)}</div>

@@ -9,11 +9,11 @@ const linkify = (text: string) => {
   const processedText = text
     .replace(mentionRegex, (mention) => {
       const username = mention.slice(1); // Remove '@' from mention
-      return `<a href="/profile/${username}" style="color:blue">${mention}</a>`;
+      return `<a href="/profile/${username}" style="color:#1D9BF0">${mention}</a>`;
     })
     .replace(hashtagRegex, (hashtag) => {
       const tag = hashtag.slice(1); // Remove '#' from hashtag
-      return `<a href="/explore?tag=${tag}" style="color:blue">${hashtag}</a>`;
+      return `<a href="/explore?tag=${tag}" style="color:#1D9BF0">${hashtag}</a>`;
     });
 
   return processedText;

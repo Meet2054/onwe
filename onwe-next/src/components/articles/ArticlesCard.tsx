@@ -13,33 +13,47 @@ interface ArticleCardProps {
   onClick: () => void;
 }
 
-const ArticleCard: React.FC<ArticleCardProps> = ({ author, time, title, content, media, onClick, coverImage , avatar}) => {
-  // Extract the first two base64 images and the third PDF string
-  const [image1, image2, pdf] = media;
-  const image1Url = coverImage
-
+const ArticleCard: React.FC<ArticleCardProps> = ({
+  author,
+  time,
+  title,
+  content,
+  media,
+  onClick,
+  coverImage,
+  avatar,
+}) => {
   return (
-    <div className="flex flex-col grow shrink p-5 cursor-pointer overflow-auto scrollbar-custom rounded-md bg-gray-100 max-h-[222px] max-w-[440px] max-md:px-5"
-      onClick={onClick} >
-      <div className="flex gap-3 justify-center items-center w-full font-medium whitespace-nowrap">
+    <div
+      className="flex flex-col p-5  cursor-pointer bg-gray-100 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 h-[260px]" // Fixed height
+      onClick={onClick}
+    >
+      <div className="flex gap-3 items-center ">
         <img
           loading="lazy"
           src={avatar}
-          className="object-cover shrink-0 self-stretch my-auto w-8 rounded-full aspect-square"
-          alt={`${author}'s avatar`}
+          className="w-10 h-10 rounded-full object-cover"
+          alt="Author Avatar"
         />
-        <div className="flex gap-1 items-start self-stretch my-auto w-full">
+        <div className="flex flex-col">
           <div className="text-base font-bold hover:text-custom-brown">{author}</div>
-          <div className="text-sm p-[2px]">{time}</div>
+          <div className="text-sm text-gray-500">{time}</div>
         </div>
       </div>
-      <div className="flex justify-center items-start break-words whitespace-normal gap-3 mt-2 w-full">
-        <div className="flex flex-col justify-start self-stretch my-auto min-w-[240px] w-[261px]">
-          <div className="text-2xl font-bold">{title}</div>
-          <div className="text-base">{content}</div>
-        </div>
-        <div className='overflow-hidden flex-shrink-0'>
-          <img loading="lazy" src={coverImage} className="object-fill self-stretch my-auto rounded  aspect-[0.79] w-[111px]" alt="Article thumbnail" />
+      <div className="flex flex-col justify-between h-full mt-3"> {/* Make it fill the height */}
+        <div className="flex flex-grow">
+          <div className="flex flex-col flex-grow">
+            <div className="text-2xl font-bold text-gray-800">{title}</div>
+            <div className="text-base text-gray-700 line-clamp-3 pb-1">{content}</div> {/* Limit the number of lines */}
+          </div>
+          <div className='overflow-hidden flex-shrink-0'>
+            <img
+              loading="lazy"
+              src={coverImage}
+              className="w-[120px] h-auto rounded-lg object-cover"
+              alt="Article Thumbnail"
+            />
+          </div>
         </div>
       </div>
     </div>

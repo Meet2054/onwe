@@ -32,7 +32,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   return (
     <Dialog>
       {imageUrl ? (
-        <DialogTrigger className={cn("relative  w-full h-full", className)}>
+        <DialogTrigger className={cn("relative w-full h-full", className)}>
           {checkVidImg(imageUrl) === 0 ? (
             <Image
               src={imageUrl}
@@ -74,11 +74,11 @@ const DialogBox: React.FC<DialogBoxProps> = ({
         //             sm:rounded-3xl  bg-transparent bg-white  sm:p-0 ${
         //               post?.media?.length > 0 ? "sm:min-w-[70vw]" : ""
         //             }`}
-        className={` h-[95vh]  gap-0   sm:flex-row justify-center items-center border-none
-                      bg-transparent   sm:p-0 rounded-none ${
+        className={`  gap-0   sm:flex-row justify-center items-center border-none
+                      bg-white sm:p-0 rounded-none ${
                         post?.media?.length > 0
-                          ? "sm:min-w-[70vw] grid grid-cols-5 "
-                          : "w-96"
+                          ? "sm:min-w-[70vw] grid grid-cols-5 h-[95vh]"
+                          : "w-full"
                       }`}
       >
         {post && post.media && (
@@ -103,7 +103,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
           </div>
         )} */}
 
-        <div className={`flex flex-grow bg-white  overflow-y-auto ${post?.media?.length > 0 ? "min-w-96 h-[95vh]" : "h-[75vh] w-[45vw] "} `}>
+        <div className={`flex flex-grow bg-white overflow-y-auto ${post?.media?.length > 0 ? "min-w-96 h-[95vh]" : "h-[75vh] w-[25vw] "} `}>
           <DiaglogComment post={post} />
         </div>
 

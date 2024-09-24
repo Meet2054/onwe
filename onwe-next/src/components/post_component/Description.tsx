@@ -19,9 +19,9 @@ const linkify = (text: string) => {
   return processedText;
 };
 
-const Description = ({ des }: { des: string }) => {
+const Description = ({ des, text=false }: { des: string, text?:boolean }) => {
   return (
-    <div 
+    <div className={` w-full  ${text ? 'text-xl ' : 'text-lg'}`} 
       dangerouslySetInnerHTML={{ __html: linkify(des) }} 
     />
   );

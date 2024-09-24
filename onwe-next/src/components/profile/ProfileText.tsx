@@ -25,6 +25,7 @@ import {
 import axios from "axios";
 import { usePathname } from "next/navigation";
 import LikeComment from "../post_component/LikeComment";
+import Description from "../post_component/Description";
 
 
 const ProfileText = ({ posts }: { posts: PostsProps[] }) => {
@@ -157,7 +158,8 @@ const ProfileText = ({ posts }: { posts: PostsProps[] }) => {
               } ${expandedPostIds.has(post.id) ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}
             >
-              {post.description}
+              <Description des={post.description} />
+              
               {showMoreButtonIds.has(post.id) && (
                 <button
                   onClick={() => toggleDescription(post.id)}

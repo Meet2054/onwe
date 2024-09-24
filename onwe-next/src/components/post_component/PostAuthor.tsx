@@ -6,7 +6,7 @@ import Description from "./Description";
 
 const PostAuthor = ({ post }: { post: PostsProps }) => {
   return (
-    <div className=" flex gap-1">
+    <div className=" w-full  flex gap-1 ">
       <div>
         <PostAvatar size={7} imageUrl={post.avatar} />
       </div>

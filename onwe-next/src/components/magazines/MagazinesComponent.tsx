@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
-import M from "./cover.jpg"
 
 
 // Sample magazine data type
@@ -32,7 +31,7 @@ const MagazinesComponent: React.FC<{
         >
           <div className="w-full h-48 relative">
             <Image
-              src={M}              
+              src={magazine.media[magazine.media.length-1]}              
               // src={magazine.media[0]} 
               alt={magazine.title}
               layout="fill"

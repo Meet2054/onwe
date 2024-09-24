@@ -57,7 +57,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   // }, [post]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-2">
+    <div className="w-full h-full flex flex-col p-2">
       <div>
         <PostAuthor post={post || storedPost} />
         <div className="border border-gray-200" />
@@ -68,7 +68,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
             <SingleComment key={comment.id} data={comment} />
           ))}
       </div>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col w-full space-y-2">
         <div className="grid grid-cols-3">
           <div className="justify-self-start px-3">
             <LikeButton post={post!} />

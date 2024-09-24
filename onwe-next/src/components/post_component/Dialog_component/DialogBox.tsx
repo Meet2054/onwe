@@ -103,7 +103,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
           </div>
         )} */}
 
-        <div className="flex flex-grow w-full col-span-2  h-[95vh] bg-white overflow-y-auto min-w-96">
+        <div className={`flex flex-grow bg-white  overflow-y-auto ${post?.media?.length > 0 ? "min-w-96 h-[95vh]" : "h-[75vh] w-[45vw] "} `}>
           <DiaglogComment post={post} />
         </div>
 

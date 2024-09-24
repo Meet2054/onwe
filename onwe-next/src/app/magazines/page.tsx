@@ -57,6 +57,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (data) {
       setMagazines(data);
+      handleSelectMagazine(data[0]);
     }
   }, [data]);
 

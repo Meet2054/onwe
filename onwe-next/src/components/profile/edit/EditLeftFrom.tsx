@@ -3,19 +3,17 @@ import PostAvatar from "@/components/post_component/PostAvatar";
 import { Button } from "@/components/ui/button";
 import { useSignIn } from "@/hooks/useSignIn";
 import { RootState } from "@/lib/store";
-
-import {  useUser } from "@clerk/nextjs";
+import { useSWRConfig } from "swr";
 import axios from "axios";
 import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const EditLeftFrom = () => {
-  const { user: clerkUser } = useUser();
-  const [file, setFile] = useState(null);
   const [imageUrl, setImageUrl] = useState<File | string>("");
-  const { getToken } = useSignIn();
+  const { getToken, user: USER } = useSignIn();
   const { user } = useSelector((state: RootState) => state.user);
+  const { mutate } = useSWRConfig();
 
   useEffect(() => {
     if (user) {
@@ -26,7 +24,6 @@ const EditLeftFrom = () => {
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setImageUrl(e.target.files[0]);
-      await clerkUser?.setProfileImage({ file: e.target.files[0] });
       const formData = new FormData();
       formData.append("media", e.target.files[0]);
 
@@ -36,17 +33,18 @@ const EditLeftFrom = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${ getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         }
       );
 
+      USER.updateAvatar(res.data.avatar);
+      mutate("/user/info");
       setImageUrl(res.data.avatar);
     }
   };
 
   const handleRemove = async () => {
-    await clerkUser?.setProfileImage({ file: null });
     const formData = new FormData();
     formData.append("media", "gg");
 
@@ -56,11 +54,12 @@ const EditLeftFrom = () => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${ getToken()}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
-
+    USER.removeAvatar();
+    mutate("/user/info");
     setImageUrl("");
   };
   return (
@@ -83,7 +82,7 @@ const EditLeftFrom = () => {
         <PostAvatar
           className="border border-[16px]"
           size={52}
-          imageUrl={imageUrl}
+          imageUrl={imageUrl || USER.avatar}
         />
       </div>
       <div className="flex justify-center mt-5 gap-3">

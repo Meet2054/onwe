@@ -78,6 +78,6 @@ export const globalFetcher = async (url: string) => {
       "ngrok-skip-browser-warning": "69420",
     },
   });
-  console.log(data);
+
   return data;
 };

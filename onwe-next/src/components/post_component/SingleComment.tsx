@@ -8,7 +8,7 @@ import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
 const SingleComment = ({ data }: { data: Comment }) => {
   const [replyInputOpen, setReplyInputOpen] = useState(false);
@@ -21,8 +21,19 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const repliesRef = useRef<HTMLDivElement>(null);
   const { getToken, user } = useSignIn();
   const [timeAgo, setTimeAgo] = useState("");
+  const config = useSWRConfig();
 
-  const { data: swrData } = useSWR(`/subcomments/${data.postId}/${data.id}`);
+  const { data: swrReply, mutate } = useSWR<Comment[]>(
+    `/subcomments/${data.postId}/${data.id}`,
+    {
+      revalidateOnFocus: false,
+      // Add any additional logic here
+    }
+  );
+
+  // const { data: swrData } = useSWR(`/subcomments/${data.postId}/${data.id}`,{{onSuccess:(data)=>{
+  //   setReplies(swrData)
+  // }}});
 
   const handleReplyClick = () => {
     setReplyInputOpen(!replyInputOpen);
@@ -65,6 +76,8 @@ const SingleComment = ({ data }: { data: Comment }) => {
       };
       res.data.user = newUser;
 
+      mutate([...swrReply, res.data], false);
+
       setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
       setReply("");
       setShowReplies(true);
@@ -74,22 +87,22 @@ const SingleComment = ({ data }: { data: Comment }) => {
     }
   };
 
-  const showReply = async () => {
-    const response = await getData(
-      "/subcomments",
-      {
-        postId: data.postId,
-        parentId: data.id,
-      },
-      "POST"
-    );
+  // const showReply = async () => {
+  //   const response = await getData(
+  //     "/subcomments",
+  //     {
+  //       postId: data.postId,
+  //       parentId: data.id,
+  //     },
+  //     "POST"
+  //   );
 
-    setReplies(response);
-  };
+  //   setReplies(response);
+  // };
 
-  useEffect(() => {
-    showReply();
-  }, []);
+  // useEffect(() => {
+  //   showReply();
+  // }, []);
 
   useEffect(() => {
     if (replyInputOpen && inputRef.current) {
@@ -148,12 +161,12 @@ const SingleComment = ({ data }: { data: Comment }) => {
             }`}
             // style={{ maxHeight: showReplies ? repliesHeight : 0 }}
           >
-            {replies &&
-              replies.map((reply) => (
+            {swrReply &&
+              swrReply.map((reply) => (
                 <SingleComment key={reply.id} data={reply} />
               ))}
           </div>
-          {replies && replies.length > 0 && (
+          {swrReply && swrReply.length > 0 && (
             <div
               onClick={() => setShowReplies((prev) => !prev)}
               className="p-0 w-max hover:underline text-xs text-gray-500 cursor-pointer"
@@ -163,7 +176,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
                   "hide replies"
                 ) : (
                   <span>
-                    show <span className="text-red-600">{replies.length}</span>{" "}
+                    show <span className="text-red-600">{swrReply.length}</span>{" "}
                     replies
                   </span>
                 )}

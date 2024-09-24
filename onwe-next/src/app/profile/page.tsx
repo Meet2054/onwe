@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import useSWR from 'swr'
-import axios from 'axios'
-import { setUser } from '@/lib/features/user/userSlice'
-import { useSignIn } from '@/hooks/useSignIn'
-import { UserProfile } from '@/types/type'
-import PostAvatar from '@/components/post_component/PostAvatar'
-import Profile from '@/components/profile/Profile'
-import ProfileRightSection from '@/components/profile/ProfileRightSection'
-import RenderLinks from '@/components/profile/RenderLinks'
-import onwevideo from '../../components/profile/vid.mp4'
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import useSWR from "swr";
+import axios from "axios";
+import { setUser } from "@/lib/features/user/userSlice";
+import { useSignIn } from "@/hooks/useSignIn";
+import { UserProfile } from "@/types/type";
+import PostAvatar from "@/components/post_component/PostAvatar";
+import Profile from "@/components/profile/Profile";
+import ProfileRightSection from "@/components/profile/ProfileRightSection";
+import RenderLinks from "@/components/profile/RenderLinks";
+import onwevideo from "../../components/profile/vid.mp4";
 
 const fetcher = async (url: string, token: string) => {
   const { data } = await axios.post(
@@ -19,46 +19,43 @@ const fetcher = async (url: string, token: string) => {
     {},
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token || localStorage.getItem("onwetoken")}`,
       },
     }
-  )
-  return data
-}
+  );
+  return data;
+};
 
 export default function Page() {
-  const [userInfo, setUserInfo] = useState<UserProfile>()
-  const dispatch = useDispatch()
-  const { getToken } = useSignIn()
-  const [token, setToken] = useState<string | null>(null)
+  const [userInfo, setUserInfo] = useState<UserProfile>();
+  const dispatch = useDispatch();
+  const { getToken } = useSignIn();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    setToken(getToken())
-  }, [getToken])
+    setToken(getToken());
+  }, [getToken]);
 
-  const { data: swrData } = useSWR(
-    token ? ['/user/info', token] : null,
-    ([url, token]) => fetcher(url, token),
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  )
+  const { data: swrData } = useSWR("/user/info", fetcher);
 
   useEffect(() => {
     if (swrData) {
-      dispatch(setUser(swrData))
-      setUserInfo(swrData)
+      dispatch(setUser(swrData));
+      setUserInfo(swrData);
     }
-  }, [swrData, dispatch])
+  }, [swrData, dispatch]);
 
   return (
     <div className="overflow-y-auto h-screen scrollbar-custom p-2 pl-0">
       <div>
         <div className="relative w-full h-64 bg-white">
           <div className="absolute inset-0 bg-black rounded-xl">
-            <video className="absolute h-full w-full object-contain rounded-xl" loop autoPlay muted>
+            <video
+              className="absolute h-full w-full object-contain rounded-xl"
+              loop
+              autoPlay
+              muted
+            >
               <source src={onwevideo} type="video/mp4" />
             </video>
           </div>
@@ -76,7 +73,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      
+
       <div className="h-[100vh] w-full sm:flex items-center sm:p-0 bg-white">
         <div className="hidden sm:flex w-full h-full flex-col sm:flex-row animate-slide-up fade-in-5 rounded-xl bg-white gap-16 justify-between">
           <div className="w-[35%] h-full flex justify-center items-start mt-[50px]">
@@ -86,7 +83,7 @@ export default function Page() {
             <ProfileRightSection posts={userInfo?.posts!} />
           </div>
         </div>
-        
+
         <div className="sm:hidden w-full h-full flex pl-4 pt-4 items-center content-center overflow-y-auto scrollbar-hidden bg-white mb-14 pb-6">
           <div className="w-full h-[96vh] flex flex-col animate-slide-up fade-in-5 rounded-xl bg-white mr-4 items-center">
             <div className="w-[45%] h-max flex justify-center items-start mt-4">
@@ -99,5 +96,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  )
+  );
 }

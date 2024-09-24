@@ -21,6 +21,7 @@ interface ArticleCardProps {
   avatar: string;
   coverphoto: string;
   onClick: () => void;
+  
 }
 
 const ArticlePage: React.FC = () => {
@@ -94,6 +95,14 @@ const ArticlePage: React.FC = () => {
     setSelectedArticle(article);
   };
 
+  const closeCreateArticle = () => {
+    setShowCreateArticle(false)
+  };
+
+  const filteredArticles = articles.filter(
+    (article) => selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase()
+  );
+
   return (
     <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100">
       {showCreateArticle && (
@@ -106,7 +115,7 @@ const ArticlePage: React.FC = () => {
             >
               &times;
             </button>
-            <CreateArticle />
+            <CreateArticle onClose = {closeCreateArticle} />
           </div>
         </div>
       )}
@@ -166,25 +175,33 @@ const ArticlePage: React.FC = () => {
                   </div>
 
                   <div className="flex z-10 flex-wrap gap-2 items-start mt-5 text-black max-md:mt-0 max-md:mr-2.5 max-h-[59vh] overflow-y-auto scrollbar-custom">
-                    {
-                    articles
-                      .filter((article) => selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase())
-                      .map((article, index) => (
-                        <ArticleCard
-                          key={index}
-                          author={article.owner}
-                          time={article.time}
-                          date={article.createdAt}
-                          title={article.title}
-                          content={article.description}
-                          media = {article.media}
-                          category={article.category}
-                          avatar = {article.avatar}
-                          coverImage={article.coverphoto}
-                          onClick={() => handleArticleClick(article)}
-                        />
-                      ))}
-                  </div>
+  {filteredArticles.length > 0 && (
+    <>
+      {/* Group articles into rows of three */}
+      {Array.from({ length: Math.ceil(filteredArticles.length / 3) }).map((_, rowIndex) => (
+        <div className="flex w-full" key={rowIndex}>
+          {filteredArticles.slice(rowIndex * 3, rowIndex * 3 + 3).map((article, index) => (
+            <div className="w-1/3 p-1" key={index}>
+              <ArticleCard
+                author={article.owner}
+                time={article.time}
+                date={article.createdAt}
+                title={article.title}
+                content={article.description}
+                media={article.media}
+                category={article.category}
+                avatar={article.avatar}
+                coverImage={article.coverphoto}
+                onClick={() => handleArticleClick(article)}
+              />
+            </div>
+          ))}
+        </div>
+      ))}
+    </>
+  )}
+</div>
+
                 </div>
               )}
             </div>

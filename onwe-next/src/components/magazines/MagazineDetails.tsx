@@ -1,14 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Ma from "./Magazine_page-1.jpg";
-import Mb from "./Magazine_page-2.jpg";
-import Mc from "./Magazine_page-3.jpg";
-import Md from "./Magazine_page-4.jpg";
-const images = [Ma, Mb, Mc, Md];
-const data = Array.from({ length: 24 }, (_, index) => ({
-  imageUrl: images[index % 4]
-}));
-
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -24,9 +15,10 @@ type Magazine = {
 const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
   const selectedMagazine = useSelector((state: RootState) => state.magazine.selectedMagazine);
   const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = magazine.media.length;
 
   const goToNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 2, data.length - 1));
+    setCurrentPage((prev) => Math.min(prev + 2, totalPages - 1));
   };
 
   const goToPreviousPage = () => {
@@ -38,42 +30,58 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
   };
 
   const renderPageNumbers = () => {
-    const totalPages = data.length;
     const pageNumbers = [];
+    const lastPage = totalPages - 1;
     
+    // Always show first page
     pageNumbers.push(
       <PageNumber key={0} pageNum={1} currentPage={currentPage} onClick={() => goToPage(0)} />
     );
 
-    if (currentPage > 2 && currentPage < totalPages - 3) {
-      pageNumbers.push(<span key="ellipsis1">...</span>);
-      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+    if (currentPage <= 2) {
+      // First few pages: show 1 3 5 ... <lastPage>
+      for (let i = 3; i <= 5 && i < lastPage; i += 2) {
         pageNumbers.push(
-          <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
+          <PageNumber key={i} pageNum={i} currentPage={currentPage} onClick={() => goToPage(i - 1)} />
         );
       }
-      pageNumbers.push(<span key="ellipsis2">...</span>);
+      if (lastPage > 6) {
+        pageNumbers.push(<span key="ellipsis">...</span>);
+      }
+    } else if (currentPage >= lastPage - 2) {
+      // Last few pages: show 1 ... <lastOddNum-4> <lastOddNum-2> <lastOddNum> <lastPage>
+      pageNumbers.push(<span key="ellipsis">...</span>);
+      const lastOddNum = lastPage - (lastPage % 2 === 0 ? 1 : 0);
+      for (let i = lastOddNum - 4; i <= lastOddNum; i += 2) {
+        if (i > 1) {
+          pageNumbers.push(
+            <PageNumber key={i} pageNum={i} currentPage={currentPage} onClick={() => goToPage(i - 1)} />
+          );
+        }
+      }
     } else {
-      if (currentPage <= 2) {
-        for (let i = 1; i <= 3; i++) {
+      // Middle pages: show 1 ... <prevOdd> <currentOdd> <nextOdd> ... <lastPage>
+      pageNumbers.push(<span key="ellipsis1">...</span>);
+      const currentOdd = currentPage + 1 - (currentPage % 2);
+      for (let i = currentOdd - 2; i <= currentOdd + 2; i += 2) {
+        if (i > 1 && i < lastPage) {
           pageNumbers.push(
-            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
+            <PageNumber key={i} pageNum={i} currentPage={currentPage} onClick={() => goToPage(i - 1)} />
           );
         }
-        pageNumbers.push(<span key="ellipsis">...</span>);
-      } else {
-        pageNumbers.push(<span key="ellipsis">...</span>);
-        for (let i = totalPages - 4; i < totalPages - 1; i++) {
-          pageNumbers.push(
-            <PageNumber key={i} pageNum={i + 1} currentPage={currentPage} onClick={() => goToPage(i)} />
-          );
-        }
+      }
+      if (currentOdd + 2 < lastPage - 1) {
+        pageNumbers.push(<span key="ellipsis2">...</span>);
       }
     }
 
-    pageNumbers.push(
-      <PageNumber key={totalPages - 1} pageNum={totalPages} currentPage={currentPage} onClick={() => goToPage(totalPages - 1)} />
-    );
+    // Always show last page if it's not already shown
+    const lastElement = pageNumbers[pageNumbers.length - 1];
+    if (lastPage > 0 && (typeof lastElement === 'string' || lastElement.props.pageNum !== lastPage + 1)) {
+      pageNumbers.push(
+        <PageNumber key={lastPage} pageNum={lastPage + 1} currentPage={currentPage} onClick={() => goToPage(lastPage)} />
+      );
+    }
 
     return pageNumbers;
   };
@@ -91,21 +99,21 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
           </div>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
-              alt={`Magazine cover ${currentPage + 1}`}
+              src={magazine.media[totalPages - 1]}
+              alt={`Magazine cover ${totalPages}`}
               layout="fill"
               objectFit="cover"
             />
           </div>
         </>
       );
-    } else if (currentPage === data.length - 1) {
+    } else if (currentPage === totalPages - 1) {
       return (
         <>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
-              alt={`Magazine cover ${currentPage + 1}`}
+              src={magazine.media[0]}
+              alt={`Magazine cover 1`}
               layout="fill"
               objectFit="cover"
             />
@@ -119,20 +127,22 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
         </>
       );
     } else {
+      const leftPageIndex = totalPages - 1 - currentPage;
+      const rightPageIndex = totalPages - 2 - currentPage;
       return (
         <>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage].imageUrl}
-              alt={`Magazine cover ${currentPage + 1}`}
+              src={magazine.media[leftPageIndex]}
+              alt={`Magazine cover ${leftPageIndex + 1}`}
               layout="fill"
               objectFit="cover"
             />
           </div>
           <div className="w-1/2 relative">
             <Image
-              src={data[currentPage + 1].imageUrl}
-              alt={`Magazine cover ${currentPage + 2}`}
+              src={magazine.media[rightPageIndex]}
+              alt={`Magazine cover ${rightPageIndex + 1}`}
               layout="fill"
               objectFit="cover"
             />
@@ -150,7 +160,7 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
         </div>
         <div className="h-20 flex bg-transparent text-zinc-200">
           <div className="w-full flex items-center bg-zinc-900 justify-between">
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
+            <div className={`w-1/${currentPage === 0 || currentPage === totalPages - 1 ? '2' : '3'} flex justify-center`}>
               {currentPage > 1 && (
                 <ArrowLeft 
                   className="text-white cursor-pointer" 
@@ -159,11 +169,11 @@ const MagazineDetails: React.FC<{ magazine: Magazine }> = ({ magazine }) => {
                 />
               )}
             </div>
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center items-center space-x-2`}>
+            <div className={`w-1/${currentPage === 0 || currentPage === totalPages - 1 ? '2' : '3'} flex justify-center items-center space-x-2`}>
               {renderPageNumbers()}
             </div>
-            <div className={`w-1/${currentPage === 0 || currentPage === data.length - 1 ? '2' : '3'} flex justify-center`}>
-              {currentPage < data.length - 2 && (
+            <div className={`w-1/${currentPage === 0 || currentPage === totalPages - 1 ? '2' : '3'} flex justify-center`}>
+              {currentPage < totalPages - 2 && (
                 <ArrowRight 
                   className="text-white cursor-pointer" 
                   size={30} 

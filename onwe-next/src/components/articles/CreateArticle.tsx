@@ -10,6 +10,7 @@ interface InputFieldProps {
   type: "text" | "select" | "textarea";
   value: string;
   onChange: (value: string) => void;
+  
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
@@ -94,14 +95,18 @@ const Uploader: React.FC<UploaderProps> = ({ onFileUpload, accept, label }) => {
   );
 };
 
-interface CreateArticleProps {}
+interface CreateArticleProps {
+  onClose: () => void; 
+}
 
-const CreateArticle: React.FC<CreateArticleProps> = () => {
+const CreateArticle: React.FC<CreateArticleProps> = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [coverPhoto, setCoverPhoto] = useState<string>("");
   const [pdfFile, setPdfFile] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null); 
 
   const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
@@ -123,8 +128,6 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
     fetchToken();
   }, [getToken]);
 
- 
-
   const handleCoverPhotoUpload = (files: FileList) => {
     const file = files[0];
     if (file && file.type.startsWith("image/")) {
@@ -144,46 +147,50 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
 
     if (!token) {
       console.error("No token available for authentication.");
+      setMessage("Failed to create article: Missing authentication token.");
       return;
     }
 
     try {
-      
-        const formData = new FormData();
-    
-        formData.append("title", title);
-        formData.append("category", category);
-        formData.append("description", description);
-    
-        if (coverPhoto) {
-          const coverFile = await fetch(coverPhoto).then((r) => r.blob());
-          formData.append("media", coverFile, "cover-photo.jpg");
-        }
-        if (pdfFile) {
-          const pdfFileBlob = await fetch(pdfFile).then((r) => r.blob());
-          formData.append("media", pdfFileBlob, "article.pdf");
-        }
+      setLoading(true);
+      setMessage(null); 
 
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("category", category);
+      formData.append("description", description);
 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/artical`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      if (coverPhoto) {
+        const coverFile = await fetch(coverPhoto).then((r) => r.blob());
+        formData.append("media", coverFile, "cover-photo.jpg");
+      }
+      if (pdfFile) {
+        const pdfFileBlob = await fetch(pdfFile).then((r) => r.blob());
+        formData.append("media", pdfFileBlob, "article.pdf");
+      }
 
-      // Reset form fields if needed
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/artical`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+
+      setMessage("Article created successfully!"); 
+
       setTitle("");
       setCategory("");
       setDescription("");
       setCoverPhoto("");
       setPdfFile("");
+
+      onClose();
     } catch (error) {
       console.error("Failed to create article:", error);
+      setMessage("Failed to create article. Please try again."); 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -236,12 +243,23 @@ const CreateArticle: React.FC<CreateArticleProps> = () => {
                 <embed src={pdfFile} type="application/pdf" className="w-1/2  mt-3 " />
               )}
             </div>
-            <button
-              type="submit"
-              className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
-            >
-              Add Post
-            </button>
+            {loading ? (
+              <div className="flex justify-center items-center py-2.5 text-xs font-medium text-slate-500">
+                Loading...
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
+              >
+                Add Post
+              </button>
+            )}
+            {message && (
+              <p className={`mt-3 text-sm ${message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
+                {message}
+              </p>
+            )}
           </form>
         </div>
       </section>

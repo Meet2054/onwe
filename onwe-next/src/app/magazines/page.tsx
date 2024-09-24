@@ -16,8 +16,10 @@ type Magazine = {
   title: string;
   date: string;
   description: string;
-  media: string[]; // Assuming media is an array of strings
+  media: any[]; // Assuming media is an array of strings
 };
+
+
 
 // Fetcher function that includes token in headers
 const fetcher = async (url: string, token: string) => {
@@ -55,6 +57,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (data) {
       setMagazines(data);
+      handleSelectMagazine(data[0]);
     }
   }, [data]);
 

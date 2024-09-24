@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { selectMagazine } from "@/lib/features/magazines/magazineSlice";
 
 
-
 // Sample magazine data type
 type Magazine = {
   id: number;
@@ -19,7 +18,6 @@ const MagazinesComponent: React.FC<{
   magazines: Magazine[];
   onSelect: (magazine: Magazine) => void;
 }> = ({ magazines, onSelect }) => {
-  const base64Prefix = 'data:image/png;base64,';
   const dispatch = useDispatch();
 
 
@@ -33,10 +31,11 @@ const MagazinesComponent: React.FC<{
         >
           <div className="w-full h-48 relative">
             <Image
-              src={`${base64Prefix}${magazine.media[0]}`} // Assuming media is an array of base64 strings
+              src={magazine.media[magazine.media.length-1]}              
+              // src={magazine.media[0]} 
               alt={magazine.title}
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               className="border rounded-xl"
             />
           </div>

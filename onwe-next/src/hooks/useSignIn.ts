@@ -40,12 +40,15 @@ export const useSignIn = () => {
   const getUsername = () => {
     return localStorage.getItem("onweusername");
   };
-  const user = {
-    userName: localStorage.getItem("onweusername") || "",
-    avatar: localStorage.getItem("onweAvatar") || "",
-    updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
-    removeAvatar: () => localStorage.setItem("onweAvatar", ""),
-  };
+  let user = {};
+  if (localStorage) {
+    user = {
+      userName: localStorage.getItem("onweusername") || "",
+      avatar: localStorage.getItem("onweAvatar") || "",
+      updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
+      removeAvatar: () => localStorage.setItem("onweAvatar", ""),
+    };
+  }
   return {
     signIn: { create },
     setActive: async ({

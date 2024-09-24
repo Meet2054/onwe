@@ -69,7 +69,8 @@ const TopPosts: React.FC = () => {
   // Update the allPosts state when new data is fetched
   useEffect(() => {
     if (data) {
-      const newPosts = ([] as Post[]).concat(...data);
+      const newPosts = ([] as Post[]).concat(...data)
+      .filter((post) => post.media.length > 0);
       setAllPosts((prevPosts) => [...prevPosts, ...newPosts]);
     }
   }, [data]);

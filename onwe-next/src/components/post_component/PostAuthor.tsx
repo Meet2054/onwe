@@ -15,8 +15,8 @@ const PostAuthor = ({ post }: { post: PostsProps }) => {
           {post.username}
         </Link>
         <div 
-          className={`
-            ${post.media.length === 0 ? ' p-2  flex items-center justify-center' : ''}
+          className={` max-h-[40vh] overflow-y-auto scrollbar-custom
+            ${post.media.length === 0 ? ' px-2 py-5 flex items-center justify-center' : ''}
             w-full
           `}
         >

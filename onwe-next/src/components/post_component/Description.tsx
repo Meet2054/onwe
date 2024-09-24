@@ -21,7 +21,7 @@ const linkify = (text: string) => {
 
 const Description = ({ des, text=false }: { des: string, text?:boolean }) => {
   return (
-    <div className={` w-full  ${text ? 'text-xl ' : 'text-lg'}`} 
+    <div className={` w-full  ${text ? ' text-xl ' : 'text-lg'}`} 
       dangerouslySetInnerHTML={{ __html: linkify(des) }} 
     />
   );

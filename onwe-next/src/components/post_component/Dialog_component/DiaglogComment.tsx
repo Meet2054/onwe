@@ -62,7 +62,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
         <PostAuthor post={post || storedPost} />
         <div className="border border-gray-200" />
       </div>
-      <div className="w-full flex-grow mt-1 h-full  overflow-y-auto  space-y-4  p-2 ">
+      <div className="w-full flex-grow mt-1 h-full  overflow-y-auto scrollbar-custom space-y-4  p-2 ">
         {comments &&
           comments.map((comment) => (
             <SingleComment key={comment.id} data={comment} />

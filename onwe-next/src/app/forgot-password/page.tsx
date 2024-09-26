@@ -44,14 +44,14 @@ const ForgotPasswordPage: NextPage = () => {
   const reset = async (e: React.FormEvent, code: string, password: string) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reset-password`,{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/resetPassword`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          OTP: code,
-          Password: password
+          otp: code,
+          password: password
         }),
       })
   

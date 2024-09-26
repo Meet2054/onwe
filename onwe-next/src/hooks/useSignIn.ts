@@ -40,14 +40,32 @@ export const useSignIn = () => {
   const getUsername = () => {
     return localStorage.getItem("onweusername");
   };
+  let user = {};
 
-  const user = {
+if (typeof window !== "undefined") { 
+  user = {
     userName: localStorage.getItem("onweusername") || "",
     avatar: localStorage.getItem("onweAvatar") || "",
     updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
     removeAvatar: () => localStorage.setItem("onweAvatar", ""),
   };
-
+} else {
+  // Fallback or default values if not in the browser environment
+  user = {
+    userName: "",
+    avatar: "",
+    updateAvatar: () => {},
+    removeAvatar: () => {},
+  };
+}
+  // if (localStorage) {
+  //   user = {
+  //     userName: localStorage.getItem("onweusername") || "",
+  //     avatar: localStorage.getItem("onweAvatar") || "",
+  //     updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
+  //     removeAvatar: () => localStorage.setItem("onweAvatar", ""),
+  //   };
+  // }
   return {
     signIn: { create },
     setActive: async ({

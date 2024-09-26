@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -40,10 +40,35 @@ interface InputFieldProps {
     type: 'text' | 'select' | 'textarea';
     value: string;
     onChange: (value: string) => void;
+    onMention?: (query: string) => void;
+    inputRef?: React.RefObject<HTMLTextAreaElement>;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
-    const inputClasses = "flex flex-col justify-center items-start px-1.5  pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
+const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange, onMention, inputRef }) => {
+    const inputClasses = "flex flex-col justify-center items-start px-1.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
+    const [mentionQuery, setMentionQuery] = useState('');
+    const [cursorPosition, setCursorPosition] = useState(0);
+
+    const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
+        const newValue = e.target.value;
+        onChange(newValue);
+
+        if (type === 'textarea') {
+            const textarea = e.target as HTMLTextAreaElement;
+            setCursorPosition(textarea.selectionStart);
+
+            const lastAtSymbolIndex = newValue.lastIndexOf('@', textarea.selectionStart);
+            if (lastAtSymbolIndex !== -1) {
+                const query = newValue.slice(lastAtSymbolIndex + 1, textarea.selectionStart);
+                setMentionQuery(query);
+                if (onMention) {
+                    onMention(query);
+                }
+            } else {
+                setMentionQuery('');
+            }
+        }
+    };
 
     return (
         <div className={inputClasses}>
@@ -52,19 +77,18 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
                 <textarea
                     id={id}
                     placeholder={label}
+                    ref={inputRef}
                     className="w-full scrollbar-custom bg-transparent focus:outline-none resize-none"
                     rows={4}
                     value={value}
-                    onChange={(e) => {
-                         
-                        onChange(e.target.value)}}
+                    onChange={handleInputChange}
                 />
             ) : type === 'select' ? (
                 <select
                     id={id}
                     className="w-full bg-transparent"
                     value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={handleInputChange}
                 >
                     <option value="general">General</option>
                     <option value="sports">Sports</option>
@@ -80,7 +104,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
                     placeholder={label}
                     className="w-full focus:outline-none bg-transparent"
                     value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={handleInputChange}
                 />
             )}
         </div>
@@ -141,6 +165,9 @@ interface ChildComponentProps {
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState<File[]>([]);
     const [message, setMessage] = useState('');
+    const [mentionOptions, setMentionOptions] = useState<string[]>([]);
+    const [showMentions, setShowMentions] = useState(false);
+    const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
     const handleImageUpload = (files: FileList) => {
         setMessage("")
@@ -158,6 +185,36 @@ interface ChildComponentProps {
 
     const handleRemove = (index: number) => {
         setImages((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
+    const handleMention = async (query: string) => {
+        if (query.length > 0) {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                    },
+                });
+                setMentionOptions(response.data.map((user: any) => user.username));
+                setShowMentions(true);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        } else {
+            setShowMentions(false);
+        }
+    };
+
+    const handleMentionSelect = (username: string) => {
+        const lastAtSymbolIndex = description.lastIndexOf('@');
+        const newDescription = description.slice(0, lastAtSymbolIndex) + '@' + username + ' ' + description.slice(lastAtSymbolIndex + username.length + 1);
+        setDescription(newDescription);
+        setShowMentions(false);
+        if (descriptionInputRef.current) {
+            descriptionInputRef.current.focus();
+            const length = newDescription.length;
+            descriptionInputRef.current.setSelectionRange(length, length);
+          }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -212,13 +269,30 @@ interface ChildComponentProps {
             <h1 className="text-lg font-bold">✨ Create Post</h1>
             <p className="mt-1 text-sm">Top stories, interviews, and insights handpicked for you.</p>
             <form className="flex flex-col items-center gap-3 mt-4" onSubmit={handleSubmit}>
-                <InputField
-                    label="Write Description here..."
-                    id="article-description"
-                    type="textarea"
-                    value={description}
-                    onChange={setDescription}
-                />
+                <div className="relative w-full">
+                    <InputField
+                        label="Write Description here..."
+                        id="article-description"
+                        type="textarea"
+                        value={description}
+                        onChange={setDescription}
+                        onMention={handleMention}
+                        inputRef={descriptionInputRef}
+                    />
+                    {showMentions && mentionOptions.length > 0 && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                            {mentionOptions.map((username, index) => (
+                                <div
+                                    key={index}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => handleMentionSelect(username)}
+                                >
+                                    @{username}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
                 <InputField
                     label="Choose Your #Category"
                     id="article-category"
@@ -226,7 +300,7 @@ interface ChildComponentProps {
                     value={category}
                     onChange={setCategory}
                 />
-                {images.length<5 &&<ImageUploader onImageUpload={handleImageUpload} />}
+                {images.length < 5 && <ImageUploader onImageUpload={handleImageUpload} />}
                 <ImagePreview images={images} handleRemove={handleRemove} />
                 {message && <p className="text-sm text-red-500">{message}</p>}
                 <button

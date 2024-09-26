@@ -1,46 +1,66 @@
-import React, { useState, useRef, ChangeEvent } from 'react';
-import { useSignIn } from '@/hooks/useSignIn';
-import { extractHashTags } from '@/lib/utils';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import React, { useState, useRef, ChangeEvent } from "react";
+import { useSignIn } from "@/hooks/useSignIn";
+import { extractHashTags } from "@/lib/utils";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import useSWRMutation from "swr/mutation";
 
 interface InputFieldProps {
   label: string;
   id: string;
-  type: 'text' | 'select' | 'textarea';
+  type: "text" | "select" | "textarea";
   value: string;
   onChange: (value: string) => void;
   onMention?: (query: string) => void;
   inputRef?: React.RefObject<HTMLTextAreaElement>;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange, onMention, inputRef }) => {
-  const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
-  const [mentionQuery, setMentionQuery] = useState('');
+const InputField: React.FC<InputFieldProps> = ({
+  label,
+  id,
+  type,
+  value,
+  onChange,
+  onMention,
+  inputRef,
+}) => {
+  const inputClasses =
+    "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
+  const [mentionQuery, setMentionQuery] = useState("");
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>
+  ) => {
     const newValue = e.target.value;
     onChange(newValue);
 
-    if (type === 'textarea') {
+    if (type === "textarea") {
       const textarea = e.target as HTMLTextAreaElement;
-      const lastAtSymbolIndex = newValue.lastIndexOf('@', textarea.selectionStart);
+      const lastAtSymbolIndex = newValue.lastIndexOf(
+        "@",
+        textarea.selectionStart
+      );
       if (lastAtSymbolIndex !== -1) {
-        const query = newValue.slice(lastAtSymbolIndex + 1, textarea.selectionStart);
+        const query = newValue.slice(
+          lastAtSymbolIndex + 1,
+          textarea.selectionStart
+        );
         setMentionQuery(query);
         if (onMention) {
           onMention(query);
         }
       } else {
-        setMentionQuery('');
+        setMentionQuery("");
       }
     }
   };
 
   return (
     <div className={inputClasses}>
-      <label htmlFor={id} className="sr-only">{label}</label>
-      {type === 'textarea' ? (
+      <label htmlFor={id} className="sr-only">
+        {label}
+      </label>
+      {type === "textarea" ? (
         <textarea
           id={id}
           ref={inputRef}
@@ -50,7 +70,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
           value={value}
           onChange={handleInputChange}
         />
-      ) : type === 'select' ? (
+      ) : type === "select" ? (
         <select
           id={id}
           className="w-full bg-transparent"
@@ -82,6 +102,21 @@ interface ChildComponentProps {
   done: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const getRequest = async (
+  url: string,
+  { arg }: { arg: { query: string; token: string } }
+) => {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}/${arg.query}`,
+    {
+      headers: {
+        Authorization: `Bearer ${arg.token}`,
+      },
+    }
+  );
+  return data;
+};
+
 const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
   const { getToken } = useSignIn();
   const [description, setDescription] = useState("");
@@ -90,17 +125,21 @@ const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
   const [mentionOptions, setMentionOptions] = useState<string[]>([]);
   const [showMentions, setShowMentions] = useState(false);
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+  const { trigger, isMutating } = useSWRMutation("/explore/users", getRequest);
 
   const handleMention = async (query: string) => {
     if (query.length > 0) {
+      const token = getToken();
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        setMentionOptions(response.data.map((user: any) => user.username));
-        setShowMentions(true);
+        trigger(
+          { query, token: token as string },
+          {
+            onSuccess(data) {
+              setMentionOptions(data.map((user: any) => user.username));
+              setShowMentions(true);
+            },
+          }
+        );
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -110,8 +149,13 @@ const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
   };
 
   const handleMentionSelect = (username: string) => {
-    const lastAtSymbolIndex = description.lastIndexOf('@');
-    const newDescription = description.slice(0, lastAtSymbolIndex) + '@' + username + ' ' + description.slice(lastAtSymbolIndex + username.length + 1);
+    const lastAtSymbolIndex = description.lastIndexOf("@");
+    const newDescription =
+      description.slice(0, lastAtSymbolIndex) +
+      "@" +
+      username +
+      " " +
+      description.slice(lastAtSymbolIndex + username.length + 1);
     setDescription(newDescription);
     setShowMentions(false);
     if (descriptionInputRef.current) {
@@ -131,7 +175,7 @@ const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
 
     try {
       const formData = new FormData();
-      formData.append('description', description);
+      formData.append("description", description);
       formData.append("tags", extractHashTags(description));
 
       const response = await axios.post(
@@ -144,7 +188,7 @@ const Tweet: React.FC<ChildComponentProps> = ({ done }) => {
           },
         }
       );
-      setDescription('');
+      setDescription("");
       done(false);
       router.push("/profile");
     } catch (err) {

@@ -10,6 +10,7 @@ import General from "@/components/clubs/General";
 import Announcement from "@/components/clubs/Announcement";
 import { PostsProps } from "@/types/type";
 import GeneralAnnounce from "@/components/clubs/GeneralAnnounce";
+import ClubCalendar from "@/components/clubs/ClubEvents";
 
 const Page = () => {
   const params = useParams();
@@ -26,6 +27,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const token = getToken();
+        // TODO : fetch using SWR
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/clubs/check/${club}`,
           {
@@ -77,13 +79,16 @@ const Page = () => {
     return (
       <div className="content h-full">
         <GeneralAnnounce club={club} />
-        {tab === "general" ? (
+        {/* {tab === "general" ? (
           <General club={club} />
         ) : (
           // <General posts={clubposts} club={club} />
           <Announcement club={club} />
           // <Announcement posts={clubposts} club={club} isAdmin={admin} />
-        )}
+        )} */}
+        {tab === "general" && <General club={club} />}
+        {tab === "announcement" && <Announcement club={club} />}
+        {tab === "events" && <ClubCalendar club={club} />}
       </div>
     );
   }

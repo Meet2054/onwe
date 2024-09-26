@@ -38,12 +38,24 @@ const GeneralAnnounce = ({ club }: { club: string }) => {
           >
             Announcements
           </div>
+          <div
+            className={`px-2 sm:px-6 py-1 rounded-full flex items-center cursor-pointer text-sm sm:text-lg ${
+              tab === "events"
+                ? "bg-black text-white"
+                : "bg-white text-black border"
+            }`}
+            onClick={() => handleTabClick("events")}
+          >
+            Events
+          </div>
         </div>
         <div className="flex items-center">
-          <div className="mr-2 bg-white px-8 py-2 rounded-xl shadow border">{club}</div>
-        <div className="pr-8 ml-2">
-          <Info />
-        </div>
+          <div className="mr-2 bg-white px-8 py-2 rounded-xl shadow border">
+            {club}
+          </div>
+          <div className="pr-8 ml-2">
+            <Info />
+          </div>
         </div>
       </div>
     </div>

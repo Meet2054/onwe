@@ -13,13 +13,13 @@ import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import RenderLinks from "@/components/profile/RenderLinks";
 import onwevideo from "../../components/profile/vid.mp4";
 
-const fetcher = async (url: string, token: string) => {
+const fetcher = async (url: string) => {
   const { data } = await axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}${url}`,
     {},
     {
       headers: {
-        Authorization: `Bearer ${token || localStorage.getItem("onwetoken")}`,
+        Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
       },
     }
   );

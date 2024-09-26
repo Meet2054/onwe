@@ -18,7 +18,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   const { post: storedPost } = useSelector((state: RootState) => state.post);
 
   const [comments, setComments] = useState<Comment[]>([]);
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     `/posts/${post?.id || storedPost?.id}/comments`,
     globalFetcher,
     {
@@ -27,34 +27,6 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
       },
     }
   );
-
-  // const getComments = async () => {
-  //   // console.log(post);
-
-  //   try {
-  //     const comment = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/posts/${
-  //         post?.id || storedPost?.id
-  //       }/comments`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${getToken()}`,
-  //           "Content-Type": "application/json",
-  //           Accept: "*/*",
-  //           "ngrok-skip-browser-warning": "69420",
-  //         },
-  //       }
-  //     );
-
-  //     setComments(comment.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getComments();
-  // }, [post]);
 
   return (
     <div className="w-full h-full flex flex-col p-2">
@@ -77,7 +49,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
           {/* <CopyButton /> */}
         </div>
 
-        <CommentInput setComments={setComments} />
+        <CommentInput mutate={mutate} setComments={setComments} />
       </div>
     </div>
   );

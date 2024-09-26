@@ -27,6 +27,7 @@ function RenderCalendar({
   const { getToken } = useSignIn();
   const [events, setEvents] = useState<Event[]>([]);
   useEffect(() => {
+    // TODO : fetch using SWR
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
@@ -38,7 +39,7 @@ function RenderCalendar({
             },
           }
         );
-        console.log(response.data);
+
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);

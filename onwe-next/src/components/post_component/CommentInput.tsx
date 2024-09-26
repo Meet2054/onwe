@@ -2,20 +2,22 @@
 import React, { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowUp } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
+
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { useSignIn } from "@/hooks/useSignIn";
 
-const CommentInput = ({ setComments }) => {
+const CommentInput = ({ setComments, mutate }) => {
   const [comment, setComment] = useState("");
   const { post } = useSelector((state: RootState) => state.post);
+  const [isSubmitting, setisSubmitting] = useState(false);
   const { getToken, user } = useSignIn();
 
   const handleClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!comment) return;
+    if (!comment || isSubmitting) return;
+    setisSubmitting(true);
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/comments`,
       {
@@ -40,9 +42,13 @@ const CommentInput = ({ setComments }) => {
         username: user?.userName,
       },
     };
-    
 
     setComment("");
+    setisSubmitting(false);
+
+    mutate((prev) => {
+      console.log(prev);
+    });
 
     setComments((prev) => (prev ? [newData, ...prev] : [newData]));
   };

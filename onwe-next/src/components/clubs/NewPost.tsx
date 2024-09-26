@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent, DragEvent, Dispatch, SetStateAction } fro
 import plus from '../SideBar/sideBarImages/create.svg'
 import create from '../SideBar/sideBarImages/create.svg'
 import Image from "next/image";
-import { CircleX, Plus, Send } from "lucide-react";
+import { CircleX, Loader, Plus, Send } from "lucide-react";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
 
@@ -67,6 +67,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const { getToken } = useSignIn();
+    const [isPosting, setPosting] = useState(false);
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -102,6 +103,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
     const preventDefault = (e: DragEvent<HTMLDivElement>) => e.preventDefault();
 
     const handlePost = async () => {
+        setPosting(true)
         if(description=="" && tags=="" && files.length==0) return 0;
         setLoading(true);
         try {
@@ -133,6 +135,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
             setSuccessMessage("Post successful!");
             setDone((d:boolean)=>!d);
             setTimeout(() => setSuccessMessage(""), 3000);
+            setPosting(false)
             return 1
 
         } catch (error) {
@@ -194,24 +197,21 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
                     htmlFor="photoUpload"
                     className="cursor-pointer flex flex-col items-center"
                 >
-                    <Plus size={20} />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <g opacity="0.8">
+    <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8.5 10C9.32843 10 10 9.32843 10 8.5C10 7.67157 9.32843 7 8.5 7C7.67157 7 7 7.67157 7 8.5C7 9.32843 7.67157 10 8.5 10Z" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M21 15L16 10L5 21" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
 
                 </label>
                <div className=" ml-14"> <InputField label={"Write Something"} id={""}  value={description} onChange={setDescription}/></div></div>
                 <button onClick={async ()=>{
-                    await handlePost();                    
+                    if(!isPosting) await handlePost();                    
                 }}
                 disabled={loading}>
-                    
-                {/* <Image
-                    height={24} 
-                    width={24}
-                    alt="post"
-                    loading="lazy"
-                    src={create}
-                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                    /> */}
-                    <Send/>
+                   {isPosting? <Loader/> : <Send className="w-5 h-5"/>}
                 </button>
             </div>
         </div>

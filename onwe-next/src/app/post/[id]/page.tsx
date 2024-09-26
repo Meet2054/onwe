@@ -15,7 +15,7 @@ const Page = () => {
 
     const {getToken} = useSignIn();
     const postid =  useParams().id;
-    const [post, setPost] = useState<PostsProps>({} as PostsProps)
+    const [post, setPost] = useState<PostsProps|null>(null)
     
     useEffect(() => {
         const getPost = async () => {
@@ -29,6 +29,7 @@ const Page = () => {
                 }
                 );
                 setPost(data as PostsProps)
+                console.log(post)
             } catch (error) {
                 console.log(error)
             }
@@ -38,9 +39,11 @@ const Page = () => {
 
 
     return <div className="flex justify-center bg-white items-center text-black h-[80vh]">
-           {post && <DialogBox post={post} description={post.description}/>}
+           {post ? <div className="w-[40vh] h-[40vh]"><DialogBox post={post} imageUrl={post.media[0]}  description={post.description}/></div>:
+            "No post found"
+           }
            
-            post
+            
     </div>;
 };
 

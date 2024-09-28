@@ -57,9 +57,10 @@ interface InputFieldProps {
   interface NewPostProps {
     setDone: Dispatch<SetStateAction<boolean>>;
     clubName: string;
+    tab:string
   }
 
-export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
+export const NewPost: React.FC<NewPostProps> = ({clubName, setDone, tab}) =>{
 
     const [description, setDescription] = useState<string>("");
     const [tags, setTags] = useState<string>("");
@@ -108,7 +109,7 @@ export const NewPost: React.FC<NewPostProps> = ({clubName, setDone}) =>{
         setLoading(true);
         try {
             const formData = new FormData();
-            formData.append("category", "general");
+            formData.append("category", tab);
             formData.append("description", description);
             formData.append("tags", tags);
             formData.append("clubname", clubName);

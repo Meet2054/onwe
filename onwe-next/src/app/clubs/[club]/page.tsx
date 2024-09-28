@@ -90,7 +90,7 @@ const Page = () => {
           // <Announcement posts={clubposts} club={club} isAdmin={admin} />
         )} */}
         {tab === "general" && <General club={club} />}
-        {tab === "announcement" && <Announcement club={club} />}
+        {tab === "announcement" && <Announcement  club={club} />}
         {tab === "events" && <ClubCalendar club={club} />}
       </div>
     );

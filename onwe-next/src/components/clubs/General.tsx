@@ -99,7 +99,7 @@ const General = ({ club }: { club: string }) => {
       </div>
       <div className="fixed sm:bottom-0 bottom-16 bg-white pb-4">
         <div className="bg-white">
-          <NewPost clubName={club} setDone={setCreateActive} />
+          <NewPost tab="general" clubName={club} setDone={setCreateActive} />
         </div>
       </div>
     </div>

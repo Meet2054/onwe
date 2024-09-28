@@ -87,12 +87,11 @@ const Announcement = ({ club }: { club: string }) => {
         </div>
       ))}
       {isAdmin && (
-        <button
-          className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleCreateClick}
-        >
-          Create
-        </button>
+        <div className="fixed sm:bottom-0 bottom-16 bg-white pb-4">
+        <div className="bg-white">
+          <NewPost tab="announcement" clubName={club} setDone={setCreateActive} />
+        </div>
+      </div>
       )}
       {/* {createActive && (
         <CreatePost
@@ -102,11 +101,7 @@ const Announcement = ({ club }: { club: string }) => {
         />
       )} */}
       {/* need to keep check if isAdmin is true or not */}
-      <div className="fixed sm:bottom-0 bottom-16 bg-white pb-4">
-        <div className="bg-white">
-          <NewPost clubName={club} setDone={setCreateActive} />
-        </div>
-      </div>
+      
     </div>
   );
 };

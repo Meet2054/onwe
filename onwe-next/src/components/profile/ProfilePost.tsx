@@ -71,7 +71,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                 ))}
               </div> */}
       <div className=" flex grid md:grid-cols-3 grid-cols-2  gap-1 mt-5 h-max w-full">
-        {newPosts !== null &&
+        {newPosts.length !== 0 ?(
           newPosts.map((post) => (
             <div
               key={post.id}
@@ -131,7 +131,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                 <DialogBox post={post} imageUrl={post.media[0]} />
               </>
             </div>
-          ))}
+          ))):<div className="p-3">No posts</div>}
       </div>
     </>
   );

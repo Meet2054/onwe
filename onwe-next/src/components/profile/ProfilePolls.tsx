@@ -17,14 +17,13 @@ const ProfilePolls = ({ username }: { username: string | null }) => {
     const fetchData = async () => {
       try {
         const token =  getToken();
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/polls`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/polls/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
             "ngrok-skip-browser-warning": "69420",
           },
         });
-        
         setData(res.data);
       } catch (err) {
         console.log("Error fetching polls:", err);
@@ -41,9 +40,9 @@ const ProfilePolls = ({ username }: { username: string | null }) => {
       <div className="h-full w-full flex flex-col">
         {tempData.length === 0 && (<ProfilePollSkeleton />)}
         {tempData
-          .filter(poll => poll.createdBy === username) 
+          
           .map((poll, index) => (
-            <RenderPoll key={index} poll={poll} />
+            <RenderPoll isDeleted={true} key={index} poll={poll} />
           ))}
         <div className="mt-20" />
       </div>

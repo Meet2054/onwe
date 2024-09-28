@@ -94,7 +94,7 @@ const ProfileText = ({ posts }: { posts: PostsProps[] }) => {
   return (
     <>
       <div className="flex flex-col gap-1 mt-5 h-max  ">
-        {newPosts.map((post) => (
+        {newPosts.length==0 ?<div className="p-3">No Texts </div>:newPosts.map((post) => (
           <div
             key={post.id}
             onClick={() => handleClick(post)}

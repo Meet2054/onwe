@@ -1,107 +1,80 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import ArticleView from '@/components/articles/ArticlesView';
-import ArticleCard from '@/components/articles/ArticlesCard';
-import CreateArticle from '@/components/articles/CreateArticle';
-import { useSignIn } from '@/hooks/useSignIn';
+import React, { useState } from 'react'
+import Link from 'next/link'
+import useSWR from 'swr'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import ArticleView from '@/components/articles/ArticlesView'
+import ArticleCard from '@/components/articles/ArticlesCard'
+import CreateArticle from '@/components/articles/CreateArticle'
+import { useSignIn } from '@/hooks/useSignIn'
 
 interface ArticleCardProps {
-  owner: string;
-  time: string;
-  media: string[];
-  createdAt: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  category: string;
-  avatar: string;
-  coverphoto: string;
-  onClick: () => void;
-  
+  owner: string
+  time: string
+  media: string[]
+  createdAt: string
+  title: string
+  description: string
+  imageUrl: string
+  category: string
+  avatar: string
+  coverphoto: string
+  onClick: () => void
+}
+
+const fetcher = async (url: string, token: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  })
+  return response.data
 }
 
 const ArticlePage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null);
-  const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [articles, setArticles] = useState<ArticleCardProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All')
+  const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null)
+  const [showCreateArticle, setShowCreateArticle] = useState(false)
 
-  const { getToken } = useSignIn();
-  const [token, setToken] = useState<string | null>(null);
+  const { getToken } = useSignIn()
+  const token = getToken()
 
-  useEffect(() => {
-    let isMounted = true;
+  const { data: articles, error } = useSWR(
+    token ? [`${process.env.NEXT_PUBLIC_API_URL}/artical`, token] : null,
+    ([url, token]) => fetcher(url, token)
+  )
 
-    const fetchTokenAndArticles = async () => {
-      try {
-        const fetchedToken =  getToken();
-        if (isMounted) {
-          setToken(fetchedToken);
-  
-          if (fetchedToken) {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/artical`, {
-              headers: {
-                Authorization: `Bearer ${fetchedToken}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            });
-            
-
-            if (Array.isArray(response.data)) {
-              setArticles(response.data);
-            } else {
-              console.error('Unexpected data format:', response.data);
-            }
-          }
-        }
-      } catch (error) {
-        if (isMounted) {
-          setError('Failed to fetch articles');
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchTokenAndArticles();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
+  const loading = !articles && !error
 
   const handleBackToArticles = () => {
-    setSelectedArticle(null);
-  };
+    setSelectedArticle(null)
+  }
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
+    setSelectedCategory(category)
+  }
 
   const handleToggleCreateArticle = () => {
-    setShowCreateArticle(!showCreateArticle);
-  };
+    setShowCreateArticle(!showCreateArticle)
+  }
 
   const handleArticleClick = (article: ArticleCardProps) => {
-    setSelectedArticle(article);
-  };
+    setSelectedArticle(article)
+  }
 
   const closeCreateArticle = () => {
     setShowCreateArticle(false)
-  };
+  }
 
-  const filteredArticles = articles.filter(
-    (article) => selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase()
-  );
+  const filteredArticles = articles
+    ? articles.filter(
+        (article: ArticleCardProps) =>
+          selectedCategory === 'All' || article.category.toLowerCase() === selectedCategory.toLowerCase()
+      )
+    : []
 
   return (
     <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100">
@@ -115,7 +88,7 @@ const ArticlePage: React.FC = () => {
             >
               &times;
             </button>
-            <CreateArticle onClose = {closeCreateArticle} />
+            <CreateArticle onClose={closeCreateArticle} />
           </div>
         </div>
       )}
@@ -161,7 +134,7 @@ const ArticlePage: React.FC = () => {
               {loading ? (
                 <div className="text-center py-5">Loading...</div>
               ) : error ? (
-                <div className="text-center text-red-500 py-5">{error}</div>
+                <div className="text-center text-red-500 py-5">Failed to fetch articles</div>
               ) : (
                 <div className="flex flex-col mt-5 ml-2.5 max-w-full w-full">
                   <div className="overflow-hidden gap-2.5 self-start px-3 py-1.5 text-sm font-medium tracking-tight text-fuchsia-600 whitespace-nowrap rounded-md bg-fuchsia-600 bg-opacity-10 min-h-[26px]">
@@ -175,33 +148,31 @@ const ArticlePage: React.FC = () => {
                   </div>
 
                   <div className="flex z-10 flex-wrap gap-2 items-start mt-5 text-black max-md:mt-0 max-md:mr-2.5 max-h-[59vh] overflow-y-auto scrollbar-custom">
-  {filteredArticles.length > 0 && (
-    <>
-      {/* Group articles into rows of three */}
-      {Array.from({ length: Math.ceil(filteredArticles.length / 3) }).map((_, rowIndex) => (
-        <div className="flex w-full" key={rowIndex}>
-          {filteredArticles.slice(rowIndex * 3, rowIndex * 3 + 3).map((article, index) => (
-            <div className="w-1/3 p-1" key={index}>
-              <ArticleCard
-                author={article.owner}
-                time={article.time}
-                date={article.createdAt}
-                title={article.title}
-                content={article.description}
-                media={article.media}
-                category={article.category}
-                avatar={article.avatar}
-                coverImage={article.coverphoto}
-                onClick={() => handleArticleClick(article)}
-              />
-            </div>
-          ))}
-        </div>
-      ))}
-    </>
-  )}
-</div>
-
+                    {filteredArticles.length > 0 && (
+                      <>
+                        {Array.from({ length: Math.ceil(filteredArticles.length / 3) }).map((_, rowIndex) => (
+                          <div className="flex w-full" key={rowIndex}>
+                            {filteredArticles.slice(rowIndex * 3, rowIndex * 3 + 3).map((article: ArticleCardProps, index: number) => (
+                              <div className="w-1/3 p-1" key={index}>
+                                <ArticleCard
+                                  author={article.owner}
+                                  time={article.time}
+                                  date={article.createdAt}
+                                  title={article.title}
+                                  content={article.description}
+                                  media={article.media}
+                                  category={article.category}
+                                  avatar={article.avatar}
+                                  coverImage={article.coverphoto}
+                                  onClick={() => handleArticleClick(article)}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -209,7 +180,7 @@ const ArticlePage: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ArticlePage;
+export default ArticlePage

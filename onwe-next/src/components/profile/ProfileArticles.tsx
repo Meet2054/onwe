@@ -1,152 +1,104 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import ArticleView from '@/components/articles/ArticlesView';
-import ArticleCard from '@/components/articles/ArticlesCard';
-import CreateArticle from '@/components/articles/CreateArticle';
-import { Skeleton } from '../ui/skeleton';
-import { useSignIn } from '@/hooks/useSignIn';
+import React, { useState } from 'react'
+import useSWR from 'swr'
+import axios from 'axios'
+import { useSignIn } from '@/hooks/useSignIn'
+import ArticleView from '@/components/articles/ArticlesView'
+import ArticleCard from '@/components/articles/ArticlesCard'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface ArticleCardProps {
-  owner: string;
-  time: string;
-  media: string[];
-  createdAt: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  category: string;
-  avatar: string;
-  coverphoto: string;
-  onClick: () => void;
+  id: number
+  owner: string
+  time: string
+  media: string[]
+  createdAt: string
+  title: string
+  description: string
+  imageUrl: string
+  category: string
+  avatar: string
+  coverphoto: string
 }
 
-const ProfileArticles = ({ username }: { username: string | null }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('General');
-  const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null);
-  const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [articles, setArticles] = useState<ArticleCardProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const fetcher = async (url: string, token: string|null) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+  })
+  return response.data
+}
 
-  const { getToken } = useSignIn();
-  const [token, setToken] = useState<string | null>(null);
+const ProfileArticles: React.FC<{ username: string | null }> = ({ username }) => {
+  const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null)
+  const { getToken } = useSignIn()
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchTokenAndArticles = async () => {
-      try {
-        const fetchedToken =  getToken();
-        if (isMounted) {
-          setToken(fetchedToken);
-          
-          if (fetchedToken) {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/artical`, {
-              headers: {
-                Authorization: `Bearer ${fetchedToken}`,
-                "ngrok-skip-browser-warning": "69420",
-              },
-            });
-            
-
-            if (Array.isArray(response.data)) {
-              setArticles(response.data);
-            } else {
-              console.error('Unexpected data format:', response.data);
-            }
-          }
-        }
-      } catch (error) {
-        if (isMounted) {
-          setError('Failed to fetch articles');
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchTokenAndArticles();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [getToken]);
-
- 
+  const { data: articles, error, isLoading } = useSWR(
+    username ? [`${process.env.NEXT_PUBLIC_API_URL}/artical/${username}`, getToken()] : null,
+    ([url, token]) => fetcher(url, token),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  )
 
   const handleBackToArticles = () => {
-    setSelectedArticle(null);
-  };
-
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  
+    setSelectedArticle(null)
+  }
 
   const handleArticleClick = (article: ArticleCardProps) => {
-    setSelectedArticle(article);
-  };
+    setSelectedArticle(article)
+  }
   
-  return (
-    <div className="flex flex-col">
+  if (isLoading) return <ProfileArticleSkeleton />
+  if (error) return <div className="text-center text-red-500 py-5">Failed to fetch articles</div>
 
-      <div className="flex z-10 flex-col items-center mt-0 w-full max-md:pr-5 max-md:mt-0 max-md:max-w-full">
-        <div className="flex z-10 flex-col mt-0 w-full h-screen max-w-[1421px] max-md:mt-0 max-md:max-w-full">
-          {selectedArticle ? (
-            <ArticleView {...selectedArticle} onBack={handleBackToArticles} />
-          ) : (
-            <div className="flex-col w-full bg-white h-screen max-md:max-w-full">
-              {loading ? (
-                <div className="text-center py-5"><ProfileArticleSkeleton /></div>
-              ) : error ? (
-                <div className="text-center text-red-500 py-5">{error}</div>
-              ) : (
-                <div className="flex flex-col  ml-2.5 max-w-full w-full">
-                  <div className="flex z-10 flex-wrap gap-2 items-start mt-3 text-black max-md:mt-0 max-md:mr-2.5 h-screen ">
-                    {
-                    articles
-                      .filter((article) => article.owner === username)
-                      .map((article, index) => (
-                        <ArticleCard
-                        key={index}
-                        author={article.owner}
-                        time={article.time}
-                        date={article.createdAt}
-                        title={article.title}
-                        content={article.description}
-                        media = {article.media}
-                        category={article.category}
-                        avatar = {article.avatar}
-                        coverImage={article.coverphoto}
-                        onClick={() => handleArticleClick(article)}
-                      />
-                      ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+  return (
+    <div className="flex flex-col h-screen">
+      <div className="flex-1 overflow-auto">
+        {selectedArticle ? (
+          <ArticleView {...selectedArticle} onBack={handleBackToArticles} />
+        ) : (
+          <div className="flex flex-wrap gap-2 p-2">
+            {!articles || articles.length === 0 ? (
+              <div className="p-3">No Articles</div>
+            ) : (
+              articles.map((article: ArticleCardProps, index: number) => (
+                <ArticleCard
+                  key={index}
+                  id={article.id}
+                  author={article.owner}
+                  time={article.time}
+                  date={article.createdAt}
+                  title={article.title}
+                  content={article.description}
+                  media={article.media}
+                  category={article.category}
+                  avatar={article.avatar}
+                  coverImage={article.coverphoto}
+                  isDeletable={true}
+                  onClick={() => handleArticleClick(article)}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileArticles;
-
-const ProfileArticleSkeleton = () => {
+const ProfileArticleSkeleton: React.FC = () => {
   return (
-    <div className="flex flex-col gap-1 h-full mt-5">
-      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
-      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
-      <Skeleton className="h-[180px] w-[60%] animate-pulse" />
+    <div className="flex flex-col gap-4 p-4">
+      <Skeleton className="h-[180px] w-full" />
+      <Skeleton className="h-[180px] w-full" />
+      <Skeleton className="h-[180px] w-full" />
     </div>
-  );
-};
+  )
+}
+
+export default ProfileArticles

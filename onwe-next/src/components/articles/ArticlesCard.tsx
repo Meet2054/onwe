@@ -1,3 +1,5 @@
+import { useSignIn } from "@/hooks/useSignIn";
+import axios from "axios";
 import React from "react";
 
 interface ArticleCardProps {
@@ -11,9 +13,12 @@ interface ArticleCardProps {
   avatar: string;
   coverImage: string;
   onClick: () => void;
+  isDeletable?: boolean;
+  id?: number
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
+  id=null,
   author,
   time,
   title,
@@ -22,7 +27,28 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   onClick,
   coverImage,
   avatar,
+  isDeletable = false,
 }) => {
+
+  const {getUsername, getToken} = useSignIn()
+  const [username, setUsername] = React.useState<string | null>(getUsername())
+
+
+  const deleteArticle = async () => {
+    try {
+      const token =  getToken();
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/artical/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+      console.log(res.data)
+    } catch (err) {
+      console.log("Error deleting article:", err);
+    }
+  };
   return (
     <div
       className="flex flex-col p-5  cursor-pointer bg-gray-100 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 h-[260px]" // Fixed height
@@ -39,6 +65,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           <div className="text-base font-bold hover:text-custom-brown">{author}</div>
           <div className="text-sm text-gray-500">{time}</div>
         </div>
+        {isDeletable && username === author && <button onClick={()=>{
+          console.log("delete")
+          deleteArticle()
+        }} className="text-sm text-red-500">delete</button>}
       </div>
       <div className="flex flex-col justify-between h-full mt-3"> {/* Make it fill the height */}
         <div className="flex flex-grow">

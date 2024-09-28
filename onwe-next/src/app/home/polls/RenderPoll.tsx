@@ -20,13 +20,14 @@ interface PollProps {
   userHasVoted: boolean;
   PollOptions: PollOption[];
   avatar: string;
+  
 }
 
-const Page = ({ poll }: { poll: PollProps }) => {
+const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { getToken } = useSignIn();
+  const { getToken, getUsername } = useSignIn();
   const [pollOptions, setPollOptions] = useState(poll.PollOptions); // Keep track of poll options state
   const [voted, setVoted] = useState(poll.userHasVoted);
   const [totalVotes, setTotalVotes] = useState(
@@ -80,6 +81,27 @@ const Page = ({ poll }: { poll: PollProps }) => {
     }, 500); // Transition duration (500ms)
   };
 
+  const deletePoll = async () => {
+    try {
+      const token =  getToken();
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/polls/${poll.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Poll deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
   return (
     <div className="border transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg shadow bg-[#F1F1F1] bg-white">
       <div className="flex justify-between items-center">
@@ -87,9 +109,11 @@ const Page = ({ poll }: { poll: PollProps }) => {
           <PostAvatar imageUrl={poll.avatar} />
           <span>{poll.createdBy}</span>
         </div>
-        <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg">
-          Poll
-        </div>
+        {poll.createdBy===getUsername()?<div onClick={deletePoll} className="px-3 py-1 mr-2 bg-red-100 text-red-500 rounded-lg">
+          Delete
+        </div>:
+          <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg"></div>
+        }
       </div>
       <div className="bg-articles-card-300 rounded-xl p-5 m-2 mt-3">
         <div className="font-bold px-3 pl-4 mb-4 bg-articles-card rounded-xl p-5 border shadow ">

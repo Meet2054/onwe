@@ -6,6 +6,7 @@ import DialogBox from "../post_component/Dialog_component/DialogBox";
 import { useDispatch } from "react-redux";
 import { setPost } from "@/lib/features/posts/postSlice";
 import { useSignIn } from "@/hooks/useSignIn";
+import { NewPost } from "./NewPost";
 
 // const Announcement = ({ posts, club }: { posts: PostsProps[], club: string, isAdmin: boolean }) => {
 const Announcement = ({ club }: { club: string }) => {
@@ -48,6 +49,8 @@ const Announcement = ({ club }: { club: string }) => {
         );
         setPosts(response.data.posts);
         setisAdmin(response.data.isAdmin);
+        console.log(isAdmin,"raaaa");
+        
       } catch (err: any) {
         console.log(err);
         setPosts([]);
@@ -55,7 +58,7 @@ const Announcement = ({ club }: { club: string }) => {
     };
 
     fetchData();
-  }, [club, getToken]);
+  }, [club]);
 
   const dispatch = useDispatch();
   const handleClick = (post: PostsProps) => {
@@ -91,13 +94,19 @@ const Announcement = ({ club }: { club: string }) => {
           Create
         </button>
       )}
-      {createActive && (
+      {/* {createActive && (
         <CreatePost
           category="announcement"
           clubName={club}
           onClose={handleCloseClick}
         />
-      )}
+      )} */}
+      {/* need to keep check if isAdmin is true or not */}
+      <div className="fixed sm:bottom-0 bottom-16 bg-white pb-4">
+        <div className="bg-white">
+          <NewPost clubName={club} setDone={setCreateActive} />
+        </div>
+      </div>
     </div>
   );
 };

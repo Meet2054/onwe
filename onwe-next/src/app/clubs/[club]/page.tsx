@@ -77,8 +77,11 @@ const Page = () => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div className="content h-full">
-        <GeneralAnnounce club={club} />
+      <div className="content h-full w-full">
+          {/* <GeneralAnnounce club={club}/> */}
+          <div className="w-full">
+              <GeneralAnnounce club={club} isAdmin={admin}/>
+          </div>
         {/* {tab === "general" ? (
           <General club={club} />
         ) : (

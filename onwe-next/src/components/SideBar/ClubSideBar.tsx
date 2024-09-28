@@ -85,9 +85,9 @@ export default function Component({
   }, []);
 
   return (
-    <div className="h-screen w-full flex flex-col border z-10">
-      <div className="flex items-center border-b h-[8vh] relative z-20">
-        <div className="bg-[#f1f1f1] w-80 rounded-3xl h-10 ml-7 flex items-center justify-between pr-4">
+    <div className="h-screen w-full flex flex-col border ">
+      <div className="flex items-center border-b h-[8vh] relative ">
+        <div className="bg-[#f1f1f1] w-80 rounded-3xl h-10 ml-2 flex items-center justify-between pr-4">
           <input
             type="text"
             placeholder="Search clubs"
@@ -97,9 +97,9 @@ export default function Component({
           />
           {isSearching ? <Loader2 className="animate-spin" /> : <ArrowRight />}
         </div>
-        <button className="absolute right-4 sm:hidden" onClick={closeSidebar}>
+        {/* <button className="absolute right-4 sm:hidden" onClick={closeSidebar}>
           <ChevronLeft />
-        </button>
+        </button> */}
         {showSearchArea && (
           <div
             ref={searchAreaRef}

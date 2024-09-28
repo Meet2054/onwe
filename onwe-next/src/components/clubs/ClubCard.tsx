@@ -41,7 +41,7 @@ const ClubCard: React.FC<props> = ({ club, showJoin, isJoined }) => {
             />
           </div>
           <div>
-            <h2 className="text-xl font-bold">{club.clubName}</h2>
+            <h2 className="text-lg font-bold">{club.clubName}</h2>
             {/* <img src="" alt="" /> */}
           </div>
         </div>

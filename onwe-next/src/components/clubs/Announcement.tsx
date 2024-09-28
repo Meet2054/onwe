@@ -48,6 +48,8 @@ const Announcement = ({ club }: { club: string }) => {
         );
         setPosts(response.data.posts);
         setisAdmin(response.data.isAdmin);
+        console.log(isAdmin,"raaaa");
+        
       } catch (err: any) {
         console.log(err);
         setPosts([]);

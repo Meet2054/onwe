@@ -53,9 +53,9 @@ const GeneralAnnounce = ({ club,isAdmin }: { club: string, isAdmin:boolean }) =>
           >
             Events
           </div>
-          <div className="px-2 sm:px-6 py-1 rounded-full flex items-center cursor-pointer text-sm sm:text-lg" onClick={toggleForm}>
+          {isAdmin &&<div className="px-2 sm:px-6 py-1 rounded-full flex items-center cursor-pointer text-sm sm:text-lg" onClick={toggleForm}>
               +<Calendar/>
-          </div>
+          </div>}
         </div>
         <div className="flex items-center">
           <div className="mr-2 bg-white sm:px-8 px-2 py-2 rounded-xl shadow border">

@@ -23,7 +23,7 @@ interface ArticleCardProps {
 }
 
 const fetcher = async (url: string, token: string|null) => {
-  const response = await axios.get(url, {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "ngrok-skip-browser-warning": "69420",
@@ -35,9 +35,9 @@ const fetcher = async (url: string, token: string|null) => {
 const ProfileArticles: React.FC<{ username: string | null }> = ({ username }) => {
   const [selectedArticle, setSelectedArticle] = useState<ArticleCardProps | null>(null)
   const { getToken } = useSignIn()
-
-  const { data: articles, error, isLoading } = useSWR(
-    username ? [`${process.env.NEXT_PUBLIC_API_URL}/artical/${username}`, getToken()] : null,
+  
+  const { data: articles, error, isLoading, mutate } = useSWR(
+    username ? [`/artical/${username}`, getToken()] : null,
     ([url, token]) => fetcher(url, token),
     {
       revalidateOnFocus: false,
@@ -45,6 +45,9 @@ const ProfileArticles: React.FC<{ username: string | null }> = ({ username }) =>
     }
   )
 
+  const handleArticleDelete = () => {
+    mutate(`/artical/${username}`)
+  }
   const handleBackToArticles = () => {
     setSelectedArticle(null)
   }
@@ -63,7 +66,7 @@ const ProfileArticles: React.FC<{ username: string | null }> = ({ username }) =>
           <ArticleView {...selectedArticle} onBack={handleBackToArticles} />
         ) : (
           <div className="flex flex-wrap gap-2 p-2">
-            {!articles || articles.length === 0 ? (
+            {!articles  || !Array.isArray(articles) ||  articles.length === 0 ? (
               <div className="p-3">No Articles</div>
             ) : (
               articles.map((article: ArticleCardProps, index: number) => (
@@ -81,6 +84,7 @@ const ProfileArticles: React.FC<{ username: string | null }> = ({ username }) =>
                   coverImage={article.coverphoto}
                   isDeletable={true}
                   onClick={() => handleArticleClick(article)}
+                  onDelete={() => handleArticleDelete()}
                 />
               ))
             )}

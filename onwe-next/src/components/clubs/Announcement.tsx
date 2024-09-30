@@ -46,7 +46,6 @@ const Announcement = ({ club }: { club: string }) => {
         );
         setPosts(response.data.posts);
         setisAdmin(response.data.isAdmin);
-        console.log(posts)
         
       } catch (err: any) {
         console.log(err);

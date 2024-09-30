@@ -39,7 +39,7 @@ const Page = () => {
         );
         // setClubPosts(response.data.posts);
         // console.log(clubposts);
-        setAdmin(response.data.isAdmin);
+        setAdmin(response.data);
         setError(null);
         setStatus(response.status);
       } catch (err: any) {

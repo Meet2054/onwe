@@ -10,13 +10,18 @@ import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
 import useSWR, { useSWRConfig } from "swr";
 
+
+// /posts/${post?.id || storedPost?.id}/comments
+
 const SingleComment = ({ data }: { data: Comment }) => {
+  const {getUsername} = useSignIn()
   const [replyInputOpen, setReplyInputOpen] = useState(false);
   const [reply, setReply] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [replies, setReplies] = useState<Comment[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesHeight, setRepliesHeight] = useState(0);
+  const {mutate:pMutate}=useSWRConfig()
 
   const repliesRef = useRef<HTMLDivElement>(null);
   const { getToken, user } = useSignIn();
@@ -26,7 +31,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const { data: swrReply, mutate } = useSWR<Comment[]>(
     `/subcomments/${data.postId}/${data.id}`,
     {
-      revalidateOnFocus: false,
+      // revalidateOnFocus: false,
       // Add any additional logic here
     }
   );
@@ -34,6 +39,21 @@ const SingleComment = ({ data }: { data: Comment }) => {
   // const { data: swrData } = useSWR(`/subcomments/${data.postId}/${data.id}`,{{onSuccess:(data)=>{
   //   setReplies(swrData)
   // }}});
+  const handleDeleteClick = async () => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_URL}/comments/${data.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      }
+    );
+    console.log("deleting comment", data.id);
+    pMutate(`posts/${data.postId}/comments`)
+  };
 
   const handleReplyClick = () => {
     setReplyInputOpen(!replyInputOpen);
@@ -76,7 +96,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
       };
       res.data.user = newUser;
 
-      mutate([...swrReply, res.data], false);
+      mutate([...swrReply!, res.data], false);
 
       setReplies((prev) => (prev ? [...prev, res.data] : [res.data]));
       setReply("");
@@ -139,6 +159,9 @@ const SingleComment = ({ data }: { data: Comment }) => {
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
+          {data.user.username===getUsername() && <Button  variant="destructive" onClick={handleDeleteClick}>
+            Delete
+          </Button>}
           <form onSubmit={handleSubmit}>
             {replyInputOpen && (
               <div className="flex">

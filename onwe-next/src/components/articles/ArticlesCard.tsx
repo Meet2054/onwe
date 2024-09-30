@@ -1,5 +1,6 @@
 import { useSignIn } from "@/hooks/useSignIn";
 import axios from "axios";
+import { Ellipsis } from "lucide-react";
 import React from "react";
 
 interface ArticleCardProps {
@@ -15,6 +16,7 @@ interface ArticleCardProps {
   onClick: () => void;
   isDeletable?: boolean;
   id?: number
+  onDelete?: () => void
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -28,6 +30,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   coverImage,
   avatar,
   isDeletable = false,
+  onDelete = () => {},
 }) => {
 
   const {getUsername, getToken} = useSignIn()
@@ -44,6 +47,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           "ngrok-skip-browser-warning": "69420",
         },
       });
+      onDelete()
       console.log(res.data)
     } catch (err) {
       console.log("Error deleting article:", err);
@@ -52,7 +56,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <div
       className="flex flex-col p-5  cursor-pointer bg-gray-100 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 h-[260px]" // Fixed height
-      onClick={onClick}
+      
     >
       <div className="flex gap-3 items-center ">
         <img
@@ -68,9 +72,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         {isDeletable && username === author && <button onClick={()=>{
           console.log("delete")
           deleteArticle()
-        }} className="text-sm text-red-500">delete</button>}
-      </div>
-      <div className="flex flex-col justify-between h-full mt-3"> {/* Make it fill the height */}
+        }} className="text-sm text-red-500"><Ellipsis/></button>}
+      </div >
+      <div onClick={onClick} className="flex flex-col justify-between h-full mt-3"> {/* Make it fill the height */}
         <div className="flex flex-grow">
           <div className="flex flex-col flex-grow">
             <div className="text-2xl font-bold text-gray-800">{title}</div>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { useSignIn } from '@/hooks/useSignIn';
 import axios from 'axios';
+import PostAvatar from "../post_component/PostAvatar";
 
 interface InputFieldProps {
   label: string;
@@ -14,6 +15,11 @@ interface InputFieldProps {
   showDelete?: boolean;
   onMention?: (query: string) => void;
   inputRef?: React.RefObject<HTMLTextAreaElement | HTMLInputElement>;
+}
+
+interface User {
+  username: string;
+  avatar: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({ 
@@ -98,7 +104,7 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
   const [optionContent, setOptionContent] = useState<string[]>(["", ""]);
   const router = useRouter();
   const [message, setMessage] = useState<string>("");
-  const [mentionOptions, setMentionOptions] = useState<string[]>([]);
+  const [mentionOptions, setMentionOptions] = useState<User[]>([]);
   const [showMentions, setShowMentions] = useState(false);
   const [activeMentionField, setActiveMentionField] = useState<string | null>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -112,7 +118,7 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
             Authorization: `Bearer ${getToken()}`,
           },
         });
-        setMentionOptions(response.data.map((user: any) => user.username));
+        setMentionOptions(response.data.map((user: any) => ({ username: user.username, avatar: user.avatar })));
         setShowMentions(true);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -229,13 +235,14 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
           />
           {showMentions && mentionOptions.length > 0 && activeMentionField === 'title' && (
             <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-              {mentionOptions.map((username, index) => (
+              {mentionOptions.map((user, index) => (
                 <div
                   key={index}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleMentionSelect(username)}
+                  className="flex items-center px-4 py-2 cursor-pointer gap-x-2 hover:bg-gray-100"
+                  onClick={() => handleMentionSelect(user.username)}
                 >
-                  @{username}
+                  <PostAvatar imageUrl={user.avatar} size={6} />
+                  <span>@{user.username}</span>
                 </div>
               ))}
             </div>
@@ -260,13 +267,14 @@ const Poll: React.FC<ChildComponentProps> = ({ done }) => {
             />
             {showMentions && mentionOptions.length > 0 && activeMentionField === `option-${index}` && (
               <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                {mentionOptions.map((username, idx) => (
+                {mentionOptions.map((user, idx) => (
                   <div
                     key={idx}
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleMentionSelect(username)}
+                    className="flex items-center px-4 py-2 cursor-pointer gap-x-2 hover:bg-gray-100"
+                    onClick={() => handleMentionSelect(user.username)}
                   >
-                    @{username}
+                    <PostAvatar imageUrl={user.avatar} size={6} />
+                    <span>@{user.username}</span>
                   </div>
                 ))}
               </div>

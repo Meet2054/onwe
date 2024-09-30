@@ -112,7 +112,7 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
         {poll.createdBy===getUsername()?<div onClick={deletePoll} className="px-3 py-1 mr-2 bg-red-100 text-red-500 rounded-lg">
           Delete
         </div>:
-          <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg"></div>
+          <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg">Poll</div>
         }
       </div>
       <div className="bg-articles-card-300 rounded-xl p-5 m-2 mt-3">

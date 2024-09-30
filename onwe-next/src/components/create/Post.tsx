@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { CircleX } from 'lucide-react';
+import { CircleX, Camera } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { extractHashTags } from '@/lib/utils';
 import { useSignIn } from '@/hooks/useSignIn';
+import PostAvatar from "../post_component/PostAvatar";
+import useSWRMutation from "swr/mutation";
 
 interface ImagePreviewProps {
     images: File[];
@@ -43,6 +45,26 @@ interface InputFieldProps {
     onMention?: (query: string) => void;
     inputRef?: React.RefObject<HTMLTextAreaElement>;
 }
+
+interface User {
+    username: string;
+    avatar: string;
+}
+
+const getRequest = async (
+    url: string,
+    { arg }: { arg: { query: string; token: string } }
+) => {
+    const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}${url}/${arg.query}`,
+        {
+            headers: {
+                Authorization: `Bearer ${arg.token}`,
+            },
+        }
+    );
+    return data;
+};
 
 const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange, onMention, inputRef }) => {
     const inputClasses = "flex flex-col justify-center items-start px-1.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 text-zinc-700";
@@ -133,12 +155,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
             onDragOver={(e) => e.preventDefault()}
         >
             <div className="flex flex-col items-center w-full">
-                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/49b69fe3d7ae892f549ffe61bf9563fdd1b4c8230018dceeab1c0efc273d6373?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0" className="object-contain w-10 aspect-[0.98]" alt="" />
+                <Camera className="w-10 h-10" />
                 <p className="mt-2.5 font-medium">Choose Images or drag and drop here.</p>
                 
                 <input
                     type="file"
-
                     accept="image/*,video/*"
                     multiple
                     className="hidden"
@@ -152,11 +173,12 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
         </div>
     );
 };
+
 interface ChildComponentProps {
     done: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+}
   
-  const Post: React.FC<ChildComponentProps> = ({ done }) => {
+const Post: React.FC<ChildComponentProps> = ({ done }) => {
     const router = useRouter()
     const { getToken } = useSignIn();
     const [category, setCategory] = useState('');
@@ -165,9 +187,10 @@ interface ChildComponentProps {
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState<File[]>([]);
     const [message, setMessage] = useState('');
-    const [mentionOptions, setMentionOptions] = useState<string[]>([]);
+    const [mentionOptions, setMentionOptions] = useState<User[]>([]);
     const [showMentions, setShowMentions] = useState(false);
     const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+    const { trigger, isMutating } = useSWRMutation("/explore/users", getRequest);
 
     const handleImageUpload = (files: FileList) => {
         setMessage("")
@@ -189,14 +212,17 @@ interface ChildComponentProps {
 
     const handleMention = async (query: string) => {
         if (query.length > 0) {
+            const token = getToken();
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
-                    headers: {
-                        Authorization: `Bearer ${getToken()}`,
-                    },
-                });
-                setMentionOptions(response.data.map((user: any) => user.username));
-                setShowMentions(true);
+                trigger(
+                    { query, token: token as string },
+                    {
+                        onSuccess(data) {
+                            setMentionOptions(data.map((user: User) => ({ username: user.username, avatar: user.avatar })));
+                            setShowMentions(true);
+                        },
+                    }
+                );
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
@@ -214,13 +240,13 @@ interface ChildComponentProps {
             descriptionInputRef.current.focus();
             const length = newDescription.length;
             descriptionInputRef.current.setSelectionRange(length, length);
-          }
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(images.length ==0){
-            setMessage("Please Upload atleast 1 image.");
+        if(images.length == 0){
+            setMessage("Please Upload at least 1 image.");
             return
         }
         setLoading(true);
@@ -240,13 +266,11 @@ interface ChildComponentProps {
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${ getToken()}`,
+                        Authorization: `Bearer ${getToken()}`,
                     },
                 }
             );
 
-
-            // Clear form fields
             setMessage("Post successful!");
             setCategory("general");
             setDescription("");
@@ -254,9 +278,6 @@ interface ChildComponentProps {
             setImages([]);
             done(false)
             router.push("/profile")
-
-            // Hide success message after 3 seconds
-            
         } catch (error) {
             console.error("Error posting data:", error);
         } finally {
@@ -281,13 +302,14 @@ interface ChildComponentProps {
                     />
                     {showMentions && mentionOptions.length > 0 && (
                         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                            {mentionOptions.map((username, index) => (
+                            {mentionOptions.map((user, index) => (
                                 <div
                                     key={index}
-                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                                    onClick={() => handleMentionSelect(username)}
+                                    className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    onClick={() => handleMentionSelect(user.username)}
                                 >
-                                    @{username}
+                                    <PostAvatar imageUrl={user.avatar} size={6} />
+                                    <span className="ml-2">@{user.username}</span>
                                 </div>
                             ))}
                         </div>

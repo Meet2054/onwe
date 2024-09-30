@@ -10,23 +10,29 @@ import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
 import useSWR, { useSWRConfig } from "swr";
 
-
-// /posts/${post?.id || storedPost?.id}/comments
+interface User {
+  username: string;
+  avatar: string;
+}
 
 const SingleComment = ({ data }: { data: Comment }) => {
-  const {getUsername} = useSignIn()
+  const { getUsername } = useSignIn();
   const [replyInputOpen, setReplyInputOpen] = useState(false);
   const [reply, setReply] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [replies, setReplies] = useState<Comment[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesHeight, setRepliesHeight] = useState(0);
-  const {mutate:pMutate}=useSWRConfig()
+  const { mutate: pMutate } = useSWRConfig();
 
   const repliesRef = useRef<HTMLDivElement>(null);
   const { getToken, user } = useSignIn();
   const [timeAgo, setTimeAgo] = useState("");
   const config = useSWRConfig();
+
+  // New state for mentions
+  const [mentionOptions, setMentionOptions] = useState<User[]>([]);
+  const [showMentions, setShowMentions] = useState(false);
 
   const { data: swrReply, mutate } = useSWR<Comment[]>(
     `/subcomments/${data.postId}/${data.id}`,
@@ -36,9 +42,6 @@ const SingleComment = ({ data }: { data: Comment }) => {
     }
   );
 
-  // const { data: swrData } = useSWR(`/subcomments/${data.postId}/${data.id}`,{{onSuccess:(data)=>{
-  //   setReplies(swrData)
-  // }}});
   const handleDeleteClick = async () => {
     await axios.delete(
       `${process.env.NEXT_PUBLIC_API_URL}/comments/${data.id}`,
@@ -52,7 +55,16 @@ const SingleComment = ({ data }: { data: Comment }) => {
       }
     );
     console.log("deleting comment", data.id);
-    pMutate(`posts/${data.postId}/comments`)
+    if(data.parentId===null){
+      console.log("deleting parent comment ", `posts/${data.postId}/comments`);
+      await pMutate(`posts/${data.postId}/comments`);
+      console.log("parent comment mutate done")
+    }
+    else{
+      console.log("deleting subcomment", `subcomments/${data.postId}/${data.parentId}`);
+      await pMutate(`subcomments/${data.postId}/${data.parentId}`);
+      console.log("sub-comment mutate done")
+    }
   };
 
   const handleReplyClick = () => {
@@ -107,23 +119,6 @@ const SingleComment = ({ data }: { data: Comment }) => {
     }
   };
 
-  // const showReply = async () => {
-  //   const response = await getData(
-  //     "/subcomments",
-  //     {
-  //       postId: data.postId,
-  //       parentId: data.id,
-  //     },
-  //     "POST"
-  //   );
-
-  //   setReplies(response);
-  // };
-
-  // useEffect(() => {
-  //   showReply();
-  // }, []);
-
   useEffect(() => {
     if (replyInputOpen && inputRef.current) {
       inputRef.current.focus();
@@ -136,10 +131,56 @@ const SingleComment = ({ data }: { data: Comment }) => {
     }
   }, [replies]);
 
+  // New function to handle mentions
+  const handleMention = async (query: string) => {
+    if (query.length > 0) {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        setMentionOptions(response.data.map((user: any) => ({ username: user.username, avatar: user.avatar })));
+        setShowMentions(true);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    } else {
+      setShowMentions(false);
+    }
+  };
+
+  // New function to handle mention selection
+  const handleMentionSelect = (username: string) => {
+    const lastAtSymbolIndex = reply.lastIndexOf('@');
+    const newReply = reply.slice(0, lastAtSymbolIndex) + '@' + username + ' ' + reply.slice(lastAtSymbolIndex + username.length + 1);
+    setReply(newReply);
+    setShowMentions(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+      const length = newReply.length;
+      inputRef.current.setSelectionRange(length, length);
+    }
+  };
+
+  // Updated function to handle reply input change
+  const handleReplyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setReply(newValue);
+
+    const lastAtSymbolIndex = newValue.lastIndexOf('@', e.target.selectionStart);
+    if (lastAtSymbolIndex !== -1) {
+      const query = newValue.slice(lastAtSymbolIndex + 1, e.target.selectionStart);
+      handleMention(query);
+    } else {
+      setShowMentions(false);
+    }
+  };
+
   return (
     <div className="relative flex gap-1 overflow-hidden ">
       {showReplies && (
-        <div className="absolute text-xl top-0 left-3 bottom-2   border-l w-10   border-gray-600 rounded-3xl" />
+        <div className="absolute text-xl top-0 left-3 bottom-2 border-l w-10 border-gray-600 rounded-3xl" />
       )}
       <div>
         <PostAvatar size={7} imageUrl={data.user.avatar} />
@@ -159,30 +200,47 @@ const SingleComment = ({ data }: { data: Comment }) => {
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
-          {data.user.username===getUsername() && <Button  variant="destructive" onClick={handleDeleteClick}>
-            Delete
-          </Button>}
+          {data.user.username === getUsername() && (
+            <Button className="text-red-600" variant="ghost" onClick={handleDeleteClick}>
+              Delete
+            </Button>
+          )}
           <form onSubmit={handleSubmit}>
             {replyInputOpen && (
-              <div className="flex">
-                <input
-                  ref={inputRef}
-                  onChange={(e) => setReply(e.target.value)}
-                  value={reply}
-                  className="bg-white border-b outline-none"
-                />
-                <Button type="submit" className="px-3 py-0" variant="ghost">
-                  send
-                </Button>
+              <div className="flex flex-col z-100 relative">
+                {showMentions && mentionOptions.length > 0 && (
+                  <div className="absolute z-100 w-full bottom-full mb-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                    {mentionOptions.map((user, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center px-4 py-2 cursor-pointer gap-x-2 hover:bg-gray-100"
+                        onClick={() => handleMentionSelect(user.username)}
+                      >
+                        <PostAvatar imageUrl={user.avatar} size={6} />
+                        <span>@{user.username}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="flex">
+                  <input
+                    ref={inputRef}
+                    onChange={handleReplyChange}
+                    value={reply}
+                    className="bg-white border-b outline-none flex-grow"
+                  />
+                  <Button type="submit" className="px-3 py-0" variant="ghost">
+                    send
+                  </Button>
+                </div>
               </div>
             )}
           </form>
           <div
             ref={repliesRef}
-            className={`overflow-y-auto transition-all duration-500 ease-in-out   ${
+            className={`overflow-y-auto transition-all duration-500 ease-in-out ${
               showReplies ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             }`}
-            // style={{ maxHeight: showReplies ? repliesHeight : 0 }}
           >
             {swrReply &&
               swrReply.map((reply) => (
@@ -213,172 +271,3 @@ const SingleComment = ({ data }: { data: Comment }) => {
 };
 
 export default SingleComment;
-
-// import React, { useEffect, useRef, useState } from "react";
-// import PostAvatar from "./PostAvatar";
-// import { Button } from "../ui/button";
-// import axios from "axios";
-// import { useAuth } from "@clerk/nextjs";
-// import { getData } from "@/lib/utils";
-// import { Comment } from "@/types/type";
-// import { formatDistanceToNowStrict, parseISO } from "date-fns";
-// import { Link } from "next-view-transitions";
-
-// const SingleComment = ({ data }: { data: Comment }) => {
-//   const [replyInputOpen, setReplyInputOpen] = useState(false);
-//   const [reply, setReply] = useState("");
-//   const inputRef = useRef<HTMLInputElement>(null);
-//   const [replies, setReplies] = useState<Comment[]>([]);
-//   const [showReplies, setShowReplies] = useState(false);
-
-//   const [timeAgo, setTimeAgo] = useState("");
-//   const { getToken } = useAuth();
-
-//   const handleReplyClick = () => {
-//     setReplyInputOpen(!replyInputOpen);
-//   };
-
-//   useEffect(() => {
-//     const time = data.createdAt;
-//     if (time) {
-//       const date = new Date(parseISO(time));
-//       const timeago = formatDistanceToNowStrict(date, { addSuffix: true });
-//       setTimeAgo(timeago);
-//     }
-//   }, []);
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     if (!reply) return;
-//     try {
-//       const res = await axios.post(
-//         `${process.env.NEXT_PUBLIC_API_URL}/comments`,
-//         {
-//           postId: data.postId,
-//           userId: data.userId,
-//           content: reply,
-//           parentId: data.id,
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${await getToken()}`,
-//             "Content-Type": "application/json",
-//             Accept: "*/*",
-//             "ngrok-skip-browser-warning": "69420",
-//           },
-//         }
-//       );
-//       setReply("");
-//       console.log(res);
-//       // setReplies((prev) => [...prev, res.data]);
-//       setShowReplies(true);
-//       setReplyInputOpen(false);
-//       // console.log(res);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   const showReply = async () => {
-//     const response = await getData(
-//       "/subcomments",
-//       {
-//         postId: data.postId,
-//         parentId: data.id,
-//       },
-//       "POST"
-//     );
-
-//     setReplies(response);
-//   };
-
-//   useEffect(() => {
-//     console.log("data", data);
-//     showReply();
-//   }, []);
-//   useEffect(() => {
-//     // console.log("data", data);
-
-//     if (replyInputOpen && inputRef.current) {
-//       inputRef.current.focus();
-//     }
-//   }, [replyInputOpen]);
-
-//   return (
-//     <div className="relative flex gap-1 overflow-hidden ">
-//       {showReplies && (
-//         <div className="absolute text-xl top-6 left-3 bottom-1 border-l-2 border-gray-400  rounded-full" />
-//       )}
-//       <div>
-//         <PostAvatar size={7} imageUrl={data.user.avatar} />
-//       </div>
-//       <div>
-//         <div className="break-all">
-//           <Link
-//             href={`/profile/${data.user.username}`}
-//             className="p-2 font-semibold hover:underline"
-//           >
-//             {data.user.username}
-//           </Link>
-//           <span>{data.content}</span>
-//         </div>
-//         <div>
-//           <span className="text-sm">{timeAgo}</span>
-//           <Button variant="ghost" onClick={handleReplyClick}>
-//             reply
-//           </Button>
-//           {/* <Button onClick={showReply} variant="link" cla>
-//             hide replies
-//           </Button> */}
-
-//           {replies &&
-//             showReplies &&
-//             replies.map((reply) => (
-//               <SingleComment key={reply.id} data={reply} />
-//             ))}
-//           <form onSubmit={handleSubmit}>
-//             {replyInputOpen && (
-//               <div className="flex ">
-//                 <input
-//                   ref={inputRef}
-//                   onChange={(e) => setReply(e.target.value)}
-//                   value={reply}
-//                   className="bg-white border-b outline-none"
-//                 />
-
-//                 <Button type="submit" className="px-3 py-0" variant="ghost">
-//                   send
-//                 </Button>
-//               </div>
-//             )}
-//           </form>
-//         </div>
-//         {replies.length > 0 && (
-//           <div>
-//             {showReplies ? (
-//               <div
-//                 onClick={() => setShowReplies((prev) => !prev)}
-//                 // variant="link"
-//                 className="p-0  w-max hover:underline text-sm text-gray-500 "
-//               >
-//                 <span className="">hide replies</span>
-//               </div>
-//             ) : (
-//               <div
-//                 onClick={() => setShowReplies((prev) => !prev)}
-//                 className="p-0 w-max  "
-//               >
-//                 <span className="text-gray-500 text-sm hover:underline ">
-//                   show <span className="text-red-700">{replies.length}</span>{" "}
-//                   replies
-//                 </span>
-//               </div>
-//             )}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SingleComment;

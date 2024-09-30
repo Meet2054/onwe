@@ -15,7 +15,12 @@ interface User {
   avatar: string;
 }
 
-const SingleComment = ({ data }: { data: Comment }) => {
+interface SingleCommentProps {
+  data: Comment;
+  parentMutator: any;
+}
+
+const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
   const { getUsername } = useSignIn();
   const [replyInputOpen, setReplyInputOpen] = useState(false);
   const [reply, setReply] = useState("");
@@ -54,17 +59,7 @@ const SingleComment = ({ data }: { data: Comment }) => {
         },
       }
     );
-    console.log("deleting comment", data.id);
-    if(data.parentId===null){
-      console.log("deleting parent comment ", `posts/${data.postId}/comments`);
-      await pMutate(`posts/${data.postId}/comments`);
-      console.log("parent comment mutate done")
-    }
-    else{
-      console.log("deleting subcomment", `subcomments/${data.postId}/${data.parentId}`);
-      await pMutate(`subcomments/${data.postId}/${data.parentId}`);
-      console.log("sub-comment mutate done")
-    }
+    parentMutator();
   };
 
   const handleReplyClick = () => {
@@ -135,12 +130,20 @@ const SingleComment = ({ data }: { data: Comment }) => {
   const handleMention = async (query: string) => {
     if (query.length > 0) {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        setMentionOptions(response.data.map((user: any) => ({ username: user.username, avatar: user.avatar })));
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
+          }
+        );
+        setMentionOptions(
+          response.data.map((user: any) => ({
+            username: user.username,
+            avatar: user.avatar,
+          }))
+        );
         setShowMentions(true);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -152,8 +155,13 @@ const SingleComment = ({ data }: { data: Comment }) => {
 
   // New function to handle mention selection
   const handleMentionSelect = (username: string) => {
-    const lastAtSymbolIndex = reply.lastIndexOf('@');
-    const newReply = reply.slice(0, lastAtSymbolIndex) + '@' + username + ' ' + reply.slice(lastAtSymbolIndex + username.length + 1);
+    const lastAtSymbolIndex = reply.lastIndexOf("@");
+    const newReply =
+      reply.slice(0, lastAtSymbolIndex) +
+      "@" +
+      username +
+      " " +
+      reply.slice(lastAtSymbolIndex + username.length + 1);
     setReply(newReply);
     setShowMentions(false);
     if (inputRef.current) {
@@ -168,9 +176,15 @@ const SingleComment = ({ data }: { data: Comment }) => {
     const newValue = e.target.value;
     setReply(newValue);
 
-    const lastAtSymbolIndex = newValue.lastIndexOf('@', e.target.selectionStart);
+    const lastAtSymbolIndex = newValue.lastIndexOf(
+      "@",
+      e.target.selectionStart
+    );
     if (lastAtSymbolIndex !== -1) {
-      const query = newValue.slice(lastAtSymbolIndex + 1, e.target.selectionStart);
+      const query = newValue.slice(
+        lastAtSymbolIndex + 1,
+        e.target.selectionStart
+      );
       handleMention(query);
     } else {
       setShowMentions(false);
@@ -201,7 +215,11 @@ const SingleComment = ({ data }: { data: Comment }) => {
             reply
           </Button>
           {data.user.username === getUsername() && (
-            <Button className="text-red-600" variant="ghost" onClick={handleDeleteClick}>
+            <Button
+              className="text-red-600"
+              variant="ghost"
+              onClick={handleDeleteClick}
+            >
               Delete
             </Button>
           )}
@@ -244,7 +262,11 @@ const SingleComment = ({ data }: { data: Comment }) => {
           >
             {swrReply &&
               swrReply.map((reply) => (
-                <SingleComment key={reply.id} data={reply} />
+                <SingleComment
+                  key={reply.id}
+                  data={reply}
+                  parentMutator={mutate}
+                />
               ))}
           </div>
           {swrReply && swrReply.length > 0 && (

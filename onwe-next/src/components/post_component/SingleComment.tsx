@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import PostAvatar from "./PostAvatar";
 import { Button } from "../ui/button";
 import axios from "axios";
-import { useUser } from "@clerk/nextjs";
-import { getData } from "@/lib/utils";
 import { Comment } from "@/types/type";
 import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
 import useSWR, { useSWRConfig } from "swr";
+import { MoreVertical } from "lucide-react";
+import { head } from "lodash";
 
 interface User {
   username: string;
@@ -35,15 +35,14 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
   const [timeAgo, setTimeAgo] = useState("");
   const config = useSWRConfig();
 
-  // New state for mentions
   const [mentionOptions, setMentionOptions] = useState<User[]>([]);
   const [showMentions, setShowMentions] = useState(false);
-
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: swrReply, mutate } = useSWR<Comment[]>(
     `/subcomments/${data.postId}/${data.id}`,
     {
       // revalidateOnFocus: false,
-      // Add any additional logic here
     }
   );
 
@@ -60,7 +59,47 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
       }
     );
     parentMutator();
+    setShowDropdown(false);
   };
+
+  const handleReportClick = async () => {
+    // Implement report functionality here
+
+    try {
+      console.log("Report clicked for comment:", data.id);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/comments/report`,
+        {commentId: data.id},
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+
+      console.log(response.status);
+    } catch (error) {
+      console.error("Error reporting comment:", error);
+    }
+
+    setShowDropdown(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleReplyClick = () => {
     setReplyInputOpen(!replyInputOpen);
@@ -126,7 +165,6 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
     }
   }, [replies]);
 
-  // New function to handle mentions
   const handleMention = async (query: string) => {
     if (query.length > 0) {
       try {
@@ -153,7 +191,6 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
     }
   };
 
-  // New function to handle mention selection
   const handleMentionSelect = (username: string) => {
     const lastAtSymbolIndex = reply.lastIndexOf("@");
     const newReply =
@@ -171,7 +208,6 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
     }
   };
 
-  // Updated function to handle reply input change
   const handleReplyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setReply(newValue);
@@ -192,37 +228,57 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
   };
 
   return (
-    <div className="relative flex gap-1 overflow-hidden ">
+    <div className="relative flex gap-1 overflow-hidden">
       {showReplies && (
         <div className="absolute text-xl top-0 left-3 bottom-2 border-l w-10 border-gray-600 rounded-3xl" />
       )}
       <div>
         <PostAvatar size={7} imageUrl={data.user.avatar} />
       </div>
-      <div>
-        <div className="break-all">
-          <Link
-            href={`/profile/${data.user.username}`}
-            className="p-2 font-semibold hover:underline"
-          >
-            {data.user.username}
-          </Link>
-          <span>{data.content}</span>
+      <div className="flex-grow">
+        <div className="flex justify-between items-start">
+          <div className="break-all">
+            <Link
+              href={`/profile/${data.user.username}`}
+              className="p-2 font-semibold hover:underline"
+            >
+              {data.user.username}
+            </Link>
+            <span>{data.content}</span>
+          </div>
+          <div className="relative" ref={dropdownRef}>
+            <Button
+              variant="ghost"
+              className="p-1"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              <MoreVertical size={16} />
+            </Button>
+            {showDropdown && (
+              <div className="absolute right-0  w-48 bg-white overflow-y-auto rounded-md shadow-lg z-10 border border-gray-200">
+                {data.user.username === getUsername() ? (
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    onClick={handleDeleteClick}
+                  >
+                    Delete
+                  </button>):(
+                <button
+                className="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                onClick={handleReportClick}
+                >
+                  Report
+                </button>
+            )}
+              </div>
+            )}
+          </div>
         </div>
         <div>
           <span className="text-sm">{timeAgo}</span>
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
-          {data.user.username === getUsername() && (
-            <Button
-              className="text-red-600"
-              variant="ghost"
-              onClick={handleDeleteClick}
-            >
-              Delete
-            </Button>
-          )}
           <form onSubmit={handleSubmit}>
             {replyInputOpen && (
               <div className="flex flex-col z-100 relative">

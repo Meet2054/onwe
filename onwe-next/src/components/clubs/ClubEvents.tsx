@@ -118,7 +118,7 @@ const ClubEvents: React.FC<{club:string}> = ({club}) => {
 
   return (
     <div className="flex h-[95vh] overflow-hidden ">
-      <div className="flex flex-col w-[96vw] sm:w-full md:w-3/5 h-full bg-white z-10 rounded-xl m-2 mt-20">
+      <div className="flex flex-col w-[96vw] sm:w-full md:w-3/5 h-full bg-white z-5 rounded-xl m-2 mt-20">
         <div className="md:py-4 top-0 sticky bg-white md:px-8 md:ml-12 rounded-xl">
           <div className="flex space-x-6 ml-2 mr-2 md:ml-4">
             <ViewSelect onClick={toggleListView} />

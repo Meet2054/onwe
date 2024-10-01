@@ -37,7 +37,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
       <div className="w-full flex-grow mt-1 h-full  overflow-y-auto scrollbar-custom space-y-4  p-2 ">
         {comments &&
           comments.map((comment) => (
-            <SingleComment key={comment.id} data={comment} />
+            <SingleComment key={comment.id} data={comment} parentMutator={mutate}/>
           ))}
       </div>
       <div className="flex flex-col w-fullspace-y-2">

@@ -38,7 +38,6 @@ const EventCalendar: FC<EventCalendarProps> = ({
   }
 
   const currentDay = format(currentDate, "d");
-
   return (
     <div className="container py-2 text-black">
       <div>

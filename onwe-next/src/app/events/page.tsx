@@ -321,9 +321,8 @@ const Page: React.FC = () => {
             className="md:p-8 mb-2 w-full relative overflow-y-auto h-full"
           >
             <div
-              className={`transition-opacity duration-500${
-                isTransitioning ? "opacity-0" : "opacity-100"
-              }`}
+              className={`transition-opacity duration-500${isTransitioning ? "opacity-0" : "opacity-100"
+                }`}
             >
               {events?.map((event: Event, index: number) =>
                 listview ? (
@@ -349,7 +348,7 @@ const Page: React.FC = () => {
       </div>
       <div className="md:flex flex-col w-2/5 h-[97vh] m-2 ml-0 bg-white rounded-xl hidden">
         <div className="text-center pt-2 font-semibold">Calendar</div>
-        <RenderCalendar scrollToEvent={scrollToEvent} />
+        <RenderCalendar events={events} scrollToEvent={scrollToEvent} />
       </div>
       {currentEvent && (
         <ActiveComponent

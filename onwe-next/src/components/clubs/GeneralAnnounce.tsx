@@ -66,7 +66,7 @@ const GeneralAnnounce = ({ club,isAdmin }: { club: string, isAdmin:boolean }) =>
           </div>
         </div>
       </div>
-      <EventForm isOpen={isFormOpen} onClose={toggleForm} />
+      <EventForm club={club} isOpen={isFormOpen} onClose={toggleForm} />
     </div>
   );
 };

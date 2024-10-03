@@ -55,7 +55,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-[80%] m-1 p-5 pb-2 rounded-lg bg-white shadow"
+      className="w-[80%] m-1 p-5 pb-2 rounded-lg bg-white "
     >
       <div className="flex items-center gap-3">
         <PostAvatar imageUrl={post?.avatar} />
@@ -69,7 +69,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
           <span className="block text-sm text-gray-500">{timeAgo}</span>
         </div>
       </div>
-      <div className="flex flex-col mt-4 ml-12">
+      <div className= {` flex flex-col mt-4 ml-12 ${post?.media.length === 0 ? "bg-articles-card rounded-2xl" : ""} `}>
         {post?.description && (
           <div className={post?.media.length === 0 ? " " : " "}>
             <div
@@ -77,7 +77,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
               className={`${
                 post?.media.length !== 0
                   ? "inter font-[400] text-sm shadow p-2 pb-1 rounded-md normal-case relative"
-                  : "inter normal-case relative bg-articles-card rounded-2xl shadow p-5 font-medium "
+                  : "inter normal-case relative bg-articles-card rounded-2xl  p-5 font-medium "
               } ${isExpanded ? "" : "line-clamp-4"}`} // Apply line clamping only when not expanded
               style={{ display: "-webkit-box", WebkitBoxOrient: "vertical" }}
             >
@@ -102,7 +102,7 @@ const Posts: React.FC<PostsComponentProps> = ({ post }) => {
           fill="cover"
           className="h-[450px] bg-black relative rounded-lg ml-0 mt-2"
         />
-        <div className="w-full">
+        <div className={`w-full ${ post?.media.length === 0? "px-5 pb-1" : ""} `}>
           <LikeComment post={post} />
         </div>
       </div>

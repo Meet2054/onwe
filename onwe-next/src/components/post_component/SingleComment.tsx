@@ -9,6 +9,8 @@ import { formatDistanceToNowStrict, parseISO } from "date-fns";
 import { Link } from "next-view-transitions";
 import { useSignIn } from "@/hooks/useSignIn";
 import useSWR, { useSWRConfig } from "swr";
+import useSWRMutation from "swr/mutation";
+import { toast } from "sonner";
 
 interface User {
   username: string;
@@ -40,26 +42,28 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
   const [showMentions, setShowMentions] = useState(false);
 
   const { data: swrReply, mutate } = useSWR<Comment[]>(
-    `/subcomments/${data.postId}/${data.id}`,
+    `/subcomments/${data.postId}/${data.id}`
+  );
+
+  const { trigger, isMutating } = useSWRMutation(
+    `${process.env.NEXT_PUBLIC_API_URL}/comments/${data.id}`,
+    async (url) => {
+      await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+    },
     {
-      // revalidateOnFocus: false,
-      // Add any additional logic here
+      onSuccess: () => {
+        parentMutator();
+      },
     }
   );
 
   const handleDeleteClick = async () => {
-    await axios.delete(
-      `${process.env.NEXT_PUBLIC_API_URL}/comments/${data.id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          "Content-Type": "application/json",
-          Accept: "*/*",
-          "ngrok-skip-browser-warning": "69420",
-        },
-      }
-    );
-    parentMutator();
+    await trigger();
+    toast.success("Comment deleted successfully");
   };
 
   const handleReplyClick = () => {
@@ -216,8 +220,10 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
           </Button>
           {data.user.username === getUsername() && (
             <Button
-              className="text-red-600"
+              className="text-red-600 opacity-60"
               variant="ghost"
+              size="sm"
+              disabled={isMutating}
               onClick={handleDeleteClick}
             >
               Delete

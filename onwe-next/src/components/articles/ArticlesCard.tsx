@@ -15,12 +15,12 @@ interface ArticleCardProps {
   coverImage: string;
   onClick: () => void;
   isDeletable?: boolean;
-  id?: number
-  onDelete?: () => void
+  id?: number;
+  onDelete?: () => void;
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
-  id=null,
+  id = null,
   author,
   time,
   title,
@@ -32,23 +32,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   isDeletable = false,
   onDelete = () => {},
 }) => {
-
-  const {getUsername, getToken} = useSignIn()
-  const [username, setUsername] = React.useState<string | null>(getUsername())
-
+  const { getUsername, getToken } = useSignIn();
+  const [username, setUsername] = React.useState<string | null>(getUsername());
 
   const deleteArticle = async () => {
     try {
-      const token =  getToken();
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/artical/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "69420",
-        },
-      });
-      onDelete()
-      console.log(res.data)
+      const token = getToken();
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/artical/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      onDelete();
+      console.log(res.data);
     } catch (err) {
       console.log("Error deleting article:", err);
     }
@@ -56,7 +57,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <div
       className="flex flex-col p-5  cursor-pointer bg-gray-100 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 h-[260px]" // Fixed height
-      
     >
       <div className="flex gap-3 items-center ">
         <img
@@ -66,21 +66,38 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           alt="Author Avatar"
         />
         <div className="flex flex-col">
-          <div className="text-base font-bold hover:text-custom-brown">{author}</div>
+          <div className="text-base font-bold hover:text-custom-brown">
+            {author}
+          </div>
           <div className="text-sm text-gray-500">{time}</div>
         </div>
-        {isDeletable && username === author && <button onClick={()=>{
-          console.log("delete")
-          deleteArticle()
-        }} className="text-sm text-red-500"><Ellipsis/></button>}
-      </div >
-      <div onClick={onClick} className="flex flex-col justify-between h-full mt-3"> {/* Make it fill the height */}
+        {isDeletable && username === author && (
+          <button
+            onClick={() => {
+              console.log("delete");
+              deleteArticle();
+            }}
+            className="text-sm text-red-500"
+          >
+            <Ellipsis />
+          </button>
+        )}
+      </div>
+      <div
+        onClick={onClick}
+        className="flex flex-col justify-between h-full mt-3"
+      >
+        {" "}
+        {/* Make it fill the height */}
         <div className="flex flex-grow">
           <div className="flex flex-col flex-grow">
             <div className="text-2xl font-bold text-gray-800">{title}</div>
-            <div className="text-base text-gray-700 line-clamp-3 pb-1">{content}</div> {/* Limit the number of lines */}
+            <div className="text-base text-gray-700 line-clamp-3 pb-1">
+              {content}
+            </div>{" "}
+            {/* Limit the number of lines */}
           </div>
-          <div className='overflow-hidden flex-shrink-0'>
+          <div className="overflow-hidden flex-shrink-0">
             <img
               loading="lazy"
               src={coverImage}

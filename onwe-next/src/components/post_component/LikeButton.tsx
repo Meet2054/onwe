@@ -1,6 +1,6 @@
 "use client";
 
-import { PostContext } from "@/app/home/page";
+import { PostContext } from "@/app/home/Providor";
 import { useSignIn } from "@/hooks/useSignIn";
 import { PostsProps } from "@/types/type";
 import axios from "axios";

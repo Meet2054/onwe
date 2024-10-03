@@ -10,7 +10,7 @@ const ConnectSection: React.FC = () => {
           </h2>
           <div className="relative flex overflow-hidden flex-col px-7 py-7 mt-3 max-w-full text-sm font-medium rounded-2xl border-solid shadow-lg bg-white bg-opacity-70 border-[12px] border-[#B1DDE2] border-opacity-40 w-[402px] max-md:px-5 max-md:ml-2.5">
             <blockquote className="w-full text-start">
-              "
+              &quot;
               <br />
               With Onwe, your campus community is at your fingertips—accessible
               anywhere, anytime.

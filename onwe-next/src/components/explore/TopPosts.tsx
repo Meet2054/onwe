@@ -9,11 +9,13 @@ import useSWRInfinite from "swr/infinite";
 import PostsSkeleton from "@/components/post_component/PostSkeleton"; // Loading Skeleton for posts
 import { LoaderPinwheelIcon } from "lucide-react";
 import { useSignIn } from "@/hooks/useSignIn";
+import { useSearchParams } from "next/navigation";
+import { PostsProps } from "@/types/type";
 
-interface Post {
-  id: string;
-  media: string[];
-}
+// interface Post {
+//   id: string;
+//   media: string[];
+// }
 
 const PAGE_SIZE = 16; // Set to 16 as you mentioned in the query
 
@@ -32,16 +34,16 @@ const TopPosts: React.FC = () => {
   const { getToken } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true); // Track if there are more posts to load
-  const [allPosts, setAllPosts] = useState<Post[]>([]); // New state for all posts
+  const [allPosts, setAllPosts] = useState<PostsProps[]>([]); // New state for all posts
 
   // Parse query parameters from window.location.search
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = useSearchParams();
   const tag = queryParams.get("tag");
 
   // Fetch the token
   useEffect(() => {
     const fetchToken = async () => {
-      const fetchedToken =  getToken();
+      const fetchedToken = getToken();
       setToken(fetchedToken);
     };
     fetchToken();
@@ -56,9 +58,13 @@ const TopPosts: React.FC = () => {
       return null;
     }
     if (tag) {
-      return `${process.env.NEXT_PUBLIC_API_URL}/search/hashtag/${tag}?page=${pageIndex + 1}&limit=${PAGE_SIZE}`;
+      return `${process.env.NEXT_PUBLIC_API_URL}/search/hashtag/${tag}?page=${
+        pageIndex + 1
+      }&limit=${PAGE_SIZE}`;
     }
-    return `${process.env.NEXT_PUBLIC_API_URL}/top-posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`;
+    return `${process.env.NEXT_PUBLIC_API_URL}/top-posts?page=${
+      pageIndex + 1
+    }&limit=${PAGE_SIZE}`;
   };
 
   const { data, error, setSize, isValidating } = useSWRInfinite<Post[]>(
@@ -69,8 +75,9 @@ const TopPosts: React.FC = () => {
   // Update the allPosts state when new data is fetched
   useEffect(() => {
     if (data) {
-      const newPosts = ([] as Post[]).concat(...data)
-      .filter((post) => post.media.length > 0);
+      const newPosts = ([] as Post[])
+        .concat(...data)
+        .filter((post) => post.media.length > 0);
       setAllPosts((prevPosts) => [...prevPosts, ...newPosts]);
     }
   }, [data]);
@@ -129,13 +136,31 @@ const TopPosts: React.FC = () => {
               );
             }
             return (
-              <div onClick={() => handleClick(post)} key={post.id} className="h-80">
-                <DialogBox className={""} imageUrl={post.media[0]} post={post} />
+              <div
+                onClick={() => handleClick(post)}
+                key={post.id}
+                className="h-80"
+              >
+                <DialogBox
+                  className={""}
+                  imageUrl={post.media[0]}
+                  post={post}
+                />
               </div>
             );
           })}
         </div>
-        {isValidating && hasMore && <div className="w-full flex items-center justify-center h-40 m-auto"><LoaderPinwheelIcon className="animate-spin" strokeWidth={1.25} strokeOpacity={0.7} height={40} width={40}/></div>} 
+        {isValidating && hasMore && (
+          <div className="w-full flex items-center justify-center h-40 m-auto">
+            <LoaderPinwheelIcon
+              className="animate-spin"
+              strokeWidth={1.25}
+              strokeOpacity={0.7}
+              height={40}
+              width={40}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

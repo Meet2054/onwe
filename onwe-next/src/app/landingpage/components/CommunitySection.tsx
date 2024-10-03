@@ -1,4 +1,3 @@
-
 import React from "react";
 
 const CommunitySection: React.FC = () => {
@@ -9,7 +8,7 @@ const CommunitySection: React.FC = () => {
           Onwe
         </h2>
         <p className="text-xl md:text-2xl font-light text-neutral-950">
-          More than Social. It's Community.
+          More than Social. It&apos;s Community.
         </p>
       </div>
     </section>

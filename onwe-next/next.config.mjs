@@ -12,6 +12,23 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 const nextConfig = {
+  onDemandEntries: {
+    // Period (in ms) where the server will keep pages in the buffer
+    maxInactiveAge: 25 * 1000,
+    // Number of pages that should be kept simultaneously without being disposed
+    pagesBufferLength: 2,
+  },
+  experimental: {
+    // This will ignore errors during static generation
+    workerThreads: false,
+    cpus: 1,
+  },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     domains: [
       "s3-alpha-sig.figma.com",
@@ -37,11 +54,11 @@ const nextConfig = {
       test: /\.mp4$/,
       use: [
         {
-          loader: 'file-loader',
+          loader: "file-loader",
           options: {
-            publicPath: '/_next/static/videos',
-            outputPath: 'static/videos',
-            name: '[name].[hash].[ext]',
+            publicPath: "/_next/static/videos",
+            outputPath: "static/videos",
+            name: "[name].[hash].[ext]",
           },
         },
       ],

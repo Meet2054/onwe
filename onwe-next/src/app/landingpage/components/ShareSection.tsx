@@ -1,4 +1,3 @@
-
 import React from "react";
 
 const ShareSection: React.FC = () => {
@@ -18,7 +17,7 @@ const ShareSection: React.FC = () => {
           </h2>
           <p className="text-xl md:text-2xl font-light">
             Post your thoughts, share opinions through polls, and engage with
-            tweet-like posts. Stay in the loop with what's trending on your
+            tweet-like posts. Stay in the loop with what&apos;s trending on your
             campus.
           </p>
         </div>

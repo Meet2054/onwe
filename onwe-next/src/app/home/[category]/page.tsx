@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth, useUser } from "@clerk/nextjs";
+
 import Posts from "@/components/post_component/Posts";
 import PostsSkeleton from "@/components/post_component/PostSkeleton";
 import { useDispatch } from "react-redux";

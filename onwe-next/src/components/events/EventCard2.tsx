@@ -18,7 +18,7 @@ const EventCard2 = React.forwardRef<HTMLDivElement, EventCard2Props>(
     { title, subtitle, dateOfEvent, time, description, media, onClick },
     ref
   ) => {
-    console.log(media[0])
+    console.log("media:",media[0])
     return (
       <div
         ref={ref}

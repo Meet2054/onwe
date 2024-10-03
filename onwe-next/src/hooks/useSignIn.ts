@@ -34,7 +34,7 @@ export const useSignIn = () => {
   };
 
   const getToken = () => {
-    return localStorage.getItem("onwetoken");
+    return localStorage.getItem("onwetoken")||"";
   };
 
   const getUsername = () => {
@@ -44,7 +44,7 @@ export const useSignIn = () => {
 
 if (typeof window !== "undefined") { 
   user = {
-    userName: localStorage.getItem("onweusername") || "",
+    userName: localStorage.getItem("onweusername"),
     avatar: localStorage.getItem("onweAvatar") || "",
     updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
     removeAvatar: () => localStorage.setItem("onweAvatar", ""),

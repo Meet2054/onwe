@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect, useRef } from "react";
 import { Camera, CircleX } from "lucide-react";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
@@ -10,7 +10,7 @@ interface EventFormProps {
 }
 
 const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
-
+  const modalRef = useRef<HTMLDivElement>(null);
   const {getToken} = useSignIn()
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState({
@@ -24,9 +24,48 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
     clubName: club,
     media: [] as File[]
   });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // removing the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
+  const validateForm1 = () => {
+    const newErrors: { [key: string]: string } = {};
+    
+    if (!formData.title) newErrors.title = "Event title is required";
+    if (!formData.dateOfEvent) newErrors.dateOfEvent = "Date is required";
+    if (!formData.time) newErrors.time = "Time is required";
+    if (!formData.venue) newErrors.venue = "Venue is required";
+    if (!formData.description) newErrors.description = "Description is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Form is valid if no errors
+  };
+
+  const validateForm2 = () =>{
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.subtitle) newErrors.subtitle = "Live Link is required";
+    if (!formData.category) newErrors.category = "Category is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
   const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
+    if(validateForm1()){
+      setStep((prevStep) => prevStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -41,7 +80,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
   };
 
   const handleSubmit = async () => {
-    // Handle form submission logic here (e.g., API call)
+   if(validateForm2()){
     try {
       console.log("Form Submitted: ", formData);
       const form = new FormData();
@@ -54,7 +93,6 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
       form.append("category", formData.category);
       form.append("clubName", formData.clubName);
 
-      // Append all images in formData.media
       formData.media.forEach((image, index) => {
         form.append(`media`, image);
       });
@@ -79,6 +117,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
     } catch (error) {
       console.log("Cannot post event")
     }
+   }
   };
 
   const handleImageUpload = (files: FileList) => {
@@ -160,7 +199,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-md w-full max-w-md">
+      <div ref={modalRef}  className="bg-white rounded-md w-full max-w-lg max-h-sm">
         {step === 1 && (
           <>
             <div className="bg-gray-900 text-white p-4 rounded-t-lg">
@@ -179,6 +218,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 />
+                 {errors.title && <p className="text-red-600 text-xs">{errors.title}</p>}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -195,6 +235,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                     }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
+                  {errors.dateOfEvent && <p className="text-red-600 text-xs">{errors.dateOfEvent}</p>}
                 </div>
                 <div>
                   <div className="text-sm font-medium text-gray-700 mb-1">Time</div>
@@ -205,6 +246,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
+                   {errors.time && <p className="text-red-600 text-xs">{errors.time}</p>}
                 </div>
               </div>
               <div>
@@ -215,7 +257,8 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   rows={4}
-                ></textarea>
+                />
+               {errors.description && <p className="text-red-600 text-xs">{errors.description}</p>}
               </div>
               <div>
                 <div className="text-sm font-medium text-gray-700 mb-1">Enter Your Venue</div>
@@ -226,6 +269,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 />
+                 {errors.venue && <p className="text-red-600 text-xs">{errors.venue}</p>}
               </div>
               <div onClick={handleNext} className="bg-black text-white rounded-lg py-2 text-center w-full cursor-pointer">Next</div>
             </div>
@@ -255,6 +299,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                   <option value="Booking-free">Booking Free</option>
                   <option value="No-booking">Booking not required</option>
                 </select>
+                {errors.category && <p className="text-red-600 text-xs">{errors.category}</p>}
               </div>
               <div>
                 <div className="text-sm font-medium text-gray-700 mb-1">
@@ -268,6 +313,7 @@ const EventForm: React.FC<EventFormProps> = ({ club, isOpen, onClose }) => {
                   placeholder="Enter live event link"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 />
+                {errors && <p className="text-red-600 text-xs">{errors.subtitle}</p>}
               </div>
               <div className="flex justify-between">
                 <div onClick={handleBack} className="bg-gray-200 text-gray-800 rounded-lg py-2 px-4 cursor-pointer">

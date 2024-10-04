@@ -103,8 +103,8 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
   };
 
   return (
-    <div className="border transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg shadow bg-[#F1F1F1] bg-white">
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col  transition-all duration-500 ease-in-out w-[85%] m-1 p-5 rounded-lg  bg-[#F1F1F1] bg-white">
+      <div className="flex justify-between items-center ">
         <div className="flex items-center gap-3">
           <PostAvatar imageUrl={poll.avatar} />
           <span>{poll.createdBy}</span>
@@ -115,8 +115,8 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
           <div className="px-3 py-1 mr-2 bg-fuchsia-100 text-fuchsia-500 rounded-lg">Poll</div>
         }
       </div>
-      <div className="bg-articles-card-300 rounded-xl p-5 m-2 mt-3">
-        <div className="font-bold px-3 pl-4 mb-4 bg-articles-card rounded-xl p-5 border shadow ">
+      <div className="flex flex-col self-end rounded-3xl p-5 m-2 mt-3 w-[90%] bg-zinc-100">
+        <div className="font-bold px-3 pl-4 mb-4 rounded-xl p-5 ">
           <span>{poll.question}</span>
         </div>
 
@@ -126,9 +126,9 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
           }`}
         >
           {voted ? (
-            <div className="flex flex-col gap-2 px-5">
+            <div className="flex flex-col gap-2 p-5 pt-0">
               {pollOptions.map((data) => (
-                <div key={data.id}>
+                <div className="gap-3 cursor-grab  rounded-md p-3 bg-zinc-200 " key={data.id}>
                   <div>{data.optionText}</div>
                   <VoteBar value={(data.votes / totalVotes) * 100} /> {/* Dynamic progress */}
                 </div>
@@ -137,7 +137,7 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
           ) : (
             <form className="flex flex-col gap-2 px-5 pb-2" onSubmit={handlePollSubmit}>
               {pollOptions.map((data) => (
-                <div key={data.id} className="flex gap-3 items-center cursor-grab border rounded-md px-2 bg-new-bg shadow">
+                <div key={data.id} className="flex gap-3 items-center cursor-grab  rounded-md px-2 bg-zinc-200 ">
                   <input
                     type="radio"
                     id={`${data.id}`}
@@ -154,6 +154,7 @@ const Page = ({ poll }: { poll: PollProps, isDeleted:boolean }) => {
               <Button
                 disabled={selectedOption.length === 0}
                 type="submit"
+                className="bg-black"
               >
                 VOTE
               </Button>

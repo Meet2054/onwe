@@ -13,7 +13,7 @@ const MiddleNavbar = () => {
     // { name: "Discussions", href: "/home/discussions" },
     { name: "Sports", href: "/home/sports" },
     { name: "Art & Fashion", href: "/home/arts_fashion" },
-    { name: "Polls", href: "/home/polls" },
+    // { name: "Polls", href: "/home/polls" },
   ];
 
   return (
@@ -48,6 +48,17 @@ const MiddleNavbar = () => {
               {item.name}
             </Link>
           ))}
+          <Link
+              key= "Polls"
+              href= "/home/polls"
+              className={`overflow-hidden text-center p-2 gap-2.5 self-stretch px-4 my-auto whitespace-nowrap rounded-xl min-h-[32px] ${
+                pathname === "/home/polls"
+                  ? "text-white bg-fuchsia-500  "
+                  : " border border-2 border-grey bg-fuchsia-100 text-fuchsia-500"
+              }`}
+            >
+              Polls
+            </Link>
         </div>
       </nav>
     </>

@@ -18,8 +18,9 @@ export const useSignUp = () => {
         body: JSON.stringify({ name:username, email: emailAddress, password }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to sign up');
+      if (response.status === 400) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
 
       const data = await response.json();

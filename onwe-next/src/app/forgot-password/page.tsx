@@ -26,10 +26,10 @@ const ForgotPasswordPage: NextPage = () => {
         }),
       });
   
-      if (!response.ok) {
+      if (response.status===400) {
         const errorData = await response.json();
-        console.error("error", errorData?.errors?.[0]?.longMessage);
-        setError(errorData?.errors?.[0]?.longMessage || "An unknown error occurred");
+        console.error("error", errorData.message);
+        setError(errorData.message);
         return;
       }
       setSuccessfulCreation(true);
@@ -55,10 +55,10 @@ const ForgotPasswordPage: NextPage = () => {
         }),
       })
   
-      if (!response.ok) {
+      if (response.status===400) {
         const errorData = await response.json();
-        console.error("error", errorData?.errors?.[0]?.longMessage);
-        setError(errorData?.errors?.[0]?.longMessage || "An unknown error occurred");
+        console.error("error", errorData.message);
+        setError(errorData?.message);
         return;
       }
       setError("")

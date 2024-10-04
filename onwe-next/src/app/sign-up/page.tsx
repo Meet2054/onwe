@@ -76,11 +76,11 @@ const Signup = () => {
 
     // console.log(emailAddress, password, username);
     try {
-      await signUp.create({ emailAddress, password, username });
+      const r = await signUp.create({ emailAddress, password, username });
       setVerifying(true);
     } catch (err: any) {
-      console.error("Sign up error:", err);
-      setError("An unexpected error occurred. Please try again.");
+      // console.error("Sign up error:", err);
+      setError(err.Error);
     }
   };
 

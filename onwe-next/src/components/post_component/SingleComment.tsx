@@ -9,6 +9,7 @@ import { useSignIn } from "@/hooks/useSignIn";
 import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { toast } from "sonner";
+import { MoreVertical } from "lucide-react";
 
 interface User {
   username: string;
@@ -71,7 +72,7 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
       console.log("Report clicked for comment:", data.id);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/comments/report`,
-        {commentId: data.id},
+        { commentId: data.id },
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -92,7 +93,10 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -264,14 +268,15 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
                     onClick={handleDeleteClick}
                   >
                     Delete
-                  </button>):(
-                <button
-                className="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
-                onClick={handleReportClick}
-                >
-                  Report
-                </button>
-            )}
+                  </button>
+                ) : (
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                    onClick={handleReportClick}
+                  >
+                    Report
+                  </button>
+                )}
               </div>
             )}
           </div>

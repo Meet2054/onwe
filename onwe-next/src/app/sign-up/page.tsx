@@ -76,11 +76,11 @@ const Signup = () => {
 
     // console.log(emailAddress, password, username);
     try {
-      const r = await signUp.create({ emailAddress, password, username });
+      await signUp.create({ emailAddress, password, username });
       setVerifying(true);
     } catch (err: any) {
-      // console.error("Sign up error:", err);
-      setError(err.Error);
+      console.error("Sign up error:", err.message);
+      setError(err.message);
     }
   };
 

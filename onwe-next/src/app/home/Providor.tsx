@@ -49,7 +49,11 @@ const Page = () => {
   const getKey = useCallback(
     (pageIndex: number, previousPageData: PostsProps[] | null) => {
       if (previousPageData && !previousPageData.length) return null; // Reached the end
-      return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
+      if (previousPageData)
+        return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}&id=${
+          previousPageData[previousPageData?.length - 1].id
+        }`; // API endpoint with pagination
+      else return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // First page
     },
     []
   );

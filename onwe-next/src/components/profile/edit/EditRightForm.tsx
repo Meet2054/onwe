@@ -50,6 +50,15 @@ const EditRightForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (user) {
+      reset({
+        fullname: user.user.fullname,
+        bio: user.user.bio,
+      });
+    }
+  }, [user]);
+
   const onSubmit: SubmitHandler<EditFormProps> = async (data) => {
     setIsSaving(true);
     const newData = { ...data, links: linksArr };
@@ -61,7 +70,7 @@ const EditRightForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${ getToken()}`,
+            Authorization: `Bearer ${getToken()}`,
           },
         }
       );

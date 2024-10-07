@@ -140,24 +140,24 @@ const DialogBox: React.FC<DialogBoxProps> = ({
       <DialogTitle className="hidden">Are you absolutely sure?</DialogTitle>
       <DialogContent
         className={`  gap-0   sm:flex-row justify-center items-center border-none
-                      bg-white sm:p-0 rounded-none ${
+                      bg-white sm:p-0  ${
                         post?.media?.length > 0
                           ? "sm:min-w-[70vw] grid grid-cols-5 h-[95vh]"
                           : "w-full"
                       }`}
       >
         {post && post.media && (
-          <div className="col-span-3">
+          <div className="col-span-3 rounded">
             <PostImage
               images={post?.media}
               fill="contain"
-              className="flex flex-grow h-[95vh] relative bg-black"
+              className="flex flex-grow h-[95vh] relative bg-black rounded"
             />
           </div>
         )}
 
         <div
-          className={`col-span-2 bg-white overflow-y-auto ${
+          className={`col-span-2 bg-white overflow-y-auto rounded ${
             post?.media?.length > 0 ? "min-w-96 h-[95vh]" : "h-[75vh] w-[25vw] "
           } `}
         >

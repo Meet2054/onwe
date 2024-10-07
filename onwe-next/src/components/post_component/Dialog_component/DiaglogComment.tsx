@@ -29,15 +29,19 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   );
 
   return (
-    <div className="w-full h-full flex flex-col p-2">
-      <div>
+    <div className="w-full h-full flex flex-col p-3 rounded-full ">
+      <div className="flex gap-3 flex-col">
         <PostAuthor post={post || storedPost} />
         <div className="border border-gray-200" />
       </div>
-      <div className="w-full flex-grow mt-1 h-full  overflow-y-auto scrollbar-custom space-y-4  p-2 ">
+      <div className="w-full flex-grow mt-1 h-full  overflow-y-auto scrollbar-custom space-y-4  p-4 ">
         {comments &&
           comments.map((comment) => (
-            <SingleComment key={comment.id} data={comment} parentMutator={mutate}/>
+            <SingleComment
+              key={comment.id}
+              data={comment}
+              parentMutator={mutate}
+            />
           ))}
       </div>
       <div className="flex flex-col w-fullspace-y-2">

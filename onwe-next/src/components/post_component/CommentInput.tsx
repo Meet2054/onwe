@@ -84,10 +84,6 @@ const CommentInput = ({ setComments, mutate }) => {
     setComment("");
     setIsSubmitting(false);
 
-    mutate((prev) => {
-      console.log(prev);
-    });
-
     setComments((prev) => (prev ? [newData, ...prev] : [newData]));
   };
 

@@ -286,17 +286,6 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
           <Button variant="ghost" onClick={handleReplyClick}>
             reply
           </Button>
-          {data.user.username === getUsername() && (
-            <Button
-              className="text-red-600 opacity-60"
-              variant="ghost"
-              size="sm"
-              disabled={isMutating}
-              onClick={handleDeleteClick}
-            >
-              Delete
-            </Button>
-          )}
           <form onSubmit={handleSubmit}>
             {replyInputOpen && (
               <div className="flex flex-col z-100 relative">

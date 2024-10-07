@@ -52,7 +52,8 @@ const Page = () => {
       if (previousPageData)
         return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}&id=${
           previousPageData[previousPageData?.length - 1].id
-        }`; // API endpoint with pagination
+        }`;
+      // API endpoint with pagination
       else return `/posts?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // First page
     },
     []

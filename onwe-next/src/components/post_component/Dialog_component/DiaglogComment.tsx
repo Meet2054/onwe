@@ -4,23 +4,20 @@ import PostAuthor from "../PostAuthor";
 import SingleComment from "../SingleComment";
 import CommentInput from "../CommentInput";
 
-import CopyButton from "../CopyButton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-import axios from "axios";
 import { Comment, PostsProps } from "@/types/type";
-import { useSignIn } from "@/hooks/useSignIn";
 import LikeButton from "../LikeButton";
 import useSWR from "swr";
-import { globalFetcher } from "@/lib/utils";
+import useSWRMutation from "swr/mutation";
 
 const DiaglogComment = ({ post }: { post?: PostsProps }) => {
   const { post: storedPost } = useSelector((state: RootState) => state.post);
 
   const [comments, setComments] = useState<Comment[]>([]);
-  const { data, mutate } = useSWR(
+  const { data, mutate, isLoading } = useSWR(
     `/posts/${post?.id || storedPost?.id}/comments`,
-    globalFetcher,
+
     {
       onSuccess: (data) => {
         setComments(data);
@@ -44,7 +41,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
             />
           ))}
       </div>
-      <div className="flex flex-col w-fullspace-y-2">
+      <div className="flex flex-col w-fullspace-y-2 gap-3">
         <div className="grid grid-cols-3">
           <div className="justify-self-start px-3">
             <LikeButton post={post!} />
@@ -53,7 +50,7 @@ const DiaglogComment = ({ post }: { post?: PostsProps }) => {
           {/* <CopyButton /> */}
         </div>
 
-        <CommentInput mutate={mutate} setComments={setComments} />
+        <CommentInput mutate={mutate} setComments={setComments} isLoading={isLoading} />
       </div>
     </div>
   );

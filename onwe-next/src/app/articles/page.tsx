@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
-import axios from "axios";
-import { useDispatch } from "react-redux";
 import ArticleView from "@/components/articles/ArticlesView";
 import ArticleCard from "@/components/articles/ArticlesCard";
 import CreateArticle from "@/components/articles/CreateArticle";
-import { useSignIn } from "@/hooks/useSignIn";
 
 interface ArticleCardProps {
   owner: string;
@@ -24,32 +21,13 @@ interface ArticleCardProps {
   onClick: () => void;
 }
 
-const fetcher = async (url: string, token: string) => {
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "ngrok-skip-browser-warning": "69420",
-    },
-  });
-  return response.data;
-};
-
 const ArticlePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedArticle, setSelectedArticle] =
     useState<ArticleCardProps | null>(null);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
 
-  const { getToken } = useSignIn();
-  let token;
-  useEffect(() => {
-    token = getToken();
-  }, []);
-
-  const { data: articles, error } = useSWR(
-    token ? [`${process.env.NEXT_PUBLIC_API_URL}/artical`, token] : null,
-    ([url, token]) => fetcher(url, token)
-  );
+  const { data: articles, error } = useSWR("/artical");
 
   const loading = !articles && !error;
 

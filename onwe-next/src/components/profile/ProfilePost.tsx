@@ -57,21 +57,8 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
 
   return (
     <>
-      {/* <div className="flex overflow-hidden flex-wrap sticky top-0 gap-1 items-center pt-2 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
-                {['Media', 'Texts', 'Polls', 'Articles'].map((category) => (
-                  <div
-                    key={category}
-                    onClick={() => handleCategoryClick(category)}
-                    className={`overflow-hidden sticky top-0 cursor-pointer gap-2.5 self-stretch px-3 my-auto text-sm font-bold tracking-normal border-b leading-none whitespace-nowrap min-h-[36px] ${
-                      selectedCategory === category ? 'text-black border-black' : 'text-gray-400 border-gray-400'
-                    }`}
-                  >
-                    {category} 
-                  </div>
-                ))}
-              </div> */}
       <div className=" flex grid md:grid-cols-3 grid-cols-2  gap-1 mt-5 h-max w-full">
-        {newPosts.length !== 0 ?(
+        {newPosts.length !== 0 ? (
           newPosts.map((post) => (
             <div
               key={post.id}
@@ -97,10 +84,7 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                           e.preventDefault();
                         }}
                       >
-                        <AlertDialog
-                          onOpenChange={() => {
-                          }}
-                        >
+                        <AlertDialog>
                           <AlertDialogTrigger className="w-full text-start flex gap-3 justify-start items-center">
                             <Trash size={16} stroke="red" /> <span>Delete</span>
                           </AlertDialogTrigger>
@@ -131,7 +115,10 @@ const ProfilePost = ({ posts }: { posts: PostsProps[] }) => {
                 <DialogBox post={post} imageUrl={post.media[0]} />
               </>
             </div>
-          ))):<div className="p-3">No posts</div>}
+          ))
+        ) : (
+          <div className="p-3">No posts</div>
+        )}
       </div>
     </>
   );

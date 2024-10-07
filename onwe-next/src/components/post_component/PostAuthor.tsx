@@ -8,15 +8,15 @@ const PostAuthor = ({ post }: { post: PostsProps }) => {
   return (
     <div className="w-full flex gap-1">
       <div>
-        <PostAvatar size={7} imageUrl={post.avatar} />
+        <PostAvatar size={12} imageUrl={post.avatar} />
       </div>
       <div className="w-full">
-        <Link href={`/profile/${post.username}`} className="p-2 font-semibold">
+        <Link href={`/profile/${post.username}`} className="p-2 font-semibold text-lg">
           {post.username}
         </Link>
         <div 
           className={` max-h-[40vh] overflow-y-auto scrollbar-custom
-            ${post.media.length === 0 ? ' px-2 py-5 flex items-center justify-center' : ''}
+            ${post.media.length === 0 ? ' px-4 py-5 flex items-center justify-center' : ''}
             w-full
           `}
         >

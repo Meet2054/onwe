@@ -1,7 +1,7 @@
 "use client";
 import React, { FormEvent, useState, useRef } from "react";
 import { Button } from "../ui/button";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, LoaderPinwheel } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
@@ -13,7 +13,7 @@ interface User {
   avatar: string;
 }
 
-const CommentInput = ({ setComments, mutate }) => {
+const CommentInput = ({ setComments, mutate, isLoading }) => {
   const [comment, setComment] = useState("");
   const { post } = useSelector((state: RootState) => state.post);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,12 +25,20 @@ const CommentInput = ({ setComments, mutate }) => {
   const handleMention = async (query: string) => {
     if (query.length > 0) {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`, {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        setMentionOptions(response.data.map((user: any) => ({ username: user.username, avatar: user.avatar })));
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/explore/users/${query}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
+          }
+        );
+        setMentionOptions(
+          response.data.map((user: any) => ({
+            username: user.username,
+            avatar: user.avatar,
+          }))
+        );
         setShowMentions(true);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -41,8 +49,13 @@ const CommentInput = ({ setComments, mutate }) => {
   };
 
   const handleMentionSelect = (username: string) => {
-    const lastAtSymbolIndex = comment.lastIndexOf('@');
-    const newComment = comment.slice(0, lastAtSymbolIndex) + '@' + username + ' ' + comment.slice(lastAtSymbolIndex + username.length + 1);
+    const lastAtSymbolIndex = comment.lastIndexOf("@");
+    const newComment =
+      comment.slice(0, lastAtSymbolIndex) +
+      "@" +
+      username +
+      " " +
+      comment.slice(lastAtSymbolIndex + username.length + 1);
     setComment(newComment);
     setShowMentions(false);
     if (commentInputRef.current) {
@@ -91,9 +104,15 @@ const CommentInput = ({ setComments, mutate }) => {
     const newValue = e.target.value;
     setComment(newValue);
 
-    const lastAtSymbolIndex = newValue.lastIndexOf('@', e.target.selectionStart);
+    const lastAtSymbolIndex = newValue.lastIndexOf(
+      "@",
+      e.target.selectionStart
+    );
     if (lastAtSymbolIndex !== -1) {
-      const query = newValue.slice(lastAtSymbolIndex + 1, e.target.selectionStart);
+      const query = newValue.slice(
+        lastAtSymbolIndex + 1,
+        e.target.selectionStart
+      );
       handleMention(query);
     } else {
       setShowMentions(false);
@@ -102,8 +121,8 @@ const CommentInput = ({ setComments, mutate }) => {
 
   return (
     <form onSubmit={handleClick}>
-      <div className="flex justify-center border border-black relative">
-      {showMentions && mentionOptions.length > 0 && (
+      <div className="flex justify-center border border-black relative rounded-full">
+        {showMentions && mentionOptions.length > 0 && (
           <div className="absolute z-10 w-full mb-1 bg-white border border-gray-300 rounded-md shadow-lg bottom-10 left-0">
             {mentionOptions.map((user, index) => (
               <div
@@ -128,10 +147,14 @@ const CommentInput = ({ setComments, mutate }) => {
           variant="ghost"
           className="hover:rounded-full hover:text-black p-2"
           type="submit"
+          disabled={isLoading}
         >
-          <ArrowUp strokeWidth={1} />
+          {isLoading ? (
+            <LoaderPinwheel size={16} />
+          ) : (
+            <ArrowUp strokeWidth={1} />
+          )}
         </Button>
-        
       </div>
     </form>
   );

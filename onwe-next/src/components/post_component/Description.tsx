@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // Helper function to convert mentions and hashtags into links
 const linkify = (text: string) => {
@@ -19,10 +19,17 @@ const linkify = (text: string) => {
   return processedText;
 };
 
-const Description = ({ des, text=false }: { des: string, text?:boolean }) => {
+const Description = ({
+  des,
+  text = false,
+}: {
+  des: string;
+  text?: boolean;
+}) => {
   return (
-    <div className={` w-full  ${text ? ' text-xl ' : 'text-lg'}`} 
-      dangerouslySetInnerHTML={{ __html: linkify(des) }} 
+    <div
+      className={` w-full px-2  ${text ? " text-xl" : "text-sm"}`}
+      dangerouslySetInnerHTML={{ __html: linkify(des) }}
     />
   );
 };

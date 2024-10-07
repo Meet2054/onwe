@@ -239,18 +239,18 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
         <div className="absolute text-xl top-0 left-3 bottom-2 border-l w-10 border-gray-600 rounded-3xl" />
       )}
       <div>
-        <PostAvatar size={7} imageUrl={data.user.avatar} />
+        <PostAvatar size={10} imageUrl={data.user.avatar} />
       </div>
-      <div className="flex-grow">
-        <div className="flex justify-between items-start">
-          <div className="break-all">
+      <div className="flex-grow flex flex-col gap-0 ">
+        <div className="flex justify-between items-start ">
+          <div className="break-all text-base">
             <Link
               href={`/profile/${data.user.username}`}
               className="p-2 font-semibold hover:underline"
             >
               {data.user.username}
             </Link>
-            <span>{data.content}</span>
+            <span className="text-sm ">{data.content}</span>
           </div>
           <div className="relative" ref={dropdownRef}>
             <Button
@@ -261,7 +261,7 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
               <MoreVertical size={16} />
             </Button>
             {showDropdown && (
-              <div className="absolute right-0  w-48 bg-white overflow-y-auto rounded-md shadow-lg z-10 border border-gray-200">
+              <div className="absolute right-0  w-48 bg-white overflow-y-auto rounded-md shadow-lg z-20 border border-gray-200">
                 {data.user.username === getUsername() ? (
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
@@ -282,10 +282,16 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
           </div>
         </div>
         <div>
-          <span className="text-sm">{timeAgo}</span>
-          <Button variant="ghost" onClick={handleReplyClick}>
-            reply
-          </Button>
+          <div className="flex gap-3">
+            <span className="text-xs text-gray-600">{timeAgo}</span>
+
+            <div
+              onClick={handleReplyClick}
+              className="text-xs text-gray-400 hover:cursor-pointer text-black"
+            >
+              reply
+            </div>
+          </div>
           <form onSubmit={handleSubmit}>
             {replyInputOpen && (
               <div className="flex flex-col z-100 relative">

@@ -1,29 +1,28 @@
 "use client";
-import { messaging, vapidKey } from "@/lib/firebase";
-import { getToken } from "firebase/messaging";
-import { getMessaging, onMessage } from "firebase/messaging";
-
 import React, { useEffect } from "react";
-const Page = () => {
-  async function requestPermission() {
-    const per = await Notification.requestPermission();
-    if (per === "granted") {
-      try {
-        const token = await getToken(messaging, { vapidKey: vapidKey });
-        console.log(token);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
+import { getMessaging, onMessage } from "firebase/messaging";
+import firebaseApp from "@/lib/firebase";
+import useFcmToken from "@/hooks/FcmToken";
+
+export default function Page() {
+  const { fcmToken, notificationPermissionStatus } = useFcmToken();
+  // Use the token as needed
+  fcmToken && console.log("FCM token:", fcmToken);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    requestPermission();
-    onMessage(messaging,(payload) => {
-        console.log("Message received. ", payload);
-    })
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      const messaging = getMessaging(firebaseApp);
+      const unsubscribe = onMessage(messaging, (payload) => {
+        console.log("Foreground push notification received:", payload);
+        // Handle the received push notification while the app is in the foreground
+        // You can display a notification or update the UI based on the payload
+      });
+      return () => {
+        unsubscribe(); // Unsubscribe from the onMessage event
+      };
+    }
   }, []);
 
-  return <div>page</div>;
-};
-
-export default Page;
+  return <div> home </div>;
+}

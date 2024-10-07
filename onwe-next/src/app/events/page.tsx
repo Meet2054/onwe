@@ -192,14 +192,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import { useAuth } from "@clerk/nextjs";
 import EventCard2 from "@/components/events/EventCard2";
 import ListViewCard from "@/components/events/ListViewCard";
 import { ViewSelect } from "@/components/events/ViewSelect";
 import RenderCalendar from "@/components/calendar/RenderCalendar";
 import ActiveComponent from "@/components/events/ActiveComponent";
 import { Event } from "../../lib/types/event";
-import { Ban, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { useSignIn } from "@/hooks/useSignIn";
 
 // Fetcher function that includes token in headers

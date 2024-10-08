@@ -13,7 +13,27 @@ import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import RenderLinks from "@/components/profile/RenderLinks";
 import onwevideo from "../../components/profile/vid.mp4";
 import { TbLogout2 } from "react-icons/tb";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+import { EllipsisVertical, Trash } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const fetcher = async (url: string) => {
   const { data } = await axios.post(
@@ -32,8 +52,10 @@ export default function Page() {
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
   const { getToken, signout } = useSignIn();
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
+  const pathName = usePathname();
 
   useEffect(() => {
     setToken(getToken());
@@ -69,15 +91,47 @@ export default function Page() {
               imageUrl={userInfo?.user?.avatar}
             />
           </div>
-          <div className="absolute bottom-8 right-8 flex items-center cursor-pointer  space-x-4 border p-2 bg-gray-500 rounded-lg"
-                onClick={()=>{ 
-                  signout()
-                  router.push('/sign-in')
-                } }>
+          <div className="absolute bottom-8 right-8 flex items-center cursor-pointer  space-x-4 border p-2 w-auto bg-gray-500 rounded-lg"
+                >
             {/* {userInfo?.user?.links.map((link, index) => (
               <RenderLinks key={index} link={link} />
             ))} */}
-            <TbLogout2 />&nbsp;Logout 
+             <>
+      {pathName === "/profile" && (
+        <div>
+          <div
+            className="flex items-center justify-center z-10 text-white opacity-35 top-2 hover:opacity-100 cursor-pointer"
+            onClick={() => setOpenAlertDialog(true)}
+          >
+            <TbLogout2 /> &nbsp;Logout
+          </div>
+
+          {openAlertDialog && (
+            <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You will be logged out.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={() => setOpenAlertDialog(false)}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => {
+                    console.log("Logged Out");
+                  signout()
+                  router.push('/sign-in')
+                  }}>
+                    Logout
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
+      )}
+    </>
+            
           </div>
         </div>
       </div>

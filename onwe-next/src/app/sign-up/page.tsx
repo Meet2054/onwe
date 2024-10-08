@@ -7,6 +7,7 @@ import Image from "next/image";
 import back from "@/app/../../public/images/back.png";
 import logo from "@app/../../public/images/onwelogo.svg";
 import rightArrow from "@app/../../public/images/right-arrow.png";
+import Page from "../landingpage/page";
 
 const PasswordInput = ({ password, setPassword }:{password: string, setPassword: Function}) => {
   const [isValid, setIsValid] = useState(true);
@@ -133,15 +134,23 @@ const Signup = () => {
   }, [username]);
 
   return (
-    <div className="container relative flex items-center justify-center h-screen bg-gray-100">
-      <Image
+    <div className="relative min-h-screen overflow-hidden">
+   
+      <div className="absolute inset-0 z-0 overflow-auto">
+        <Page />
+      </div>
+
+     
+      <div className="fixed absolute right-10  z-10 flex items-center justify-center bg-white bg-opacity-0 max-w-lg">
+      <div className="container relative flex items-center justify-center h-screen bg-transparent ">
+      {/* <Image
         src={back}
         alt="Background"
         layout="fill"
         objectFit="cover"
         className="absolute z-0"
-      />
-      <div className="relative z-10 p-6 bg-white bg-opacity-50 rounded-2xl shadow-lg w-full max-w-md">
+      /> */}
+      <div className="relative z-10 p-6 bg-white bg-opacity-50 rounded-2xl shadow-lg w-full max-w-lg">
         <form
           onSubmit={
             !verifying
@@ -209,7 +218,7 @@ const Signup = () => {
               </div>
             </>
           ) : (
-            <>
+            <div className="w-[400px] space-y-5">
               <input
                 type="text"
                 placeholder="Enter Code"
@@ -230,18 +239,21 @@ const Signup = () => {
                   height={20}
                 />
               </button>
-            </>
+            </div>
           )}
           {error && <div className="text-red-500 text-center">{error}</div>}
           <span
             onClick={() => router.push("/sign-in")}
-            className="block text-center text-red-500 cursor-pointer lg:text-md text-sm"
+            className="block text-center text-blue-500 cursor-pointer lg:text-md text-sm"
           >
             I have an account
           </span>
         </form>
       </div>
     </div>
+      </div>
+    </div>
+    
   );
 };
 

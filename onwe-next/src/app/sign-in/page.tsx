@@ -41,12 +41,12 @@ const Signin = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Background Page Component */}
+     
       <div className="absolute inset-0 z-0 overflow-auto">
         <Page />
       </div>
 
-      {/* Sign-In Form */}
+      
       <div className="fixed absolute right-10  z-10 flex items-center justify-center bg-white bg-opacity-0 max-w-lg">
         <SignInForm
           signInWithEmail={signInWithEmail}

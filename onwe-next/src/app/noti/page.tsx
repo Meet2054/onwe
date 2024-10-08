@@ -4,12 +4,14 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import firebaseApp from "@/lib/firebase";
 import useFcmToken from "@/hooks/FcmToken";
 import { toast } from "sonner";
+import { useSignIn } from "@/hooks/useSignIn";
 
 export default function Page() {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [noti, setMessage] = useState("");
   // Use the token as needed
   fcmToken && console.log("FCM token:", fcmToken);
+  const { getToken } = useSignIn();
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -28,11 +30,41 @@ export default function Page() {
     }
   }, []);
 
+  const sendNotification = async () => {
+    const token = getToken();
+    console.log(token);
+    
+    if (!fcmToken) {
+      console.error('No token available to send notification.');
+      return;
+    }
+  
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checknotification`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        FcmToken: fcmToken,
+      }),
+    });
+  
+    if (!response.ok) {
+      console.error('Failed to send notification:', response.statusText);
+      return;
+    }
+  
+    const result = await response.json();
+    console.log(result);
+  };
+
   return (
     <div className="h-96 break-all w-96">
       {" "}
       {fcmToken}
       <span></span>
+      <button onClick={sendNotification} className="h-10 w-40 bg-gray-300 ml-10">Send Notifications</button>
     </div>
   );
 }

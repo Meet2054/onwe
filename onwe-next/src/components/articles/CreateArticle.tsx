@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 interface InputFieldProps {
   label: string;
@@ -14,27 +15,28 @@ interface InputFieldProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChange }) => {
-  const inputClasses = "flex flex-col justify-center items-start px-2.5 pt-2.5 pb-4 w-full text-xs font-medium tracking-wide bg-white rounded-lg border-solid border-[1.3px] border-zinc-300 max-w-[348px] text-zinc-700";
+  const inputClasses = "flex flex-col shadow justify-center items-start  w-full h-full text-md  font-medium tracking-wide bg-transparent rounded-lg border border-[0.5px] border-zinc-300  text-zinc-700";
 
   return (
     <div className={inputClasses}>
-      <label htmlFor={id} className="sr-only">{label}</label>
+      <label htmlFor={id} className="sr-only h-full w-full">{label}</label>
       {type === "textarea" ? (
         <textarea
           id={id}
           placeholder={label}
-          className="w-full bg-transparent resize-none"
-          rows={4}
+          className="w-full h-full bg-transparent resize-none p-5  font-serif scrollbar-custom"
+          rows={10}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       ) : type === "select" ? (
         <select
           id={id}
-          className="w-full bg-transparent"
+          className="w-full h-full bg-transparent text-center "
           value={value}
           onChange={(e) => onChange(e.target.value)}
         >
+          <option value="" disabled selected>Select Category</option>
           <option value="general">General</option>
           <option value="sports">Sports</option>
           <option value="academia">Academia</option>
@@ -47,7 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, id, type, value, onChang
           type={type}
           id={id}
           placeholder={label}
-          className="w-full bg-transparent"
+          className="w-full bg-transparent h-full text-center"
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -76,11 +78,11 @@ const Uploader: React.FC<UploaderProps> = ({ onFileUpload, accept, label }) => {
 
   return (
     <div
-      className="flex flex-col justify-center items-center px-4 py-4 w-full text-sm tracking-tight text-black rounded-md bg-neutral-400 bg-opacity-10 min-h-48px]"
+      className="flex justify-between items-center px-16 py-4 border border-zinc-300 shadow text-sm tracking-tight text-black rounded-md bg-neutral-400 bg-opacity-10 h-full"
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
     >
-      <p className="font-medium">{label}</p>
+      <p className="font-medium text-zinc-500 ">{label}</p>
       <input
         type="file"
         accept={accept}
@@ -88,7 +90,7 @@ const Uploader: React.FC<UploaderProps> = ({ onFileUpload, accept, label }) => {
         onChange={handleFileInput}
         id={label.replace(' ', '-').toLowerCase()}
       />
-      <label htmlFor={label.replace(' ', '-').toLowerCase()} className="mt-4 cursor-pointer text-blue-500 hover:text-blue-600">
+      <label htmlFor={label.replace(' ', '-').toLowerCase()} className="cursor-pointer text-blue-500 hover:text-blue-600">
         Select Files
       </label>
     </div>
@@ -145,6 +147,11 @@ const CreateArticle: React.FC<CreateArticleProps> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!title || !category || !description || !coverPhoto ) {
+      setMessage("All fields are required.");
+      return;
+    }
+
     if (!token) {
       console.error("No token available for authentication.");
       setMessage("Failed to create article: Missing authentication token.");
@@ -195,21 +202,51 @@ const CreateArticle: React.FC<CreateArticleProps> = ({ onClose }) => {
   };
 
   return (
-    <main className="flex overflow-auto scrollbar-custom gap-2.5 items-start px-10 py-8 bg-white h-[95vh] rounded-md">
-      <section className="flex flex-col self-stretch my-auto min-w-[240px] w-[350px]">
-        <header className="flex gap-3 items-center self-start text-sm font-semibold text-fuchsia-500">
+    <main className=" border flex justify-center overflow-auto scrollbar-custom gap-2.5 items-start px-10  bg-white h-screen bg-custom-gradient">
+      <section className="flex flex-col self-stretch pt-5 w-full">
+      <button
+        onClick={onClose}
+        style={{ fontSize: '28px', cursor: 'pointer' }}
+      >
+        <MdOutlineKeyboardBackspace />
+      </button>
+        <header className="flex gap-3 mt-5 items-center self-start text-sm font-semibold text-fuchsia-500">
           <div className="gap-2.5 self-stretch p-2.5 my-auto bg-fuchsia-100 rounded-md">
             Create Article
           </div>
         </header>
-        <div className="flex flex-col mt-5 w-full">
-          <div className="flex flex-col w-full text-black">
+        <div className="flex flex-col py-3 w-full h-full">
+          <form className="flex flex-col gap-3 justify-between h-full  " onSubmit={handleSubmit}>
+          <div className="flex justify-between items-center">
+        <div className="flex flex-col w-full text-black">
             <h1 className="text-lg font-bold">✨ Create Article</h1>
             <p className="mt-1 text-sm">
               Top stories, interviews, and insights handpicked for you.
             </p>
           </div>
-          <form className="flex flex-col gap-3 mt-4" onSubmit={handleSubmit}>
+          <div className="w-full h-full  flex justify-end gap-3 items-center">
+            
+          {message && (
+              <p className={`mt-3 text-md ${message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
+                {message}
+              </p>
+            )}
+             {loading ? (
+              <div className="flex flex-col justify-center items-center px-3 h-[90%] text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-500">
+                Adding...
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="flex flex-col justify-center items-center px-3 h-[90%]   text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
+              >
+                Add Article
+              </button>
+            )}
+            
+            </div>
+        </div>
+            <div className="flex grid grid-cols-3 w-full gap-3 max-h-[100px] ">
             <InputField
               label="What's on Your Mind? (Title)"
               id="article-title"
@@ -224,25 +261,36 @@ const CreateArticle: React.FC<CreateArticleProps> = ({ onClose }) => {
               value={category}
               onChange={setCategory}
             />
-            <InputField
-              label="Write Details on Articles... (Description)"
-              id="article-description"
-              type="textarea"
-              value={description}
-              onChange={setDescription}
-            />
-            <div className="flex gap-3">
-              <Uploader onFileUpload={handleCoverPhotoUpload} accept="image/*" label="Upload Cover Photo" />
-              <Uploader onFileUpload={handlePDFUpload} accept=".pdf" label="Upload PDF" />
+            <Uploader onFileUpload={handleCoverPhotoUpload} accept="image/*" label="Upload Cover Photo (or) Drag here" />
+
             </div>
-            <div className='flex gap-5'>
+            
+            <div className="flex  h-full w-full gap-3">
+            
+            <div className='flex gap-5 w-[50%] '>
               {coverPhoto && (
-                <img src={coverPhoto} alt="Cover Photo Preview" className="w-1/2  mt-3" />
+                <img src={coverPhoto} alt="Cover Photo Preview" className="w-full object-contain rounded-md" />
               )}
               {pdfFile && (
                 <embed src={pdfFile} type="application/pdf" className="w-1/2  mt-3 " />
               )}
             </div>
+            <div className="flex grow w-full">
+            <InputField
+              label="|    Well, what are you waiting for? Start writing your article already!"
+              id="article-description"
+              type="textarea"
+              value={description}
+              onChange={setDescription}
+            />
+            </div>
+            </div>
+            
+            {/* {message && (
+              <p className={`mt-3 text-sm ${message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
+                {message}
+              </p>
+            )}
             {loading ? (
               <div className="flex justify-center items-center py-2.5 text-xs font-medium text-slate-500">
                 Loading...
@@ -252,14 +300,10 @@ const CreateArticle: React.FC<CreateArticleProps> = ({ onClose }) => {
                 type="submit"
                 className="flex flex-col justify-center items-center px-2.5 pt-2.5 pb-2.5 w-full text-xs font-medium tracking-wide bg-black rounded-lg border border-solid border-zinc-100 text-slate-200"
               >
-                Add Post
+                Add Article
               </button>
             )}
-            {message && (
-              <p className={`mt-3 text-sm ${message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
-                {message}
-              </p>
-            )}
+             */}
           </form>
         </div>
       </section>

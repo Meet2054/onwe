@@ -53,14 +53,14 @@ interface ArticleViewProps {
         <img loading="lazy" src={coverphoto} className="object-cover rounded aspect-[1.71] w-[626px] h-[366px] max-md:w-full max-md:h-auto" alt="Article image" />
         <div className="flex flex-col max-w-[666px] w-full">
           <div className="text-custom-brown text-3xl font-bold break-words whitespace-normal">{title}</div>
-          <div className=" mt-2 description text-base font-source-serif text-black break-words whitespace-normal">
-  {description.slice(0, 1400)}
+          <div className=" mt-2 description text-lg font-source-serif text-black break-words whitespace-normal">
+  {description.slice(0, 950)}
 </div>
 
         </div>
       </div>
-      <div className="description text-base font-source-serif text-black break-words whitespace-normal">
-  {description.slice(1400)}
+      <div className="description mt-2 text-lg font-source-serif text-black break-words whitespace-normal">
+  {description.slice(950)}
 </div>
     </div>
   </div>

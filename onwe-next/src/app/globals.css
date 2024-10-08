@@ -90,3 +90,80 @@ html {
 .aspect-h-9 {
   aspect-ratio: 16 / 9;
 }
+
+@keyframes burst {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.bg-splash {
+  position: relative;
+  overflow: hidden;
+  background-color: #121212; /* Dark background */
+}
+
+.splash {
+  position: absolute;
+  animation: burst 2s infinite ease-in-out;
+  opacity: 0.7;
+}
+
+.splash:nth-child(1) {
+  background-color: rgba(255, 255, 255, 0.6); /* Light gray */
+  width: 250px;
+  height: 120px;
+  top: 15%;
+  left: 10%;
+  border-radius: 30% 20% 50% 0; /* Irregular shape */
+  animation-delay: 0s;
+}
+
+.splash:nth-child(2) {
+  background-color: rgba(200, 200, 200, 0.6); /* Medium gray */
+  width: 200px;
+  height: 150px;
+  top: 50%;
+  left: 60%;
+  border-radius: 40% 60% 30% 50%; /* Irregular shape */
+  animation-delay: 0.5s;
+}
+
+.splash:nth-child(3) {
+  background-color: rgba(150, 150, 150, 0.6); /* Dark gray */
+  width: 300px;
+  height: 100px;
+  top: 80%;
+  left: 20%;
+  border-radius: 50% 30% 40% 60%; /* Irregular shape */
+  animation-delay: 1s;
+}
+
+.splash:nth-child(4) {
+  background-color: rgba(100, 100, 100, 0.6); /* Darker gray */
+  width: 220px;
+  height: 140px;
+  top: 30%;
+  left: 40%;
+  border-radius: 10% 20% 70% 50%; /* Irregular shape */
+  animation-delay: 1.5s;
+}
+
+.splash:nth-child(5) {
+  background-color: rgba(50, 50, 50, 0.6); /* Very dark gray */
+  width: 180px;
+  height: 160px;
+  top: 10%;
+  left: 75%;
+  border-radius: 20% 50% 10% 70%; /* Irregular shape */
+  animation-delay: 2s;
+}

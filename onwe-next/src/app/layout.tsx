@@ -39,6 +39,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
         "/forgot-password",
         "/",
         "/landingpage",
+        "/welcome",
       ].includes(pathname)
     ) {
       router.push("/sign-in");
@@ -58,7 +59,8 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     pathname !== "/sign-in" &&
     !pathname.startsWith("/home") &&
     !pathname.startsWith("/profile") &&
-    !pathname.startsWith("/landingpage");
+    !pathname.startsWith("/landingpage") &&
+    !pathname.startsWith("/welcome");;
   return (
     <SWRConfig
       value={{

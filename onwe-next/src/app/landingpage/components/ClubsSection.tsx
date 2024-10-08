@@ -29,8 +29,8 @@ const clubsData: Club[] = [
 
 const ClubsSection: React.FC = () => {
   return (
-    <section className="flex overflow-hidden flex-col items-center pl-60 px-16 pt-20 pb-60 bg-[#B3C8CF] max-md:px-5 max-md:pb-24">
-      <div className="w-full max-w-[1023px] max-md:max-w-full">
+    <section className="flex overflow-hidden flex-col items-start pl-28 px-16 pt-20 pb-60 bg-[#B3C8CF] max-md:px-5 max-md:pb-24">
+      <div className="w-full max-w-[860px] max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col">
           <div className="flex flex-col w-[63%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col items-start mt-36 w-full max-md:mt-10 max-md:max-w-full">

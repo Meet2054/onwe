@@ -2,8 +2,8 @@ import React from "react";
 
 const ShareSection: React.FC = () => {
   return (
-    <section className="bg-[#B0C5A4] flex items-center justify-center px-16  h-screen">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-16">
+    <section className="bg-[#B0C5A4] flex items-center justify-self-start px-16  h-screen">
+      <div className="max-w-[920px] flex flex-col md:flex-row items-start px-16">
         <div className="md:w-1/3 mb-10 md:mb-0">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/b3d92f6a33b380510f364b08692e55cd77adc7a36ba5234956d604fdb7ee9b15?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0"

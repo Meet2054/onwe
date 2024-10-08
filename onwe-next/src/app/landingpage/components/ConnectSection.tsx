@@ -2,8 +2,8 @@ import React from "react";
 
 const ConnectSection: React.FC = () => {
   return (
-    <section className="flex overflow-hidden flex-col justify-center items-center px-16 h-screen w-full bg-[#B1DDE2] max-md:px-5 max-md:pt-24 max-md:max-w-full">
-      <div className="flex justify-between items-center px-20 w-[85%]">
+    <section className="flex overflow-hidden flex-col justify-center items-start px-16 h-screen w-full bg-[#B1DDE2] max-md:px-5 max-md:pt-24 max-md:max-w-full">
+      <div className="flex justify-between items-center pr-40 pl-10 w-[75%]">
         <div className="flex z-10 flex-col self-center items-start justify-center gap-5 mt-0 max-w-full text-black">
           <h2 className="z-10 text-5xl font-semibold text-black text-start max-md:max-w-full max-md:text-4xl">
             Stay connected with your campus
@@ -60,7 +60,7 @@ const ConnectSection: React.FC = () => {
         </div> */}
         </div>
 
-        <div className="flex flex-col justify-center self-start px-2 py-2 mt-0 w-3/4 max-w-full rounded-full border border-white border-solid">
+        <div className="flex flex-col justify-center self-center px-2 py-2 mt-0 w-3/4 max-w-full rounded-full border border-white border-solid">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/69cdd7608028d4a6e56c959a4eea03f84fd374a7210da043f074e244c25bf760?placeholderIfAbsent=true&apiKey=fa090b16b04649b4a5024c30e95337f0"

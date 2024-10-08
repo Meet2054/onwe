@@ -12,6 +12,8 @@ import Profile from "@/components/profile/Profile";
 import ProfileRightSection from "@/components/profile/ProfileRightSection";
 import RenderLinks from "@/components/profile/RenderLinks";
 import onwevideo from "../../components/profile/vid.mp4";
+import { TbLogout2 } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 
 const fetcher = async (url: string) => {
   const { data } = await axios.post(
@@ -29,8 +31,9 @@ const fetcher = async (url: string) => {
 export default function Page() {
   const [userInfo, setUserInfo] = useState<UserProfile>();
   const dispatch = useDispatch();
-  const { getToken } = useSignIn();
+  const { getToken, signout } = useSignIn();
   const [token, setToken] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     setToken(getToken());
@@ -66,10 +69,15 @@ export default function Page() {
               imageUrl={userInfo?.user?.avatar}
             />
           </div>
-          <div className="absolute bottom-8 right-8 flex space-x-4 border p-2 bg-gray-500 rounded-lg">
-            {userInfo?.user?.links.map((link, index) => (
+          <div className="absolute bottom-8 right-8 flex items-center cursor-pointer  space-x-4 border p-2 bg-gray-500 rounded-lg"
+                onClick={()=>{ 
+                  signout()
+                  router.push('/sign-in')
+                } }>
+            {/* {userInfo?.user?.links.map((link, index) => (
               <RenderLinks key={index} link={link} />
-            ))}
+            ))} */}
+            <TbLogout2 />&nbsp;Logout 
           </div>
         </div>
       </div>

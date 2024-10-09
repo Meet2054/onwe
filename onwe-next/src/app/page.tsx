@@ -25,6 +25,9 @@ export default function Home() {
   if(token){
     router.replace('/home')
   }
+  else{
+    router.replace('/sign-in')
+  }
 
   return (
     <div className="text-center flex flex-col justify-center gap-4 content-center h-screen items-center bg-white">
@@ -48,14 +51,14 @@ export default function Home() {
           </div>
         ) : (
           <>
-
+          
             {token && <div onClick={()=>{ 
               signout()
               router.push('/sign-in')
             }}
             className="px-3 py-2 mb-6 text-xl font-light text-white hover:text-blue-900 hover:bg-white bg-slate-700 rounded-md"
             >Sign-out</div>}
-            </>
+          </>
         )}
           </div>
       </div>

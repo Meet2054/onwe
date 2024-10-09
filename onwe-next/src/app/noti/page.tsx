@@ -5,6 +5,25 @@ import firebaseApp from "@/lib/firebase";
 import useFcmToken from "@/hooks/FcmToken";
 import { toast } from "sonner";
 import { useSignIn } from "@/hooks/useSignIn";
+import useSWRMutation from "swr/mutation";
+import axios from "axios";
+
+const poster = async (url: string, token: string, fcmToken: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/checknotification`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        FcmToken: fcmToken,
+      }),
+    }
+  );
+  return await response.json();
+};
 
 export default function Page() {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
@@ -12,6 +31,20 @@ export default function Page() {
   // Use the token as needed
   fcmToken && console.log("FCM token:", fcmToken);
   const { getToken } = useSignIn();
+
+  const { trigger } = useSWRMutation(
+    [
+      `${process.env.NEXT_PUBLIC_API_URL}/checknotification`,
+      getToken(),
+      fcmToken,
+    ],
+    ([url, key, fcmToken]) => poster(url, key, fcmToken),
+    {
+      onSuccess: (data) => {
+        console.log("data", data);
+      },
+    }
+  );
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -31,32 +64,11 @@ export default function Page() {
   }, []);
 
   const sendNotification = async () => {
-    const token = getToken();
-    console.log(token);
-    
     if (!fcmToken) {
-      console.error('No token available to send notification.');
+      console.error("No token available to send notification.");
       return;
     }
-  
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checknotification`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        FcmToken: fcmToken,
-      }),
-    });
-  
-    if (!response.ok) {
-      console.error('Failed to send notification:', response.statusText);
-      return;
-    }
-  
-    const result = await response.json();
-    console.log(result);
+    trigger();
   };
 
   return (
@@ -64,7 +76,12 @@ export default function Page() {
       {" "}
       {fcmToken}
       <span></span>
-      <button onClick={sendNotification} className="h-10 w-40 bg-gray-300 ml-10">Send Notifications</button>
+      <button
+        onClick={sendNotification}
+        className="h-10 w-40 bg-gray-300 ml-10"
+      >
+        Send Notifications
+      </button>
     </div>
   );
 }

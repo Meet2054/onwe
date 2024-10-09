@@ -60,7 +60,7 @@ const ArticlePage: React.FC = () => {
     : [];
 
   return (
-    <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100">
+    <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100 h-screen">
       {showCreateArticle && (
         <div className="mt-[-18px]"> 
           <button

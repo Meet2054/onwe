@@ -50,7 +50,7 @@ interface ArticleViewProps {
   
     <div className="flex flex-col overflow-y-auto scrollbar-custom h-full mt-8 ml-4 max-md:mr-2 max-md:max-w-full">
       <div className="flex gap-10 items-start min-h-[380px]">
-        <img loading="lazy" src={coverphoto} className="object-cover rounded aspect-[1.71] w-[626px] h-[366px] max-md:w-full max-md:h-auto" alt="Article image" />
+        <img loading="lazy" src={coverphoto} className="object-contain rounded aspect-[1.71] w-[626px] h-[366px] max-md:w-full max-md:h-auto" alt="Article image" />
         <div className="flex flex-col max-w-[666px] w-full">
           <div className="text-custom-brown text-3xl font-bold break-words whitespace-normal">{title}</div>
           <div className=" mt-2 description text-lg font-source-serif text-black break-words whitespace-normal">

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 interface SignInParams {
@@ -9,21 +10,32 @@ interface SignInParams {
 export const useSignIn = () => {
   const create = async ({ identity, password }: SignInParams) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const { data: response } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/login`,
+        {
+          emailOrUsername: identity,
+          password,
         },
-        body: JSON.stringify({ emailOrUsername: identity, password }),
-        credentials: 'include',
-      });
+        {
+          withCredentials: true,
+        }
+      );
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ emailOrUsername: identity, password }),
+      //   credentials: 'include',
+      // });
 
       if (response.status === 400) {
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
 
-      const data = await response.json();
+      // const data = await response.json();
+      const data = response;
       return data;
     } catch (error) {
       throw error;
@@ -36,7 +48,7 @@ export const useSignIn = () => {
   };
 
   const getToken = () => {
-    return localStorage.getItem("onwetoken")||"";
+    return localStorage.getItem("onwetoken") || "";
   };
 
   const getUsername = () => {
@@ -44,22 +56,22 @@ export const useSignIn = () => {
   };
   let user = {};
 
-if (typeof window !== "undefined") { 
-  user = {
-    userName: localStorage.getItem("onweusername"),
-    avatar: localStorage.getItem("onweAvatar") || "",
-    updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
-    removeAvatar: () => localStorage.setItem("onweAvatar", ""),
-  };
-} else {
-  // Fallback or default values if not in the browser environment
-  user = {
-    userName: "",
-    avatar: "",
-    updateAvatar: () => {},
-    removeAvatar: () => {},
-  };
-}
+  if (typeof window !== "undefined") {
+    user = {
+      userName: localStorage.getItem("onweusername"),
+      avatar: localStorage.getItem("onweAvatar") || "",
+      updateAvatar: (url: string) => localStorage.setItem("onweAvatar", url),
+      removeAvatar: () => localStorage.setItem("onweAvatar", ""),
+    };
+  } else {
+    // Fallback or default values if not in the browser environment
+    user = {
+      userName: "",
+      avatar: "",
+      updateAvatar: () => {},
+      removeAvatar: () => {},
+    };
+  }
   // if (localStorage) {
   //   user = {
   //     userName: localStorage.getItem("onweusername") || "",

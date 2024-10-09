@@ -42,6 +42,7 @@ export const getData = async (
         Accept: "*/*",
         "ngrok-skip-browser-warning": "69420",
       },
+      withCredentials: true,
     });
 
     return res.data;
@@ -73,10 +74,8 @@ export const globalFetcher = async (url: string) => {
   const { data } = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
-      "Content-Type": "application/json",
-      Accept: "*/*",
-      "ngrok-skip-browser-warning": "69420",
     },
+    withCredentials: true,
   });
 
   return data;

@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SWRConfig } from "swr";
 import { globalFetcher } from "@/lib/utils";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,11 +61,21 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     !pathname.startsWith("/home") &&
     !pathname.startsWith("/profile") &&
     !pathname.startsWith("/landingpage") &&
-    !pathname.startsWith("/welcome");;
+    !pathname.startsWith("/welcome");
+
+  const fetcher = async (url) => {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  };
   return (
     <SWRConfig
       value={{
-        fetcher: globalFetcher,
+        fetcher,
       }}
     >
       <Provider store={store}>

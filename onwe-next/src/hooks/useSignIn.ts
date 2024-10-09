@@ -15,6 +15,7 @@ export const useSignIn = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ emailOrUsername: identity, password }),
+        credentials: 'include',
       });
 
       if (response.status === 400) {

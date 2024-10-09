@@ -10,15 +10,18 @@ import {
   Plus,
   User,
   BookOpenText,
+  Bell,
 } from "lucide-react";
 import LogoAnimation from "../ui/Animations/LogoAnimation";
 import { Create } from "../Create";
 import SearchC from "../SearchC";
+import { MdNotifications } from "react-icons/md";
 
 const SideBar = () => {
   const pathname = usePathname();
   const [openCreate, setOpenCreate] = useState<boolean>(false);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
+  const [openNoti,setOpenNoti] = useState<boolean>(false);
 
   const handleCreatePost = () => {
     setOpenCreate(true);
@@ -27,6 +30,10 @@ const SideBar = () => {
   const handleSearch = () => {
     setOpenSearch(true);
   };
+
+  const handleNoti =()=>{
+    setOpenNoti(true);
+  }
 
   const isActive = (path: string) => pathname.includes(path);
 
@@ -82,7 +89,18 @@ const SideBar = () => {
             <h1 className="ml-2 text-lg">{item.label}</h1>
           </Link>
         ))}
+        <button
+        onClick={handleNoti}
+        className={`flex items-center justify-start w-3/4 h-12 p-2 rounded-lg ${
+          openNoti ? "bg-gray-100" : "hover:bg-gray-50"
+        }`}>
+        <div className={`p-2 rounded-full ${openNoti ? "bg-gray-100" : "bg-transparent"}`}>
+            <Bell size={30} strokeWidth={1.5} />
+          </div>
+          <h1 className="ml-2 text-lg">Notifications</h1>
+        </button>
       </div>
+
       <div className="flex flex-col items-center justify-center w-full space-y-4">
         <button
           onClick={handleCreatePost}
@@ -114,6 +132,19 @@ const SideBar = () => {
         </div>
       )}
       {openSearch && (
+        <div
+          className="fixed inset-0 z-50"
+          onClick={() => setOpenSearch(false)}
+        >
+          <div
+            className="w-1/3 h-screen ml-[20%] z-50 mt-2 bg-white animate-slide-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <SearchC setOpenSearch={setOpenSearch}/>
+          </div>
+        </div>
+      )}
+       {openNoti && (
         <div
           className="fixed inset-0 z-50"
           onClick={() => setOpenSearch(false)}

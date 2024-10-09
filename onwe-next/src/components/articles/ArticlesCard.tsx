@@ -56,17 +56,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   };
   return (
     <div
-      className="flex flex-col p-5  cursor-pointer bg-gray-100 rounded-md shadow-md hover:shadow-lg transition-shadow duration-200 h-[260px]" // Fixed height
+      className="flex flex-col p-5 pl-8 cursor-pointer bg-custom-gradient rounded-md shadow hover:shadow-lg transition-shadow duration-200 h-full" // Fixed height
     >
       <div className="flex gap-3 items-center ">
         <img
           loading="lazy"
           src={avatar}
-          className="w-10 h-10 rounded-full object-cover"
+          className="w-8 h-8 rounded-full object-cover"
           alt="Author Avatar"
         />
         <div className="flex flex-col">
-          <div className="text-base font-bold hover:text-custom-brown">
+          <div className="text-sm font-bold hover:text-custom-brown">
             {author}
           </div>
           <div className="text-sm text-gray-500">{time}</div>
@@ -91,8 +91,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         {/* Make it fill the height */}
         <div className="flex flex-grow">
           <div className="flex flex-col flex-grow">
-            <div className="text-2xl font-bold text-gray-800">{title}</div>
-            <div className="text-base text-gray-700 line-clamp-3 pb-1">
+            <div className="text-xl font-bold text-gray-800">{title}</div>
+            <div className="text-sm text-gray-700 line-clamp-3 pb-1">
               {content}
             </div>{" "}
             {/* Limit the number of lines */}

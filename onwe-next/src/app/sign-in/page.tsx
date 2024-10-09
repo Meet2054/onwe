@@ -7,6 +7,7 @@ import {useSignIn} from "@/hooks/useSignIn";
 import SignInForm from "@/components/SignInForm";
 import { useDispatch } from 'react-redux';
 import { setToken } from '@/lib/features/auth/authSlice';
+import Page from "../landingpage/page";
 
 
 const Signin = () => {
@@ -39,9 +40,25 @@ const Signin = () => {
   };
 
   return (
-    <SignInForm signInWithEmail={signInWithEmail} clerkError={error} switchToSignup={function (): void {
-      throw new Error("Function not implemented.");
-    } } />
+    <div className="relative min-h-screen overflow-hidden">
+     
+      <div className="absolute inset-0 z-0 overflow-auto">
+        <Page />
+      </div>
+
+      
+      <div className="fixed absolute right-10  z-10 flex items-center justify-center bg-white bg-opacity-0 max-w-lg">
+        <SignInForm
+          signInWithEmail={signInWithEmail}
+          clerkError={error}
+          switchToSignup={() => {
+            // Add your signup logic here
+            console.log("Switch to Signup");
+          }}
+        />
+      </div>
+    </div>
+    
   );
 };
 

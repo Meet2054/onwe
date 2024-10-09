@@ -2,8 +2,8 @@ import React from "react";
 
 const EventsSection: React.FC = () => {
   return (
-    <section className="flex overflow-hidden flex-col justify-center items-center px-16 py-40 w-full h-screen bg-[#E5E1DA] max-md:px-5 max-md:py-24 max-md:max-w-full">
-      <div className="mb-0 ml-5 max-w-full w-[963px] max-md:mb-2.5">
+    <section className="flex overflow-hidden flex-col justify-center items-start px-16 py-40 w-full h-screen bg-[#E5E1DA] max-md:px-5 max-md:py-24 max-md:max-w-full">
+      <div className="mb-0 ml-5 max-w-full w-[843px] max-md:mb-2.5">
         <div className="flex justify-center items-center gap-5 max-md:flex-col">
           <div className="flex flex-col w-[30%] max-md:ml-0 max-md:w-full">
             <div className="flex z-10 flex-col justify-center self-stretch p-1.5 my-auto mr-0 rounded-full border border-white border-solid max-md:mt-10">

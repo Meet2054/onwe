@@ -3,8 +3,8 @@ import React from "react";
 
 const WriteSection: React.FC = () => {
   return (
-    <section className="h-screen flex justify-center items-center bg-[#D6DAC8] px-16">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-16">
+    <section className="h-screen flex justify-start items-center bg-[#D6DAC8] px-16">
+      <div className="max-w-[920px]  flex flex-col md:flex-row items-center px-16">
         <div className="md:w-2/3 mb-10 md:mb-0">
           <h2 className="text-4xl md:text-5xl font-semibold text-black mb-10">
             Write & Inspire

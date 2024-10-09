@@ -60,23 +60,22 @@ const ArticlePage: React.FC = () => {
     : [];
 
   return (
-    <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100">
+    <div className="flex overflow-hidden flex-col pt-5 bg-zinc-100 h-screen">
       {showCreateArticle && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-20 flex justify-center items-center">
-          <div className="absolute inset-0 bg-white opacity-50"></div>
-          <div className="relative z-30 bg-white rounded-lg shadow-lg">
-            <button
+        <div className="mt-[-18px]"> 
+          <button
               onClick={handleToggleCreateArticle}
               className="absolute top-2 right-2 text-xl text-gray-500"
             >
               &times;
             </button>
-            <CreateArticle onClose={closeCreateArticle} />
-          </div>
+            <CreateArticle onClose={closeCreateArticle}  />
         </div>
+            
+         
       )}
 
-      <div className="flex z-10 flex-col items-center pr-1 mt-0 w-full max-md:pr-5 max-md:mt-0 max-md:max-w-full">
+      <div className="flex z-10 flex-col items-center pr-1 mt-0 w-full max-md:pr-5 max-md:mt-0 max-md:max-w-full ">
         <div className="flex z-10 flex-col mt-0 w-full h-[883px] max-w-[1421px] max-md:mt-0 max-md:max-w-full">
           <div className="flex flex-wrap gap-10 justify-between items-center w-full max-md:max-w-full">
             <div className="flex gap-1.5 items-center self-stretch my-auto text-base tracking-normal leading-none text-center whitespace-nowrap">
@@ -100,7 +99,7 @@ const ArticlePage: React.FC = () => {
           {selectedArticle ? (
             <ArticleView {...selectedArticle} onBack={handleBackToArticles} />
           ) : (
-            <div className="flex-column mt-2.5 p-8 w-full bg-white rounded-xl min-h-[834px] max-md:max-w-full">
+            <div className="flex-column mt-2.5 p-8 w-full bg-custom-gradient rounded-xl min-h-[834px] max-md:max-w-full">
               <div className="flex overflow-hidden overflow-x-auto flex-wrap gap-1 items-center pt-3 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
                 {[
                   "All",
@@ -187,3 +186,18 @@ const ArticlePage: React.FC = () => {
 };
 
 export default ArticlePage;
+
+
+
+{/* <div className="fixed inset-0 bg-black bg-opacity-50 z-20 flex justify-center items-center">
+          <div className="absolute inset-0 bg-white opacity-50"></div>
+          <div className="relative z-30 bg-white rounded-lg shadow-lg">
+            <button
+              onClick={handleToggleCreateArticle}
+              className="absolute top-2 right-2 text-xl text-gray-500"
+            >
+              &times;
+            </button>
+            <CreateArticle onClose={closeCreateArticle} />
+          </div>
+        </div> */}

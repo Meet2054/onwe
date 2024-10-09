@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import back from "../../public/images/back.png";
 import logo from "../../public/images/onwelogo.svg";
+import onwevideo from "../components/profile/vid.mp4"
+import '../app/globals.css'
+import RocketSVG from "./ui/Animations/Rocket";
 
 interface SignInFormProps {
   signInWithEmail: ({
@@ -21,15 +24,29 @@ const SigninForm: React.FC<SignInFormProps> = ({
   clerkError,
 }) => {
   return (
-    <div className="container relative flex items-center justify-center h-screen bg-gray-100">
-      <Image
+    <div className="flex items-center justify-end max-w-lg  h-screen bg-transparent  ">
+      {/* <div className=" absolute splash flex justify-center items-center text-white text-xl"> <p>Clubs</p></div>
+      <div className="absolute splash flex justify-center items-center text-white text-xl"> <p>Events</p></div>
+      <div className="absolute splash flex justify-center items-center text-white text-xl"><p>Magazines</p></div>
+      <div className="absolute splash flex justify-center items-center text-white text-xl"><p>Articles</p></div>
+      <div className="absolute splash flex justify-center items-center text-white text-xl"><p>Polls </p></div>
+     */}
+      {/* <Image
         src={back}
         alt="Background"
         layout="fill"
         objectFit="cover"
         className="absolute z-0"
-      />
-      <div className="relative z-10 p-6 bg-white rounded-2xl shadow-lg w-full max-w-md bg-opacity-40">
+      /> */}
+    {/* <video
+              className="absolute h-full w-full  object-fill "
+              loop
+              autoPlay
+              muted
+            >
+              <source src={onwevideo} type="video/mp4" />
+            </video> */}
+      <div className="relative z-10 p-6 bg-white  rounded-2xl shadow-xl  mr-24 max-w-lg bg-opacity-30 ">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -51,14 +68,14 @@ const SigninForm: React.FC<SignInFormProps> = ({
           </span>
           <input
             name="email"
-            className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
+            className="w-full px-3 md:py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-md py-2"
             placeholder="username or email"
             type="text"
             required
           />
           <input
             name="password"
-            className="w-full px-3 md:py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm py-1"
+            className="w-full px-3 md:py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-md py-2"
             placeholder="password"
             type="password"
             required
@@ -73,12 +90,12 @@ const SigninForm: React.FC<SignInFormProps> = ({
             Sign in
           </button>
           <Link href={"/sign-up"}>
-            <span className="block text-center text-red-500 cursor-pointer text-sm lg:text-[15px] pt-2">
+            <span className="block text-center text-blue-500 cursor-pointer text-sm lg:text-[15px] pt-5">
               Don&apos;t have an account? Sign up
             </span>
           </Link>
           <Link href={"/forgot-password"}>
-            <span className="block text-center text-red-500 cursor-pointer text-sm lg:text-[15px] lg:pt-2">
+            <span className="block text-center text-blue-500 cursor-pointer text-sm lg:text-[15px] lg:pt-2">
               Forgot Password?
             </span>
           </Link>

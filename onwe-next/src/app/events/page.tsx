@@ -202,15 +202,15 @@ import { LoaderCircle } from "lucide-react";
 import { useSignIn } from "@/hooks/useSignIn";
 
 // Fetcher function that includes token in headers
-const fetcher = async (url: string, token: string) => {
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "ngrok-skip-browser-warning": "69420",
-    },
-  });
-  return response.data;
-};
+// const fetcher = async (url: string, token: string) => {
+//   const response = await axios.get(url, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "ngrok-skip-browser-warning": "69420",
+//     },
+//   });
+//   return response.data;
+// };
 
 const Page: React.FC = () => {
   const { getToken } = useSignIn();
@@ -231,11 +231,12 @@ const Page: React.FC = () => {
   }, []);
 
   // Use SWR to fetch events
-  const { data: events, error } = useSWR(
-    token ? `${process.env.NEXT_PUBLIC_API_URL}/events` : null,
-    (url) => fetcher(url, token!)
-  );
+  // const { data: events, error } = useSWR(
+  //   token ? `${process.env.NEXT_PUBLIC_API_URL}/events` : null,
+  //   (url) => fetcher(url, token!)
+  // );
 
+  const { data: events, error } = useSWR("/events");
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -320,8 +321,9 @@ const Page: React.FC = () => {
             className="md:p-8 mb-2 w-full relative overflow-y-auto h-full"
           >
             <div
-              className={`transition-opacity duration-500${isTransitioning ? "opacity-0" : "opacity-100"
-                }`}
+              className={`transition-opacity duration-500${
+                isTransitioning ? "opacity-0" : "opacity-100"
+              }`}
             >
               {events?.map((event: Event, index: number) =>
                 listview ? (
@@ -358,6 +360,5 @@ const Page: React.FC = () => {
     </div>
   );
 };
-
 
 export default Page;

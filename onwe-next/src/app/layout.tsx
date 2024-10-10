@@ -8,11 +8,9 @@ import store from "../lib/store";
 import MinSideBar from "@/components/SideBar/MinSidebar";
 import { Toaster } from "@/components/ui/sonner";
 import BottomNavBar from "@/components/SideBar/BottomNavBar";
-import { ViewTransitions } from "next-view-transitions";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SWRConfig } from "swr";
-import { globalFetcher } from "@/lib/utils";
 import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -63,7 +61,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
     !pathname.startsWith("/landingpage") &&
     !pathname.startsWith("/welcome");
 
-  const fetcher = async (url) => {
+  const fetcher = async (url: string) => {
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}${url}`,
       {

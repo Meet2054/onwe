@@ -6,8 +6,6 @@ import Link from "next/link";
 import { UserProfile } from "@/types/type";
 import RenderLinks from "./RenderLinks";
 import { CircleDashed, LoaderCircle, LucidePencilLine } from "lucide-react";
-import {  useSession } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useSignIn } from "@/hooks/useSignIn";
 

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SWRConfig } from "swr";
 import axios from "axios";
+import UserProvider from "@/hooks/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -81,6 +82,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <body
             className={`${inter.className} h-screen overflow-hidden bg-white`}
           >
+            <UserProvider>
             <div className="flex">
               {showSideBar && (
                 <div className="w-[20%] hidden md:block">
@@ -100,6 +102,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
               <div className="flex-1 h-full overflow-y-auto">{children}</div>
               <Toaster className="bg-white" />
             </div>
+            </UserProvider>
           </body>
         </html>
       </Provider>

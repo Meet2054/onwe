@@ -16,6 +16,7 @@ import LogoAnimation from "../ui/Animations/LogoAnimation";
 import { Create } from "../Create";
 import SearchC from "../SearchC";
 import { MdNotifications } from "react-icons/md";
+import Noti from "../notifications/Noti";
 
 const SideBar = () => {
   const pathname = usePathname();
@@ -147,13 +148,13 @@ const SideBar = () => {
        {openNoti && (
         <div
           className="fixed inset-0 z-50"
-          onClick={() => setOpenSearch(false)}
+          onClick={() => setOpenNoti(false)}
         >
           <div
             className="w-1/3 h-screen ml-[20%] z-50 mt-2 bg-white animate-slide-in"
             onClick={(e) => e.stopPropagation()}
           >
-            <SearchC setOpenSearch={setOpenSearch}/>
+            <Noti setOpenNoti={setOpenNoti}/>
           </div>
         </div>
       )}

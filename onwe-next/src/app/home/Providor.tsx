@@ -111,7 +111,7 @@ const Page = () => {
 
   return (
     <PostContext.Provider value={postMutate}>
-      <div className="flex overflow-auto h-screen w-full bg-white">
+      <div className="flex h-screen w-full bg-white">
         <div className="h-full w-full flex flex-col overflow-y-auto scrollbar-hide bg-white">
           {posts.length === 0 && !isValidating ? (
             <div>No posts available.</div>

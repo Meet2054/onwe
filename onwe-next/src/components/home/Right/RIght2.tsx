@@ -4,8 +4,8 @@ import party from "@/../public/images/rightsideImages/party.png"
 
 const Right2 = () => {
   return (
-    <div>
-        <div className="w-full h-[16vh] mx-1 bg-[#EBF0FD] flex flex-col items-start justify-center pl-5 rounded-xl gap-y-1">
+    <div className="mx-1 mr-3" >
+        <div className="w-full shadow py-4  bg-custom-gradient border flex flex-col items-start justify-center pl-5 rounded-xl gap-y-1">
           <div className="flex items-center gap-1">
             <Image src={party} alt="" className="w-[25px]" />
             <span className="font-extrabold text-lg">Join the Fun</span>

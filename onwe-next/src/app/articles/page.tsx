@@ -99,7 +99,7 @@ const ArticlePage: React.FC = () => {
           {selectedArticle ? (
             <ArticleView {...selectedArticle} onBack={handleBackToArticles} />
           ) : (
-            <div className="flex-column mt-2.5 p-8 w-full bg-custom-gradient rounded-xl min-h-[834px] max-md:max-w-full">
+            <div className="flex flex-col mt-2.5 p-8 w-full bg-custom-gradient rounded-xl grow h-full max-md:max-w-full">
               <div className="flex overflow-hidden overflow-x-auto flex-wrap gap-1 items-center pt-3 px-2.5 w-full text-sm font-medium tracking-normal leading-5 text-center border-b border-black border-opacity-10 text-black text-opacity-90 max-md:max-w-full">
                 {[
                   "All",

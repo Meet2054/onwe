@@ -44,14 +44,17 @@ const Right3 = () => {
       
   return (
     <div>
-      <div className="w-full h-[40vh] mt-4">
+      <div className="w-full">
           <div className="pl-4 pt-2 border-l-4 border-black">
             <span className="text-xl ">Upcoming Events</span>
           </div>
-          <div className="flex flex-col overflow-hidden space-y-2 mt-4">
-          {upcomingEvents.map((uevent) => (
-            <ListViewHome key={uevent.id} event={uevent}/>
-          ))}
+          <div className="flex flex-col  space-y-2 mt-4">
+          {upcomingEvents.map((uevent, index) => 
+            index < 3 &&
+              (<ListViewHome key={uevent.id} event={uevent}/>)
+              
+          )
+        }
         </div>
         </div>
     </div>

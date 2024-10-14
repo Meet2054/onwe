@@ -9,8 +9,8 @@ const Right1Club:React.FC<props> = ({club}) => {
     
   return (
     <div>
-      <Link href={`/clubs/${club.name}`} className="w-[93%] h-16 top-12 mb-2 left-3 bg-white rounded-xl flex items-center gap-3 pl-4">
-            <Image src={club.coverimage} width={20} height={20} alt="" className="w-[40px] rounded-xl" />
+    <Link href={`/clubs/${club.name}`} className="w-full h-[70px] overflow-hidden shadow bg-gray-50 border  b hover:shadow-md  rounded-xl flex gap-3 items-center px-4 py-1">
+            <img src={club.coverimage}  alt="" className="h-12 w-12 rounded-full" />
             <div className="flex flex-col">
               <span className='text-md bold'>{club.name}</span>
               <span className="text-sm text-gray-500">{club.slogan}</span>

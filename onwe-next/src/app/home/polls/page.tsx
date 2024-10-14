@@ -13,13 +13,12 @@ const PAGE_SIZE = 10;
 
 const Page = () => {
   const { getToken } = useSignIn();
-  const [tempData, setData] = useState([]);
 
   // Fetcher function using axios
   const fetcher = useCallback(
     async (url: string) => {
       try {
-        const token =getToken(); // Get the token outside of axios request
+        const token = getToken(); // Get the token outside of axios request
         const res = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +38,9 @@ const Page = () => {
   const getKey = useCallback(
     (pageIndex: number, previousPageData: any[] | null) => {
       if (previousPageData && !previousPageData.length) return null; // reached the end
-      return `${process.env.NEXT_PUBLIC_API_URL}/polls?page=${pageIndex + 1}&limit=${PAGE_SIZE}`; // API endpoint with pagination
+      return `${process.env.NEXT_PUBLIC_API_URL}/polls?page=${
+        pageIndex + 1
+      }&limit=${PAGE_SIZE}`; // API endpoint with pagination
     },
     []
   );
@@ -55,7 +56,10 @@ const Page = () => {
     }
   );
 
-  const polls = useMemo(() => (data ? ([] as any[]).concat(...data) : []), [data]);
+  const polls = useMemo(
+    () => (data ? ([] as any[]).concat(...data) : []),
+    [data]
+  );
 
   // Infinite scroll logic
   const observer = useRef<IntersectionObserver | null>(null);

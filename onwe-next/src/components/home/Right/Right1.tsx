@@ -6,7 +6,7 @@ import { ClubCardHome } from "@/types/type";
 const Right1 = () => {
   const [trendingClubs, setTrendingClubs] = useState<ClubCardHome[]>([]);
 
-  const { data, error } = useSWR("trending", {
+  const { data, error } = useSWR("/trending", {
     onSuccess: (data) => {
       setTrendingClubs(data);
     },

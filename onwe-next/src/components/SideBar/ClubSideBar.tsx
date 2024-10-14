@@ -13,16 +13,6 @@ interface SearchClubsProps extends ClubCardProps {
   isUserMember: boolean;
 }
 
-const fetcher = async (url: string, token: string) => {
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "ngrok-skip-browser-warning": "69420",
-    },
-  });
-  return response.data;
-};
-
 export default function Component({
   closeSidebar,
 }: {
@@ -35,10 +25,7 @@ export default function Component({
   const searchAreaRef = useRef<HTMLDivElement>(null);
   const { getToken } = useSignIn();
 
-  const { data: myClubs, isValidating } = useSWR<ClubCardProps[]>(
-    "/myclubs",
-    (url: string) => fetcher(url, getToken() as string)
-  );
+  const { data: myClubs, isValidating } = useSWR<ClubCardProps[]>("/myclubs");
 
   const fetchSearchClubs = useCallback(
     debounce(async (query: string) => {

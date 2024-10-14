@@ -5,23 +5,10 @@ import EditRightForm from "./EditRightForm";
 import useSWR from "swr";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/features/user/userSlice";
-import axios from "axios";
 
-const fetcher = async (url: string) => {
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
-      },
-    }
-  );
-  return data;
-};
 const EditForm = () => {
   const dispatch = useDispatch();
-  const { data } = useSWR("/user/info", fetcher, {
+  const { data } = useSWR("/user/info", {
     onSuccess: (data) => {
       dispatch(setUser(data));
     },

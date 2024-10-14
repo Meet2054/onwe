@@ -10,6 +10,9 @@ import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { toast } from "sonner";
 import { MoreVertical } from "lucide-react";
+import { customAxios } from "@/lib/utils";
+import { useUser } from "@/hooks/UserContext";
+import { KeyedMutator } from "swr/_internal";
 
 interface User {
   username: string;
@@ -18,7 +21,7 @@ interface User {
 
 interface SingleCommentProps {
   data: Comment;
-  parentMutator: any;
+  parentMutator: KeyedMutator<Comment[]>;
 }
 
 const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
@@ -29,12 +32,11 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
   const [replies, setReplies] = useState<Comment[]>([]);
   const [showReplies, setShowReplies] = useState(false);
   const [repliesHeight, setRepliesHeight] = useState(0);
-  const { mutate: pMutate } = useSWRConfig();
 
   const repliesRef = useRef<HTMLDivElement>(null);
-  const { getToken, user } = useSignIn();
+  const { getToken } = useSignIn();
+  const user = useUser();
   const [timeAgo, setTimeAgo] = useState("");
-  const config = useSWRConfig();
 
   const [mentionOptions, setMentionOptions] = useState<User[]>([]);
   const [showMentions, setShowMentions] = useState(false);
@@ -80,6 +82,7 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
             Accept: "*/*",
             "ngrok-skip-browser-warning": "69420",
           },
+          withCredentials: true,
         }
       );
 
@@ -125,25 +128,15 @@ const SingleComment = ({ data, parentMutator }: SingleCommentProps) => {
     e.preventDefault();
     if (!reply) return;
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/comments`,
-        {
-          postId: data.postId,
-          userId: data.userId,
-          content: reply,
-          parentId: data.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      const res = await customAxios.post(`/comments`, {
+        postId: data.postId,
+        userId: data.userId,
+        content: reply,
+        parentId: data.id,
+      });
+
       const newUser = {
-        username: user?.userName,
+        username: user?.username,
         avatar: user?.avatar,
       };
       res.data.user = newUser;

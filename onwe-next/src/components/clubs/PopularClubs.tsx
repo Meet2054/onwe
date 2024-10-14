@@ -24,15 +24,15 @@ interface PopularClubsProps {
   type: "/popular" | "/trending" | "/clubs/all";
 }
 
-const fetcher = async (url: string) => {
-  const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
-    headers: { Authorization: "Bearer " + localStorage.getItem("onwetoken") },
-  });
-  return response.data;
-};
+// const fetcher = async (url: string) => {
+//   const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
+//     headers: { Authorization: "Bearer " + localStorage.getItem("onwetoken") },
+//   });
+//   return response.data;
+// };
 
 const PopularClubs = ({ type }: PopularClubsProps) => {
-  const { data: clubs, error, isLoading } = useSWR<Club[]>(`${type}`, fetcher);
+  const { data: clubs, error, isLoading } = useSWR<Club[]>(`${type}`);
   const [title, settitle] = useState("");
   useEffect(() => {
     if (type == "/popular") {

@@ -28,24 +28,6 @@ const Page = () => {
   const router = useRouter();
   const { getToken } = useSignIn();
 
-  const fetcher = useCallback(
-    async (url: string) => {
-      try {
-        const token = getToken();
-        if (!token) throw new Error("No token found");
-        const data = await getData(
-          url,
-          { headers: { Authorization: `Bearer ${token}` } },
-          "GET"
-        );
-        return data;
-      } catch (err) {
-        console.log(error);
-      }
-    },
-    [getToken]
-  );
-
   const getKey = useCallback(
     (pageIndex: number, previousPageData: PostsProps[] | null) => {
       if (previousPageData && !previousPageData.length) return null; // Reached the end
@@ -66,7 +48,7 @@ const Page = () => {
     setSize,
     isValidating,
     mutate: postMutate,
-  } = useSWRInfinite<PostsProps[]>(getKey, fetcher, {
+  } = useSWRInfinite<PostsProps[]>(getKey, {
     revalidateFirstPage: false,
     persistSize: true,
     revalidateOnFocus: false,

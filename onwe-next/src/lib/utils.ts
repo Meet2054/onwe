@@ -71,12 +71,15 @@ export const extractHashTags = (text: string) => {
 export const extractTags = (text: string) => {};
 
 export const globalFetcher = async (url: string) => {
-  const { data } = await axios.get(process.env.NEXT_PUBLIC_API_URL + url, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
-    },
-    withCredentials: true,
-  });
+  const { data } = await customAxios.get(url);
 
   return data;
 };
+
+export const customAxios = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("onwetoken")}`,
+  },
+  withCredentials: true,
+});

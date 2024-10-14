@@ -1,41 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import Right1Club from './Right1Club';
-import { ClubCardHome } from '@/types/type';
-import { useSignIn } from '@/hooks/useSignIn';
-
-const fetcher = async ([url, token]: [string, string]) => {
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "ngrok-skip-browser-warning": "69420",
-    },
-  });
-  return response.data;
-};
+import Right1Club from "./Right1Club";
+import { ClubCardHome } from "@/types/type";
 
 const Right1 = () => {
   const [trendingClubs, setTrendingClubs] = useState<ClubCardHome[]>([]);
-  
-  const { getToken } = useSignIn();
-  const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchedToken = getToken();
-    setToken(fetchedToken);
-  }, [getToken]);
-
-  const { data, error } = useSWR(
-    token ? [`${process.env.NEXT_PUBLIC_API_URL}/trending`, token] : null,
-    fetcher
-  );
-
-  useEffect(() => {
-    if (data) {
+  const { data, error } = useSWR("trending", {
+    onSuccess: (data) => {
       setTrendingClubs(data);
-    }
-  }, [data]);
+    },
+  });
 
   if (error) return <div>Error loading clubs</div>;
   if (!data) return <div>Loading...</div>;

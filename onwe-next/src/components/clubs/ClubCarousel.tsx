@@ -21,7 +21,7 @@ const ClubCarousel = () => {
             className="flex justify-center items-center"
           >
             <div
-              className={`relative w-7/12 aspect-video rounded`}
+              className={`relative w-full h-96 rounded`}
               // style={{ backgroundImage: `/images/club_carousel/${val}` }}
             >
               <Image

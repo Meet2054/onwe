@@ -83,6 +83,7 @@ const CommentInput = ({ setComments, mutate, isLoading }) => {
           Accept: "*/*",
           "ngrok-skip-browser-warning": "69420",
         },
+        withCredentials: true,
       }
     );
 

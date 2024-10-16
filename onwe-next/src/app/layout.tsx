@@ -82,7 +82,6 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           <body
             className={`${inter.className} h-screen overflow-hidden bg-white`}
           >
-            <UserProvider>
             <div className="flex">
               {showSideBar && (
                 <div className="w-[20%] hidden md:block">
@@ -99,10 +98,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
                   <BottomNavBar />
                 </div>
               )}
-              <div className="flex-1 h-full overflow-y-auto">{children}</div>
+              <div className="flex-1 h-full overflow-y-auto">
+                <UserProvider>{children}</UserProvider>
+              </div>
               <Toaster className="bg-white" />
             </div>
-            </UserProvider>
           </body>
         </html>
       </Provider>

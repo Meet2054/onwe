@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import PostAvatar from "../post_component/PostAvatar";
 
 import Link from "next/link";
 import { UserProfile } from "@/types/type";
 import RenderLinks from "./RenderLinks";
-import { CircleDashed, LoaderCircle, LucidePencilLine } from "lucide-react";
-import axios from "axios";
-import { useSignIn } from "@/hooks/useSignIn";
+import { LoaderCircle, LucidePencilLine } from "lucide-react";
+import { useUser } from "@/hooks/UserContext";
+import { customAxios } from "@/lib/utils";
 
 interface followProps {
   followers: number;
@@ -21,36 +20,28 @@ const Profile = ({
   userInfo: UserProfile;
   showEdit?: boolean;
 }) => {
-  const { getToken, getUsername } = useSignIn();
   const [uname, setUname] = useState<null | string>(null);
   const [followLoading, setFollowLoading] = useState<boolean>(false);
+  const { user } = useUser();
 
   useEffect(() => {
-    setUname(getUsername())
-  }, [getUsername])
-  
-
+    if (user) {
+      setUname(user?.username!);
+    }
+  }, [user]);
 
   const [followData, setFollowData] = useState<followProps | null>(null);
   const [status, setStatus] = useState<boolean>(false);
-  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
   const handleFollow = async () => {
     setFollowLoading(true);
-    
+
     await delay(750);
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/follow`,
-        {  followUsername: userInfo?.user?.username },
-        {
-          headers: {
-            Authorization: `Bearer ${ getToken()}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      const res = await customAxios.post("/follow", {
+        followUsername: userInfo?.user?.username,
+      });
       if (res.status === 201) {
         setStatus(res.data.status);
         setFollowData((prev) => ({
@@ -67,22 +58,11 @@ const Profile = ({
   const handleUnfollow = async () => {
     setFollowLoading(true);
     await delay(750);
-    const token =  getToken();
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/unfollow`,
-        { unfollowUsername: userInfo?.user?.username },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
+      const res = await customAxios.post("/unfollow", {
+        unfollowUsername: userInfo?.user?.username,
+      });
       if (res.status === 200) {
-        
         setStatus(res.data.status);
         setFollowData((prev) => ({
           ...prev, // Spread previous state
@@ -96,21 +76,11 @@ const Profile = ({
     }
   };
   const handleCheck = async () => {
-    const token =  getToken();
     try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/checkfollow`,
-        {  followUsername: userInfo?.user?.username },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            Accept: "*/*",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
-      data;
+      const { data } = await customAxios.post("/checkfollow", {
+        followUsername: userInfo?.user?.username,
+      });
+
       setFollowData({
         followers: data.followers,
         following: data.following,
@@ -122,10 +92,10 @@ const Profile = ({
   };
 
   useEffect(() => {
-    if ( userInfo?.user?.username) {
+    if (userInfo?.user?.username) {
       handleCheck(); // Call handleCheck only when both values are available
     }
-  }, [ userInfo?.user?.username]); // Add both as dependencies
+  }, [userInfo?.user?.username]); // Add both as dependencies
   return (
     <div className="w-full items-center p-4 pl-0 flex flex-col ">
       <div className="flex justify-center items-center relative w-full">
@@ -157,24 +127,24 @@ const Profile = ({
       <div className="flex flex-col  gap-x-4">
         {uname !== userInfo?.user?.username &&
           (followLoading ? (
-            <div className="my-3 p-1 px-5 w-full flex items-center justify-center rounded-full border text-gray-600 bg-gray-300"><LoaderCircle /></div>
-          ) :
-            (status === false ? (
-              <button
-                onClick={handleFollow}
-                className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white"
-              >
-                Follow
-              </button>
-            ) : (
-              <button
-                onClick={handleUnfollow}
-                className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700"
-              >
-                unfollow
-              </button>
-            )
-            ))}
+            <div className="my-3 p-1 px-5 w-full flex items-center justify-center rounded-full border text-gray-600 bg-gray-300">
+              <LoaderCircle />
+            </div>
+          ) : status === false ? (
+            <button
+              onClick={handleFollow}
+              className="my-3 p-1 px-5 rounded-full border bg-blue-600 text-white"
+            >
+              Follow
+            </button>
+          ) : (
+            <button
+              onClick={handleUnfollow}
+              className="my-3 p-1 px-5 rounded-full border bg-gray-300 text-gray-700"
+            >
+              unfollow
+            </button>
+          ))}
         {/* <div className="flex ">
           <div className="my-3 p-1 px-5 rounded-full border border-gray-300">
             {followData?.followers} Follower
@@ -184,42 +154,40 @@ const Profile = ({
           </div>
         </div> */}
         <div className="flex flex-wrap gap-9 items-center w-full whitespace-nowrap mt-3">
-                 <div className="flex gap-2 justify-center items-center self-stretch my-auto">
-                   <div className="self-stretch my-auto text-2xl font-bold text-black">
-                     {followData?.followers}
-                   </div>
-                   <div className="self-stretch my-auto text-base font-medium text-neutral-400">
-                     Followers
-                   </div>
-                 </div>
-                 <div className="flex gap-2 justify-center items-center self-stretch my-auto">
-                 <div className="self-stretch my-auto text-2xl font-bold text-black">
-                     {followData?.following}
-                   </div>
-                   <div className="self-stretch my-auto text-base font-medium text-neutral-400">
-                     Following
-                   </div>
-                 </div>
-                 <div className="flex gap-2 justify-center items-center self-stretch my-auto">
-                 <div className="self-stretch my-auto text-2xl font-bold text-black">
-                     {userInfo?.posts?.length}
-                   </div>
-                   <div className="self-stretch my-auto text-base font-medium text-neutral-400">
-                     Posts
-                   </div>
-                 </div>
-              </div>
+          <div className="flex gap-2 justify-center items-center self-stretch my-auto">
+            <div className="self-stretch my-auto text-2xl font-bold text-black">
+              {followData?.followers}
+            </div>
+            <div className="self-stretch my-auto text-base font-medium text-neutral-400">
+              Followers
+            </div>
+          </div>
+          <div className="flex gap-2 justify-center items-center self-stretch my-auto">
+            <div className="self-stretch my-auto text-2xl font-bold text-black">
+              {followData?.following}
+            </div>
+            <div className="self-stretch my-auto text-base font-medium text-neutral-400">
+              Following
+            </div>
+          </div>
+          <div className="flex gap-2 justify-center items-center self-stretch my-auto">
+            <div className="self-stretch my-auto text-2xl font-bold text-black">
+              {userInfo?.posts?.length}
+            </div>
+            <div className="self-stretch my-auto text-base font-medium text-neutral-400">
+              Posts
+            </div>
+          </div>
+        </div>
       </div>
       {/* <div className="text-center w-52">
         <p className="whitespace-pre-wrap break-words">{userInfo?.user?.bio}</p>
       </div> */}
       <div className="mt-4 w-[85%] text-center leading-5 text-black whitespace-wrap">
-                 <span className="font-medium">
-                   {userInfo?.user?.bio}
-                 </span>
-                 {/* <span className="font-medium">... </span>
+        <span className="font-medium">{userInfo?.user?.bio}</span>
+        {/* <span className="font-medium">... </span>
                  <span className="font-medium text-black">See more</span> */}
-               </div>
+      </div>
       <div className="flex justify-center gap-8 space mt-4 w-full ">
         {userInfo?.user?.links.map((link, index) => (
           <RenderLinks key={index} link={link} />
